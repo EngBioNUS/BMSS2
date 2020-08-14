@@ -24,7 +24,7 @@ all_colors    = sns.colors.xkcd_rgb
 ###############################################################################
 #Integration
 ###############################################################################
-def piecewise_integrate(function, init, tspan, params, model_num, scenario, modify_init=None, modify_params=None, solver_args={}, solver=odeint, overlap=True):
+def piecewise_integrate(function, init, tspan, params, model_num, scenario, modify_init=None, modify_params=None, solver_args={}, solver=odeint, overlap=True, *args):
     '''
     Piecewise integration function with scipy.integrate.odeint as default. 
     Can be changed using the solver argument.
@@ -33,14 +33,14 @@ def piecewise_integrate(function, init, tspan, params, model_num, scenario, modi
     tspan_     = tspan[0]
     init_      = modify_init(init_values=init,    params=params, model_num=model_num, scenario=scenario, segment=0) if modify_init   else init
     params_    = modify_params(init_values=init_, params=params, model_num=model_num, scenario=scenario, segment=0) if modify_params else params 
-    y_model    = solver(function, init_, tspan_, args=tuple([params_]), **solver_args)
+    y_model    = solver(function, init_, tspan_, args=tuple([params_]) + args, **solver_args)
     t_model    = tspan[0]
     
     for segment in range(1, len(tspan)):
         tspan_   = tspan[segment]
         init_    = modify_init(init_values=y_model[-1], params=params, model_num=model_num, scenario=scenario, segment=segment) if modify_init   else y_model[-1]
         params_  = modify_params(init_values=init_,     params=params, model_num=model_num, scenario=scenario, segment=segment) if modify_params else params 
-        y_model_ = solver(function, init_, tspan_, args=tuple([params_]), **solver_args)       
+        y_model_ = solver(function, init_, tspan_, args=tuple([params_]) + args, **solver_args)       
         y_model  = np.concatenate((y_model, y_model_), axis=0) if overlap else np.concatenate((y_model[:-1],  y_model_), axis=0)   
         t_model  = np.concatenate((t_model, tspan_), axis=0)   if overlap else np.concatenate((t_model[:,-1], tspan_),   axis=0)
 
@@ -62,7 +62,7 @@ def modify_params(init_values, params, model_num, scenario, segment):
 ###############################################################################
 #Multi-Model Integration
 ###############################################################################
-def integrate_models(models, params, *extra_variables, overlap=True):
+def integrate_models(models, params, *extra_variables, args=(), mode='np', overlap=True):
     y_models = {}
     t_models = {}
     e_models = {v: {model_num: {scenario: {} for scenario in models[model_num]['init']} for model_num in models} for v in extra_variables}
@@ -102,15 +102,16 @@ def integrate_models(models, params, *extra_variables, overlap=True):
                                                            model_num     = model_num, 
                                                            scenario      = scenario, 
                                                            overlap       = overlap,
+                                                           *args
                                                            )
-                    y_models[model_num][scenario][name] = y_model
+                    y_models[model_num][scenario][name] = pd.DataFrame(y_model, columns=models[model_num]['states'])
                     
                     
                     for func in extra_variables:
+                        y_model_ = y_models[model_num][scenario][name] if mode == 'pd' else y_model
                         variable = func(y_model, t_model, row.values)
                         e_models[func][model_num][scenario][name] = variable 
-                        
-                        
+                                       
             y_models[model_num][0] = t_model
         
         return y_models, e_models
@@ -144,7 +145,7 @@ def plot_model(plot_index, y, e={}, titles={}, labels={}, figs=[], AX={}, palett
                 for row_name in temp[model_num][scenario_num]:
                     color = colors[model_num][scenario_num][row_name]
                     x_arr = e[state][model_num][scenario_num][row_name][1] if callable(state) else y[model_num][0] 
-                    y_arr = e[state][model_num][scenario_num][row_name][0] if callable(state) else y[model_num][scenario_num][row_name]
+                    y_arr = e[state][model_num][scenario_num][row_name][0] if callable(state) else y[model_num][scenario_num][row_name][state]
                     label = get_label(labels, model_num, scenario_num, first=first, row_name=row_name)
                     
                     ax.plot(x_arr, y_arr, label=label, color=color, **line_args)
