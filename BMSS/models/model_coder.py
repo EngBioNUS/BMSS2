@@ -8,19 +8,19 @@ model_functions_directory = join(dirname(__file__), 'model_functions')
 ###############################################################################
 #Functions
 ###############################################################################
-def model_to_code(model_dict,  use_numba=True, local=False, mode='w'):
+def model_to_code(core_model,  use_numba=True, local=False, mode='w'):
     header = 'import numpy as np\n'
     if use_numba:
         header += 'from numba import jit\n\n' + '@jit(nopython=True)\n'
     
-    result  = header + 'def model_' + '_'.join(model_dict['system_type']) + '(y, t, params):\n' 
+    result  = header + 'def model_' + core_model['system_type'].replace(', ', '_') + '(y, t, params):\n' 
     
-    states     = states_to_code(model_dict['states'])
-    params     = params_to_code(model_dict['parameters'] + model_dict['inputs'])
-    equations  = equations_to_code(model_dict['equations'], model_dict['states'])
+    states     = states_to_code(core_model['states'])
+    params     = params_to_code(core_model['parameters'] + core_model['inputs'])
+    equations  = equations_to_code(core_model['equations'], core_model['states'])
     result    += '\n\n'.join([states, params, equations])
     
-    filename = '_'.join(model_dict['system_type']) + '.py'
+    filename = core_model['system_type'].replace(', ', '_') + '.py'
     if mode == 'w' or mode == 'a':
         export_code(result, filename, local, mode)
     return result

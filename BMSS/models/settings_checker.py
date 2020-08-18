@@ -45,7 +45,7 @@ def check_and_assign_init(states, init, init_orient='scenario'):
         if init_orient == 'scenario':
             for key in init:
                 if len(init[key]) != len(states):
-                    raise Exception('Length of init must match number of states.')
+                    raise Exception('Length of init must match number of states. \ninit[' + str(key) + ']:' + str(init[key]) + '\nstates:' + str(states))
             return init
         
         else:
@@ -120,10 +120,13 @@ def check_and_assign_priors(parameter_df, priors):
 def check_and_assign_tspan(tspan):
     if tspan:
         try:
-            tspan1 = [np.array(span) for span in tspan]
-        except:
-            raise Exception('Error in tspan. tspan must be a list of list-like structures.')
+            tspan1 = [np.linspace(*span) for span in tspan]
+        except:      
+            try:
+                tspan1 = [np.array(span) for span in tspan]
+            except:
+                raise Exception('Error in tspan. tspan must be a list of list-like structures.')
             
     else:
-        tspan1 = [np.linspace(0, 600)]
+        tspan1 = [np.linspace(0, 600, 31)]
     return tspan1

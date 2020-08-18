@@ -48,27 +48,13 @@ def check_model_terms(model):
         return False, 'Unused terms ' + str(unused)
     
     else:
-        
-        # header = 'import numpy as np\ndef __model_checker_function__():'
-        # temp   = states+params+inputs
-        # var    = '\t' + ','.join(temp) + '= np.random.rand(' + str(len(temp)) + ')'
-        # conv   = '\t' + ','.join(temp) + '= list(map(float, [' + ','.join(temp) + ']))'
-        # call   = '__model_checker_function__()'
-        
-        # try:
-        #     eq     = equations_to_code(equations, states)
-        # except Exception as e:
-        #     return False, str(e.args[0])
-        
-        # test_string = '\n\n'.join([header, var, conv, eq, call])
-        
-        temp   = states+params+inputs
-        var    = ','.join(temp) + '= np.random.rand(' + str(len(temp)) + ')'
-        conv   = ','.join(temp) + '= list(map(float, [' + ','.join(temp) + ']))'
-        y_test = 'y = ' + ','.join(states)
-        t_test = 't = 0'
-        p_test = 'params = ' + ','.join(params+inputs)
-        call   = 'y = model_' + '_'.join(model['system_type']) + '(y, t, params)'
+        temp    = states+params+inputs
+        var     = ','.join(temp) + '= np.random.rand(' + str(len(temp)) + ')'
+        conv    = ','.join(temp) + '= list(map(float, [' + ','.join(temp) + ']))'
+        y_test  = 'y = ' + ','.join(states)
+        t_test  = 't = 0\ndt = 1e-3'
+        p_test  = 'params = ' + ','.join(params+inputs)
+        call    = 'y = y + dt*model_' + model['system_type'].replace(', ', '_') + '(y, t, params)'
         
         try:
             eq     = model_to_code(model, use_numba=False, mode=None)
