@@ -13,8 +13,8 @@ from numba import jit
 ###############################################################################
 #Refer for details: https://seaborn.pydata.org/tutorial/color_palettes.html
 palette_types = {'color':     lambda n_colors, **kwargs : sns.color_palette(n_colors=n_colors,     **{**{'palette': 'muted'}, **kwargs}),
-                 'light':     lambda n_colors, **kwargs : sns.light_palette(n_colors=n_colors+4,   **{**{'color':'steel'}, **kwargs})[4:],
-                 'dark' :     lambda n_colors, **kwargs : sns.dark_palette( n_colors=n_colors+4,   **{**{'color':'steel'}, **kwargs})[4:],
+                 'light':     lambda n_colors, **kwargs : sns.light_palette(n_colors=n_colors+2,   **{**{'color':'steel'}, **kwargs})[2:],
+                 'dark' :     lambda n_colors, **kwargs : sns.dark_palette( n_colors=n_colors+2,   **{**{'color':'steel'}, **kwargs})[2:],
                  'diverging': lambda n_colors, **kwargs : sns.diverging_palette(n=n_colors,        **{**{'h_pos': 250, 'h_neg':15}, **kwargs}),
                  'cubehelix': lambda n_colors, **kwargs : sns.cubehelix_palette(n_colors=n_colors, **kwargs),
                  }    
@@ -24,22 +24,22 @@ all_colors    = sns.colors.xkcd_rgb
 ###############################################################################
 #Integration
 ###############################################################################
-def piecewise_integrate(function, init, tspan, params, model_num, scenario, modify_init=None, modify_params=None, solver_args={}, solver=odeint, overlap=True, *args):
+def piecewise_integrate(function, init, tspan, params, model_num, scenario_num, modify_init=None, modify_params=None, solver_args={}, solver=odeint, overlap=True, args=()):
     '''
     Piecewise integration function with scipy.integrate.odeint as default. 
     Can be changed using the solver argument.
     '''
-
+    
     tspan_     = tspan[0]
-    init_      = modify_init(init_values=init,    params=params, model_num=model_num, scenario=scenario, segment=0) if modify_init   else init
-    params_    = modify_params(init_values=init_, params=params, model_num=model_num, scenario=scenario, segment=0) if modify_params else params 
+    init_      = modify_init(init_values=init,    params=params, model_num=model_num, scenario_num=scenario_num, segment=0) if modify_init   else init
+    params_    = modify_params(init_values=init_, params=params, model_num=model_num, scenario_num=scenario_num, segment=0) if modify_params else params 
     y_model    = solver(function, init_, tspan_, args=tuple([params_]) + args, **solver_args)
     t_model    = tspan[0]
     
     for segment in range(1, len(tspan)):
         tspan_   = tspan[segment]
-        init_    = modify_init(init_values=y_model[-1], params=params, model_num=model_num, scenario=scenario, segment=segment) if modify_init   else y_model[-1]
-        params_  = modify_params(init_values=init_,     params=params, model_num=model_num, scenario=scenario, segment=segment) if modify_params else params 
+        init_    = modify_init(init_values=y_model[-1], params=params, model_num=model_num, scenario_num=scenario_num, segment=segment) if modify_init   else y_model[-1]
+        params_  = modify_params(init_values=init_,     params=params, model_num=model_num, scenario_num=scenario_num, segment=segment) if modify_params else params 
         y_model_ = solver(function, init_, tspan_, args=tuple([params_]) + args, **solver_args)       
         y_model  = np.concatenate((y_model, y_model_), axis=0) if overlap else np.concatenate((y_model[:-1],  y_model_), axis=0)   
         t_model  = np.concatenate((t_model, tspan_), axis=0)   if overlap else np.concatenate((t_model[:,-1], tspan_),   axis=0)
@@ -47,13 +47,13 @@ def piecewise_integrate(function, init, tspan, params, model_num, scenario, modi
     return y_model, t_model
 
 #Templates for modify_init
-def modify_init(init_values, params, model_num, scenario, segment):
+def modify_init(init_values, params, model_num, scenario_num, segment):
     '''
     Return a new np.array of initial values. For safety, DO NOT MODIFY IN PLACE.
     '''
     return init_values.copy()
 
-def modify_params(init_values, params, model_num, scenario, segment):
+def modify_params(init_values, params, model_num, scenario_num, segment):
     '''
     Return a new np.array of initial values. For safety, DO NOT MODIFY IN PLACE.
     '''
@@ -64,8 +64,7 @@ def modify_params(init_values, params, model_num, scenario, segment):
 ###############################################################################
 def integrate_models(models, params, *extra_variables, args=(), mode='np', overlap=True):
     y_models = {}
-    t_models = {}
-    e_models = {v: {model_num: {scenario: {} for scenario in models[model_num]['init']} for model_num in models} for v in extra_variables}
+    e_models = {v: {model_num: {scenario_num: {} for scenario_num in models[model_num]['init']} for model_num in models} for v in extra_variables}
     
     
     if type(params) == dict:
@@ -74,10 +73,10 @@ def integrate_models(models, params, *extra_variables, args=(), mode='np', overl
         except:
             params_ = pd.DataFrame([params])
 
-        return integrate_models(models, params_, *extra_variables, overlap=overlap)
+        return integrate_models(models, params_, *extra_variables, args=args, overlap=overlap)
     
     if len(params.shape) == 1:
-        return integrate_models(models, np.array([params]), *extra_variables, overlap=overlap)
+        return integrate_models(models, np.array([params]), *extra_variables, args=args, overlap=overlap)
     
     else:
         params1 = pd.DataFrame(params)
@@ -85,32 +84,32 @@ def integrate_models(models, params, *extra_variables, args=(), mode='np', overl
             model               = models[model_num]
             y_models[model_num] = {}
             
-            for scenario in models[model_num]['init']:
-                if type(scenario) == int:
-                    if scenario < 1:
+            for scenario_num in models[model_num]['init']:
+                if type(scenario_num) == int:
+                    if scenario_num < 1:
                         continue
-                y_models[model_num][scenario] = {}
+                y_models[model_num][scenario_num] = {}
                 
                 for name, row in params1.iterrows():
                     y_model, t_model = piecewise_integrate(params        = row.values,
                                                            function      = model['function'], 
-                                                           init          = model['init'][scenario],
+                                                           init          = model['init'][scenario_num],
                                                            tspan         = model['tspan'],
                                                            modify_init   = model['int_args']['modify_init'],
                                                            modify_params = model['int_args']['modify_params'],
                                                            solver_args   = model['int_args']['solver_args'],
                                                            model_num     = model_num, 
-                                                           scenario      = scenario, 
+                                                           scenario_num  = scenario_num, 
                                                            overlap       = overlap,
-                                                           *args
+                                                           args          = args
                                                            )
-                    y_models[model_num][scenario][name] = pd.DataFrame(y_model, columns=models[model_num]['states'])
+                    y_models[model_num][scenario_num][name] = pd.DataFrame(y_model, columns=models[model_num]['states'])
                     
                     
                     for func in extra_variables:
-                        y_model_ = y_models[model_num][scenario][name] if mode == 'pd' else y_model
-                        variable = func(y_model, t_model, row.values)
-                        e_models[func][model_num][scenario][name] = variable 
+                        y_model_ = y_models[model_num][scenario_num][name] if mode == 'pd' else y_model
+                        variable = func(y_model_, t_model, row.values)
+                        e_models[func][model_num][scenario_num][name] = variable 
                                        
             y_models[model_num][0] = t_model
         
@@ -149,6 +148,7 @@ def plot_model(plot_index, y, e={}, titles={}, labels={}, figs=[], AX={}, palett
                     label = get_label(labels, model_num, scenario_num, first=first, row_name=row_name)
                     
                     ax.plot(x_arr, y_arr, label=label, color=color, **line_args)
+                    ax.ticklabel_format(style='sci', scilimits=(-2,3))
                     
                     first = False
 
