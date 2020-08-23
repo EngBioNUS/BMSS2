@@ -41,6 +41,9 @@ def from_config(filename):
         
     return config_data
 
+###############################################################################
+#Supporting Functions for Reading Strings into Python
+###############################################################################    
 def eval_init_string(string):
     try:
         result = string_to_array(string)
@@ -52,18 +55,30 @@ def eval_init_string(string):
     return result
 
 def eval_tspan_string(string):
-    return string_to_linspace(string)
+    try:
+        return string_to_linspace(string)
+    except:
+        return np.array(eval(string.replace('\n', '')))
 
 def eval_params_string(string):
     return string_to_dataframe(string)
 
 def string_to_linspace(string):
+    '''
+    Use this when you expect arguments for numpy.linspace
+    '''
     try:
         return [np.linspace(*segment) for segment in eval('[' + string +']')]
     except:
-        return [np.linspace(*segment) for segment in eval(string)]
+        try:
+            return [np.linspace(*segment) for segment in eval(string)]
+        except:
+            return np.array(eval(string))
 
 def string_to_list(string):
+    '''
+    Use this when you expect a list of numbers
+    '''
     string1 = string.replace('\n', ',')
     lst     = [s.strip() for s in string1.split(',')]
     lst     = [s for s in lst if s]
@@ -74,8 +89,10 @@ def string_to_list(string):
     except:
         return eval(string1)
 
-
 def string_to_list_string(string):
+    '''
+    Use this when you expect a list of strings
+    '''
     string1 = string.replace('[', '').replace(']', '').replace('\n', ',')
     lst     = [s.strip() for s in string1.split(',')]
     lst     = [s for s in lst if s]
@@ -83,9 +100,15 @@ def string_to_list_string(string):
     return lst
     
 def string_to_array(string):
+    '''
+    Use this when you expect a list that can be converted into a numpy array.
+    '''
     return np.array(string_to_list(string))
         
 def string_to_dict(string):
+    '''
+    Use this when you expect a dictionary
+    '''
     result = [s.strip() for s in split_at_top_level(string)]
     result = [line.split('=') for line in result ]
     result = [[lst[0].strip(), '='.join(lst[1:]).strip()] for lst in result]
@@ -95,6 +118,9 @@ def string_to_dict(string):
     return result
 
 def string_to_dict_array(string):
+    '''
+    Use this when you expect a dictionary and expect the values to be numpy arrays
+    '''
     temp = string_to_dict(string)
     try:
         iter(temp[next(iter(temp))])
@@ -103,9 +129,16 @@ def string_to_dict_array(string):
         return {key: np.array([temp[key]])  for key in temp}
     
 def string_to_dataframe(string):
+    '''
+    Use this when you expect a dictionary and want to convert it into a DataFrame
+    '''
     return pd.DataFrame(string_to_dict_array(string))
     
 def split_at_top_level(string, delimiter=','):
+    '''
+    Use this for nested lists.
+    This is also a helper function for string_to_dict.
+    '''
     nested = []
     buffer = ''
     result = []
@@ -133,6 +166,9 @@ def split_at_top_level(string, delimiter=','):
     return result
 
 def try_eval(x):
+    '''
+    Attempts to convert string to numbers.
+    '''
     try:
         return eval(x)
     except:
@@ -154,12 +190,15 @@ def compile_models(core_models, config_data):
     params     = {}
     
     for key in config_data:
-        models[key]['init']                    = config_data[key]['init']
-        models[key]['tspan']                   = config_data[key]['tspan']
-        models[key]['int_args']['solver_args'] = config_data[key]['solver_args']
+        models[key]['init']                    = config_data[key].get('init',       {1: np.array([0]*len(models[key]['states'])) })
+        models[key]['tspan']                   = config_data[key].get('tspan',      [np.linspace(0, 600, 31)])
+        models[key]['int_args']['solver_args'] = config_data[key].get('solver_args', {})
         
-        temp       = {param + '_' + str(key): config_data[key]['params'][param].values  for param in config_data[key]['params']}
-        
+        try:
+            temp       = {param + '_' + str(key): config_data[key]['params'][param].values  for param in config_data[key]['params']}
+        except:
+            temp       = {param + '_' + str(key): config_data[key]['guess'][param].values  for param in config_data[key]['guess']}
+            
         params = {**params, **temp}
     
     return models, pd.DataFrame(params)
