@@ -107,6 +107,18 @@ if __name__ == '__main__':
     analysis_result = sn.analyze_sensitivity(em, samples, problems, analysis_type=sensitivity_args['analysis_type'])
     print(analysis_result[1][1]['Strain 1'][h_yield])
     
+    '''
+    The three steps can also be done in a single function call as shown below.
+    
+    sensitivity_args = ss.get_sensitivity_args(filename)
+    sensitivity_args['params'].index = ['Strain 1', 'Strain 2']
+    sensitivity_args['N'] = 500
+    
+    sensitivity_args['objective'] = {1: [h_yield]}
+    analysis_result, em, samples, problems = sn.analyze(**sensitivity_args)
+    '''
+    
+    #Plot settings
     titles = {1: {1: {0: {h_yield: 'h Yield'
                          }
                       }
