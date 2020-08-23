@@ -20,7 +20,7 @@ if __name__ == '__main__':
     Just like in the previous tutorial, we can create .ini files to store the settings
     for our analysis separately from the algorithms we code.
     '''
-    system_types_settings_names = [('BMSS, Monod, Constitutive, Single, ProductInhibitedGrowth', None),
+    system_types_settings_names = [('BMSS, Monod, Constitutive, Single, ProductInhibition', None),
                                    ]
     
     ss.make_settings_template(system_types_settings_names, filename='settings_sen_template.ini')
