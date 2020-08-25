@@ -5,13 +5,21 @@ import configparser
 try:
     from .                   import model_handler    as mh 
     from .                   import settings_handler as sh
-    from ._backend_setup_sim import compile_models, string_to_dict, string_to_dict_array, string_to_list_string, eval_init_string, eval_params_string, eval_tspan_string, dict_template, list_template
+    from ._backend_setup_sim import (compile_models, setup_helper,
+                                     string_to_dict, string_to_dict_array, 
+                                     string_to_list_string, eval_init_string, 
+                                     eval_params_string, eval_tspan_string, 
+                                     dict_template, list_template)
 
 except:
     import model_handler    as     mh
     import settings_handler as     sh
-    from _backend_setup_sim import compile_models, string_to_dict, string_to_dict_array, string_to_list_string, eval_init_string, eval_params_string, eval_tspan_string, dict_template, list_template
-
+    from _backend_setup_sim import (compile_models, setup_helper,
+                                     string_to_dict, string_to_dict_array, 
+                                     string_to_list_string, eval_init_string, 
+                                     eval_params_string, eval_tspan_string, 
+                                     dict_template, list_template)
+    
 ###############################################################################
 #Interfacing with Configparser
 ###############################################################################
@@ -51,9 +59,11 @@ def from_config(filename):
 ###############################################################################
 #Main Set Up
 ###############################################################################    
-def get_sensitivity_args(filename):
-    config_data    = from_config(filename) if type(filename) == str else filename
-    core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
+def get_sensitivity_args(filename, user_core_models={}):
+    # config_data    = from_config(filename) if type(filename) == str else filename
+    # core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
+    
+    config_data, core_models = setup_helper(filename, from_config, user_core_models)
     models, params = compile_models(core_models, config_data)
     
     bounds           = {}
