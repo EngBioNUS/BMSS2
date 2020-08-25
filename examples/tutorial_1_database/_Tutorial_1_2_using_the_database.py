@@ -54,6 +54,8 @@ if __name__ == '__main__':
     mh.restore(system_type)
     search_result_6 = mh.search_database(system_type)
     
+    print(core_model_1)
+    
     #Create a file for the function and store it in the database
     #Navigate to BMSS/models/model_functions and see if you can find it.
     mh.model_to_code(core_model_1, local=False)
