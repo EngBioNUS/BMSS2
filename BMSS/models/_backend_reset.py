@@ -41,7 +41,7 @@ def reset_MBase():
     bmh.create_table(database, bsh.table_sql)
     
     #For loading markup files in markup to MBase
-    markup_directory = Path(os.getcwd()) /'markup'
+    markup_directory = Path(os.getcwd()) /'BMSS_markup'
     for f in os.listdir(markup_directory):
         print(f)
         filename   = markup_directory/f

@@ -42,12 +42,18 @@ CREATE TABLE IF NOT EXISTS "settings" (
 def make_settings(system_type,    settings_name,       units,    
                   parameters,     init={},             tspan=[],           
                   priors={},      parameter_bounds={}, fixed_parameters=[], 
-                  solver_args={}, init_orient='scenario'):
+                  solver_args={}, init_orient='scenario', 
+                  core_model_new={}):
     '''
     Checks and standardizes formatting of data types.
     '''
     
-    core_model = bmh.quick_search(system_type)
+    if core_model_new:
+        core_model = core_model_new
+        print('Making settings using new_core_model')
+    else:
+        core_model = bmh.quick_search(system_type)
+        
     if type(parameters) == DataFrame:
         param_values = parameters
     else:
@@ -63,7 +69,8 @@ def make_settings(system_type,    settings_name,       units,
     solver_args1 = sc.check_and_assign_solver_args(solver_args)
 
     if fixed_parameters:
-        if not all([p in core_model['states'] for p in fixed_parameters]):
+        fixable_parameters = core_model['parameters'] + core_model['inputs']
+        if not all([p in fixable_parameters for p in fixed_parameters]):
             raise Exception('Error in fixed parameters. Unexpected parameters found.')
     
     
@@ -149,16 +156,22 @@ def add_row(table, row, database=SBase):
 ###############################################################################
 #Search
 ###############################################################################    
-def search_database(system_type, settings_name='', database=None, skip_constructor=False):
-
-    core_model = bmh.quick_search(system_type)
+def search_database(system_type, settings_name='', database=None, skip_constructor=False, active_only=True):
+    
+    #Can only add a settings for active models
+    core_model = bmh.quick_search(system_type, active_only=True)
     result     = []
     
     if settings_name:
-        comm = 'SELECT * FROM settings WHERE system_type LIKE "%' + system_type + '%" AND settings_name LIKE "%' + settings_name + '%" AND active = 1;'
+        comm = 'SELECT * FROM settings WHERE system_type LIKE "%' + system_type + '%" AND settings_name LIKE "%' + settings_name
     else:
-        comm         = 'SELECT * FROM settings WHERE system_type LIKE "%' + system_type + '% AND active = 1";'        
+        comm         = 'SELECT * FROM settings WHERE system_type LIKE "%' + system_type  
     
+    if active_only:
+        comm += '%" AND active = 1;'
+    else:
+        comm += '%";'
+        
     databases = [database] if database else [bmh.MBase, bmh.UBase]
     
     for database in databases:
@@ -262,6 +275,7 @@ def from_config(filename):
         priors        = config[section].get('priors', {})
         bounds        = config[section].get('parameter_bounds', {})
         tspan         = config[section].get('tspan', '[[0, 600, 31]]')
+        fixed_parameters = config[section].get('fixed_parameters', '[]')
         settings_name = str(section)
         
         core_model    = bmh.quick_search(system_type)
@@ -293,22 +307,44 @@ def from_config(filename):
         params = string_to_dict(params)
         units  = string_to_dict(units)
         priors = string_to_dict(priors) if priors else {}
-        bounds = string_to_dict(bounds) if bounds else {}
-        tspan  = eval(tspan)
+        bounds           = string_to_dict(bounds) if bounds else {}
+        fixed_parameters = string_to_list_string(fixed_parameters)
+        tspan  = eval_tspan_string(tspan)
         
-        settings = {'system_type'     : system_type, 
-                    'settings_name'   : settings_name,
-                    'parameters'      : params,
-                    'units'           : units,
-                    'init'            : init,  
-                    'priors'          : priors, 
-                    'parameter_bounds': bounds,
-                    'tspan'           : tspan
+        settings = {'system_type'      : system_type, 
+                    'settings_name'    : settings_name,
+                    'parameters'       : params,
+                    'units'            : units,
+                    'init'             : init,  
+                    'priors'           : priors, 
+                    'parameter_bounds' : bounds,
+                    'tspan'            : tspan,
+                    'fixed_parameters' : fixed_parameters
                     }
+        
         all_settings.append(make_settings(**settings))
         
     return all_settings
 
+def eval_tspan_string(string):
+    try:
+        return string_to_linspace(string)
+    except:
+        return np.array(eval(string.replace('\n', '')))
+
+def string_to_linspace(string):
+    try:
+        return [np.linspace(*segment) for segment in eval('[' + string +']')]
+    except:
+        return [np.linspace(*segment) for segment in eval(string)]
+
+        
+def string_to_list_string(string):
+    temp = string.strip().replace('[', '').replace(']', '')
+    temp = [s.strip() for s in temp.split(',')]
+    
+    return [s for s in temp if s]
+    
 def string_to_dict(string):
     result = [s.strip() for s in split_at_top_level(string)]
     result = [line.split('=') for line in result ]
@@ -368,7 +404,12 @@ def make_settings_template(system_types_settings_names, filename=''):
         except:
             system_type, settings_name = pair, '__default__'
         
-        core_model     = bmh.quick_search(system_type)
+        if type(system_type) == str:
+            core_model     = bmh.quick_search(system_type)
+        else:
+            core_model  = system_type
+            system_type = core_model['system_type']
+            
         parameters     = core_model['parameters'] + core_model['inputs']
         states         = core_model['states']
         section_header = '[]\nsystem_type = ' + core_model['system_type']
@@ -524,7 +565,7 @@ if __name__ == '__main__':
                                           },
                 }
     
-    settings = make_settings(**__settings__)
+    # settings = make_settings(**__settings__)
     
     # __settings__['init'] = {'mRNA' : [0],
     #                         'Pep'  : [0],
@@ -538,4 +579,6 @@ if __name__ == '__main__':
     # __settings__['init'] =[0, 0]
     # settings = make_settings(**__settings__, init_orient='states')
     
-    add_to_database(settings)
+    # add_to_database(settings)
+    
+    

@@ -122,9 +122,8 @@ def backend_add_to_database(core_model, database, dialog=False):
      
     system_type    = core_model['system_type']
     make_new_id    = True
-    existing_model = quick_search(system_type, error_if_no_result=False)
+    existing_model = quick_search(system_type, error_if_no_result=False, active_only=False)
     d              = 'Mbase' if database == MBase else 'UBase'
-
     if existing_model:
         if dialog:
             while True:
@@ -150,10 +149,13 @@ def backend_add_to_database(core_model, database, dialog=False):
 
             update_value_by_rowid(row_id, 'id', model_id, database)
         
+        else:
+            model_id = core_model['id']
+        
         o = 'Added model ' if make_new_id else 'Modified model '
         n =  model_id      if make_new_id else core_model['id']
         print(o + n + ' to '+ d)
-    return row_id
+    return model_id
 
 def string_dict_values(core_model):
 
@@ -181,17 +183,22 @@ def add_row(table, row, database):
 ###############################################################################
 #Search
 ###############################################################################
-def search_database(keyword, search_type='system_type', database=None):
+def search_database(keyword, search_type='system_type', database=None, active_only=True):
     global MBase
     global UBase
     
     keyword1  = keyword if type(keyword) == str else ', '.join(keyword)
-    comm      = 'SELECT id, system_type, states, parameters, inputs, equations, ia FROM models WHERE ' + search_type + ' LIKE "%' + keyword1 + '%" AND active = 1;'
+    comm      = 'SELECT id, system_type, states, parameters, inputs, equations, ia FROM models WHERE ' + search_type + ' LIKE "%' + keyword1 
     result    = []
-    
+    if active_only:
+        comm      += '%" AND active = 1;'
+    else:
+        comm += '%";'
+
     databases = [database] if database else [MBase, UBase]
     for database in databases:
-        cursor    = database.execute(comm)
+        cursor    = database.cursor()
+        cursor.execute(comm)
         models    = cursor.fetchall()    
         
         columns = database.execute('PRAGMA table_info(models);')
@@ -204,17 +211,17 @@ def search_database(keyword, search_type='system_type', database=None):
 
     return result
     
-def quick_search(system_type, error_if_no_result=True):
+def quick_search(system_type, error_if_no_result=True, active_only=True):
     '''
     Searches both system_type/id and returns the first result.
     Meant to be used when you know the exact system_type/id.
     Raises an error when no matches are found if error_if_no_result is set to True.
     '''
     try:
-        core_model = search_database(system_type, search_type='system_type')[0]
+        core_model = search_database(system_type, search_type='system_type', active_only=active_only)[0]
     except:
         try:
-            core_model = search_database(system_type, search_type='id')[0]
+            core_model = search_database(system_type, search_type='id', active_only=active_only)[0]
         except:
             if error_if_no_result:
                 raise Exception('Could not retrieve model with system_type ' + str(system_type))
@@ -234,12 +241,15 @@ def list_models(database=None):
         global UBase
         return list_models(MBase) + list_models(UBase)
 
-def get_model_function(system_type):
+def get_model_function(system_type, local=False):
     '''
     Supporting function for get_model_function. Do not run.
     '''
     model_name     = system_type.replace(', ', '_')
-    module         = importlib.import_module('.model_functions.' + model_name, 'BMSS.models')
+    if local:
+        module = importlib.import_module(model_name)
+    else:
+        module = importlib.import_module('.model_functions.' + model_name, 'BMSS.models')
     model_function = getattr(module, 'model_'+  model_name )
     
     return model_function

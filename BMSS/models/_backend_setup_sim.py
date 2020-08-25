@@ -55,10 +55,13 @@ def eval_init_string(string):
     return result
 
 def eval_tspan_string(string):
-    try:
-        return string_to_linspace(string)
-    except:
-        return np.array(eval(string.replace('\n', '')))
+    if string:
+        try:
+            return string_to_linspace(string)
+        except:
+            return np.array(eval(string.replace('\n', '')))
+    else:
+        return [np.linspace(0, 600, 31)]
 
 def eval_params_string(string):
     return string_to_dataframe(string)
@@ -177,12 +180,19 @@ def try_eval(x):
 ###############################################################################
 #Main Set Up
 ###############################################################################    
-def get_models_and_params(filename):
+def get_models_and_params(filename, user_core_models={}):
+    '''
+    Reads the config file and adds combines it with core model data. If you are
+    using a core model that is not in the database, you must provide the core model
+    using the core_models argument where the key is the system_type.
+    '''
 
-    config_data    = from_config(filename) if type(filename) == str else filename
-    core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
+    # config_data    = from_config(filename) if type(filename) == str else filename
+    # core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
     
-    models, params = compile_models(core_models, config_data)
+    config_data, core_models = setup_helper(filename, user_core_models)
+    
+    models, params = compile_models(core_models, from_config, config_data)
     return models, params, config_data
 
 def compile_models(core_models, config_data):
@@ -202,7 +212,12 @@ def compile_models(core_models, config_data):
         params = {**params, **temp}
     
     return models, pd.DataFrame(params)
+
+def setup_helper(filename, reader, core_models={}):
+    config_data    = reader(filename) if type(filename) == str else filename
+    core_models    = [core_models[config_data[key]['system_type']] if config_data[key]['system_type'] in core_models else mh.quick_search(config_data[key]['system_type']) for key in config_data]
     
+    return config_data, core_models
 
 def make_compiled_models_template(core_models):
     '''
@@ -216,7 +231,8 @@ def make_compiled_models_template(core_models):
         try:
             model_function = mh.get_model_function(core_model['system_type'])
         except:
-            model_function = None
+            mh.model_to_code(core_model, local=True)
+            model_function = mh.get_model_function(core_model['system_type'], local=True)
         
         temp = {'function' : model_function,
                 'init'     : {},

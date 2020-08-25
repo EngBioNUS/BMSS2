@@ -5,7 +5,7 @@ import configparser
 try:
     from .                   import model_handler    as mh 
     from .                   import settings_handler as sh
-    from ._backend_setup_sim import (compile_models, split_at_top_level, 
+    from ._backend_setup_sim import (compile_models, setup_helper, 
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
@@ -14,7 +14,7 @@ try:
 except:
     import model_handler    as     mh
     import settings_handler as     sh
-    from _backend_setup_sim import (compile_models, split_at_top_level, 
+    from _backend_setup_sim import (compile_models, setup_helper, 
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
@@ -37,6 +37,8 @@ def from_config(filename, sampler='sa'):
         parameter_bounds = config[section].get('parameter_bounds')
         priors           = config[section].get('priors')
         step_size        = config[section].get('step_size')
+        init             = config[section].get('init')
+        tspan            = config[section].get('tspan')
         sa_args          = config[section].get('sa_args')
         de_args          = config[section].get('de_args')
         bh_args          = config[section].get('bh_args')
@@ -44,49 +46,51 @@ def from_config(filename, sampler='sa'):
         guess            = config[section].get('guess')
         units            = config[section].get('units')
         
+        tspan            = eval_tspan_string(tspan)
+        init             = eval_init_string(init)                  if init             else {}
         solver_args      = string_to_dict(solver_args)             if solver_args      else {}
         fixed_parameters = string_to_list_string(fixed_parameters) if fixed_parameters else []
         parameter_bounds = string_to_dict_array(parameter_bounds)  if parameter_bounds else {}
         priors           = string_to_dict(priors)                  if priors           else {}
         step_size        = string_to_dict(step_size)               if step_size        else {}
-        sa_args          = string_to_dict(sa_args)                 if sa_args else {}
-        de_args          = string_to_dict(de_args)                 if de_args else {}
-        bh_args          = string_to_dict(bh_args)                 if bh_args else {}
-        da_args          = string_to_dict(da_args)                 if da_args else {}
-        guess            = eval_params_string(guess)               if guess   else {}
-        units            = string_to_dict(units)                   if units   else {}
+        sa_args          = string_to_dict(sa_args)                 if sa_args          else {}
+        de_args          = string_to_dict(de_args)                 if de_args          else {}
+        bh_args          = string_to_dict(bh_args)                 if bh_args          else {}
+        da_args          = string_to_dict(da_args)                 if da_args          else {}
+        guess            = eval_params_string(guess)               if guess            else {}
+        units            = string_to_dict(units)                   if units            else {}
         
         if sampler == 'sa':
-            trials = sa_args.get('trials', 5000)
-            blocks = sa_args.get('blocks', [])
-            if blocks:
-                blocks = [block.strip() for block in split_at_top_level(blocks, ',')]
-                blocks = [[b.strip() for b in block[1:len(block)-1].split(',')] for block in blocks]
+            # trials = sa_args.get('trials', 5000)
+            # blocks = sa_args.get('blocks', [])
+            # if blocks:
+            #     blocks = [block.strip() for block in split_at_top_level(blocks, ',')]
+            #     blocks = [[b.strip() for b in block[1:len(block)-1].split(',')] for block in blocks]
                 
             config_data[n] = {'system_type' : section,     'guess'  : guess,  'priors'           : priors, 
-                              'solver_args' : solver_args, 'trials' : trials, 'parameter_bounds' : parameter_bounds,
-                              'step_size'   : step_size,   'blocks' : blocks, 'fixed_parameters' : fixed_parameters,   
-                              'units'       : units
+                              'solver_args' : solver_args, 'parameter_bounds' : parameter_bounds,
+                              'step_size'   : step_size,   'fixed_parameters' : fixed_parameters,   
+                              'units'       : units,       'init'   : init,   'tspan' : tspan, 'sa_args':sa_args
                               }
         
         elif sampler == 'de':
             config_data[n] = {'system_type' : section,     'guess'  : guess,  'priors' : priors, 
                               'solver_args' : solver_args, 'parameter_bounds' : parameter_bounds,  
                               'de_args'     : de_args,     'fixed_parameters' : fixed_parameters,
-                              'units'  : units
+                              'units'       : units,       'init'   : init,   'tspan' : tspan        
                               }
             
         elif sampler == 'bh':
             config_data[n] = {'system_type' : section,     'guess'  : guess,  'priors' : priors, 
                               'solver_args' : solver_args, 'parameter_bounds' : parameter_bounds,  
                               'step_size'   : step_size,   'fixed_parameters' : fixed_parameters,   
-                              'bh_args'     : bh_args,     'units'  : units
+                              'bh_args'     : bh_args,     'units'  : units,  'init'   : init,   'tspan' : tspan  
                               }
         elif sampler == 'da':
             config_data[n] = {'system_type' : section,     'guess'  : guess,  'priors' : priors, 
                               'solver_args' : solver_args, 'parameter_bounds' : parameter_bounds,   
                               'da_args'     : da_args,     'fixed_parameters' : fixed_parameters, 
-                              'units'  : units
+                              'units'       : units,       'init'   : init,   'tspan' : tspan 
                               }
         n += 1
         
@@ -95,26 +99,26 @@ def from_config(filename, sampler='sa'):
 ###############################################################################
 #Main Set Up
 ###############################################################################    
-def get_sampler_args(filename, sampler='sa'):
+def get_sampler_args(filename, sampler='sa', user_core_models={}):
     if sampler == 'sa':
-        return get_sampler_args_sa(filename)
+        return get_sampler_args_sa(filename, user_core_models=user_core_models)
     elif sampler == 'de':
-        return get_sampler_args(filename)
+        return get_sampler_args(filename, user_core_models=user_core_models)
     elif sampler == 'bh':
-        return get_sampler_args(filename)
+        return get_sampler_args(filename, user_core_models=user_core_models)
     elif sampler == 'da':
-        return get_sampler_args(filename)
+        return get_sampler_args(filename, user_core_models=user_core_models)
     else:
         raise Exception('sampler must be sa, de, bh or da. sampler given was ' + str(sampler))
     
-
-def get_sampler_args_sa(filename):
+def get_sampler_args_sa(filename, user_core_models={}):
     '''
     Shortcut for setting up simulated annealing for one model
     '''
 
-    config_data    = from_config(filename, 'sa') if type(filename) == str else filename
-    core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
+    # config_data    = from_config(filename, 'sa') if type(filename) == str else filename
+    # core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
+    config_data, core_models = setup_helper(filename, from_config, user_core_models)
     models, params = compile_models(core_models, config_data)
     
     guess            = {}
@@ -125,9 +129,11 @@ def get_sampler_args_sa(filename):
     fixed_parameters = []
     trials           = []
     for key in config_data:
+        models[key]['init']                    = config_data[key]['init']
+        models[key]['tspan']                   = config_data[key]['tspan']
         models[key]['int_args']['solver_args'] = config_data[key]['solver_args']
         
-        temp      = {param + '_' + str(key): config_data[key]['guess'][param] for param in config_data[key]['guess']}
+        temp      = {param + '_' + str(key): float(config_data[key]['guess'][param]) for param in config_data[key]['guess']}
         guess     = {**guess, **temp}
         
         temp      = {param + '_' + str(key): config_data[key]['parameter_bounds'][param] for param in config_data[key]['parameter_bounds']}
@@ -139,12 +145,12 @@ def get_sampler_args_sa(filename):
         temp      = {param + '_' + str(key): config_data[key]['step_size'][param] for param in config_data[key]['step_size']}
         step_size = {**step_size, **temp}
         
-        blocks += [[param + '_' + str(key) for param in block] for block in config_data[key]['blocks']]
+        blocks += [[param + '_' + str(key) for param in block] for block in config_data[key]['sa_args'].get('blocks', [])]
         
         fixed_parameters   += [param + '_' + str(key) for param in config_data[key]['fixed_parameters']]
         
-        if config_data[key]['trials']:
-            trials.append(config_data[key]['trials'])
+        if 'trials' in config_data[key]['sa_args']:
+            trials.append(config_data[key]['sa_args']['trials'])
         
     sampler_args = {'data'     : {},
                     'guess'    : guess,
@@ -174,9 +180,11 @@ def get_sampler_args_de(filename):
     fixed_parameters = []
     scipy_args       = {}
     for key in config_data:
+        models[key]['init']                    = config_data[key]['init']
+        models[key]['tspan']                   = config_data[key]['tspan']
         models[key]['int_args']['solver_args'] = config_data[key]['solver_args']
         
-        temp      = {param + '_' + str(key): config_data[key]['guess'][param] for param in config_data[key]['guess']}
+        temp      = {param + '_' + str(key): float(config_data[key]['guess'][param]) for param in config_data[key]['guess']}
         guess     = {**guess, **temp}
         
         temp      = {param + '_' + str(key): config_data[key]['parameter_bounds'][param] for param in config_data[key]['parameter_bounds']}
@@ -216,9 +224,11 @@ def get_sampler_args_bh(filename):
     step_size        = {}
     scipy_args       = {}
     for key in config_data:
+        models[key]['init']                    = config_data[key]['init']
+        models[key]['tspan']                   = config_data[key]['tspan']
         models[key]['int_args']['solver_args'] = config_data[key]['solver_args']
         
-        temp      = {param + '_' + str(key): config_data[key]['guess'][param] for param in config_data[key]['guess']}
+        temp      = {param + '_' + str(key): float(config_data[key]['guess'][param]) for param in config_data[key]['guess']}
         guess     = {**guess, **temp}
         
         temp      = {param + '_' + str(key): config_data[key]['parameter_bounds'][param] for param in config_data[key]['parameter_bounds']}
@@ -265,7 +275,7 @@ def get_sampler_args_da(filename):
     for key in config_data:
         models[key]['int_args']['solver_args'] = config_data[key]['solver_args']
         
-        temp      = {param + '_' + str(key): config_data[key]['guess'][param] for param in config_data[key]['guess']}
+        temp      = {param + '_' + str(key): float(config_data[key]['guess'][param]) for param in config_data[key]['guess']}
         guess     = {**guess, **temp}
         
         temp      = {param + '_' + str(key): config_data[key]['parameter_bounds'][param] for param in config_data[key]['parameter_bounds']}
