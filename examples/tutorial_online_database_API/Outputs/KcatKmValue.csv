@@ -1,0 +1,72 @@
+,literature,substrate,kcatKmValue,kcatKmValueMaximum,commentary,organism,ecNumber,ligandStructureId
+0,[748273],L-phenylalanine,11.03,,"pH 8.8, 30&deg;C",Rhodotorula toruloides,4.3.1.25,104
+1,[748273],L-tyrosine,4.92,,"pH 8.8, 30&deg;C",Rhodotorula toruloides,4.3.1.25,109
+2,[748273],trans-cinnamate,1.11,,"pH 10, 30&deg;C",Rhodotorula toruloides,4.3.1.25,1544
+3,[746036],ferulate,1.8,,"isoform 4CL3, pH and temperature not specified in the publication",Pinus taeda,6.2.1.12,1047
+4,[727118],ferulate,6.5,,"pH 7.8, 22&deg;C",Pueraria montana var. lobata,6.2.1.12,1047
+5,[728204],ferulate,10,,"pH 7.5, 22&deg;C",Sorbus aucuparia,6.2.1.12,1047
+6,[746098],ferulate,13.98,,"isoform 4CL2, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1047
+7,[728481],ferulate,40.16,,"recombinant V186G, pH 7.8, 30&deg;C",Solanum lycopersicum,6.2.1.12,1047
+8,[746098],ferulate,52.88,,"isoform 4CL1, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1047
+9,[728481],ferulate,57.79,,"recombinant Q274H, pH 7.8, 30&deg;C",Solanum lycopersicum,6.2.1.12,1047
+10,[728481],ferulate,60.06,,"recombinant F269L/K415T, pH 7.8, 30&deg;C",Solanum lycopersicum,6.2.1.12,1047
+11,[746098],ferulate,73.48,,"isoform 4CL3, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1047
+12,[728204],ferulate,90,,"pH 7.5, 22&deg;C",Sorbus aucuparia,6.2.1.12,1047
+13,[728481],ferulate,92.87,,"recombinant F239S, pH 7.8, 30&deg;C",Solanum lycopersicum,6.2.1.12,1047
+14,[746098],ferulate,119.17,,"isoform 4CL5, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1047
+15,[728481],ferulate,174.5,,"recombinant wild-type enzyme, pH 7.8, 30&deg;C",Solanum lycopersicum,6.2.1.12,1047
+16,[746036],ferulate,287.4,,"isoform 4CL1, pH and temperature not specified in the publication",Pinus taeda,6.2.1.12,1047
+17,[728204],ferulate,360,,"pH 7.5, 22&deg;C",Sorbus aucuparia,6.2.1.12,1047
+18,[746513],ferulate,1233,,"wild type enzyme, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1047
+19,[746098],ferulate,4685.81,,"isoform 4CL4, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1047
+20,[746513],4-coumarate,4.367,,"mutant enzyme Y239A, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1215
+21,[746513],4-coumarate,4.937,,"mutant enzyme R435A, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1215
+22,[746513],4-coumarate,13.81,,"mutant enzyme H237A, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1215
+23,[746036],4-coumarate,17.3,,"isoform 4CL3, pH and temperature not specified in the publication",Pinus taeda,6.2.1.12,1215
+24,[728481],4-coumarate,18.23,,"recombinant V186G, pH 7.8, 30&deg;C",Solanum lycopersicum,6.2.1.12,1215
+25,[746513],4-coumarate,55.29,,"mutant enzyme T336A, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1215
+26,[746098],4-coumarate,74.66,,"isoform 4CL1, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1215
+27,[728481],4-coumarate,88.4,,"recombinant wild-type enzyme, pH 7.8, 30&deg;C",Solanum lycopersicum,6.2.1.12,1215
+28,[728481],4-coumarate,100,,"recombinant V186I/V187L, pH 7.8, 30&deg;C",Solanum lycopersicum,6.2.1.12,1215
+29,[727118],4-coumarate,112,,"pH 7.8, 22&deg;C",Pueraria montana var. lobata,6.2.1.12,1215
+30,[728204],4-coumarate,120,,"pH 7.5, 22&deg;C",Sorbus aucuparia,6.2.1.12,1215
+31,[746098],4-coumarate,126.69,,"isoform 4CL3, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1215
+32,[728204],4-coumarate,130,,"pH 7.5, 22&deg;C",Sorbus aucuparia,6.2.1.12,1215
+33,[746098],4-coumarate,136.4,,"isoform 4CL5, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1215
+34,[746036],4-coumarate,137.3,,"isoform 4CL1, pH and temperature not specified in the publication",Pinus taeda,6.2.1.12,1215
+35,[728481],4-coumarate,174.6,,"recombinant F239S, pH 7.8, 30&deg;C",Solanum lycopersicum,6.2.1.12,1215
+36,[746513],4-coumarate,175.6,,"mutant enzyme M344A, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1215
+37,[728481],4-coumarate,206.1,,"recombinant F269L/K415T, pH 7.8, 30&deg;C",Solanum lycopersicum,6.2.1.12,1215
+38,[728481],4-coumarate,226.3,,"recombinant Q274H, pH 7.8, 30&deg;C",Solanum lycopersicum,6.2.1.12,1215
+39,[728204],4-coumarate,230,,"pH 7.5, 22&deg;C",Sorbus aucuparia,6.2.1.12,1215
+40,[746513],4-coumarate,343.4,,"mutant enzyme T193A, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1215
+41,[746098],4-coumarate,357.99,,"isoform 4CL2, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1215
+42,[727118],4-coumarate,364,,"pH 7.8, 22&deg;C",Pueraria montana var. lobata,6.2.1.12,1215
+43,[746513],4-coumarate,511.5,,"mutant enzyme K197A, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1215
+44,[746513],4-coumarate,647.8,,"mutant enzyme Y239F, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1215
+45,[746513],4-coumarate,1633,,"mutant enzyme K443A, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1215
+46,[746513],4-coumarate,2652,,"wild type enzyme, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1215
+47,[746098],4-coumarate,3396.4,,"isoform 4CL4, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1215
+48,[746036],caffeate,3.1,,"isoform 4CL3, pH and temperature not specified in the publication",Pinus taeda,6.2.1.12,1276
+49,[746098],caffeate,23.32,,"isoform 4CL2, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1276
+50,[746036],caffeate,54.1,,"isoform 4CL1, pH and temperature not specified in the publication",Pinus taeda,6.2.1.12,1276
+51,[728204],caffeate,60,,"pH 7.5, 22&deg;C",Sorbus aucuparia,6.2.1.12,1276
+52,[727118],caffeate,62,,"pH 7.8, 22&deg;C",Pueraria montana var. lobata,6.2.1.12,1276
+53,[746098],caffeate,62.81,,"isoform 4CL5, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1276
+54,[746098],caffeate,69.38,,"isoform 4CL1, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1276
+55,[728204],caffeate,120,,"pH 7.5, 22&deg;C",Sorbus aucuparia,6.2.1.12,1276
+56,[746098],caffeate,220.83,,"isoform 4CL3, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1276
+57,[728204],caffeate,410,,"pH 7.5, 22&deg;C",Sorbus aucuparia,6.2.1.12,1276
+58,[746098],caffeate,711.37,,"isoform 4CL4, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1276
+59,[746513],caffeate,2652,,"wild type enzyme, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,1276
+60,[727118],trans-cinnamate,1.46,,"pH 7.8, 22&deg;C",Pueraria montana var. lobata,6.2.1.12,1544
+61,[727118],trans-cinnamate,3.3,,"pH 7.8, 22&deg;C",Pueraria montana var. lobata,6.2.1.12,1544
+62,[746036],cinnamate,0.3,,"isoform 4CL3, pH and temperature not specified in the publication",Pinus taeda,6.2.1.12,1823
+63,[746098],cinnamate,2.45,,"isoform 4CL1, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1823
+64,[746036],cinnamate,4.8,,"isoform 4CL1, pH and temperature not specified in the publication",Pinus taeda,6.2.1.12,1823
+65,[746098],cinnamate,5.95,,"isoform 4CL2, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1823
+66,[746098],cinnamate,8.28,,"isoform 4CL3, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1823
+67,[728204],cinnamate,10,,"pH 7.5, 22&deg;C; pH 7.5, 22&deg;C; pH 7.5, 22&deg;C",Sorbus aucuparia,6.2.1.12,1823
+68,[746098],cinnamate,11.13,,"isoform 4CL5, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1823
+69,[746098],cinnamate,16.1,,"isoform 4CL4, pH and temperature not specified in the publication",Populus tomentosa,6.2.1.12,1823
+70,[746513],sinapinate,0.0136,,"wild type enzyme, at pH 7.5 and 25&deg;C",Nicotiana tabacum,6.2.1.12,224785
