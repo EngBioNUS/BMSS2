@@ -10,65 +10,14 @@ from scipy.integrate     import odeint
 ###############################################################################
 try:
     from .mcmc           import *
+    from .simulation     import piecewise_integrate, palette_types, all_colors
     from .               import scipy_wrappers as wrappers
     from .               import timeseries     as ts
 except:
     from mcmc             import *
+    from simulation       import piecewise_integrate, palette_types, all_colors
     import scipy_wrappers as wrappers
     import timeseries     as ts
-
-###############################################################################
-#Globals
-###############################################################################
-#Refer for details: https://seaborn.pydata.org/tutorial/color_palettes.html
-palette_types = {'color':     lambda n_colors, palette='bright', **kwargs : sns.color_palette(palette=palette, n_colors=n_colors),
-                 'light':     lambda n_colors, color, **kwargs            : sns.light_palette(n_colors=n_colors+4, color=color, **kwargs)[4:],
-                 'dark' :     lambda n_colors, color, **kwargs            : sns.dark_palette( n_colors=n_colors+4, color=color, **kwargs)[4:],
-                 'cubehelix': lambda n_colors, **kwargs                   : sns.cubehelix_palette(n_colors=n_colors, **kwargs),
-                 'diverging': lambda n, **kwargs                          : sns.diverging_palette(n=n, **kwargs),
-                 }    
-#Refer for details: https://xkcd.com/color/rgb/
-all_colors    = sns.colors.xkcd_rgb
-
-###############################################################################
-#Integration
-###############################################################################
-def piecewise_integrate(model, init, tspan, params, model_num, scenario, modify_init=None, modify_params=None, solver_args={}, solver=odeint, overlap=True):
-    '''
-    Piecewise integration function with scipy.integrate.odeint as default. 
-    Can be changed using the solver argument.
-    '''
-
-    tspan_     = tspan[0]
-    init_      = modify_init(init,     model_num, scenario, 0, params)      if modify_init   else init
-    params_    = modify_params(params.copy(), model_num, scenario, 0, init) if modify_params else params 
-    y_model    = solver(model, init_, tspan_, args=tuple([params_]), **solver_args)
-    t_model    = tspan[0]
-    
-    for segment in range(1, len(tspan)):
-        tspan_   = tspan[segment]
-        init_    = modify_init(y_model[-1], model_num, scenario, segment, params) if modify_init   else y_model[-1]
-        params_  = modify_params(params.copy(),    model_num, scenario, segment, init)   if modify_params else params 
-        y_model_ = solver(model, init_, tspan_, args=tuple([params_]), **solver_args)       
-        y_model  = np.concatenate((y_model, y_model_), axis=0) if overlap else np.concatenate((y_model[:-1],  y_model_), axis=0)   
-        t_model  = np.concatenate((t_model, tspan_), axis=0)   if overlap else np.concatenate((t_model[:,-1], tspan_),   axis=0)
-
-    return y_model, t_model
-
-#Templates for modify_init
-def modify_init(init_values, model_num, scenario, segment, params):
-    '''
-    Modifies the the current array of initial values based on model_num, scenario, segment and params.
-    Note that init_values is a numpy array.
-    '''
-    return init_values
-
-def modify_params(params, model_num, scenario, segment, init_values):
-    '''
-    Modifies the the current array of params based on model_num, scenario, segment and init_values.
-    Note that params is a numpy array.
-    '''
-    return params
 
 ###############################################################################
 #SSE Calculation
@@ -186,43 +135,48 @@ def get_likelihood_args(data, models, params):
 ###############################################################################
 #Main Algorithm
 ###############################################################################
-def simulated_annealing(data,         models,  guess,     priors,    step_size, 
-                        trials=10000, skip=[], bounds={}, blocks=[], SA=True, 
-                        likelihood_function=get_SSE_data):  
+def simulated_annealing(data,         models,    guess,     priors,    step_size, 
+                        trials=10000, bounds={}, blocks=[], SA=True, 
+                        fixed_parameters=[],
+                        likelihood_function=get_SSE_data,
+                        ):  
     
     
     likelihood_args = get_likelihood_args(data, models, guess)
+    guess1          = guess if type(guess) == dict else guess.to_dict()
     
-    return sampler(guess,         priors,        step_size, 
-                   trials=trials, skip=skip, bounds=bounds, blocks=blocks, SA=SA, 
+    return sampler(guess1,         priors,        step_size, 
+                   trials=trials, skip=fixed_parameters, bounds=bounds, blocks=blocks, SA=SA, 
                    likelihood_function=get_SSE_data,
                    likelihood_args=likelihood_args)
 
-def scipy_basinhopping(data,    models,    guess, priors, step_size=0.1, 
-                       skip=[], bounds={},  
+def scipy_basinhopping(data,    models,    guess, priors, step_size=0.1, bounds={},  
                        step_size_is_ratio=True,
+                       fixed_parameters=[],
                        likelihood_function=get_SSE_data, 
                        scipy_args={}):
     
     likelihood_args = get_likelihood_args(data, models, guess)
+    guess1          = guess if type(guess) == dict else guess.to_dict()
 
-    result = wrappers.basinhopping(guess,         priors,  step_size=step_size, 
-                                   skip=skip, bounds=bounds,  
+    result = wrappers.basinhopping(guess1,         priors,  step_size=step_size, 
+                                   skip=fixed_parameters, bounds=bounds,  
                                    likelihood_function=likelihood_function, 
                                    likelihood_args=likelihood_args,
                                    **scipy_args)
     
     return result
 
-def scipy_dual_annealing(data,    models,  guess,    priors,  
-                         skip=[], bounds={},  
+def scipy_dual_annealing(data, models, guess, priors, bounds={},  
+                         fixed_parameters=[], 
                          likelihood_function=get_SSE_data, 
                          scipy_args={}):
     
     likelihood_args = get_likelihood_args(data, models, guess)
+    guess1          = guess if type(guess) == dict else guess.to_dict()
 
-    result = wrappers.dual_annealing(guess,     priors, 
-                                     skip=skip, bounds=bounds,  
+    result = wrappers.dual_annealing(guess1,     priors, 
+                                     skip=fixed_parameters, bounds=bounds,  
                                      likelihood_function=likelihood_function, 
                                      likelihood_args=likelihood_args,
                                      **scipy_args)
@@ -235,7 +189,7 @@ def scipy_differential_evolution(data, models, guess, priors,
                                  scipy_args={}):
     
     if guess:
-        guess1          = guess 
+        guess1          = guess if type(guess) == dict else guess.to_dict() 
     else:
         guess1          = {key: np.mean(bounds[key]) for key in bounds}
         guess1          = {**guess1, **skip}
@@ -327,6 +281,7 @@ def plot_model(models,         params,          plot_index={}, titles=[], labels
                     ax.ticklabel_format(style='sci', scilimits=(-2,3))  
                     if type(state) in [int, str, tuple]:
                         ax.plot(t, y[:,var[state]], '-', label=label, color=color, **line_args)
+                        
                     else:
                         #For extra functions
                         y_, t_, marker, kwargs = extra_state(state, y, t, params_)
