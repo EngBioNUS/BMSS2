@@ -1,12 +1,12 @@
-import setup_bmss                   as lab
-import BMSS.models.model_handler    as mh
-import BMSS.models.setup_sim        as sm
+import setup_bmss                as lab
+import BMSS.models.model_handler as mh
+import BMSS.models.setup_sim     as sm
 
 
 '''
 Tutorial 2 Part 1: Introduction to simulation datastructures
-- Introduction to the models data structure
-- Creating templates for simulation
+- Introduction to the models and params data structure
+- Learn how to use .ini files to manage sensitivity settings/arguments
 '''
 
 if __name__ == '__main__':
@@ -17,20 +17,41 @@ if __name__ == '__main__':
     '''
     
     '''
-    A .ini file can be used to specify simulation settings.
-    This allows you to write fewer lines of code and lets you focus on the settings.
-    The function performed three things:
-        1. Read the .ini files (returned as config_data)
-        2. Created a data structure for the models specified in the .ini file (returned as models)
-        3. Created a DataFrame for the parameter values specified in the .ini file
-    '''
-    filename = 'settings_sim_1.ini'
+    Separating the settings/arguments for your analysis from your main code improves
+    readability and convenience during reuse and modification. In addition, it also 
+    prevents accidental modifications to your code when tweaking the settings/arguments.
     
-    models, params, config_data = sm.get_models_and_params(filename)
+    All BMSS analysis modules have an associated "setup"  module that can allows
+    you to manage your settings/arguments via a .ini file. In each case, these 
+    functionalities are available.
     
-
+    1. Reading the .ini file into a dictionary.
+    2. Compiling the arguments from the dictionary for use in BMSS analysis modules.
+    3. Wrapping steps 1 and 2 into a single function when working with models in the database.
+    4. Generation of a .ini template for use as a settings file.
+    
+    The steps automatically convert the information in the .ini files into arguments
+    that can be fed directly into BMSS functions. The settings files for different types
+    of analysis are all very similar. This allows you to copy and paste sections as 
+    appropriate.
     '''
-    Models should be in the form {model_num: compiled model}.
+    
+    '''
+    1. Reading the Settings File
+    '''
+    
+    filename    = 'settings_sim_1.ini'
+    config_data = sm.from_config(filename)
+    
+    '''
+    2. Compiling Arguments
+    '''
+    
+    core_model     = mh.from_config('testmodel.ini')
+    models, params = sm.compile_models([core_model], config_data)
+    
+    '''
+    Models is a dictionary in the form {model_num: compiled model}.
     A compiled model is a dict containing the model function to be integrated 
     as well as other information required for integration, analysis and plotting.
     The keys are as follows:
@@ -64,7 +85,7 @@ if __name__ == '__main__':
         print()
     
     '''
-    Parameters should be supplied either as a dict or a DataFrame. 
+    Parameters is a DataFrame where each row contains the parameters for all the models. 
     During integration, the models are integrated using each row of parameter values. 
     The values to be used within each row for a model are given by models[model_num]['params']
     '''
@@ -77,13 +98,22 @@ if __name__ == '__main__':
     '''
     
     '''
-    If you are using a core model that has not been added to the database, 
-    you will need to prepare the data structures in two steps instead.
-    '''
-    core_model             = mh.from_config('testmodel.ini')
-    config_data_new        = sm.from_config(filename)
-    models_new, params_new = sm.compile_models([core_model], config_data_new)
+    3. Wrapping for Models in Database
     
-    #Create simulation settings templates using saved settings
-    sm.make_settings_template([('TestModel, Dummy', '__default__')], 'settings_sim_template.ini')
+    For models already in the database, we can combine the above steps into a single 
+    function call.
+    '''
+    
+    new_models, new_params, new_config_data = sm.get_models_and_params(filename)
+    
+    '''
+    4. Template Generation
+    
+    For models already in the database, templates can be generated. Open the output
+    file and check its contents.
+    '''
+    system_types_settings_names = [('TestModel, Dummy', '__default__')
+                                   ]
+    
+    sm.make_settings_template(system_types_settings_names, 'settings_sim_template.ini')
     

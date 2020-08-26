@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
+import os
 from   numba             import jit
+from   pathlib           import Path
 
 import setup_bmss            as lab
 import BMSS.models.setup_sim as sm
@@ -66,7 +68,12 @@ if __name__ == '__main__':
     
     @jit(nopython=True)
     def synthesis_p(y, t, params):
-        
+        '''
+        filler
+        x: Time
+        y: synthesis_rate
+        filler
+        '''
         m = y[:,0]
         
         synp = params[3]
@@ -99,10 +106,19 @@ if __name__ == '__main__':
     figs = [plt.figure()]
     AX_  = [figs[0].add_subplot(2, 1, i+1) for i in range(2)]
     AX   = {1:{'p'         : AX_[0],
-               synthesis_p : AX_[1],
-               },
+                synthesis_p : AX_[1],
+                },
             }
     figs, AX = sim.plot_model(plot_index, ym, e=em, titles=titles, labels=labels, figs=figs, AX=AX) 
     
+    '''
+    We can export the data for our external analysis in csv format.
+    '''
+    #Prefix at the front of the filenames
+    prefix = ''
     
+    #A new folder will be created using this directory. The files will be stored here.
+    directory = Path(os.getcwd()) / 'simulation_results'
+    
+    sim.export_simulation_results(ym, em, prefix=prefix, directory=directory)
     
