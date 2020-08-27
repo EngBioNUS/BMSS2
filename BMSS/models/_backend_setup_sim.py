@@ -52,7 +52,7 @@ def eval_init_string(string):
         result        = string_to_dataframe(string)
         result.index += 1
         result        = result.T.to_dict('list')
-    print(result)
+
     for key in result:
         if any([type(x) == str for x in result[key]]) == str:
             raise Exception('Error in reading initial values. There is likely a missing comma(s).')
