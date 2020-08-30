@@ -4,10 +4,66 @@ import pandas as pd
 ###############################################################################
 #Template Based Checkers
 ###############################################################################
+def check_and_assign_param_values(core_model, parameters):
+    '''
+    Checks if parameters are valid and returns a DataFrame.
+    
+    Accepts parameters as:
+        1. dict of floats/np.float where keys are parameter names
+        2. dict of arrays  where keys are parameter names
+        3. Series where where indices are parameter names
+        4. DataFrame where columns are parameter names
+    
+    Parameter names may be suffixed with an underscore i.e. param1_1_1 will
+    be treated as param1_1
+    
+    Raises an error if parameter names cannot be matched.
+    
+    Returns a DataFrame of parameters with columns in order.
+    '''
+    if type(parameters) == pd.DataFrame:
+        parameter_df = pd.DataFrame(parameters)
+    elif type(parameters) == pd.Series:
+        parameter_df = pd.DataFrame(parameters).T
+    elif type(parameters) == dict:
+        parameter_df = pd.DataFrame([parameters])
+    else:
+        raise Exception('Error in parameters. Parameters must be dict, DataFrame or Series.')
+    
+    parameter_df.reset_index(drop=True, inplace=True)
+    
+    df_columns        = set(parameter_df.columns)
+    core_model_params = core_model['parameters'] + core_model['inputs']
+    
+    #Check that parameter names match
+    if df_columns.difference(core_model_params):#Not match
+        #Assume parameters have been suffixed
+        #Remove the suffix, reassign and rearrange
+        df_columns_ = set(['_'.join(p.split('_')[:-1]) for p in df_columns])
+
+        if df_columns_.difference(core_model_params):
+            raise Exception('Could not match parameter names with that of core_model')
+        else:
+            parameter_df.columns = df_columns_
+            parameter_df         = parameter_df[core_model_params]
+            return parameter_df
+    else:#Match
+        #Ensure order is correct
+        parameter_df = parameter_df[core_model_params]
+        return parameter_df
+        
+        
+
 def check_and_assign_solver_args(solver_args):
     '''
-    Accepts a template as the first argument and attempts to reassign the 
-    values using those in the second argument.
+    Accepts a dict of solver_args and checks if it is valid against a template.
+    
+    Raises an exception if 
+        1. Unexpected keys are found.
+        2. Value indexed by tcrit cannot be converted into a list
+        3. Value indexed by other keys cannot be converted in a float
+    
+    Returns the template but with new values from solver_args.
     '''
     
     template = {'rtol'   : 1.49012e-8,
@@ -40,59 +96,78 @@ def check_and_assign_init(states, init, init_orient='scenario'):
     '''
     Accepts init in the form of {scenario_num : array} if init_orient is "scenario".
     Accepts init in the form of {state : array} if init_orient is "state".
+    
+    Formats init in the form required by the models datastructure.
+    
+    Accepts init in the form:
+        1. {scenario_num : array} if init_orient is scenario
+        2. {state : array} if init_orient is "state"
+        3. A DataFrame where the columns are the states if init_orient is "state"
+        4. A Series where the indices are the states if init_orient is "state"
+        5. A numpy array where each column corresponds the states in order
+    
+    Raises an exception in (1) if the length of any array does not match the length
+    of states.
+    
+    Raises an exception in (2) if 
+    
     '''
-    if init:
+    def check_valid_scenario_num(scenario_num):
+        if type(scenario_num) != int:
+            raise Exception('Error in init argument. Only positive integers can be used as scenario_num.')
+        elif scenario_num < 1:
+            raise Exception('Error in init argument. Only positive integers can be used as scenario_num.')
+                
+        else:
+            return
+    
+    def check_valid_num_states(states, row):
+        if len(states) == len(row):
+            return
+        else:
+            raise Exception('Error in init. Number of states does not match core model. Expected:\n' + str(states) + '\nDetected:\n' + str(row))
+    
+    def check_valid_states(states, columns):
+        if set(states).difference(columns):
+            raise Exception('Error in init. Unexpected states found. Expected:\n' + str(states) + '\nDetected:\n' + str(columns))
+    if init is not None:
         if init_orient == 'scenario':
             for key in init:
-                if len(init[key]) != len(states):
-                    raise Exception('Length of init must match number of states. \ninit[' + str(key) + ']:' + str(init[key]) + '\nstates:' + str(states))
+                check_valid_num_states(states, init[key])
+                check_valid_scenario_num(key)
             return init
         
         else:
-            if type(init) == dict or type(init) == pd.Series or type(init) == pd.DataFrame:
-                try: 
-                    init1 = pd.DataFrame(init)
-                except:
-                    init1 = pd.DataFrame([init])
-                
+            if type(init) == dict:
+                init1 = pd.DataFrame([init])
                 init1.index += 1
-                
-                try:
-                    init1 = init1[states]
-                except:
-                    raise Exception('Error in init argument. States in init do not macth those in core model.')
-                    
-                return init1.T.to_dict('list')
+                check_valid_states(states, list(init1.columns))
+            elif type(init) == pd.DataFrame:
+                init1 = init.reset_index(drop=True)
+                check_valid_states(states, list(init1.columns))
+            elif type(init) == pd.Series:
+                init1 = pd.DataFrame(init).T
+                init1.index += 1
+                check_valid_states(states, list(init1.columns))
             
             else: #Array based
-                init1  = {}
-                nested = True
-                for i in range(len(init)):
-                    try:
-                        row    = np.array(list(init[i]))
-                        nested = False
-                    except:
-                        if not nested:
-                            raise Exception('init must be a dict, DataFrame or list-like.')
-                        try:
-                            row        = np.array(list(init))
-                            init1[i+1] = row
-                            return init1
-                        except:
-                            raise Exception('init must be a dict, DataFrame or list-like.')
-                        
-                    if len(row) != len(states):
-                        raise Exception('Expected ' + str(len(states)) + ' states but length of init is ' + str(len(init)) + '.')
+                init1 = pd.DataFrame(init)
+                init1.index += 1
+                try:
+                    init1.columns = states
+                except:
+                    raise Exception('Number of states does not match width of init')
+            
+            check_valid_num_states(states, list(init1.columns))
+            [check_valid_scenario_num(x)  for x in list(init1.index)]
                     
-                    init1[i+1] = row
-                    
-                return init1
+            return init1
     else:
         return {1: np.array([0]*len(states))}
 
 def check_and_assign_parameter_bounds(parameter_df, parameter_bounds):
     '''
-    Accepts parameters as DataFrame.
+    Accepts parameters as DataFrame. Parameter names must match core model.
     '''
     bounds1 = {}
     for key in parameter_df:
@@ -106,6 +181,9 @@ def check_and_assign_parameter_bounds(parameter_df, parameter_bounds):
     return bounds1
 
 def check_and_assign_priors(parameter_df, priors):
+    '''
+    Parameter names must match core model.
+    '''
     priors1 = {}
     for key in priors:
         if key not in parameter_df:
