@@ -15,45 +15,40 @@ plt.style.use(lab.styles['bmss_notebook_style'])
 plt.close('all')
 
 '''
-Tutorial 6 Part 2: Advanced options for curve-fitting
-- Use scipy's optimizers
-- Plot extra variables
+Tutorial 6 Part 1: Model Selection
+- Calculate AIC from fitted parameters
+- Create and save new settings datastructures
 '''
 
-from _preprocessing import (data, data_mu, data_sd, init, state_sd, tspan, 
-                            sampler_args, config_data
-                            )
+from curvefit import (data, data_mu, data_sd, init, state_sd, tspan, 
+                      sampler_args, config_data, result
+                      )
 
 if __name__ == '__main__':
 
     '''
-    The steps for preprocessing are the same as in Tutorial 5 Part 2 and have been
-    moved to _preprocessing.py. 
+    Curve-fitting returns us a set (or more) parameters for each model fitted. When
+    we have multiple models fitted to the same set data, we can choose the best model
+    by using the AIC criterion.
+    
+    Note: The steps for curvefitting are the same as in Tutorial 5 Part 2 and have been
+    moved to curvefit.py in the same directory. 
     '''
     
-    result = cf.simulated_annealing(**sampler_args)
-    
-    '''
-    The return value is a dictionary with the following values.
-    'a': The accepted samples as a DataFrame
-    'r': The rejected samples as a DataFrame if applicable
-    's': The scipy return value if applicable
-    'f': The full trace including calls to local optimizers if applicable
-    '''
     accepted = result['a']
     
     '''
     In order to calculate the AIC, we need the data, models, priors and
     parameters for evaluation. 
     '''
-    
-    aic = ac.calculate_aic(data   = sampler_args['data'], 
-                           models = sampler_args['models'], 
-                           priors = sampler_args['priors'],
-                           params = accepted.iloc[-10:])
+    table = ac.calculate_aic(data   = sampler_args['data'], 
+                             models = sampler_args['models'], 
+                             priors = sampler_args['priors'],
+                             params = accepted.iloc[-10:]
+                             )
     
     print('AIC of each row of params for each model.')
-    print(aic)
+    print(table)
     print()
     
     '''
@@ -66,8 +61,6 @@ if __name__ == '__main__':
     columns you use as long as your DataFrame has its AIC values indexed under aic_column_name.
     '''
     
-    table         = pd.DataFrame(aic.stack().reset_index())
-    table.columns = ['row', 'model_num', 'AIC Value']
     ranked_table  = ac.rank_aic(table, aic_column_name='AIC Value', inplace=False)
     
     '''
@@ -102,15 +95,17 @@ if __name__ == '__main__':
     a settings data structure so we can reuse it as a template in the future.
     '''
     
-    best             = ranked_table.iloc[0]
-    best_model_num   = best['model_num']
-    best_row         = accepted.iloc[best['row']]
-    best_param_names = sampler_args['models'][best_model_num]['params']
+    best           = ranked_table.iloc[0]
+    best_row_index = best['row']
+    best_model_num = best['model_num']
     
-    
-    new_settings = config_data[best_model_num]
+    new_settings                  = config_data[best_model_num]
     new_settings['settings_name'] = 'Tutorial_6_GFP'
-    new_settings['parameters']    = best_row[best_param_names]
+    new_settings['parameters']    = cf.get_params_for_model(models    = sampler_args['models'], 
+                                                            trace     = accepted, 
+                                                            model_num = best_model_num,
+                                                            row_index = best_row_index
+                                                            )
     
     '''
     We now call the constructor for the settings data structure. Once the new settings
