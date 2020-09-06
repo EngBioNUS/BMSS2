@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt 
 import numpy             as np
+import os
 import pandas            as pd
+import re
 import seaborn           as sns
 from matplotlib          import get_backend
 from numba               import jit
@@ -51,13 +53,15 @@ def modify_init(init_values, params, model_num, scenario_num, segment):
     '''
     Return a new np.array of initial values. For safety, DO NOT MODIFY IN PLACE.
     '''
-    return init_values.copy()
+    new_init = init_values.copy()
+    return new_init
 
 def modify_params(init_values, params, model_num, scenario_num, segment):
     '''
     Return a new np.array of initial values. For safety, DO NOT MODIFY IN PLACE.
     '''
-    return params.copy()
+    new_params = params.copy()
+    return new_params
 
 ###############################################################################
 #Multi-Model Integration
@@ -142,7 +146,9 @@ def plot_model(plot_index, y, e={}, titles={}, labels={}, figs=[], AX={}, palett
                 
                 first=True
                 for row_name in temp[model_num][scenario_num]:
-                    color = colors[model_num][scenario_num][row_name]
+                    color = colors[model_num][scenario_num]
+                    if type(color) == dict:
+                        color = color[row_name]                        
                     x_arr = e[state][model_num][scenario_num][row_name][1] if callable(state) else y[model_num][0] 
                     y_arr = e[state][model_num][scenario_num][row_name][0] if callable(state) else y[model_num][scenario_num][row_name][state]
                     label = get_label(labels, model_num, scenario_num, first=first, row_name=row_name)
@@ -183,10 +189,12 @@ def apply_titles_and_legend(AX, titles, legend_args):
     for model_num in AX:
         for state in AX[model_num]:
             ax    = AX[model_num][state]
-            ax.legend(**legend_args)
-            ax.set_title(titles.get(model_num, {}).get(state, ''))
-    # [AX[model_num][state].set_title(titles.get(model_num, {}).get(state, '')) for model_num in AX for state in AX[model_num]]
-
+            title = titles.get(model_num, {}).get(state, '')
+            if title:
+                ax.set_title(title)
+            if legend_args:
+                ax.legend(**legend_args)    
+    
 def fs(figure):
     try:
         plt.figure(figure.number)
@@ -296,6 +304,75 @@ def make_AX(plot_index={}, data={}):
             except:
                 pass
     return figs, AX
+
+def export_simulation_results(y, e, prefix='', directory=None):
+    results = []
     
+    if directory:
+        cwd = os.getcwd()
+        try:
+            os.mkdir(directory)
+        except:
+            pass
+        os.chdir(directory)
+        
+    for model_num in y:
+        time = y[model_num][0]
+        for scenario_num in y[model_num]:
+            if scenario_num < 1:
+                continue
+            for row_name in y[model_num][scenario_num]:
+                filename = '_'.join(['y', str(model_num), str(scenario_num), str(row_name)]) + '.csv'
+                filename = prefix + '_' + filename if prefix else filename
+                table    = y[model_num][scenario_num][row_name]
+                table.insert(0, 'Time', value=time)
+                table.to_csv(filename)
+                
+                results.append(filename)
+    
+    for func in e:
+        doc     = func.__doc__
+        columns = search_string_for_x_y(doc)
+        columns = columns['x'], columns['y']
+        for model_num in e[func]:
+            for scenario_num in e[func][model_num]:
+                if scenario_num < 1:
+                    continue
+                for row_name in e[func][model_num][scenario_num]:
+                    y, x, _  = e[func][model_num][scenario_num][row_name]
+                    table    = pd.DataFrame(np.stack((x,y), axis=1), columns=['x', 'y'])
+                    filename = '_'.join([func.__name__, str(model_num), str(scenario_num), str(row_name)]) + '.csv'
+                    filename = prefix + '_' + filename if prefix else filename
+                    table.to_csv(filename)
+                    
+                    results.append(filename)
+    
+    if directory:
+        os.chdir(cwd)
+
+    return results
+
+def search_string_for_x_y(string):
+        
+    result = {'x' :'x',
+              'y' :'y'
+              }
+    if not string:
+        return result
+    
+    for key in ['x', 'y']:
+        
+        match = re.search('(?<=' + key + '=).*', string)
+        if not match:
+            pattern = re.search(key + '(\s+)*=', string)
+            if pattern:
+                pattern = '(?<=' + pattern + ').*'
+                match   = re.search(pattern, string)
+
+        if match:
+            result[key] = match[0].strip()
+        
+    return result  
+  
 if __name__ == '__main__':
     pass
