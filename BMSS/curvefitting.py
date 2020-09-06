@@ -8,16 +8,11 @@ from scipy.integrate     import odeint
 ###############################################################################
 #Non-Standard Imports
 ###############################################################################
-try:
-    from .mcmc           import *
-    from .simulation     import piecewise_integrate, palette_types, all_colors
-    from .               import scipy_wrappers as wrappers
-    from .               import timeseries     as ts
-except:
-    from mcmc             import *
-    from simulation       import piecewise_integrate, palette_types, all_colors
-    import scipy_wrappers as wrappers
-    import timeseries     as ts
+
+from .mcmc       import *
+from .simulation import piecewise_integrate, palette_types, all_colors, apply_titles_and_legend, fs
+from .           import scipy_wrappers as wrappers
+from .           import timeseries     as ts
 
 ###############################################################################
 #SSE Calculation
@@ -121,6 +116,8 @@ def get_likelihood_args(data, models, params):
     '''
     Meant to be used with get_SSE. Accepts data, models and a dict of params to 
     generate the remaining arguments for get_SSE.
+    
+    Note: Actual values of the params do not matter. Only the order.
     '''
     name_to_num   = {name: num for num, name in enumerate(params)}
     params_index  = {model_num: [name_to_num[param] for param in models[model_num]['params']] for model_num in models}
@@ -139,6 +136,7 @@ def simulated_annealing(data,         models,    guess,     priors,    step_size
                         trials=10000, bounds={}, blocks=[], SA=True, 
                         fixed_parameters=[],
                         likelihood_function=get_SSE_data,
+                        **kwargs
                         ):  
     
     
@@ -148,13 +146,15 @@ def simulated_annealing(data,         models,    guess,     priors,    step_size
     return sampler(guess1,         priors,        step_size, 
                    trials=trials, skip=fixed_parameters, bounds=bounds, blocks=blocks, SA=SA, 
                    likelihood_function=get_SSE_data,
-                   likelihood_args=likelihood_args)
+                   likelihood_args=likelihood_args,
+                   **kwargs)
 
 def scipy_basinhopping(data,    models,    guess, priors, step_size=0.1, bounds={},  
                        step_size_is_ratio=True,
                        fixed_parameters=[],
                        likelihood_function=get_SSE_data, 
-                       scipy_args={}):
+                       scipy_args={},
+                       **kwargs):
     
     likelihood_args = get_likelihood_args(data, models, guess)
     guess1          = guess if type(guess) == dict else guess.to_dict()
@@ -163,14 +163,16 @@ def scipy_basinhopping(data,    models,    guess, priors, step_size=0.1, bounds=
                                    skip=fixed_parameters, bounds=bounds,  
                                    likelihood_function=likelihood_function, 
                                    likelihood_args=likelihood_args,
-                                   **scipy_args)
+                                   **scipy_args,
+                                   **kwargs)
     
     return result
 
 def scipy_dual_annealing(data, models, guess, priors, bounds={},  
                          fixed_parameters=[], 
                          likelihood_function=get_SSE_data, 
-                         scipy_args={}):
+                         scipy_args={},
+                         **kwargs):
     
     likelihood_args = get_likelihood_args(data, models, guess)
     guess1          = guess if type(guess) == dict else guess.to_dict()
@@ -179,7 +181,8 @@ def scipy_dual_annealing(data, models, guess, priors, bounds={},
                                      skip=fixed_parameters, bounds=bounds,  
                                      likelihood_function=likelihood_function, 
                                      likelihood_args=likelihood_args,
-                                     **scipy_args)
+                                     **scipy_args,
+                                     **kwargs)
     
     return result
 
@@ -215,6 +218,7 @@ def plot(posterior={},   guess={},       models={},   data={},
     Wrapper for plotting function for data, guess and posterior in one function call.
     '''
     first    = True
+    
     if len(posterior) > 0:
         figs1, AX1 = plot_model(models, posterior, plot_index=plot_index, titles=titles, labels=labels, legend_args=legend_args, palette=palette, figs=figs, AX=AX, line_args=line_args)
         first = False
@@ -232,7 +236,6 @@ def plot(posterior={},   guess={},       models={},   data={},
             first      = False
         else:
             figs1, AX1 = plot_model(models, guess, plot_index=plot_index, titles={},     labels={},     legend_args={},          palette=guess_palette, figs=figs1, AX=AX1, line_args={'linewidth':3})  
-    
     
     return figs1, AX1    
 
@@ -267,12 +270,8 @@ def plot_model(models,         params,          plot_index={}, titles=[], labels
                     label = label[index]
                 
                 color = colors[model_num][scenario]
-                if type(color) != str:
-                    try:
-                        float(color[0][0])
-                        color = colors[model_num][scenario][index]
-                    except:
-                        pass
+                if type(color) == dict:
+                    color = colors[model_num][scenario][index]
 
                 y, t  = piecewise_integrate(model['function'], init[scenario], tspan, params_, model_num, scenario, **int_args)
                 
@@ -291,18 +290,10 @@ def plot_model(models,         params,          plot_index={}, titles=[], labels
                         
                         ax.plot(t_, y_, marker, label=label, color=color, **line_args)
                      
-    if legend_args:
-        for model_num in AX1:
-            for state in AX1[model_num]:
-                ax    = AX1[model_num][state]
-                title = get(titles, model_num, state, no_result='') 
-                ax.legend(**legend_args)
-                if title:
-                    ax.set_title(title)
-                ax.set_title(title)
-    for fig in figs1:
-        fs(fig)
     
+    [fs(fig) for fig in figs1]      
+    
+    apply_titles_and_legend(AX1, titles, legend_args)
     return figs1, AX1
 
 def plot_data(data,           data_sd={},      plot_index={}, titles={}, labels={}, 
@@ -327,11 +318,9 @@ def plot_data(data,           data_sd={},      plot_index={}, titles={}, labels=
                             y     = state_data[scenario]
                             label = get(labels, model_num, scenario, no_result='')
                             
-                            try:
-                                color = colors[model_num][scenario][-1]
-                                float(color[0])
-                            except:
-                                color = colors[model_num][scenario]
+                            color = colors[model_num][scenario]
+                            if type(color) == dict:
+                                color = color[next(iter(color))]
                                 
                             if data_sd:
                                 sd = data_sd[model_num][state][scenario]
@@ -341,16 +330,9 @@ def plot_data(data,           data_sd={},      plot_index={}, titles={}, labels=
             else:
                 pass
     
-    if legend_args:
-        for model_num in AX1:
-            for state in AX1[model_num]:
-                ax    = AX1[model_num][state]
-                title = get(titles, model_num, state, no_result='')
-                ax.legend(**legend_args)
-                if title:
-                    ax.set_title(title)
-    for fig in figs1:
-        fs(fig)
+
+    [fs(fig) for fig in figs1]  
+    apply_titles_and_legend(AX1, titles, legend_args)
         
     return figs1, AX1
 
@@ -396,25 +378,6 @@ def make_AX(plot_index={}, data={}):
 ###############################################################################
 #Supporting Functions for Visualization. Do not run.
 ###############################################################################    
-def fs(figure):
-    try:
-        plt.figure(figure.number)
-        backend   = get_backend()
-        manager   = plt.get_current_fig_manager()
-        
-        if backend == 'TkAgg':
-            manager.resize(*manager.window.maxsize())
-        
-        elif backend == 'Qt5Agg' or backend == 'Qt4Agg': 
-            manager.window.showMaximized()
-        
-        else:
-            manager.frame.Maximize(True)
-        plt.pause(0.03)
-    except:
-        pass
-    return figure
-
 def extra_state(func, y, t, params):
     #return y_, t_, marker, kwargs
     result = func(y, t, params)
@@ -552,6 +515,13 @@ def save_plots(file_name, figures):
     return names
 
 ###############################################################################
+#Trace Handling
+###############################################################################
+def get_params_for_model(models, trace, model_num, row_index):
+    param_names = models[model_num]['params']
+    return trace.loc[row_index, param_names]
+
+###############################################################################
 #Setup and Working with TimeSeries
 ###############################################################################
 def extract_from_timeseries(timeseries_dict, states, init={}, keys=[], start=0, stop=None, interval=1, skip=[], subtract_blank=True, subtract_initial=False):
@@ -641,4 +611,4 @@ def make_tspan(data_dict):
     '''
     tspan = np.concatenate([data_dict[state][0] for state in data_dict])
     return np.unique(tspan)
-        
+    
