@@ -19,6 +19,8 @@ plt.style.use(lab.styles['dark_style'])
 plt.close('all')
 
 if __name__ == '__main__':
+    #Set up the arguments
+    #See Part 1 of this tutorial for explanations
     filename = 'settings_sim_1.ini'
     
     models, params, config_data = sm.get_models_and_params(filename)
