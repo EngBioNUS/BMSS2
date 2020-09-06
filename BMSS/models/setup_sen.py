@@ -60,8 +60,6 @@ def from_config(filename):
 #Main Set Up
 ###############################################################################    
 def get_sensitivity_args(filename, user_core_models={}):
-    # config_data    = from_config(filename) if type(filename) == str else filename
-    # core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
     
     config_data, core_models = setup_helper(filename, from_config, user_core_models)
     models, params = compile_models(core_models, config_data)

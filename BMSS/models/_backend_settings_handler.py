@@ -43,25 +43,21 @@ def make_settings(system_type,    settings_name,       units,
                   parameters,     init={},             tspan=[],           
                   priors={},      parameter_bounds={}, fixed_parameters=[], 
                   solver_args={}, init_orient='scenario', 
-                  core_model_new={}):
+                  user_core_model={}, 
+                  **ignored):
     '''
     Checks and standardizes formatting of data types.
+    
+    All irrelavant keyword arguments are ignored.
     '''
     
-    if core_model_new:
-        core_model = core_model_new
-        print('Making settings using new_core_model')
+    if user_core_model:
+        core_model = user_core_model
+        print('Making settings using user_core_model')
     else:
         core_model = bmh.quick_search(system_type)
         
-    if type(parameters) == DataFrame:
-        param_values = parameters
-    else:
-        try:
-            param_values = DataFrame(parameters)
-        except:
-            param_values = DataFrame([parameters])
-    
+    param_values = sc.check_and_assign_param_values(core_model, parameters)
     init1        = sc.check_and_assign_init(core_model['states'], init, init_orient)
     tspan1       = sc.check_and_assign_tspan(tspan)
     priors1      = sc.check_and_assign_priors(param_values, priors)
@@ -138,20 +134,9 @@ def backend_add_to_database(settings, database, dialog=False):
     row['fixed_parameters'] = str(settings['fixed_parameters'])
     row['solver_args']      = str(settings['solver_args'])
     
-    with database:  
-        add_row('settings', row, database)
-        print('Added settings ' + row['settings_name'])
+    bmh.add_row('settings', row, database)
+    print('Added settings ' + row['settings_name'])
     return row['system_type'], row['settings_name']
-
-def add_row(table, row, database=SBase):
-
-    row_   = '(' + ', '.join([k for k in row.keys()]) + ', active)'
-    values = tuple(row.values()) + ('1',)
-    
-    sql = 'REPLACE INTO ' + table + str(row_) + ' VALUES(' + ','.join(['?']*len(values)) + ')'
-    cur = database.cursor()
-    cur.execute(sql, values)
-    return cur.lastrowid
 
 ###############################################################################
 #Search
@@ -175,8 +160,9 @@ def search_database(system_type, settings_name='', database=None, skip_construct
     databases = [database] if database else [bmh.MBase, bmh.UBase]
     
     for database in databases:
-        cursor       = database.execute(comm)
-        all_settings = cursor.fetchall()    
+        with database as db:
+            cursor       = db.execute(comm)
+            all_settings = cursor.fetchall()    
          
         columns = database.execute('PRAGMA table_info(settings);')
         columns = columns.fetchall()
@@ -338,7 +324,6 @@ def string_to_linspace(string):
     except:
         return [np.linspace(*segment) for segment in eval(string)]
 
-        
 def string_to_list_string(string):
     temp = string.strip().replace('[', '').replace(']', '')
     temp = [s.strip() for s in temp.split(',')]
@@ -497,17 +482,17 @@ def backend_config_to_database(filename, database):
 ###############################################################################
 def delete(system_type, settings_name):
     database = bmh.UBase
-    
-    comm = 'UPDATE settings SET active = 0 WHERE system_type = "' + system_type + '" AND settings_name = "' + settings_name + '";'
-    cur  = database.cursor()
-    cur.execute(comm)
+    with database as db:
+        comm = 'UPDATE settings SET active = 0 WHERE system_type = "' + system_type + '" AND settings_name = "' + settings_name + '";'
+        cur  = db.cursor()
+        cur.execute(comm)
         
 def restore(system_type, settings_name):
     database = bmh.UBase
-    
-    comm = 'UPDATE settings SET active = 1 WHERE system_type = "' + system_type + '" AND settings_name = "' + settings_name + '";'
-    cur  = database.cursor()
-    cur.execute(comm)
+    with database as db:
+        comm = 'UPDATE settings SET active = 1 WHERE system_type = "' + system_type + '" AND settings_name = "' + settings_name + '";'
+        cur  = db.cursor()
+        cur.execute(comm)
     
 def true_delete(system_type, settings_name, database):
     try:
@@ -515,10 +500,10 @@ def true_delete(system_type, settings_name, database):
     except:
         print(str(system_type) + '/' + str(settings_name) + 'not found')
         return
-    
-    comm = 'DELETE FROM settings WHERE system_type="'+ system_type + '" AND settings_name="' + settings_name +'";'    
-    database.execute(comm)
-    print('Removed ' + str(system_type) + '/' + str(settings_name))
+    with database as db:
+        comm = 'DELETE FROM settings WHERE system_type="'+ system_type + '" AND settings_name="' + settings_name +'";'    
+        db.execute(comm)
+        print('Removed ' + str(system_type) + '/' + str(settings_name))
     
 ###############################################################################
 #Function for Setup
@@ -539,17 +524,29 @@ def setup():
 setup()
 
 if __name__ == '__main__':
+    __model__ = {'system_type' : ['DUMMY', 'DUMMY'],
+                 'states'      : ['m', 'p'], 
+                 'parameters'  : ['synm', 'degm', 'synp', 'degp'],
+                 'inputs'      : ['Ind'],
+                 'equations'   : ['dm = synm*Ind - degm*m',
+                                 'dp  = synp*m - degp'
+                                 ],
+                 'ia'          : 'ia_result_bmss01001.csv'
+                 }
+    
     __settings__ = {'system_type'      : ['DUMMY, DUMMY'],
                     'settings_name'    : '__default__',
                     'units'            : {'synm' : 'M/min', 
                                           'degm' : '1/min',
                                           'synp' : '1/min',
-                                          'degp' : '1/min' 
+                                          'degp' : '1/min',
+                                          'Ind'  : 'M'
                                           },
                     'parameters'       : {'synm' : np.array([0.02]), 
                                           'degm' : np.array([0.15]),
                                           'synp' : np.array([0.02]),
-                                          'degp' : np.array([0.012]) 
+                                          'degp' : np.array([0.012]) ,
+                                          'Ind'  : np.array([1.0]) 
                                           },
                     'init'             : {1: [0, 0]},
                     'parameter_bounds' : {'degm' : [0.001, 0.03], 
@@ -565,19 +562,41 @@ if __name__ == '__main__':
                                           },
                 }
     
-    # settings = make_settings(**__settings__)
+    core_model = bmh.make_core_model(**__model__)
+    settings   = make_settings(**__settings__, user_core_model=core_model)
     
-    # __settings__['init'] = {'mRNA' : [0],
-    #                         'Pep'  : [0],
+    ###############################################################################
+    #Testing Parameter Formats
+    ###############################################################################
+    # __settings__['parameters'] = {key+'_1' : __settings__['parameters'][key] for key in __settings__['parameters']}
+    # settings = make_settings(**__settings__, user_core_model=core_model)
+    
+    # __settings__['parameters'] = Series(__settings__['parameters'], name=500)
+    # settings = make_settings(**__settings__, user_core_model=core_model)
+    
+    ###############################################################################
+    #Testing Initial Value Formats
+    ###############################################################################
+    # __settings__['init'] = {'m' : [0],
+    #                         'p' : [0],
     #                         }
+    # settings = make_settings(**__settings__, init_orient='states', user_core_model=core_model)
+    
+    # __settings__['init'] = [[0, 0], [0, 0]]
+    # settings = make_settings(**__settings__, init_orient='states', user_core_model=core_model)
+    
+    # __settings__['init'] = Series([0, 0], index=['m', 'p'])
+    # settings = make_settings(**__settings__, init_orient='states', user_core_model=core_model)
+    
+    # __settings__['init'] = DataFrame([[0, 0]], columns=['m', 'p'], index=[1])
+    # settings = make_settings(**__settings__, init_orient='states', user_core_model=core_model)
+    
+    ###############################################################################
+    #Testing Parameter Bound Formats
+    ###############################################################################
     # __settings__['parameter_bounds'] = {}
-    # settings = make_settings(**__settings__, init_orient='states')
+    # settings = make_settings(**__settings__, user_core_model=core_model)
     
-    # __settings__['init'] =[[0, 0], [0, 0]]
-    # settings = make_settings(**__settings__, init_orient='states')
-    
-    # __settings__['init'] =[0, 0]
-    # settings = make_settings(**__settings__, init_orient='states')
     
     # add_to_database(settings)
     

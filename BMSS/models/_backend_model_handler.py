@@ -139,22 +139,22 @@ def backend_add_to_database(core_model, database, dialog=False):
             core_model['id'] = existing_model['id']
             make_new_id = False
                 
-    with database:
-        row    = string_dict_values(core_model)   
-        row_id = add_row('models', row, database)
 
-        #Update id based on row number if the model is new
-        if make_new_id:
-            model_id = 'bmss' + str(row_id) if database == MBase else userid + str(row_id)
+    row    = string_dict_values(core_model)   
+    row_id = add_row('models', row, database)
 
-            update_value_by_rowid(row_id, 'id', model_id, database)
-        
-        else:
-            model_id = core_model['id']
-        
-        o = 'Added model ' if make_new_id else 'Modified model '
-        n =  model_id      if make_new_id else core_model['id']
-        print(o + n + ' to '+ d)
+    #Update id based on row number if the model is new
+    if make_new_id:
+        model_id = 'bmss' + str(row_id) if database == MBase else userid + str(row_id)
+
+        update_value_by_rowid(row_id, 'id', model_id, database)
+    
+    else:
+        model_id = core_model['id']
+    
+    o = 'Added model ' if make_new_id else 'Modified model '
+    n =  model_id      if make_new_id else core_model['id']
+    print(o + n + ' to '+ d)
     return model_id
 
 def string_dict_values(core_model):
@@ -164,19 +164,20 @@ def string_dict_values(core_model):
     return model_dict
 
 def update_value_by_rowid(row_id, column_id, value, database):
-    
-    comm = "UPDATE models SET " + column_id + " = '" + str(value) + "' WHERE rowid = " + str(row_id) 
-    cur  = database.cursor()
-    cur.execute(comm)
+    with database as db:
+        comm = "UPDATE models SET " + column_id + " = '" + str(value) + "' WHERE rowid = " + str(row_id) 
+        cur  = db.cursor()
+        cur.execute(comm)
     
 def add_row(table, row, database):
     
     row_   = '(' + ', '.join([k for k in row.keys()]) + ', active)'
     values = tuple(row.values()) + ('1',)
-
-    comm = 'REPLACE INTO '+table+str(row_)+' VALUES(' + ','.join(['?']*len(values))+ ')'
-    cur  = database.cursor()
-    cur.execute(comm, values)
+    
+    with database as db:
+        comm = 'REPLACE INTO ' + table + str(row_) + ' VALUES(' + ','.join(['?']*len(values))+ ')'
+        cur  = db.cursor()
+        cur.execute(comm, values)
 
     return cur.lastrowid
 
@@ -197,9 +198,9 @@ def search_database(keyword, search_type='system_type', database=None, active_on
 
     databases = [database] if database else [MBase, UBase]
     for database in databases:
-        cursor    = database.cursor()
-        cursor.execute(comm)
-        models    = cursor.fetchall()    
+        with database as db:
+            cursor    = db.execute(comm)
+            models    = cursor.fetchall()    
         
         columns = database.execute('PRAGMA table_info(models);')
         columns = columns.fetchall()
@@ -231,9 +232,10 @@ def quick_search(system_type, error_if_no_result=True, active_only=True):
 
 def list_models(database=None):
     if database:
-        comm      = 'SELECT system_type FROM models WHERE active = 1;'
-        cursor    = database.execute(comm)
-        models    = [m[0] for m in cursor.fetchall()]
+        with database as db:
+            comm      = 'SELECT system_type FROM models WHERE active = 1;'
+            cursor    = db.execute(comm)
+            models    = [m[0] for m in cursor.fetchall()]
         
         return models
     else:
@@ -259,7 +261,8 @@ def get_model_function(system_type, local=False):
 ###############################################################################
 def to_df(database=None):
     if database:
-        df = read_sql_query("SELECT * from models", database)
+        with database as db:
+            df = read_sql_query("SELECT * from models", db)
         return df
     else:
         global MBase
@@ -268,11 +271,12 @@ def to_df(database=None):
         df = concat(df, ignore_index=True)
         return df
 
-def backend_from_df(df, database=None):
+def backend_from_df(df, database):
     '''
     For backend maintenance. Do not run unless you know what you are doing.
     '''
-    return df.to_sql('models', database, if_exists='replace', index=False)
+    with database as db:
+        return df.to_sql('models', db, if_exists='replace', index=False)
 
 ###############################################################################
 #Interfacing with Configparser
@@ -345,17 +349,19 @@ def backend_config_to_database(filename, database, dialog=False):
 ###############################################################################
 def delete(system_type):
     database = UBase
-
-    comm = 'UPDATE models SET active = 0 WHERE system_type = "' + system_type + '";'
-    cur  = database.cursor()
-    cur.execute(comm)
+    
+    with database as db:
+        comm = 'UPDATE models SET active = 0 WHERE system_type = "' + system_type + '";'
+        cur  = db.cursor()
+        cur.execute(comm)
 
 def restore(system_type):
     database = UBase
 
-    comm = 'UPDATE models SET active = 1 WHERE system_type = "' + system_type + '";'
-    cur  = database.cursor()
-    cur.execute(comm)
+    with database as db:
+        comm = 'UPDATE models SET active = 1 WHERE system_type = "' + system_type + '";'
+        cur  = db.cursor()
+        cur.execute(comm)
 
 def true_delete(system_type, database):
     try:
@@ -363,32 +369,11 @@ def true_delete(system_type, database):
     except:
         print('system_type' +str(system_type) + 'not found')
         return
-
-    comm = 'DELETE FROM models WHERE system_type="'+ system_type + '";'    
-    database.execute(comm)
-    print('Removed ' + system_type)
-
-###############################################################################
-#Reset
-###############################################################################
-def reset_MBase():
-    '''
-    Deletes MBase and loads all markup files in markup to MBase.
-    '''
-    global MBase
     
-    MBase.close()
-    db_file     = osp.join(__dir__, 'MBase.db')
-    os.remove(db_file)
-    
-    database    = create_connection(db_file)
-    create_table(database, table_sql)
-    
-    #For loading markup files in markup to MBase
-    markup_directory = Path(os.getcwd()) /'markup'
-    for f in os.listdir(markup_directory):
-        filename = markup_directory/f
-        backend_config_to_database(filename, MBase)
+    with database as db:
+        comm = 'DELETE FROM models WHERE system_type="'+ system_type + '";'    
+        db.execute(comm)
+        print('Removed ' + system_type)
     
 ###############################################################################
 #Function for Setup

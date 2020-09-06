@@ -61,12 +61,6 @@ def from_config(filename, sampler='sa'):
         units            = string_to_dict(units)                   if units            else {}
         
         if sampler == 'sa':
-            # trials = sa_args.get('trials', 5000)
-            # blocks = sa_args.get('blocks', [])
-            # if blocks:
-            #     blocks = [block.strip() for block in split_at_top_level(blocks, ',')]
-            #     blocks = [[b.strip() for b in block[1:len(block)-1].split(',')] for block in blocks]
-                
             config_data[n] = {'system_type' : section,     'guess'  : guess,  'priors'           : priors, 
                               'solver_args' : solver_args, 'parameter_bounds' : parameter_bounds,
                               'step_size'   : step_size,   'fixed_parameters' : fixed_parameters,   
@@ -116,8 +110,6 @@ def get_sampler_args_sa(filename, user_core_models={}):
     Shortcut for setting up simulated annealing for one model
     '''
 
-    # config_data    = from_config(filename, 'sa') if type(filename) == str else filename
-    # core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
     config_data, core_models = setup_helper(filename, from_config, user_core_models)
     models, params = compile_models(core_models, config_data)
     

@@ -42,7 +42,7 @@ def check_model_terms(model):
     if undefined:
         return False, 'Undefined terms ' + str(undefined)
     
-    unused = [term for term in inputs+params if term not in rhs]
+    unused = [term for term in inputs+params if term not in rhs and '_init' not in term]
     
     if unused:
         return False, 'Unused terms ' + str(unused)
