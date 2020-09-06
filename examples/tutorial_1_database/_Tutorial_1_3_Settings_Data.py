@@ -52,7 +52,7 @@ if __name__ == '__main__':
     sh.make_settings_template(system_types_settings_names, filename='settings_template.ini')
         
     #Deactivate a settings and remove it from searches.
-    sh.delete(system_type=system_type, settings_name=settings_name)
+    sh.deactivate(system_type=system_type, settings_name=settings_name)
     
     #Check if it is still visible in the list view and search results
     new_lst         = sh.list_settings()

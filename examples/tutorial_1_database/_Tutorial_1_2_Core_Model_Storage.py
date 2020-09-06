@@ -42,7 +42,7 @@ if __name__ == '__main__':
     
     #Deactivate a core model and remove it from searches.
     #Change name to reactivate
-    mh.delete(system_type)
+    mh.deactivate(system_type)
     
     #Check if it is still visible in the list view and search results
     new_lst         = mh.list_models()
@@ -51,12 +51,12 @@ if __name__ == '__main__':
     #Note that you can still see it when exporting the database as a DataFrame
     new_df = mh.to_df()
     
-    #Restore it and see if it is searchable
+    # #Restore it and see if it is searchable
     mh.restore(system_type)
     search_result_6 = mh.search_database(system_type)
     
-    #Create a file for the function and store it in the database
-    #Navigate to BMSS/models/model_functions and see if you can find it.
+    # #Create a file for the function and store it in the database
+    # #Navigate to BMSS/models/model_functions and see if you can find it.
     mh.model_to_code(core_model_1, local=False)
     
     
