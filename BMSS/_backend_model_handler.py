@@ -382,6 +382,7 @@ def true_delete(system_type, database):
 def setup():
     global UBase
     global MBase
+    global userid
     for filename in ['MBase.db', 'UBase.db']:
         db_file     = osp.join(__dir__, filename)#osp.join(osp.realpath(osp.split(__file__)[0]), filename)
         database    = create_connection(db_file)
@@ -396,6 +397,15 @@ def setup():
             UBase = database
     
     print('Connected to MBase_models, UBase_models')
+    
+    config = configparser.ConfigParser()
+    
+    
+    with open(osp.join(__dir__, 'database_settings.ini'), 'r') as file:
+        config.read_file(file)
+    
+    userid = config['userid']['userid']
+    
     return database
 
 ###############################################################################
