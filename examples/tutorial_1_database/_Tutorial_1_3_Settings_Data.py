@@ -33,7 +33,7 @@ if __name__ == '__main__':
     #Get all system_types as a list
     lst = sh.list_settings()
     
-    #Export a copy of the entire database as a DataFrame
+    #Optional: Export a copy of the entire database as a DataFrame
     #Note that changes to the DataFrame do not affect the database.
     #Refer to the Pandas documentation for DataFrame operations.
     df = sh.to_df()
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     sh.make_settings_template(system_types_settings_names, filename='settings_template.ini')
         
     #Deactivate a settings and remove it from searches.
-    sh.deactivate(system_type=system_type, settings_name=settings_name)
+    sh.delete(system_type=system_type, settings_name=settings_name)
     
     #Check if it is still visible in the list view and search results
     new_lst         = sh.list_settings()

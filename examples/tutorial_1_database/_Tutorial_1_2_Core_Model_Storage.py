@@ -21,7 +21,7 @@ if __name__ == '__main__':
     #Get all system_types as a list
     lst = mh.list_models()
     
-    #Export a copy of the entire database as a DataFrame
+    #Optional: Export a copy of the entire database as a DataFrame
     #Note that changes to the DataFrame do not affect the database.
     #Refer to the Pandas documentation for DataFrame operations.
     df = mh.to_df()
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     
     #Deactivate a core model and remove it from searches.
     #Change name to reactivate
-    mh.deactivate(system_type)
+    mh.delete(system_type)
     
     #Check if it is still visible in the list view and search results
     new_lst         = mh.list_models()
