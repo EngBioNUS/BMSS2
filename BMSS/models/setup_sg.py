@@ -1,16 +1,16 @@
 import configparser
-import importlib
-from   sympy import Matrix, Float, Symbol
+from   sympy    import Matrix, Float, Symbol
 from   textwrap import dedent
 
 ###############################################################################
 #Non-Standard Imports
 ###############################################################################
-from . import ia_model_import as im
+
 
 try:
     from .                   import model_handler    as mh 
     from .                   import settings_handler as sh
+    from .                   import ia_model_import as im
     from ._backend_setup_sim import (compile_models, setup_helper, 
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
@@ -21,6 +21,7 @@ try:
 except:
     import model_handler    as     mh
     import settings_handler as     sh
+    import ia_model_import as im
     from _backend_setup_sim import (compile_models, setup_helper, 
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
@@ -105,47 +106,44 @@ def get_strike_goldd_args(filename, user_core_models={}, write_file=False):
         decomp  = config_data[model_num].get('decomposition')
         values  = config_data[model_num].get('parameter_values', {})
 
-        if write_file:
-        
-            outfile = 'sg_' + core_model['system_type'].replace(', ', '_')
-            code    = im.write_to_file(var, eq, h, x, p, u, ics, decomp, values, outfile + '.py')
-            mod     = importlib.import_module(outfile)
-            sg_args[model_num] = mod
-            all_variables[model_num] = mod.variables
+        if write_file: 
+            outfile = 'sg_' + core_model['system_type'].replace(', ', '_') + '.py'
         else:
-            mapping = [v for key in ['states', 'parameters', 'inputs'] for v in core_model[key]]
-            mapping = {Symbol(v) : Symbol(v + '_' + str(model_num)) for v in mapping}
-            code    = im.write_to_file(var, eq, h, x, p, u, ics, decomp, values, '')
-            data    = {}
-            temp    = []
+            outfile = ''
 
-            save_variables = '''
-            data["h"]      = measured_states
-            data["x"]      = states
-            data["p"]      = unknown_parameters
-            data["f"]      = diff
-            data["u"]      = input_conditions
-            data["ics"]    = init_conditions
-            data["decomp"] = decomposition
-            
-            temp.append(variables)
-            '''
-            exec(code)
-            exec(dedent(save_variables))
-    
-            items = mapping.items()
-            for key in data :
-                if key in ['h', 'x', 'p', 'f']:
-                    data[key] = data[key].subs(items)
-                elif key in ['u', 'ics']:
-                    data[key] = {k.subs(items): data[key][k] for k in data[key]}
-                else:
-                    data[key] = [[v.subs(items) for v in group] for group in data[key]]
-            
-            temp = {key: temp[0][key].subs(items) for key in temp[0]}
-            
-            sg_args[model_num]       = data
-            all_variables[model_num] = temp
+        mapping = [v for key in ['states', 'parameters', 'inputs'] for v in core_model[key]]
+        mapping = {Symbol(v) : Symbol(v + '_' + str(model_num)) for v in mapping}
+        code    = im.write_to_file(var, eq, h, x, p, u, ics, decomp, values, outfile)
+        data    = {}
+        temp    = []
+
+        save_variables = '''
+        data["h"]      = measured_states
+        data["x"]      = states
+        data["p"]      = unknown_parameters
+        data["f"]      = diff
+        data["u"]      = input_conditions
+        data["ics"]    = init_conditions
+        data["decomp"] = decomposition
+        
+        temp.append(variables)
+        '''
+        exec(code)
+        exec(dedent(save_variables))
+
+        items = mapping.items()
+        for key in data :
+            if key in ['h', 'x', 'p', 'f']:
+                data[key] = data[key].subs(items)
+            elif key in ['u', 'ics']:
+                data[key] = {k.subs(items): data[key][k] for k in data[key]}
+            else:
+                data[key] = [[v.subs(items) for v in group] for group in data[key]]
+        
+        temp = {key: temp[0][key].subs(items) for key in temp[0]}
+        
+        sg_args[model_num]       = data
+        all_variables[model_num] = temp
             
     return sg_args, config_data, all_variables
 

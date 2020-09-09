@@ -53,6 +53,8 @@ def make_settings(system_type,    settings_name,       units,
     
     if user_core_model:
         core_model = user_core_model
+        if core_model['system_type'] != system_type:
+            raise Exception('system_type does not match that of user_core_model.')
         print('Making settings using user_core_model')
     else:
         core_model = bmh.quick_search(system_type)
@@ -209,6 +211,10 @@ def quick_search(system_type, settings_name='', error_if_no_result=True, **kwarg
     
 def list_settings(database=None):
     if database:
+        if database == bmh.UBase:
+            print('Listing core models in UBase.')
+        else:
+            print('Listing core models in MBase.')
         comm         = 'SELECT system_type, settings_name FROM settings'
         cursor       = database.execute(comm)
         all_settings = [s for s in cursor.fetchall()]
@@ -222,7 +228,7 @@ def list_settings(database=None):
 ###############################################################################
 def to_df(database=None):
     if database:
-        df = read_sql_query("SELECT * from models", database)
+        df = read_sql_query("SELECT * from settings", database)
         return df
     else:
 
@@ -524,6 +530,15 @@ def setup():
 setup()
 
 if __name__ == '__main__':
+    from pathlib import Path
+    
+    filename = Path(os.getcwd()) / 'BMSS_markup' / 'Monod_Inducible_Bioconversion_ProductInhibitedGrowth.ini'
+    
+    core_model = bmh.from_config(filename)
+    settings   = from_config(filename)
+    
+    
+    
     __model__ = {'system_type' : ['DUMMY', 'DUMMY'],
                  'states'      : ['m', 'p'], 
                  'parameters'  : ['synm', 'degm', 'synp', 'degp'],
@@ -562,8 +577,8 @@ if __name__ == '__main__':
                                           },
                 }
     
-    core_model = bmh.make_core_model(**__model__)
-    settings   = make_settings(**__settings__, user_core_model=core_model)
+    # core_model = bmh.make_core_model(**__model__)
+    # settings   = make_settings(**__settings__, user_core_model=core_model)
     
     ###############################################################################
     #Testing Parameter Formats

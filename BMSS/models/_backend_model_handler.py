@@ -231,7 +231,14 @@ def quick_search(system_type, error_if_no_result=True, active_only=True):
     return core_model
 
 def list_models(database=None):
+    global MBase
+    global UBase
+        
     if database:
+        if database == UBase:
+            print('Listing core models in UBase.')
+        else:
+            print('Listing core models in MBase.')
         with database as db:
             comm      = 'SELECT system_type FROM models WHERE active = 1;'
             cursor    = db.execute(comm)
@@ -239,8 +246,6 @@ def list_models(database=None):
         
         return models
     else:
-        global MBase
-        global UBase
         return list_models(MBase) + list_models(UBase)
 
 def get_model_function(system_type, local=False):
@@ -381,6 +386,14 @@ def true_delete(system_type, database):
 def setup():
     global UBase
     global MBase
+    global userid
+    
+    config = configparser.ConfigParser()
+    with open(osp.join(__dir__, 'database_settings.ini'), 'r') as file:
+        config.read_file(file)
+    
+    userid = config['userid']['userid']
+    
     for filename in ['MBase.db', 'UBase.db']:
         db_file     = osp.join(__dir__, filename)#osp.join(osp.realpath(osp.split(__file__)[0]), filename)
         database    = create_connection(db_file)
@@ -395,8 +408,13 @@ def setup():
             UBase = database
     
     print('Connected to MBase_models, UBase_models')
+    
     return database
 
+def change_userid(new_userid):
+    global userid
+    
+    
 ###############################################################################
 #Initialization
 ###############################################################################
