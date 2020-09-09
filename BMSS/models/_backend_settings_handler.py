@@ -409,6 +409,7 @@ def make_settings_template(system_types_settings_names, filename=''):
         
         if settings_name:
             settings = quick_search(system_type, settings_name, skip_constructor=True)
+
         else:            
             settings = {'system_type'      : system_type, 
                         'settings_name'    : settings_name,
@@ -429,6 +430,7 @@ def make_settings_template(system_types_settings_names, filename=''):
                                               },
                         }
         
+        settings['init'] = DataFrame.from_dict(settings['init'], orient='index', columns=states).to_dict('list')
         longest          = len(max(parameters,               key=len))
         longest_         = len(max(settings['solver_args'],  key=len))  
         solver_args      = settings['solver_args'].keys()
@@ -440,7 +442,6 @@ def make_settings_template(system_types_settings_names, filename=''):
         tspan            = list_template('tspan',            [list(segment) for segment in settings['tspan']])
         fixed_parameters = list_template('fixed_parameters', settings['fixed_parameters'])
         solver_args      = dict_template('solver_args',      solver_args, longest_, settings['solver_args'])
-        
         model_id         = '#id = ' + str(core_model['id'])
         model_equations  = '#equations = \n' + '\n'.join(['#\t' + line for line in core_model['equations'] ])
         section_header   = '\n'.join([section_header, model_id, model_equations])
