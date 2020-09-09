@@ -16,7 +16,8 @@ try:
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
                                      dict_template, list_template,
-                                     split_at_top_level)
+                                     split_at_top_level,
+                                     is_analysis_settings)
 
 except:
     import model_handler    as     mh
@@ -27,7 +28,8 @@ except:
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
                                      dict_template, list_template,
-                                     split_at_top_level)
+                                     split_at_top_level,
+                                     is_analysis_settings)
 
 ###############################################################################
 #Interfacing with ConfigParser
@@ -42,6 +44,9 @@ def from_config(filename):
     n = 1
 
     for section in config.sections():
+        if not is_analysis_settings(config, section):
+            continue
+        
         parameter_values = config[section].get('parameter_values')
         fixed_parameters = config[section].get('fixed_parameters')
         measured_states  = config[section].get('measured_states')

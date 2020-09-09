@@ -9,7 +9,8 @@ try:
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
-                                     dict_template, list_template)
+                                     dict_template, list_template,
+                                     is_analysis_settings)
 
 except:
     import model_handler    as     mh
@@ -18,7 +19,8 @@ except:
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
-                                     dict_template, list_template)
+                                     dict_template, list_template,
+                                     is_analysis_settings)
     
 ###############################################################################
 #Interfacing with Configparser
@@ -32,6 +34,9 @@ def from_config(filename):
     
     n = 1
     for section in config.sections():
+        if not is_analysis_settings(config, section):
+            continue
+        
         init             = config[section]['init']
         params           = config[section]['parameter_values']
         tspan            = config[section]['tspan']
@@ -42,9 +47,9 @@ def from_config(filename):
         init             = eval_init_string(init)
         tspan            = eval_tspan_string(tspan)
         params           = eval_params_string(params)
-        solver_args      = string_to_dict(solver_args)            if solver_args      else {}
-        fixed_parameters = string_to_list_string(fixed_parameters)       if fixed_parameters else []
-        parameter_bounds = string_to_dict_array(parameter_bounds) if parameter_bounds else {}
+        solver_args      = string_to_dict(solver_args)             if solver_args      else {}
+        fixed_parameters = string_to_list_string(fixed_parameters) if fixed_parameters else []
+        parameter_bounds = string_to_dict_array(parameter_bounds)  if parameter_bounds else {}
             
         config_data[n] = {'system_type'      : section,     'init'             : init,      
                           'params'           : params,      'tspan'            : tspan,            

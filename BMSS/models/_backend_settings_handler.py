@@ -259,6 +259,8 @@ def from_config(filename):
     for section in config.sections():
         if section in ['id', 'system_type', 'states', 'parameters', 'inputs', 'equations', 'ia']:
             continue
+        if 'system_type' not in config[section]:
+            continue
         
         system_type   = config[section]['system_type']
         params        = config[section]['parameter_values']

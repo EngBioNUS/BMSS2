@@ -9,7 +9,8 @@ try:
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
-                                     dict_template, list_template)
+                                     dict_template, list_template,
+                                     is_analysis_settings)
 
 except:
     import model_handler    as     mh
@@ -18,7 +19,8 @@ except:
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
-                                     dict_template, list_template)
+                                     dict_template, list_template,
+                                     is_analysis_settings)
     
 ###############################################################################
 #Interfacing with Configparser
@@ -32,6 +34,9 @@ def from_config(filename, sampler='sa'):
     
     n = 1
     for section in config.sections():
+        if not is_analysis_settings(config, section):
+            continue
+        
         solver_args      = config[section].get('solver_args')
         fixed_parameters = config[section].get('fixed_parameters')
         parameter_bounds = config[section].get('parameter_bounds')

@@ -25,6 +25,9 @@ def from_config(filename):
     
     n = 1
     for section in config.sections():
+        if not is_analysis_settings(config, section):
+            continue
+        
         init        = config[section]['init']
         params      = config[section]['parameter_values']
         tspan       = config[section]['tspan']
@@ -40,6 +43,17 @@ def from_config(filename):
         n += 1
         
     return config_data
+
+###############################################################################
+#Check if Analysis Settings
+###############################################################################    
+def is_analysis_settings(config, section):
+    if section in ['id', 'system_type', 'states', 'parameters', 'inputs', 'equations', 'ia']:
+        return False
+    if 'system_type' in config[section]:
+        return False
+    
+    return True
 
 ###############################################################################
 #Supporting Functions for Reading Strings into Python
