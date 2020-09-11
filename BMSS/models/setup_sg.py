@@ -61,11 +61,14 @@ def from_config(filename):
         parameter_values = string_to_dict(parameter_values)        if parameter_values else [] 
         init             = eval_init_string(init)                  if init             else {}
         
-        temp = ''.join([s for s in decomposition if s in ['[', ']']])
-        if '[[' in temp:
-            decomposition = decomposition.strip()
-            decomposition = decomposition[1: len(decomposition)-1]
-        
+        if decomposition:
+            temp = ''.join([s for s in decomposition if s in ['[', ']']])
+            if '[[' in temp:
+                decomposition = decomposition.strip()
+                decomposition = decomposition[1: len(decomposition)-1]
+        else:
+            decomposition = []
+            
         decomposition    = [s.strip() for s in split_at_top_level(decomposition)]
         decomposition    = [[v.strip() for v in s.replace(']', '').replace('[', '').split(',')] for s in decomposition]
         

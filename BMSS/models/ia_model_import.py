@@ -176,13 +176,13 @@ def export_run():
     ###############################################################################
     def run_strike_goldd():
         start_time = time()
-        x_aug_dict = strike(measured_states, 
-                            states, 
-                            unknown_parameters, 
-                            input_conditions, 
-                            diff, 
-                            init_conditions, 
-                            decomposition)
+        x_aug_dict = strike_goldd(measured_states, 
+                                  states, 
+                                  unknown_parameters, 
+                                  input_conditions, 
+                                  diff, 
+                                  init_conditions, 
+                                  decomposition)
         print("Total time: ",time()-start_time)
         print(x_aug_dict)
         return x_aug_dict
