@@ -233,6 +233,31 @@ def compile_models(core_models, config_data):
     return models, pd.DataFrame(params)
 
 def setup_helper(filename, reader, core_models={}):
+    '''
+    The first return value is the config_data which will be generated based on
+    three possible scenarios:
+    
+        1. filename is a dictionary 
+           The filename is already config_data. No processing needed.
+           
+        2. filename is a string
+           filename is name of the settings file to be opened and parsed by reader. 
+           
+        3. filename is neither of the above
+           filename is an iterable containing names of settings file. It will be
+           iteratively parsed by reader and subsequently reindexed to give config_data.
+    
+    The second return value is a list of core_model data structures associated with 
+    config_data. The list is arranged in the order given by config_data and the 
+    core_models are retrieved based on two possible scenarios:
+        
+        1. The system_type in config_data[model_num]['system_type'] is in core_models
+           The core_model indexed under core_models[system_type] will be used.
+           
+        2. The system_type in config_data[model_num]['system_type'] is not in core_models
+           The function searches the BMSS database for the appropriate core_model
+           using quick_search
+    '''
     if type(filename) == str:
         config_data = reader(filename)
     elif type(filename) == dict:#Assume user has already imported the data
