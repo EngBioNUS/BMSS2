@@ -209,9 +209,6 @@ def get_models_and_params(filename, user_core_models={}):
     using the core_models argument where the key is the system_type.
     '''
 
-    # config_data    = from_config(filename) if type(filename) == str else filename
-    # core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
-    
     config_data, core_models = setup_helper(filename, from_config, user_core_models)
     
     models, params = compile_models(core_models, config_data)
@@ -236,7 +233,13 @@ def compile_models(core_models, config_data):
     return models, pd.DataFrame(params)
 
 def setup_helper(filename, reader, core_models={}):
-    config_data    = reader(filename) if type(filename) == str else filename
+    if type(filename) == str:
+        config_data = reader(filename)
+    elif type(filename) == dict:#Assume user has already imported the data
+        config_data = filename
+    else:#Assume data is spread across multiple files
+        config_data = [value for f in filename for value in reader(f).values()]
+        config_data = dict(enumerate(config_data, start=1))
     core_models    = [core_models[config_data[key]['system_type']] if config_data[key]['system_type'] in core_models else mh.quick_search(config_data[key]['system_type']) for key in config_data]
     
     return config_data, core_models
