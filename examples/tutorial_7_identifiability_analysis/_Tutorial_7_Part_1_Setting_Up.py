@@ -8,8 +8,6 @@ Tutorial 7 Part 1: Setting Up
 
 '''
 
-
-
 if __name__ == '__main__':
     '''
     A priori identifiability analysis allows you to determine whether or not the
@@ -114,7 +112,7 @@ if __name__ == '__main__':
     For models already in the database, templates can be generated. Open the output
     file and check its contents.
     '''
-    system_types_settings_names = [('BMSS, Monod, Constitutive, Single', None),
+    system_types_settings_names = [('BMSS, Monod, Inducible', None),
                                     ]
     
     ssg.make_settings_template(system_types_settings_names, filename='settings_sg_template.ini')
