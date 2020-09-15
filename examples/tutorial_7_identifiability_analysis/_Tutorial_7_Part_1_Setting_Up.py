@@ -45,6 +45,11 @@ if __name__ == '__main__':
     config_data = ssg.from_config(filename)
     
     '''
+    Note: In order to speed up calculations, provide parameter vaues for 
+    fixed_parameters where possible.
+    '''
+    
+    '''
     2. Compiling Arguments
     '''
     core_model = mh.from_config('Monod_Inducible.ini')
