@@ -2,11 +2,9 @@ import matplotlib.pyplot as plt
 import numpy             as np
 import pandas            as pd
 from   numba             import jit
-from   time              import time
 
 import setup_bmss              as lab
 import BMSS.models.setup_cf    as sc
-import BMSS.timeseries         as ts
 import BMSS.traceanalysis      as ta
 import BMSS.curvefitting       as cf
 
@@ -64,12 +62,12 @@ if __name__ == '__main__':
     '''
     Iterate across each type of sampler
     '''
-    filename_samplers = [('settings_de.ini', 'de'),
-                         ('settings_bh.ini', 'bh'),
-                         ('settings_da.ini', 'da')
+    filename_samplers = [('settings_de.ini', 'de', cf.scipy_differential_evolution),
+                         ('settings_bh.ini', 'bh', cf.scipy_basinhopping),
+                         ('settings_da.ini', 'da', cf.scipy_dual_annealing)
                          ]
     
-    for filename, sampler in filename_samplers:
+    for filename, sampler, sampler_function in filename_samplers:
         sampler_args, config_data = sc.get_sampler_args(filename, sampler)
         
         states = {1: ['OD600', 'Glu', 'Fluor'],
@@ -77,7 +75,7 @@ if __name__ == '__main__':
         
         sampler_args = update_sampler_args(data, data_mu, data_sd, init, state_sd, tspan, sampler_args, states)
         
-        result = cf.simulated_annealing(**sampler_args)
+        result = sampler_function(**sampler_args)
         
         '''
         The return value is a dictionary with the following values.
@@ -91,7 +89,8 @@ if __name__ == '__main__':
         plot_index = {1: ['OD600', 'Glu', 'Fluor', specific_growth]
                       }
         
-        titles     = {1: 'Model 1'
+
+        titles     = {1: dict(zip(plot_index[1], plot_index[1]))
                       }
         
         #Create our own Figure and Axes objects for cutom layouts
@@ -108,6 +107,7 @@ if __name__ == '__main__':
                 guess      = sampler_args['guess'],
                 data       = data_mu,
                 plot_index = plot_index,
+                titles     = titles, 
                 figs       = [fig],
                 AX         = AX
                 )

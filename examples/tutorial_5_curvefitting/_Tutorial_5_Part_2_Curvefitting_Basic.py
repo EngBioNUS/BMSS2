@@ -2,11 +2,9 @@ import matplotlib.pyplot as plt
 import numpy             as np
 import pandas            as pd
 from   numba             import jit
-from   time              import time
 
 import setup_bmss              as lab
 import BMSS.models.setup_cf    as sc
-import BMSS.timeseries         as ts
 import BMSS.traceanalysis      as ta
 import BMSS.curvefitting       as cf
 
@@ -73,10 +71,14 @@ def import_data(all_data, data_by_model_num):
             vals = raw_data[state].iloc[:,1:]
             t    = raw_data[state][('Time', 'Trials')].values.astype(np.float64)
             
-            #Subtract the blank
+            '''
+            Subtract the blank. If your data does not require blank subtraction, remove this part.
+            '''
             vals = vals[[c for c in vals.columns if 'Blank' not in c]].subtract(vals['Blank'], axis='rows', level=1)
             
-            #Get the mean and sd
+            '''
+            Calculate the mean and sd
+            '''
             vals_sd = vals.std( axis=1, level=0)
             vals_mu = vals.mean(axis=1, level=0) 
             vals    = vals.stack().droplevel(level=1).reset_index(drop=True)
@@ -157,10 +159,8 @@ def update_sampler_args(data, data_mu, data_sd, init, state_sd, tspan, sampler_a
         sampler_args['models'][model_num]['tspan'] = [tspan[model_num]]
         
         #Add modify_init to model 2
-        if model_num == 2:
-            sampler_args['models'][model_num]['int_args']['modify_init'] = modify_init
+        sampler_args['models'][model_num]['int_args']['modify_init'] = modify_init
         
-    
     return sampler_args
 
 
@@ -238,15 +238,17 @@ if __name__ == '__main__':
                   2: ['OD600', 'Fluor', 'mh']
                   }
     
-    titles     = {1: 'Model 1',
-                  2: 'Model 2'
+
+    titles     = {1: dict(zip(plot_index[1], plot_index[1])),
+                  2: dict(zip(plot_index[2], plot_index[2]))
                   }
     
     cf.plot(posterior  = accepted.tail(10), 
             models     = sampler_args['models'],
             guess      = sampler_args['guess'],
             data       = data_mu,
-            plot_index = plot_index
+            plot_index = plot_index,
+            titles     = titles
             )
     
     #Plot the trace

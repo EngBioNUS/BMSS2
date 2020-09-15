@@ -10,40 +10,6 @@ Tutorial 5 Part 1: Setting Up
 if __name__ == '__main__':
     
     '''
-    In this example, we want to perform curve-fitting for constitutive GFP expression 
-    in E. coli. We start by importing the settings required for the sampler arguments.
-    
-    Just like in Tutorials 2 and 3, you can store settings in .ini files.
-    The function get_sampler_args extracts the information and compiles it into 
-    the arguments for BMSS curve-fitting functions.
-    '''
-    filename = 'settings_sa.ini'
-    sampler  = 'sa'
-    
-    sampler_args, config_data = sc.get_sampler_args(filename, sampler)
-    
-    '''
-    If you are coding the arguments yourself or using a model not in the database, 
-    you can use the following steps.
-    
-    core_model_1     = mh.from_config('prototype_model.ini')
-    user_core_models = {prototype['system_type'] : core_model_1}
-    
-    sampler_args, config_data = sc.get_sampler_args(filename, sampler, user_core_models=user_core_models)
-    
-    '''
-    
-    '''
-    If you want only the information from the .ini file without compiling it into
-    '''
-    config_data = sc.from_config(filename, sampler)
-    
-    #Create simulation settings templates using saved settings
-    system_types_settings_names = [('BMSS, Monod, Constitutive, Single', ''),
-                                   ]
-    sc.make_settings_template(system_types_settings_names, filename='settings_cf_template.ini')
-    
-    '''
     Note: This file is meant to be run after you have added the model from Tutorial 1.
     If you have not done so, run the following function.
     mh.config_to_database('testmodel.ini')
@@ -94,7 +60,15 @@ if __name__ == '__main__':
     function call.
     '''
     
-    new_sampler_args, new_config_data = sc.get_sampler_args(filename)
+    new_sampler_args, new_config_data = sc.get_sampler_args(filename, sampler='sa')
+    
+    '''
+    Note that possible values for sampler are:
+        'sa' : simulated annealing
+        'bh' : scipy's basin hopping
+        'da' : scipy's dual annealing
+        'de' : scipy's differential evoluation
+    '''
     
     '''
     4. Template Generation
