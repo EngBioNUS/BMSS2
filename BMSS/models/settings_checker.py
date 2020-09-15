@@ -26,33 +26,36 @@ def check_and_assign_param_values(core_model, parameters):
     elif type(parameters) == pd.Series:
         parameter_df = pd.DataFrame(parameters).T
     elif type(parameters) == dict:
-        parameter_df = pd.DataFrame([parameters])
+        parameter_df = pd.DataFrame(parameters)
+        try:
+            parameter_df = pd.DataFrame(parameters)
+        except:
+            parameter_df = pd.DataFrame([parameters])
     else:
         raise Exception('Error in parameters. Parameters must be dict, DataFrame or Series.')
     
     parameter_df.reset_index(drop=True, inplace=True)
     
-    df_columns        = set(parameter_df.columns)
+    df_columns        = list(parameter_df.columns)
     core_model_params = core_model['parameters'] + core_model['inputs']
     
     #Check that parameter names match
-    if df_columns.difference(core_model_params):#Not match
+    if set(df_columns).difference(core_model_params):#Not match
         #Assume parameters have been suffixed
         #Remove the suffix, reassign and rearrange
-        df_columns_ = set(['_'.join(p.split('_')[:-1]) for p in df_columns])
-
-        if df_columns_.difference(core_model_params):
+        df_columns_ = ['_'.join(p.split('_')[:-1]) for p in df_columns]
+        
+        if set(df_columns_).difference(core_model_params):
             raise Exception('Could not match parameter names with that of core_model')
         else:
             parameter_df.columns = df_columns_
+            
             parameter_df         = parameter_df[core_model_params]
             return parameter_df
     else:#Match
         #Ensure order is correct
         parameter_df = parameter_df[core_model_params]
         return parameter_df
-        
-        
 
 def check_and_assign_solver_args(solver_args):
     '''
