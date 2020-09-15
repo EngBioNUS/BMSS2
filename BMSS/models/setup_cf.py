@@ -102,11 +102,11 @@ def get_sampler_args(filename, sampler='sa', user_core_models={}):
     if sampler == 'sa':
         return get_sampler_args_sa(filename, user_core_models=user_core_models)
     elif sampler == 'de':
-        return get_sampler_args(filename, user_core_models=user_core_models)
+        return get_sampler_args_de(filename, user_core_models=user_core_models)
     elif sampler == 'bh':
-        return get_sampler_args(filename, user_core_models=user_core_models)
+        return get_sampler_args_bh(filename, user_core_models=user_core_models)
     elif sampler == 'da':
-        return get_sampler_args(filename, user_core_models=user_core_models)
+        return get_sampler_args_da(filename, user_core_models=user_core_models)
     else:
         raise Exception('sampler must be sa, de, bh or da. sampler given was ' + str(sampler))
     
@@ -162,12 +162,12 @@ def get_sampler_args_sa(filename, user_core_models={}):
         
     return sampler_args, config_data
 
-def get_sampler_args_de(filename):
+def get_sampler_args_de(filename, user_core_models={}):
     '''
     Shortcut for setting up differential evolution for one model
     '''
 
-    config_data    = from_config(filename, 'sa') if type(filename) == str else filename
+    config_data    = from_config(filename, 'de') if type(filename) == str else filename
     core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
     models, params = compile_models(core_models, config_data)
     
@@ -205,12 +205,12 @@ def get_sampler_args_de(filename):
         
     return sampler_args, config_data
 
-def get_sampler_args_bh(filename):
+def get_sampler_args_bh(filename, user_core_models={}):
     '''
     Shortcut for setting up differential evolution for one model
     '''
 
-    config_data    = from_config(filename, 'sa') if type(filename) == str else filename
+    config_data    = from_config(filename, 'bh') if type(filename) == str else filename
     core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
     models, params = compile_models(core_models, config_data)
     
@@ -254,12 +254,12 @@ def get_sampler_args_bh(filename):
         
     return sampler_args, config_data
 
-def get_sampler_args_da(filename):
+def get_sampler_args_da(filename, user_core_models={}):
     '''
     Shortcut for setting up differential evolution for one model
     '''
 
-    config_data    = from_config(filename, 'sa') if type(filename) == str else filename
+    config_data    = from_config(filename, 'da') if type(filename) == str else filename
     core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
     models, params = compile_models(core_models, config_data)
     
