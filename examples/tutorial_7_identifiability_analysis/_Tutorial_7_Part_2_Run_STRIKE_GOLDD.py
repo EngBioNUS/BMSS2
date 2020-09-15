@@ -20,7 +20,8 @@ if __name__ == '__main__':
     
     The optional argument dst allows you to supply your own dictionary to which the
     results will be added after each iteration. This allows you to thread and/or
-    save the results before all the iterations have been completed.
+    save the results before all the iterations have been completed. Just use an
+    empty dictionary.
     '''
     dst        = {}
     sg_results = sg.analyze_sg_args(sg_args, dst=dst)
