@@ -1,7 +1,9 @@
 import setup_bmss                   as lab
 import BMSS.models.model_handler    as mh
 import BMSS.models.setup_sg         as ssg
+import BMSS.models.ia_result_to_csv as ic
 import BMSS.strike_goldd_simplified as sg
+
 '''
 Tutorial 7 Part 2: A priori Identifiability Analysis with Strike-Goldd
 - Call the function required to run the strike_goldd algorithm.
@@ -18,7 +20,7 @@ if __name__ == '__main__':
     user_core_models = [mh.from_config(filename) for filename in model_files]
     user_core_models = {core_model['system_type']: core_model for core_model in user_core_models}
     
-    sg_args, variables, config_data = ssg.get_strike_goldd_args(model_files, user_core_models=user_core_models)
+    sg_args, config_data, variables = ssg.get_strike_goldd_args(model_files, user_core_models=user_core_models)
     
     '''
     The optional argument dst allows you to supply your own dictionary to which the
@@ -27,11 +29,18 @@ if __name__ == '__main__':
     '''
     #Run strike-goldd algorithm
     #Details in Tutorial 7 Part 2
-    dst              = {}
-    iterative_result = sg.analyze_sg_args(sg_args, dst=dst)
+    dst        = {}
+    sg_results = sg.analyze_sg_args(sg_args, dst=dst)
     
-    for key in iterative_result:
+    for key in sg_results:
         print('Model ' + str(key))
-        print(iterative_result[key])
+        print(sg_results[key])
         print()
+    
+    new_rows = ic.export_sg_results(sg_results, 
+                                    variables, 
+                                    config_data, 
+                                    user_core_models=user_core_models, 
+                                    local=True
+                                    )
     
