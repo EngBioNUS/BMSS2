@@ -17,8 +17,7 @@ except:
 ###############################################################################
 #Globals
 ###############################################################################
-SBase   = None
-__dir__ = osp.dirname(osp.abspath(__file__))
+_dir = osp.dirname(osp.abspath(__file__))
 
 table_sql = '''
 CREATE TABLE IF NOT EXISTS "settings" (

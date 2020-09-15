@@ -12,17 +12,18 @@ from   sqlite3    import Error
 try:
     from .model_checker import check_model_terms
     from .model_coder   import model_to_code
+
 except:
     from model_checker import check_model_terms
     from model_coder   import model_to_code
-
+    
 ###############################################################################
 #Globals
 ###############################################################################
-MBase   = None
-UBase   = None
-__dir__ = osp.dirname(osp.abspath(__file__))
-userid  = 'usr'
+MBase  = None
+UBase  = None
+_dir   = osp.dirname(osp.abspath(__file__))
+userid = 'usr'
 
 table_sql = '''
 CREATE TABLE IF NOT EXISTS "models" (
@@ -95,6 +96,9 @@ def make_core_model(system_type, states, parameters, inputs, equations, ia='', *
     is_valid, text = check_model_terms(core_model)
     if not is_valid:
         raise Exception('Error in ' + str(system_type1) + ': ' + text)
+    
+    if not ia:
+        core_model['ia'] = core_model['system_type'].replace(', ', '_') + '.csv'
         
     return core_model
 
@@ -312,7 +316,7 @@ def from_config(filename):
             line = [s.strip() for s in line if s]
         
         model[key] = line
-    
+        
     return make_core_model(**model)
 
 def to_config(core_model, filename):
@@ -379,7 +383,8 @@ def true_delete(system_type, database):
         comm = 'DELETE FROM models WHERE system_type="'+ system_type + '";'    
         db.execute(comm)
         print('Removed ' + system_type)
-    
+
+
 ###############################################################################
 #Function for Setup
 ###############################################################################
@@ -387,15 +392,18 @@ def setup():
     global UBase
     global MBase
     global userid
+    global _dir
     
+    #Database settings
     config = configparser.ConfigParser()
-    with open(osp.join(__dir__, 'database_settings.ini'), 'r') as file:
+    with open(osp.join(_dir, 'database_settings.ini'), 'r') as file:
         config.read_file(file)
     
     userid = config['userid']['userid']
     
+    #Connect to dabatases
     for filename in ['MBase.db', 'UBase.db']:
-        db_file     = osp.join(__dir__, filename)#osp.join(osp.realpath(osp.split(__file__)[0]), filename)
+        db_file     = osp.join(_dir, filename)#osp.join(osp.realpath(osp.split(__file__)[0]), filename)
         database    = create_connection(db_file)
         cursor      = database.execute("SELECT name FROM sqlite_master WHERE type='table';")
         table_names = [table[0] for table in cursor]
@@ -407,13 +415,17 @@ def setup():
         else:
             UBase = database
     
+    #Check required folders are present
+    lst = os.listdir(_dir)
+    for folder in ['model_functions', 'ia_results', 'BMSS_markup']:
+        if folder not in lst:
+            os.mkdir(osp.join(_dir, folder))
     print('Connected to MBase_models, UBase_models')
     
     return database
 
 def change_userid(new_userid):
     global userid
-    
     
 ###############################################################################
 #Initialization
