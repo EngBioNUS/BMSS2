@@ -10,7 +10,8 @@ from   textwrap import dedent
 try:
     from .                   import model_handler    as mh 
     from .                   import settings_handler as sh
-    from .                   import ia_model_import as im
+    from .                   import ia_model_import  as im
+    from .ia_result_to_csv   import write_new_row_to_file
     from ._backend_setup_sim import (compile_models, setup_helper, 
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
@@ -22,7 +23,8 @@ try:
 except:
     import model_handler    as     mh
     import settings_handler as     sh
-    import ia_model_import as im
+    import ia_model_import  as     im
+    from ia_result_to_csv   import write_new_row_to_file
     from _backend_setup_sim import (compile_models, setup_helper, 
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
@@ -58,7 +60,8 @@ def from_config(filename):
         fixed_parameters = string_to_list_string(fixed_parameters) if fixed_parameters else []
         measured_states  = string_to_list_string(measured_states)  if measured_states  else []
         input_conditions = string_to_dict(input_conditions)        if input_conditions else {}
-        parameter_values = string_to_dict(parameter_values)        if parameter_values else [] 
+        parameter_values = string_to_dict(parameter_values)        if parameter_values else {} 
+        units            = string_to_dict(units)                   if units            else {}
         init             = eval_init_string(init)                  if init             else {}
         
         if decomposition:

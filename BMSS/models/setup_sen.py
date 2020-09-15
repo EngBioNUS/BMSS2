@@ -43,6 +43,7 @@ def from_config(filename):
         solver_args      = config[section].get('solver_args')
         fixed_parameters = config[section].get('fixed_parameters')
         parameter_bounds = config[section].get('parameter_bounds')
+        units            = config[section].get('units')
         
         init             = eval_init_string(init)
         tspan            = eval_tspan_string(tspan)
@@ -50,11 +51,13 @@ def from_config(filename):
         solver_args      = string_to_dict(solver_args)             if solver_args      else {}
         fixed_parameters = string_to_list_string(fixed_parameters) if fixed_parameters else []
         parameter_bounds = string_to_dict_array(parameter_bounds)  if parameter_bounds else {}
-            
+        units            = string_to_dict(units)                   if units            else {}
+        
         config_data[n] = {'system_type'      : section,     'init'             : init,      
                           'params'           : params,      'tspan'            : tspan,            
                           'solver_args'      : solver_args, 'fixed_parameters' : fixed_parameters, 
-                          'parameter_bounds' : parameter_bounds
+                          'parameter_bounds' : parameter_bounds,
+                          'units'            : units
                           }
         
         n += 1
