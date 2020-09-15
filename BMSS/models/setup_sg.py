@@ -205,18 +205,17 @@ def make_settings_template(system_types_settings_names, filename=''):
         
         longest            = len(max(parameters,               key=len))    
         longest_           = len(max(inputs,                   key=len))  if inputs else None
-        init_values        = dict_template('init',             states,     longest,  settings['init'])
-        param_values       = dict_template('parameter_values', parameters, longest,  settings['parameters'])
-        input_conditions   = dict_template('input_conditions', inputs,     longest_, inputs) if inputs else ''
+        init_values        = dict_template('init',             states,     longest,  settings['init'],       default = 0)
+        param_values       = dict_template('parameter_values', parameters, longest,  settings['parameters'], default = 1)
+        input_conditions   = dict_template('input_conditions', inputs,     longest_, dict(zip(inputs, [0]*len(inputs)))) if inputs else ''
         fixed_parameters   = list_template('fixed_parameters', settings['fixed_parameters'])
         measured_states    = list_template('measured_states', states)
-        unknown_parameters = list_template('unknown_parameters', [p for p in parameters if p not in settings['fixed_parameters']])
         
         model_id         = '#id = ' + str(core_model['id'])
         model_equations  = '#equations = \n' + '\n'.join(['#\t' + line for line in core_model['equations'] ])
         section_header   = '\n'.join([section_header, model_id, model_equations])
         
-        result += '\n\n'.join([section_header, param_values, init_values, fixed_parameters, measured_states, unknown_parameters, input_conditions])
+        result += '\n\n'.join([section_header, param_values, init_values, fixed_parameters, measured_states, input_conditions])
         
     if filename:
         with open(filename, 'w') as file:
