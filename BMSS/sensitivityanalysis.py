@@ -6,27 +6,22 @@ import seaborn           as sns
 from SALib.analyze import sobol, fast, rbd_fast, delta
 from SALib.sample import saltelli, fast_sampler, latin
 
-try:
-    from . import curvefitting as cf
-except:
-    import curvefitting as cf
-
+from . import simulation as sim
+    
 ###############################################################################
-#Main Algorithm
+#High Level Wrappers
 ###############################################################################
-def analyze(params, models, skip, func, parameter_bounds=np.array([]), mode='np', analysis_type='sobol', N=100):
+def analyze(params, models, fixed_parameters, objective, parameter_bounds={}, mode='np', analysis_type='sobol', N=100):
     '''
     Main algorithm for sensitivity analysis. Wraps analyze_sensitivty and sample_and_integrate.
     '''
     
-    parameter_bounds1 = parameter_bounds if type(parameter_bounds) == np.ndarray else np.array(list(parameter_bounds.values()))
-    
     #Check for input errors
-    if len(parameter_bounds1) and len(parameter_bounds1) != len(params) - len(skip):
-        raise Exception('len(parameter_bounds) not equal to len(params) - len(skip)')
+    if len(parameter_bounds) and len(parameter_bounds) != len(params) - len(fixed_parameters):
+        raise Exception('len(parameter_bounds) not equal to len(params) - len(fixed_parameters)')
 
-    if not all(list(map(lambda x: x in params, skip))):
-        raise Exception('One or more unexpected parameters in skip.' )
+    if not all(list(map(lambda x: x in params, fixed_parameters))):
+        raise Exception('One or more unexpected parameters in fixed_parameters.' )
     
     if mode not in ['np' , 'df']:
         raise Exception('mode must be np or df')
@@ -35,71 +30,42 @@ def analyze(params, models, skip, func, parameter_bounds=np.array([]), mode='np'
         raise Exception('analysis_type must be sobol, fast or delta.')
         
     #Generate samples and integrate
-    y, t, s, p       = sample_and_integrate(params, models, skip, parameter_bounds=parameter_bounds1, analysis_type=analysis_type, N=N)
+    em, samples, problems = sample_and_integrate(models, params, fixed_parameters, parameter_bounds, objective, analysis_type=analysis_type, N=N)
     
     #Analyze results
-    analysis_result  = analyze_sensitivity(y, t, samples=s, problems=p, func=func, mode=mode, analysis_type=analysis_type)
+    analysis_result  = analyze_sensitivity(em, samples, problems, analysis_type=analysis_type)
     
-    return y, t, s, p, analysis_result
+    return analysis_result, em, samples, problems
+
+def sample_and_integrate(models, params, fixed_parameters, parameter_bounds, objective, analysis_type='sobol', N=1000):
+    
+    samples, problems = make_samples(models, params, fixed_parameters, parameter_bounds, analysis_type=analysis_type, N=N)
+    em                = integrate_samples(models, samples, objective)
+    
+    return em, samples, problems
 
 ###############################################################################
 #Output Evaluation and Sensitivity Analysis
 ###############################################################################
-def analyze_sensitivity(y, t, samples, problems, func, mode='np', analysis_type='sobol', **analyzer_args):
-    '''
-    Accepts dict y where y[model_num][scenario] is the model output as either 
-    a numpy array or pandas DataFrame. problems is a dict of where problems[model_num]
-    is a dict defined according to https://salib.readthedocs.io/en/latest/basics.html
+def analyze_sensitivity(objective_function_values, samples, problems, analysis_type='sobol', **kwargs):
+    s = {}
+    e = objective_function_values
     
-    Iterates across models and scenarios and evaluates each output in 
-    y[model_num][scenario] according to func. If mode is np, the values in
-    y[model_num][scenario] are converted to numpy arrays first. If mode is df,
-    the pandas DataFrames are used.
+    for model_num in e:
+        s[model_num] = {}  
+        for scenario in e[model_num]:
+            s[model_num][scenario] = {}
+            for row_name in e[model_num][scenario]:
+                s[model_num][scenario][row_name] = {}
+                for func in e[model_num][scenario][row_name]:
+                    problem  = problems[model_num][row_name]
+                    permuted = problem['names'] 
+                    x        = samples[model_num][row_name][permuted]
+                    y_val    = e[model_num][scenario][row_name][func]
+                    
+                    s[model_num][scenario][row_name][func] = salib_wrapper(problem, y_val, x, analysis_type, **kwargs)
     
-    '''
-    result = {}
-    for model_num in y:
-        result[model_num] = {}
-        p_                = problems[model_num]
-        s_                = samples[model_num][p_['names']].values
-        t_                = t[model_num]
-        
-        for scenario in y[model_num]:
-            y_ = y[model_num][scenario]
-            y_ = evaluate_output(y_, t_, s_, func, mode=mode)
-            
-            Si = salib_wrapper(p_, y_, s_, analysis_type=analysis_type, **analyzer_args)
-            result[model_num][scenario] = Si
-    return result
-
-def evaluate_output(y_scenario, t_scenario, param_array, func, mode='np'):
-    '''
-    Accepts a dict of model outputs and evaluates it according to func. If the outputs
-    are pandas DataFrames, they can be converted to numpy arrays by setting mode to
-    np or evaluated as-is by setting mode to df.
-    If the outputs are numpy arrays, they are evaluated as-is.
-    '''
-
-    def helper(y_sample, param_sample):
-        result = func(y_sample, t_scenario, param_sample)
-        try:
-            float(result)
-        except:
-            try: 
-                result = float(result[0])
-            except:
-                raise Exception('Invalid return value for func ' + str(func) + '. Ensure return value/first value is a scalar.')
-        return result
-        
-    if type(y_scenario[next(iter(y_scenario))]) == pd.DataFrame:
-        if mode == 'df':
-            y_ = list(map(helper, y_scenario.values() ,param_array))
-        
-        else :
-            y_ = list(map(helper, [y_scenario[key].values for key in y_scenario] ,param_array))
-    else:
-        y_ = list(map(helper, y_scenario.values() ,param_array))
-    return np.array(y_)
+    return s
 
 def salib_wrapper(problem, y_val, x, analysis_type='sobol', **kwargs):
     '''
@@ -120,82 +86,105 @@ def salib_wrapper(problem, y_val, x, analysis_type='sobol', **kwargs):
 ###############################################################################
 #Sampling and Integration 
 ###############################################################################
-def sample_and_integrate(params, models, skip, 
-                         samples=None, 
-                         int_args={},
-                         parameter_bounds=np.array([]),
-                         analysis_type='sobol', 
-                         N=1000, 
-                         sample_args={}):  
-    '''
-    Generates samples and integrates them. You can provide your own samples 
-    instead using the samples argument. parameteter_bounds will then be ignored.
-    
-    Returns the follwoing:
-        1. y, the model output as a dict in the form y[model_num][scenario] 
-        2. t, the timespan for each model in the form t[model_num]
-        2. s, the samples generated as a dict in the form s[model_num]
-        3. p, the problems generated as a dict in the form p[model_num] where
-           p[model_num] is defined according to https://salib.readthedocs.io/en/latest/basics.html
-    '''
-    y = {}
-    t = {}
-    s = {}
-    p = {}
-    
-    #Convert params to a Pandas Series
-    try:
-        params_series = pd.DataFrame(params).iloc[0]
-    except:
-        params_series = pd.Series(params)
-    
-    #If user provides samples, convert it to DataFrame
-    if samples is None:
-        samples1 = pd.DataFrame()
-    else:
-        samples1 = pd.DataFrame(samples)
-    
-    for model_num in models:
-        y[model_num]      = {}
-        t[model_num]      = {}
-        model             = models[model_num]
-        tspan             = model['tspan']
-        init              = model['init']
-        int_args          = model.get('int_args', {})
-        samples_, problem = samples1[model['params']] if len(samples1) else make_samples(params_series, model, skip, N=N, parameter_bounds=parameter_bounds, analysis_type=analysis_type, **sample_args) 
-        s[model_num]      = samples_
-        p[model_num]      = problem
-        
-        for scenario in range(1, len(init)+1):
-            y[model_num][scenario] = {}
-            
-            for row_num in range(len(samples_)):
-                row    = samples_.iloc[row_num].values
-                y_, t_ = cf.piecewise_integrate(model['function'], init[scenario], tspan, row, model_num, scenario, **int_args)
+def integrate_samples(models, samples, objective, args=()):
+    e_models = {}
+    samples1 = {}
+    for model_num in samples:
+        samples1[model_num] = {}
+        for row_name in samples[model_num]:
+            if type(samples[model_num][row_name]) != pd.DataFrame:
+                try:
+                    samples1[model_num][row_name] = pd.DataFrame(samples[model_num][row_name])
+                except:
+                    samples1[model_num][row_name] = pd.DataFrame([samples[model_num][row_name]])
+            else:
+                samples1[model_num][row_name] = samples[model_num][row_name]
                 
-                y[model_num][scenario][row_num] = pd.DataFrame(y_, columns=model['states'])
-                t[model_num]                    = t_          
+    for model_num in models:
+        model               = models[model_num]
+        e_models[model_num] = {}
+        for scenario_num in models[model_num]['init']:
+            if type(scenario_num) == int:
+                if scenario_num < 1:
+                    continue
+            e_models[model_num][scenario_num] = {}
+            for row_name in samples[model_num]:
+                params1 = samples[model_num][row_name]
+                temp    = {func: [] for func in objective.get(model_num)}
+                
+                e_models[model_num][scenario_num][row_name] = {}      
+                for _, row in params1.iterrows():
+                    y_model, t_model = sim.piecewise_integrate(params        = row.values,
+                                                               function      = model['function'], 
+                                                               init          = model['init'][scenario_num],
+                                                               tspan         = model['tspan'],
+                                                               modify_init   = model['int_args']['modify_init'],
+                                                               modify_params = model['int_args']['modify_params'],
+                                                               solver_args   = model['int_args']['solver_args'],
+                                                               model_num     = model_num, 
+                                                               scenario_num  = scenario_num, 
+                                                               overlap       = True,
+                                                               *args
+                                                               )
+                   
+                
+                    for func in objective.get(model_num):
+                        y_model_ = pd.DataFrame(y_model) if 'mode=pd' in str(func.__doc__) else y_model
+                        variable = func(y_model_, t_model, row.values)
+                        temp[func].append(variable)
+                
+                for func in objective.get(model_num):
+                    e_models[model_num][scenario_num][row_name][func] = np.array(temp[func])
     
-    return y, t, s, p
-
+        return e_models
+    
 ###############################################################################
 #Sample Generation
 ###############################################################################
-def make_samples(params, model, skip, parameter_bounds=np.array([]), analysis_type='sobol', N=1000, **kwargs):
+def make_samples(models, params, fixed_parameters, parameter_bounds, analysis_type='sobol', N=1000):
+    try:
+        params1 = pd.DataFrame(params)
+    except:
+        params1 = pd.DataFrame([params])
+    
+    samples  = {}
+    problems = {}
+    
+    for model_num in models:
+        samples[model_num]  = {}
+        problems[model_num] = {}
+        
+        for name, row in params1.iterrows():
+            row_samples, row_problem = make_samples_for_row(row, 
+                                                            models[model_num], 
+                                                            fixed_parameters, 
+                                                            parameter_bounds, 
+                                                            analysis_type=analysis_type, 
+                                                            N=N
+                                                            )
+            samples[model_num][name]  = row_samples
+            problems[model_num][name] = row_problem
+    
+    return samples, problems
+
+def make_samples_for_row(row, model, fixed_parameters, parameter_bounds={}, analysis_type='sobol', N=1000, **kwargs):
     '''
     Supporting function for sample_and_integrate. Do not run.
-    params must be a pandas Series
+    row must be a pandas Series
     '''
 
     param_names      = model['params']
-    base_value       = params[param_names]
-    to_permute       = [p for p in param_names if p not in skip]
-    to_keep          = [p for p in param_names if p     in skip]
-    bounds           = parameter_bounds if len(parameter_bounds) else [[base_value[p]/10, base_value[p]*10] for p in to_permute] 
+    base_value       = row[param_names]
+    to_permute       = [p for p in param_names if p not in fixed_parameters]
+    to_keep          = [p for p in param_names if p     in fixed_parameters]
+    if parameter_bounds:
+        bounds = np.array([parameter_bounds[p] for p in to_permute])
+    else:
+        bounds = [[base_value[p]/10, base_value[p]*10] for p in to_permute] 
     
     problem = {'num_vars' : len(to_permute),
-               'names'   : to_permute,
-               'bounds'  : bounds,
+               'names'    : to_permute,
+               'bounds'   : bounds,
                }
     
     if analysis_type == 'sobol':          
@@ -211,28 +200,25 @@ def make_samples(params, model, skip, parameter_bounds=np.array([]), analysis_ty
         
     new_values   = pd.DataFrame(new_values, columns=to_permute)
     
-    skipped_values = np.repeat(base_value[to_keep].values[np.newaxis,:], len(new_values), 0)
+    fixed_parametersped_values = np.repeat(base_value[to_keep].values[np.newaxis,:], len(new_values), 0)
             
-    samples = np.concatenate((new_values, skipped_values), axis=1)
+    samples = np.concatenate((new_values, fixed_parametersped_values), axis=1)
     samples = pd.DataFrame(samples, columns = to_permute+to_keep)
     samples = samples[param_names]
     
-    return samples, problem    
+    return samples, problem
 
 ###############################################################################
 #Visualization
 ###############################################################################
 def plot_first_order(analysis_result, problems={}, titles={}, analysis_type='sobol', figs=None, AX=None, analysis_keys=(), **heatmap_args):
     '''
-    Accepts a dict analysis_result where analysis_result[model_num][scenario] is a 
-    dict or DataFrame of sensitivity analysis results.
-    
     If analysis_type is neither sobol, fast nor delta, use analysis_keys to specify which 
     keys/columns to use.
     '''
-
-    figs1, AX1 = (figs, AX) if AX else make_AX(analysis_result) 
-    dfs        = {}
+    
+    #Fix this
+    figs1, AX1 = (figs, AX) if AX else make_AX1(analysis_result) 
 
     if analysis_type == 'sobol':
         keys = ['S1', 'S1_conf', 'ST', 'ST_conf']
@@ -247,29 +233,38 @@ def plot_first_order(analysis_result, problems={}, titles={}, analysis_type='sob
             keys = analysis_keys
         else:
             raise Exception('analysis_key must be specified if using custom analysis.')
+    
     for model_num in analysis_result:
-        dfs[model_num] = {}
-        for scenario in analysis_result[model_num]:
-            r  = analysis_result[model_num][scenario]
-            p  = problems[model_num]['names'] if problems else None
-            df = pd.DataFrame({key: r[key] for key in keys}, columns=keys, index=p)
-            ax = AX1[model_num][scenario]
-            
-            sns.heatmap(df, ax=ax, **heatmap_args)
-            title = titles.get(model_num, {}).get(scenario, str(scenario))
-            ax.set_title(title)
-            dfs[model_num][scenario] = df
+        for scenario_num in analysis_result[model_num]:
+            for row_name in analysis_result[model_num][scenario_num]:
+                for func in analysis_result[model_num][scenario_num][row_name]:
+                    
+                    r  = analysis_result[model_num][scenario_num][row_name][func]
+                    p  = problems[model_num][row_name]['names'] if problems else None
+                    df = pd.DataFrame({key: r[key] for key in keys}, columns=keys, index=p)
+                    ax = AX1[model_num][scenario_num][row_name][func]
+                    
+                    sns.heatmap(df, ax=ax, **heatmap_args)
+                    
+                    try:
+                        title = titles[model_num][scenario_num][row_name][func]
+                    except:
+                        try:
+                            title = titles[model_num][scenario_num][func]
+                        except:
+                            if titles.get(model_num, {}).get(func, None):
+                                title = make_default_title(model_num, scenario_num, row_name, titles[model_num][func])
+                            else:
+                                title = make_default_title(model_num, scenario_num, row_name, func.__name__)
+                    ax.set_title(title)
     
-    list(map(cf.fs, figs1))
+    [sim.fs(fig) for fig in figs1]
     
-    return figs1, AX1, dfs 
+    return figs1, AX1
     
 
 def plot_second_order(analysis_result, problems={}, titles={}, analysis_type='sobol', figs=None, AX=None, analysis_keys=(), **heatmap_args):
     '''
-    Accepts a dict analysis_result where analysis_result[model_num][scenario] is a 
-    dict of sensitivity analysis results and each value is a 2d array or DataFrame.
-    
     If analysis_type is not sobol, use analysis_keys to specify which keys/columns to use.
     '''
 
@@ -282,62 +277,81 @@ def plot_second_order(analysis_result, problems={}, titles={}, analysis_type='so
             raise Exception('analysis_key must be specified if using custom analysis.')
     
     figs1, AX1 = (figs, AX) if AX else make_AX2(analysis_result, keys) 
-    dfs        = {}
-    
+
     for model_num in analysis_result:
-        dfs[model_num] = {}
-        for scenario in analysis_result[model_num]:
-            r  = analysis_result[model_num][scenario]
-            p  = problems[model_num]['names'] if problems else None
-            
-            dfs[model_num][scenario] = {}
-            
-            for key in keys:
-                
-                df = pd.DataFrame(r[key], columns=p, index=p)
-                ax = AX1[model_num][scenario][key]
-            
-                sns.heatmap(df, ax=ax, **heatmap_args)
-                title = titles.get(model_num, {}).get(scenario, str(key) + ' ' + str(scenario))
-                ax.set_title(title)
-            
-                dfs[model_num][scenario][key] = df
+        for scenario_num in analysis_result[model_num]:
+            for row_name in analysis_result[model_num][scenario_num]:
+                for func in analysis_result[model_num][scenario_num][row_name]:
+                    r  = analysis_result[model_num][scenario_num][row_name][func]
+                    p  = problems[model_num][row_name]['names'] if problems else None
+                    
+                    for key in keys:
+                        ax = AX1[model_num][scenario_num][row_name][func][key]
+                        df = pd.DataFrame(r[key], columns=p, index=p)
+                    
+                        sns.heatmap(df, ax=ax, **heatmap_args)
+                    
+                        try:
+                            title = titles[model_num][scenario_num][row_name][func]
+                        except:
+                            try:
+                                title = titles[model_num][scenario_num][func]
+                            except:
+                                if titles.get(model_num, {}).get(func, None):
+                                    title = make_default_title(model_num, scenario_num, row_name, titles[model_num][func])
+                                else:
+                                    title = make_default_title(model_num, scenario_num, row_name, func.__name__)
+                        ax.set_title(title + ' (' + key + ')')
     
-    list(map(cf.fs, figs1))
+    [sim.fs(fig) for fig in figs1]
     
-    return figs1, AX1, dfs 
+    return figs1, AX1
 
-def make_AX(analysis_result):
-    figs = {key: plt.figure() for key in analysis_result}
-    
-    AX = {}
-    for model_num in analysis_result:
-        n    = len(analysis_result[model_num])
-        rows = int(n**0.5)
-        cols = int(n/rows + 0.5)
-        
-        axes      = [figs[model_num].add_subplot(rows, cols, i+1) for i in range(n)]
-        scenarios = analysis_result[model_num].keys()
-        
-        AX[model_num]  = dict(zip(scenarios, axes))
-    
-    return list(figs.values()), AX
-
-def make_AX2(analysis_result, keys):
-    figs = {(model_num, scenario): plt.figure() for model_num in analysis_result for scenario in analysis_result[model_num]}
-
-    AX = {}
+def make_AX1(analysis_result):
+    # figs = {key: plt.figure() for key in analysis_result}
+    figs = []
+    AX   = {}
     for model_num in analysis_result:
         AX[model_num] = {}
-        for scenario in analysis_result[model_num]:
-            n    = len(keys)
-            rows = int(n**0.5)
-            cols = int(n/rows + 0.5)
-        
-            axes = [figs[(model_num,scenario)].add_subplot(rows, cols, i+1) for i in range(n)]
-            axes = dict(zip(keys, axes))
-            
-        
-            AX[model_num][scenario] = axes
-    
-    return list(figs.values()), AX
+        for scenario_num in analysis_result[model_num]:
+            AX[model_num][scenario_num] = {}
+            for row_name in analysis_result[model_num][scenario_num]:
+                AX[model_num][scenario_num][row_name] = {}
+                
+                n    = len(analysis_result[model_num][scenario_num][row_name])
+                rows = int(n**0.5)
+                cols = int(n/rows + 0.5)
+                fig  = plt.figure()
+                AX_  = [fig.add_subplot(rows, cols, i+1) for i in range(n)] 
+                i    = 0
+                figs.append(fig)
+                for func in analysis_result[model_num][scenario_num][row_name]:
+                    AX[model_num][scenario_num][row_name][func] = AX_[i]
+                    i += 1
+    return figs, AX
+
+def make_AX2(analysis_result, keys):
+    # figs = {key: plt.figure() for key in analysis_result}
+    figs = []
+    AX   = {}
+    for model_num in analysis_result:
+        AX[model_num] = {}
+        for scenario_num in analysis_result[model_num]:
+            AX[model_num][scenario_num] = {}
+            for row_name in analysis_result[model_num][scenario_num]:
+                AX[model_num][scenario_num][row_name] = {}
+
+                for func in analysis_result[model_num][scenario_num][row_name]:
+                    fig  = plt.figure()
+                    AX_  = [fig.add_subplot(1, 2, i+1) for i in range(2)] 
+                    AX[model_num][scenario_num][row_name][func] = dict(zip(keys, AX_))
+                    figs.append(fig)
+
+    return figs, AX
+
+def make_default_title(model_num, scenario_num, row_name, func_name):
+    return 'Model {model_num}, Scenario {scenario_num}, Row {row_name}, {func}'.format(model_num    = model_num, 
+                                                                                  scenario_num = scenario_num,
+                                                                                  row_name     = row_name,
+                                                                                  func         = func_name
+                                                                                  )
