@@ -118,12 +118,15 @@ def return_df(*arrays, columns):
 def convert_input(guess, skip, bounds={}, priors={}, step_size=0.1, bound_max='inf'):
     
     check_input(guess, priors, step_size, skip, bounds)
-    
+    print('guess', guess)
     result             = {}
-    param_array        = np.array(list(guess.values()), dtype=np.float64) if type(guess) == dict else guess.values
+    param_array        = params_to_array(guess)
+    print('param_array', param_array)
     param_names        = list(guess) if type(guess) == dict else list(guess.columns)
     name_to_num        = {name: num for num, name in enumerate(param_names)}
+    print('n2n', name_to_num)
     var_param_index    = np.array([name_to_num[name] for name in guess if name not in skip])
+    print('var_param_index', var_param_index)
     var_param_array    = param_array[var_param_index]
     max_val            = {name: np.inf for name in param_names} if bound_max == 'inf' else {pair[0]:max(pair[1], 1e-7) for pair in zip([name for name in guess if name not in skip], bound_max*var_param_array)}
     bounds_array       = np.array([bounds.get(name, [0, max_val[name]]) for name in guess if name not in skip])
@@ -155,6 +158,27 @@ def convert_input(guess, skip, bounds={}, priors={}, step_size=0.1, bound_max='i
     
     return result
 
+def params_to_array(params):
+    if type(params) == np.ndarray:
+        return params
+    elif type(params) == dict:
+        try:
+            temp = params[next(iter(params))]
+            next(iter(temp))
+            raise Exception('Only one value of params allowed!')
+        except:
+            result = np.array(list(params.values()))
+        
+            return np.array(result)
+    elif type(params) == DataFrame:
+        if params.shape[0] > 1:
+            raise Exception('Only one value of params allowed!')
+        return params.to_numpy()
+    elif type(params)  == Series:
+        return params.values
+    else:
+        raise Exception('Params is neither np.ndarry, dict nor DataFrame.')
+        
 def get_prior_index(params, priors):
     return np.array([pair[0] for pair in enumerate(params) if priors.get(pair[1], False)])
 
