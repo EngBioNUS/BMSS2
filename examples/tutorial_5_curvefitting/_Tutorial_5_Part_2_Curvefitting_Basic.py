@@ -170,6 +170,9 @@ def modify_init(init_values, params, model_num, scenario_num, segment):
     '''
     new_init = init_values.copy()
     if model_num == 2:
+        #Initial concentration of mRNA should be steady-state concentration
+        #dm = synm -m*degm
+        #At steady-state: m = synm/degm
         synm, degm  = params[3], params[4]
         new_init[2] = synm/degm
     return new_init
