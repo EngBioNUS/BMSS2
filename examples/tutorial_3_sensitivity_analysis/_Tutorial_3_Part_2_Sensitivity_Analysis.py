@@ -40,7 +40,7 @@ if __name__ == '__main__':
     filename = 'settings_sen.ini'
     
     '''
-    The final concentration of naringenin can be found using the objective function below. 
+    The final protein yield can be found using the objective function below. 
     Unlike the functions used for plotting extra variables, this one returns a single float.
     Note the difference!
     '''
@@ -63,6 +63,10 @@ if __name__ == '__main__':
     strains are given by the different values of mu_max_1 in params. Let's relabel params
     to reflect this.
     '''
+    print('Parameters')
+    print(sensitivity_args['params'])
+    
+    #This isn't very readable so let's change the index
     sensitivity_args['params'].index = ['Strain 1', 'Strain 2']
     
     #For speed, reduce the number of samples.
@@ -72,12 +76,12 @@ if __name__ == '__main__':
     Next, we prepare the samples and problems as defined in the SALib documentation.
     '''
     
-    samples, problems = sn.make_samples(models=sensitivity_args['models'], 
-                                        params=sensitivity_args['params'], 
-                                        fixed_parameters=sensitivity_args['fixed_parameters'], 
-                                        parameter_bounds=sensitivity_args['parameter_bounds'], 
-                                        analysis_type=sensitivity_args['analysis_type'], 
-                                        N=sensitivity_args['N'])
+    samples, problems = sn.make_samples(models           = sensitivity_args['models'], 
+                                        params           = sensitivity_args['params'], 
+                                        fixed_parameters = sensitivity_args['fixed_parameters'], 
+                                        parameter_bounds = sensitivity_args['parameter_bounds'], 
+                                        analysis_type    = sensitivity_args['analysis_type'], 
+                                        N                = sensitivity_args['N'])
     
     print('Sample parameters for model 1 generated from row "Strain 1" in parameters:')
     print(samples[1]['Strain 1'].round(3))
@@ -105,7 +109,9 @@ if __name__ == '__main__':
     print(analysis_result[1][1]['Strain 1'][h_yield])
     
     '''
-    The three steps can also be done in a single function call as shown below.
+    The three steps can also be done in a single function call as shown below. 
+    Unless you are working with a highly customized workflow, we recommend this
+    approach.
     
     sensitivity_args = ss.get_sensitivity_args(filename)
     sensitivity_args['params'].index = ['Strain 1', 'Strain 2']
