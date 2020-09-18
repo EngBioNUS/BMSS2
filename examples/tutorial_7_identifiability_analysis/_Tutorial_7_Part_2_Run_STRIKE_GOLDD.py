@@ -1,7 +1,7 @@
 import setup_bmss                   as lab
 import BMSS.models.setup_sg         as ssg
 import BMSS.strike_goldd_simplified as sg
-import BMSS.models.ia_result_to_csv as ic
+import BMSS.models.ia_results       as ir
 import BMSS.models.model_handler    as mh
 
 '''
@@ -29,30 +29,25 @@ if __name__ == '__main__':
     print('Result from strike_goldd')
     print(sg_results[1])
     print()
-
-    new_rows = ic.export_sg_results(sg_results, variables, config_data, user_core_models={}, local=True)
-    
-    print('Returned rows after calling export_results', '{')
-    for key in new_rows[1]:
-        print(key, ':', new_rows[1][key])
-    print('}')
     
     '''
-    If you want to run the strike-goldd algorithm on a single model, you can call
-    the underlying strike_goldd algorithm directly.
-        
-    sg_result = sg.strike_goldd(**sg_args[1])
-    
-    core_model = mh.quick_search('BMSS, Monod, Inducible')
-    
-    new_row = ic.write_new_row_to_file(sg_results[1], 
-                                       model_variables = variables[1],
-                                       core_model      = core_model,
-                                       local           = True,
-                                       **config_data[1]
-                                       )
+    The results can be exported as a human-readable report as a .yaml file
     
     If you code your own config_data, make sure you have these keys and their relevant values:
     'system_type', 'init', 'input_conditions', 'fixed_parameters', 'measured_states'
+    '''
+    outfile   = 'sg_results.yaml'
+    yaml_dict = ir.export_sg_results(sg_results, variables, config_data, user_core_models={}, filename=outfile)
+    
+    print('Printing yaml_dict[1]', '{')
+    for key in yaml_dict[1]:
+        print(key, ':', yaml_dict[1][key])
+    print('}')
+    
+    '''
+    If the model is in the database, the results can be added to the database 
+    as well using this code.
+    
+    ir.dump_sg_results(sg_results, variables, config_data)
     '''
     
