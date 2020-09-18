@@ -11,7 +11,6 @@ try:
     from .                   import model_handler    as mh 
     from .                   import settings_handler as sh
     from .                   import ia_model_import  as im
-    from .ia_result_to_csv   import write_new_row_to_file
     from ._backend_setup_sim import (compile_models, setup_helper, 
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
@@ -24,7 +23,6 @@ except:
     import model_handler    as     mh
     import settings_handler as     sh
     import ia_model_import  as     im
-    from ia_result_to_csv   import write_new_row_to_file
     from _backend_setup_sim import (compile_models, setup_helper, 
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 

@@ -3,7 +3,8 @@ import importlib
 import os
 import os.path    as osp
 import sqlite3    as sq
-from   pandas     import concat, DataFrame, Series, read_sql_query
+from   io         import StringIO
+from   pandas     import concat, DataFrame, Series, read_sql_query, read_csv
 from   sqlite3    import Error
 
 ###############################################################################
@@ -216,22 +217,29 @@ def search_database(keyword, search_type='system_type', database=None, active_on
 
     return result
     
-def quick_search(system_type, error_if_no_result=True, active_only=True):
+def quick_search(system_type, error_if_no_result=True, **kwargs):
     '''
-    Searches both system_type/id and returns the first result.
-    Meant to be used when you know the exact system_type/id.
+    Searches both system_type/id and returns an exact match in system_type/id.
     Raises an error when no matches are found if error_if_no_result is set to True.
     '''
     try:
-        core_model = search_database(system_type, search_type='system_type', active_only=active_only)[0]
+        core_model = search_database(system_type, search_type='system_type', **kwargs)[0]
+        
     except:
         try:
-            core_model = search_database(system_type, search_type='id', active_only=active_only)[0]
+            core_model = search_database(system_type, search_type='id', **kwargs)[0]
         except:
             if error_if_no_result:
                 raise Exception('Could not retrieve model with system_type ' + str(system_type))
             else:
-                core_model = None
+                return
+                
+    if core_model['system_type'] != system_type:
+        if error_if_no_result:
+            raise Exception('Could not retrieve model with system_type ' + str(system_type))
+        else:
+            return
+        
     return core_model
 
 def list_models(database=None):
@@ -354,6 +362,81 @@ def backend_config_to_database(filename, database, dialog=False):
     return core_model['system_type']
 
 ###############################################################################
+#Updateing IA
+###############################################################################
+def update_ia(core_model, new_row, save=True):
+    '''
+    Appends new_row to the core_model['ia'] where new_row can be a dict or Series.
+    
+    If save is True and the core_model is in the database, the changes will be 
+    applied to database.
+    '''
+    global MBase
+    global UBase
+    
+    s  = new_row if type(new_row) in [Series, DataFrame] else Series(new_row) 
+        
+    if core_model['ia']:
+        df = read_ia(core_model)
+        
+        try:
+            s = s[df.columns]
+        except:
+            raise Exception('Mismatch in column names. \nExpected: ' +  
+                            str(df.columns) + '\nReceived: ' + str(s.index))
+            
+        #Check if inputs are duplicated
+        try:
+            row_num          = df['input'][s['input'] == df['input']].index[0]
+            df.iloc[row_num] = s
+            print('Updated row ' + str(row_num) + ' in ' + str(core_model['system_type']))
+        except:
+            df = df.append(s, ignore_index=True)
+            print('Added row to ' + str(core_model['system_type']))
+    
+    else:
+        df = DataFrame(s).T
+    
+    ia_string        = df.to_csv(index=False)
+    core_model['ia'] = ia_string
+    
+    if save:
+        system_type = core_model['system_type']
+        
+        if quick_search(system_type, error_if_no_result=False):
+            _backend_modify_database(system_type, {'ia': ia_string})
+        else:
+            print('Changes to ' + str(system_type) + ' not saved to database.')
+    return ia_string
+
+def read_ia(core_model):
+    return read_csv(StringIO(core_model['ia']), header=[0, 1])
+
+###############################################################################
+#Modification
+###############################################################################
+def _backend_modify_database(system_type, data):
+    '''
+    Updates the row containing system_type with data.
+    Automatically determines if the system_type is part of MBase or UBase.
+    Not meant to be used on unsanitized data.
+    '''
+            
+    if 'BMSS' in system_type:
+        database = MBase
+    else:
+        database = UBase
+    
+    with database as db:
+        for column, value in data.items():
+            comm = "UPDATE models SET " + str(column) + " = '" + str(value) + "' WHERE system_type = '" + str(system_type) + "'"
+            cur  = db.cursor()
+            cur.execute(comm)
+            print('Changes to ' + str(system_type) + ' saved to database.')
+        
+    return
+
+###############################################################################
 #Deletion
 ###############################################################################
 def delete(system_type):
@@ -373,17 +456,13 @@ def restore(system_type):
         cur.execute(comm)
 
 def true_delete(system_type, database):
-    try:
-        model        = quick_search(system_type, database=database)
-    except:
-        print('system_type' +str(system_type) + 'not found')
-        return
-    
+    if not quick_search(system_type, active_only=False, error_if_no_result=False, database=database):
+        print(str(system_type) + ' could not be deleted as it was not found.')
+
     with database as db:
         comm = 'DELETE FROM models WHERE system_type="'+ system_type + '";'    
         db.execute(comm)
         print('Removed ' + system_type)
-
 
 ###############################################################################
 #Function for Setup
@@ -449,7 +528,7 @@ if __name__ == '__main__':
                   'equations'   : ['dmRNA = syn_mRNA*Ind/(Ind + Ki) - deg_mRNA*mRNA',
                                   'dPep  = syn_Pep*mRNA - deg_Pep'
                                   ],
-                  'ia'          : 'ia_result_bmss01001.csv'
+                  'ia'          : ''
                  
                   }
     
