@@ -92,7 +92,7 @@ def from_config(filename, sampler='sa'):
                               'units'       : units,       'init'   : init,   'tspan' : tspan 
                               }
         n += 1
-        
+ 
     return config_data
 
 ###############################################################################
@@ -145,6 +145,7 @@ def get_sampler_args_sa(filename, user_core_models={}):
         blocks += [[param + '_' + str(key) for param in block] for block in config_data[key]['sa_args'].get('blocks', [])]
         
         fixed_parameters   += [param + '_' + str(key) for param in config_data[key]['fixed_parameters']]
+        fixed_parameters   += [i     + '_' + str(key) for i     in core_models[key-1]['inputs']]
         
         if 'trials' in config_data[key]['sa_args']:
             trials.append(config_data[key]['sa_args']['trials'])
@@ -191,6 +192,7 @@ def get_sampler_args_de(filename, user_core_models={}):
         priors    = {**priors, **temp}
     
         fixed_parameters   += [param + '_' + str(key) for param in config_data[key]['fixed_parameters']]
+        fixed_parameters   += [i     + '_' + str(key) for i     in core_models[key-1]['inputs']]
         
         scipy_args = config_data[key]['de_args'] if 'de_args' in config_data[key] else scipy_args
         
@@ -238,6 +240,7 @@ def get_sampler_args_bh(filename, user_core_models={}):
         step_size = {**step_size, **temp}
         
         fixed_parameters   += [param + '_' + str(key) for param in config_data[key]['fixed_parameters']]
+        fixed_parameters   += [i     + '_' + str(key) for i     in core_models[key-1]['inputs']]
         
         scipy_args = config_data[key]['bh_args'] if 'bh_args' in config_data[key] else scipy_args
         
@@ -282,6 +285,7 @@ def get_sampler_args_da(filename, user_core_models={}):
         priors    = {**priors, **temp}
         
         fixed_parameters   += [param + '_' + str(key) for param in config_data[key]['fixed_parameters']]
+        fixed_parameters   += [i     + '_' + str(key) for i     in core_models[key-1]['inputs']]
         
         scipy_args = config_data[key]['da_args'] if 'da_args' in config_data[key] else scipy_args
         
@@ -318,13 +322,13 @@ def make_settings_template(system_types_settings_names, filename=''):
         states         = core_model['states']
         section_header = '[' + core_model['system_type'] + ']'
         
-        settings = {'system_type'     : system_type, 
-                    'settings_name'   : settings_name,
-                    'parameters'      : {},
-                    'units'           : {},
-                    'init'            : {},  
-                    'priors'          : {}, 
-                    'parameter_bounds': {},
+        settings = {'system_type'      : system_type, 
+                    'settings_name'    : settings_name,
+                    'parameters'       : {},
+                    'units'            : {},
+                    'init'             : {},  
+                    'priors'           : {}, 
+                    'parameter_bounds' : {},
                     'tspan'            : [],
                     'fixed_parameters' : [],
                     'solver_args'      : {'rtol'   : 1.49012e-8,
