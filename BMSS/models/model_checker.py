@@ -1,3 +1,4 @@
+import keyword
 import string
 from   pathlib import Path
 from   runpy   import run_path
@@ -35,6 +36,8 @@ def check_model_terms(model):
     terms    = list(map(get_terms, equations))
     lhs, rhs = [set().union(*s) for s in zip(*terms)]
     
+    check_illegal_terms(terms)
+    
     defined = lhs.union(states_set, params_set, inputs_set)
     
     undefined = [term for term in rhs if term not in defined]
@@ -51,7 +54,7 @@ def check_model_terms(model):
         temp    = states+params+inputs
         var     = ','.join(temp) + '= np.random.rand(' + str(len(temp)) + ')'
         conv    = ','.join(temp) + '= list(map(float, [' + ','.join(temp) + ']))'
-        y_test  = 'y = ' + ','.join(states)
+        y_test  = 'y = [' + ','.join(states) + ']'
         t_test  = 't = 0\ndt = 1e-3'
         p_test  = 'params = ' + ','.join(params+inputs)
         call    = 'y = y + dt*model_' + model['system_type'].replace(', ', '_') + '(y, t, params)'
@@ -133,6 +136,18 @@ def illegal_equal(x):
         if len(s) > 1:
             return True
     return False
+
+def check_illegal_terms(terms):
+    for term in terms:
+        for illegal_term in ['np']:
+            if term == illegal_term:
+                raise Exception('Illegal term detected: ' + term)
+        
+        for illegal_term in keyword.kwlist:
+            if term == illegal_term:
+                raise Exception('Illegal term detected: ' + term)
+                
+    return
     
 if __name__ == '__main__':
     __model__ = {'id'          : 'bmss01001',

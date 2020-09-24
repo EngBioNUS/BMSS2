@@ -3,6 +3,7 @@ import importlib
 import os
 import os.path    as osp
 import sqlite3    as sq
+import yaml       as ya
 from   io         import StringIO
 from   pandas     import concat, DataFrame, Series, read_sql_query, read_csv
 from   sqlite3    import Error
@@ -96,10 +97,10 @@ def make_core_model(system_type, states, parameters, inputs, equations, ia='', *
     
     is_valid, text = check_model_terms(core_model)
     if not is_valid:
-        raise Exception('Error in ' + str(system_type1) + ': ' + text)
+        raise Exception('Error in ' + str(system_type1) + ' when checking terms: ' + text)
     
-    if not ia:
-        core_model['ia'] = core_model['system_type'].replace(', ', '_') + '.csv'
+    # if not ia:
+    #     core_model['ia'] = core_model['system_type'].replace(', ', '_') + '.csv'
         
     return core_model
 
@@ -407,11 +408,35 @@ def update_ia(core_model, new_row, save=True):
             _backend_modify_database(system_type, {'ia': ia_string})
         else:
             print('Changes to ' + str(system_type) + ' not saved to database.')
+    else:
+        print('Changes to ' + str(core_model['system_type']) + ' not saved to database.')
     return ia_string
 
-def read_ia(core_model):
-    return read_csv(StringIO(core_model['ia']), header=[0, 1])
+def read_ia(core_model, mode='df', filename=''):
+    '''
+    Reads the string in core_model['ia'] and converts into a DataFrame.
+    
+    If mode is df, the DataFrame is returned.
+    
+    If mode is csv, the method to_csv is called.
+    
+    If mode is yaml, the method to_dict("record") is called and the resulting
+    dict is converted to .yaml.
+    '''
+    df = read_csv(StringIO(core_model['ia']), header=[0, 1])    
+    
+    if mode == 'csv':
+        return df.to_csv(filename, index=False)
+    elif mode == 'yaml':
+        d = df.to_dict('record')
+        return ya.dump(d, filename=filename)
+    else:
+        return df
 
+def reset_ia(system_type):
+    if quick_search(system_type, error_if_no_result=False):
+        _backend_modify_database(system_type, {'ia': ''})
+ 
 ###############################################################################
 #Modification
 ###############################################################################

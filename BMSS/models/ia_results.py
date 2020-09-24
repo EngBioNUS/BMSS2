@@ -48,7 +48,7 @@ def export_sg_results(sg_results, variables, config_data, user_core_models={}, f
         ya.dump(yaml_dict, file, sort_keys=False)
     return yaml_dict
     
-def dump_sg_results(sg_results, variables, config_data, user_core_models={}, local=False):
+def dump_sg_results(sg_results, variables, config_data, user_core_models={}, save=False):
     '''
     Adds sg_results for each core_model to the csv file indexed under core_model['ia']
     where the system_type of each core_model is specified in config_data.
@@ -67,7 +67,7 @@ def dump_sg_results(sg_results, variables, config_data, user_core_models={}, loc
         new_row = update_core_model(sg_result       = sg_results[key],
                                     model_variables = variables[key],
                                     core_model      = core_model,
-                                    save            = not local,
+                                    save            = save,
                                     **config_data[key]
                                     )
         

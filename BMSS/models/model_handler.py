@@ -4,6 +4,7 @@ if __name__ == '__main__':
                                         quick_search, search_database, get_model_function,
                                         delete, restore,
                                         model_to_code, make_core_model,
+                                        update_ia, read_ia, reset_ia
                                         )
 
 else:
@@ -12,6 +13,7 @@ else:
                                          quick_search, search_database, get_model_function,
                                          delete, restore,
                                          model_to_code, make_core_model,
+                                         update_ia, read_ia, reset_ia
                                          )
 
 if __name__ == '__main__':

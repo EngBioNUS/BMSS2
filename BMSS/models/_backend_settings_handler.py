@@ -142,16 +142,18 @@ def backend_add_to_database(settings, database, dialog=False):
 ###############################################################################
 #Search
 ###############################################################################    
-def search_database(system_type, settings_name='', database=None, skip_constructor=False, active_only=True):
+def search_database(system_type='', settings_name='', database=None, skip_constructor=False, active_only=True):
     
     #Can only add a settings for active models
     core_model = bmh.quick_search(system_type, active_only=True)
     result     = []
     
-    if settings_name:
+    if settings_name and system_type:
         comm = 'SELECT * FROM settings WHERE system_type LIKE "%' + system_type + '%" AND settings_name LIKE "%' + settings_name
+    elif settings_name:
+        comm = 'SELECT * FROM settings WHERE settings_name LIKE "%' + settings_name
     else:
-        comm         = 'SELECT * FROM settings WHERE system_type LIKE "%' + system_type  
+        comm = 'SELECT * FROM settings WHERE system_type LIKE "%' + system_type  
     
     if active_only:
         comm += '%" AND active = 1;'
@@ -187,26 +189,23 @@ def search_database(system_type, settings_name='', database=None, skip_construct
 
     return result
 
-def quick_search(system_type, settings_name='', error_if_no_result=True, **kwargs):
-    if settings_name:
-        result = search_database(system_type, settings_name=settings_name, **kwargs)
-        if result:
-            result
-            return result[0]
+def quick_search(system_type='', settings_name='', error_if_no_result=True, **kwargs):
+    try:
+        settings_name1 = settings_name if settings_name else '__default__'
+        settings = search_database(system_type, settings_name1, **kwargs)[0]
+    except:
+        if error_if_no_result:
+            raise Exception('Could not find default parameters for system_type '  + str(system_type))
         else:
-            raise Exception('Could not find parameters for system_type '  + str(system_type))
-    else:
-        result = search_database(system_type, settings_name='__default__', **kwargs)
-        if result:
-            return result[0]
+            return
+        
+    if settings['system_type'] != system_type or settings['settings_name'] != settings_name:
+        if error_if_no_result:
+            raise Exception('Could not find default parameters for system_type '  + str(system_type))
         else:
-            try:
-                result = search_database(system_type, settings_name='')
-                return result[0]
-            except:
-                if error_if_no_result:
-                    raise Exception('Could not find default parameters for system_type '  + str(system_type))
-    return {}
+            return
+        
+    return settings
     
 def list_settings(database=None):
     if database:
@@ -297,12 +296,12 @@ def from_config(filename):
                     raise Exception('Length of init must match number of states. system_type given: ' + str(system_type))
                 init = {1: init}
 
-        params = string_to_dict(params)
-        units  = string_to_dict(units)
-        priors = string_to_dict(priors) if priors else {}
+        params           = string_to_dict(params)
+        units            = string_to_dict(units)
+        priors           = string_to_dict(priors) if priors else {}
         bounds           = string_to_dict(bounds) if bounds else {}
         fixed_parameters = string_to_list_string(fixed_parameters)
-        tspan  = eval_tspan_string(tspan)
+        tspan            = eval_tspan_string(tspan)
         
         settings = {'system_type'      : system_type, 
                     'settings_name'    : settings_name,
@@ -486,6 +485,30 @@ def backend_config_to_database(filename, database):
     return result
 
 ###############################################################################
+#Modification
+###############################################################################
+def _backend_modify_database(system_type, settings_name, data):
+    '''
+    Updates the row containing system_type with data.
+    Automatically determines if the system_type is part of MBase or UBase.
+    Not meant to be used on unsanitized data.
+    '''
+            
+    if 'BMSS' in system_type:
+        database = bmh.MBase
+    else:
+        database = bmh.UBase
+    
+    with database as db:
+        for column, value in data.items():
+            comm = "UPDATE settings SET " + str(column) + " = '" + str(value) + "' WHERE system_type = '" + str(system_type) + "' AND settings_name = '" + str(settings_name) + "'"
+            cur  = db.cursor()
+            cur.execute(comm)
+            print('Changes to ' + str(system_type) + ' saved to database.')
+        
+    return
+
+###############################################################################
 #Deletion
 ###############################################################################
 def delete(system_type, settings_name):
@@ -503,11 +526,9 @@ def restore(system_type, settings_name):
         cur.execute(comm)
     
 def true_delete(system_type, settings_name, database):
-    try:
-        settings = quick_search(system_type, settings_name, database)
-    except:
-        print(str(system_type) + '/' + str(settings_name) + 'not found')
-        return
+    if not quick_search(system_type, settings_name, active_only=False, error_if_no_result=False, database=database):
+        print(str(system_type) + '/' + str(settings_name) + ' could not be deleted as it was not found.')
+    
     with database as db:
         comm = 'DELETE FROM settings WHERE system_type="'+ system_type + '" AND settings_name="' + settings_name +'";'    
         db.execute(comm)
