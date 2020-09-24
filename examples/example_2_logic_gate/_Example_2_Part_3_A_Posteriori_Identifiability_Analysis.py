@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy             as np
-import os
 import pandas            as pd
-from   pathlib           import Path
 
 import setup_bmss                as lab
 import BMSS.models.model_handler as mh
@@ -10,61 +8,12 @@ import BMSS.models.setup_cf      as sc
 import BMSS.aicanalysis          as ac
 import BMSS.curvefitting         as cf
 import BMSS.traceanalysis        as ta
+from   read_data                 import read_data
 
 plt.style.use(lab.styles['bmss_notebook_style'])
 
 #Reset Plots
 plt.close('all')
-
-def read_data(filename):
-    state     = 'Fluor/OD'
-    data_mu   = {}
-    data_sd   = {}
-    state_sd  = {}
-    tspan     = None
-    df        = pd.read_csv(filename)
-    scenarios = []
-    
-    init      = {}
-    
-    for column in df.columns:
-        if 'std' in column:
-            continue
-        elif 'Time' in column:
-            scenarios = [column] + scenarios
-        else:
-            scenarios.append(column)
-          
-    #Set up data_mu, data_sd, init, tspan
-    for model_num in range(1, 4):
-        data_mu[model_num] = {state:{}}
-        data_sd[model_num] = {state:{}}
-        init[model_num]    = {}
-        
-        for i in range(len(scenarios)):
-            scenario = scenarios[i]
-            
-            if i == 0:
-                data_mu[model_num][state][i] = df[scenario].values
-                data_sd[model_num][state][i] = df[scenario].values
-                tspan                        = df[scenario].values 
-            else:
-                data_mu[model_num][state][i] = df[scenario].values                 *1e-6/(18.814*30)
-                data_sd[model_num][state][i] = df[scenario + 'std'].values         *1e-6/(18.814*30)
-                
-                #Specific to the model in question
-                init_val           = data_mu[model_num][state][i][0]              
-                init[model_num][i] = {state:init_val}
-    
-    #Set up state_sd
-    df_sd           = df[[scenario + 'std' for scenario in scenarios if 'Time' not in scenario]]
-    state_sd[state] = df_sd.mean().mean()*1e-6/(18.814*30)
-    
-    #Add scenarios for reference    
-    data_mu[1]['Fluor/OD'][-1] = scenarios
-    data_sd[1]['Fluor/OD'][-1] = scenarios
-    
-    return data_mu, data_sd, init, state_sd, tspan
 
 def modify_init(init_values, params, model_num, scenario_num, segment):
     #Always use a copy and not the original
@@ -138,9 +87,11 @@ if __name__ == '__main__':
     #Import data
     #Details in Tutorial 5 Part 2
     #Function for importing the data is different from the one the tutorial
+    #as the blanks and means have already been accounted for.
     #Data structures are still the same
-    data_file = Path(os.getcwd())/'data'/'not_gate.csv'
-    data_mu, data_sd, init, state_sd, tspan = read_data(data_file)
+    data_files = {'Fluor/OD' : 'data/not_gate.csv',
+                  }
+    data_mu, data_sd, init, state_sd, tspan = read_data(data_files, n_models=len(config_data))
     
     #Update sampler_args with the information from the data
     sampler_args['models'][1]['states'] = ['p1', 'Fluor/OD']
