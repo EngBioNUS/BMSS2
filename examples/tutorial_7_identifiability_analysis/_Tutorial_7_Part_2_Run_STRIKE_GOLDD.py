@@ -43,11 +43,68 @@ if __name__ == '__main__':
     for key in yaml_dict[1]:
         print(key, ':', yaml_dict[1][key])
     print('}')
+    print()
+    
+
+    '''
+    The core_model data structure can be updated as follows.
+    
+    ir.dump_sg_results(sg_results, variables, config_data, user_core_models={}, save=True)
+    
+    For models in the database, the results for that model will be added to the 
+    database if save is set to True. If the model is not in the database or 
+    has been supplied using user_core_models, the results for that model will 
+    not be saved in the database regardless of the value of save.
+    '''
+    
+    #This will not be saved into the database
+    system_type = config_data[1]['system_type']
+    core_model1 = mh.quick_search(system_type)
+    
+    print('Printing core_model1["ia"] before update')
+    print(core_model1['ia'])
+    print()
+    
+    user_core_models = {system_type: core_model1}
+    
+    ir.dump_sg_results(sg_results, variables, config_data, user_core_models=user_core_models, save=False)
+    
+    print('Printing core_model1["ia"] after update')
+    print(core_model1['ia'])
+    print()
+    
+    #Search for core_model again and check if the changes have been saved.
+    core_model2 = mh.quick_search(system_type)
+    print('Printing core_model2["ia"] update')
+    print(core_model2['ia'])
+    print()
     
     '''
-    If the model is in the database, the results can be added to the database 
-    as well using this code.
-    
-    ir.dump_sg_results(sg_results, variables, config_data)
+    The results have not been saved as the core_models supplied via
+    user_core_models are never saved to the database.
     '''
+    
+    #This will not be saved into the database either
+    ir.dump_sg_results(sg_results, variables, config_data, save=False)
+    
+    #Search for core_model again and check if the changes have been saved.
+    core_model3 = mh.quick_search(system_type)
+    print('Printing core_model3["ia"] update')
+    print(core_model3['ia'])
+    print()
+    
+    '''
+    The results have not been saved as save was set to False.
+    '''
+    
+    #This will be saved.
+    ir.dump_sg_results(sg_results, variables, config_data, save=True)
+    
+    core_model4 = mh.quick_search(system_type)
+    print('Printing core_model4["ia"] update')
+    print(core_model4['ia'])
+    print()
+    
+    #Reset the ia for core_model
+    mh.reset_ia(system_type)
     
