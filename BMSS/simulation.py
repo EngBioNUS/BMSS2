@@ -67,6 +67,7 @@ def modify_params(init_values, params, model_num, scenario_num, segment):
 #Multi-Model Integration
 ###############################################################################
 def integrate_models(models, params, *extra_variables, args=(), mode='np', overlap=True):
+    print('Simulating models')
     y_models = {}
     e_models = {v: {model_num: {scenario_num: {} for scenario_num in models[model_num]['init']} for model_num in models} for v in extra_variables}
     
@@ -83,9 +84,10 @@ def integrate_models(models, params, *extra_variables, args=(), mode='np', overl
         return integrate_models(models, np.array([params]), *extra_variables, args=args, overlap=overlap)
     
     else:
-        params1 = pd.DataFrame(params)
         for model_num in models:
             model               = models[model_num]
+            param_names         = model['params']
+            params1             = params[param_names]
             y_models[model_num] = {}
             
             for scenario_num in models[model_num]['init']:
@@ -117,6 +119,7 @@ def integrate_models(models, params, *extra_variables, args=(), mode='np', overl
                                        
             y_models[model_num][0] = t_model
         
+        print('Simulation complete')
         return y_models, e_models
 
 ###############################################################################
