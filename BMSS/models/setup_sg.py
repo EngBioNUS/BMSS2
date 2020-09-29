@@ -159,7 +159,7 @@ def get_strike_goldd_args(filename, user_core_models={}, write_file=False):
 ###############################################################################
 #Template Generation
 ###############################################################################    
-def make_settings_template(system_types_settings_names, filename=''):
+def make_settings_template(system_types_settings_names, filename='', user_core_models={}):
     '''
     Accepts pairs of tuples containing (system_type, settings_name)
     '''
@@ -173,7 +173,7 @@ def make_settings_template(system_types_settings_names, filename=''):
         except:
             system_type, settings_name = pair, '__default__'
 
-        core_model     = mh.quick_search(system_type)
+        core_model     = user_core_models[system_type] if system_type in user_core_models else mh.quick_search(system_type)
         parameters     = core_model['parameters']
         inputs         = core_model['inputs']
         states         = core_model['states']
