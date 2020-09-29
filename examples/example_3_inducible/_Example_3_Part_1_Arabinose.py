@@ -117,7 +117,7 @@ if __name__ == '__main__':
     best_system_type = config_data[best_model_num]['system_type']
     
     new_settings                  = config_data[best_model_num]
-    new_settings['settings_name'] = 'Tutorial_6_GFP'
+    new_settings['settings_name'] = 'Example_3_pBad'
     new_settings['parameters']    = cf.get_params_for_model(models    = sampler_args['models'], 
                                                             trace     = accepted, 
                                                             model_num = best_model_num,
