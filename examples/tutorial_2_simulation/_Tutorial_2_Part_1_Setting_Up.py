@@ -11,7 +11,9 @@ Tutorial 2 Part 1: Introduction to simulation datastructures
 
 if __name__ == '__main__':
     '''
-    Note: This file is meant to be run after you have added the model from Tutorial 1.
+    Note: This file is meant to be run after you have added the model and settings
+    from Tutorial 1 Parts 2 and 3.
+    
     If you have not done so, run the following function.
     mh.config_to_database('testmodel.ini')
     '''
@@ -47,8 +49,10 @@ if __name__ == '__main__':
     2. Compiling Arguments
     '''
     
-    core_model     = mh.from_config('testmodel.ini')
-    models, params = sm.compile_models([core_model], config_data)
+    core_model       = mh.from_config('testmodel.ini')
+    user_core_models = {core_model['system_type']: core_model}
+    
+    models, params, config_data = sm.get_models_and_params(filename, user_core_models=user_core_models)
     
     '''
     Models is a dictionary in the form {model_num: compiled model}.
@@ -101,7 +105,8 @@ if __name__ == '__main__':
     3. Wrapping for Models in Database
     
     For models already in the database, we can combine the above steps into a single 
-    function call.
+    function call. In this situation, we do not need testmodel.ini as BMSS will extract 
+    from the database.
     '''
     
     new_models, new_params, new_config_data = sm.get_models_and_params(filename)
