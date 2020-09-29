@@ -161,6 +161,8 @@ def backend_add_to_database(core_model, database, dialog=False):
     o = 'Added model ' if make_new_id else 'Modified model '
     n =  model_id      if make_new_id else core_model['id']
     print(o + n + ' to '+ d)
+    
+    model_to_code(core_model, local=False)
     return model_id
 
 def string_dict_values(core_model):
