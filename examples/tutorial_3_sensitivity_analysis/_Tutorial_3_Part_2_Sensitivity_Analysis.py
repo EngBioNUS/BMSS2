@@ -56,7 +56,7 @@ if __name__ == '__main__':
     first step is to prepare the arguments by reading a .ini file with the settings.
     '''
     
-    sensitivity_args = ss.get_sensitivity_args(filename)
+    sensitivity_args, config_data = ss.get_sensitivity_args(filename)
     
     '''
     The difference in maximum growth rates for the fast (Strain 1) and slow-growing (Strain 2)
