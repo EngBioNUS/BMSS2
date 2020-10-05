@@ -17,7 +17,7 @@ def analyze(params, models, fixed_parameters, objective, parameter_bounds={}, mo
     '''
     
     #Check for input errors
-    if len(parameter_bounds) and len(parameter_bounds) != len(params) - len(fixed_parameters):
+    if len(parameter_bounds) and len(parameter_bounds) != len(params.columns) - len(fixed_parameters):
         raise Exception('len(parameter_bounds) not equal to len(params) - len(fixed_parameters)')
 
     if not all(list(map(lambda x: x in params, fixed_parameters))):

@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt 
 import numpy             as np
+import pandas            as pd
 import seaborn           as sns
 from matplotlib          import get_backend
 from numba               import jit
@@ -141,9 +142,8 @@ def simulated_annealing(data,         models,    guess,     priors,    step_size
     
     
     likelihood_args = get_likelihood_args(data, models, guess)
-    guess1          = guess if type(guess) == dict else guess.to_dict()
     
-    return sampler(guess1,         priors,        step_size, 
+    return sampler(guess,         priors,        step_size, 
                    trials=trials, skip=fixed_parameters, bounds=bounds, blocks=blocks, SA=SA, 
                    likelihood_function=get_SSE_data,
                    likelihood_args=likelihood_args,
@@ -157,9 +157,8 @@ def scipy_basinhopping(data,    models,    guess, priors, step_size=0.1, bounds=
                        **kwargs):
     
     likelihood_args = get_likelihood_args(data, models, guess)
-    guess1          = guess if type(guess) == dict else guess.to_dict()
-
-    result = wrappers.basinhopping(guess1,         priors,  step_size=step_size, 
+    
+    result = wrappers.basinhopping(guess,         priors,  step_size=step_size, 
                                    skip=fixed_parameters, bounds=bounds,  
                                    likelihood_function=likelihood_function, 
                                    likelihood_args=likelihood_args,
@@ -175,9 +174,8 @@ def scipy_dual_annealing(data, models, guess, priors, bounds={},
                          **kwargs):
     
     likelihood_args = get_likelihood_args(data, models, guess)
-    guess1          = guess if type(guess) == dict else guess.to_dict()
-
-    result = wrappers.dual_annealing(guess1,     priors, 
+    
+    result = wrappers.dual_annealing(guess,     priors, 
                                      skip=fixed_parameters, bounds=bounds,  
                                      likelihood_function=likelihood_function, 
                                      likelihood_args=likelihood_args,
@@ -187,7 +185,7 @@ def scipy_dual_annealing(data, models, guess, priors, bounds={},
     return result
 
 def scipy_differential_evolution(data, models, guess, priors, 
-                                 skip, bounds, 
+                                 fixed_parameters, bounds, 
                                  likelihood_function=get_SSE_data,
                                  scipy_args={}):
     
@@ -195,11 +193,10 @@ def scipy_differential_evolution(data, models, guess, priors,
         guess1          = guess if type(guess) == dict else guess.to_dict() 
     else:
         guess1          = {key: np.mean(bounds[key]) for key in bounds}
-        guess1          = {**guess1, **skip}
         
     likelihood_args = get_likelihood_args(data, models, guess1)
     
-    result = wrappers.differential_evolution(guess=guess1, priors=priors, skip=skip, bounds=bounds, 
+    result = wrappers.differential_evolution(guess=guess1, priors=priors, skip=fixed_parameters, bounds=bounds, 
                                              likelihood_function=likelihood_function, 
                                              likelihood_args=likelihood_args, 
                                              **scipy_args)
