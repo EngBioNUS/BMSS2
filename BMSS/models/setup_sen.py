@@ -85,13 +85,15 @@ def get_sensitivity_args(filename, user_core_models={}):
         
         fixed_parameters   += [param + '_' + str(key) for param in config_data[key]['fixed_parameters']]
     
-    return {'models'           : models, 
-            'params'           : params, 
-            'parameter_bounds' : bounds,
-            'fixed_parameters' : fixed_parameters,
-            'analysis_type'    : 'sobol',
-            'N'                : 1000 
-            }
+    sensitivity_args =  {'models'           : models, 
+                         'params'           : params, 
+                         'parameter_bounds' : bounds,
+                         'fixed_parameters' : fixed_parameters,
+                         'analysis_type'    : 'sobol',
+                         'N'                : 1000 
+                         }
+    
+    return sensitivity_args, config_data
 
 ###############################################################################
 #Template Generation
@@ -152,7 +154,7 @@ def make_settings_template(system_types_settings_names, filename='', user_core_m
         
         model_id         = '#id = ' + str(core_model['id'])
         model_equations  = '#equations = \n' + '\n'.join(['#\t' + line for line in core_model['equations'] ])
-        section_header   = '\n'.join([section_header, model_id, model_equations])
+        section_header   = '\n'.join([section_header, model_id, model_equations, ''])
         
         result += '\n\n'.join([section_header, init_values, param_values, units_values, tspan, parameter_bounds, fixed_parameters, solver_args])
         
