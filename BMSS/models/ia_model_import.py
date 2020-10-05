@@ -124,10 +124,12 @@ def export_model(variables, equations):
             lhs = ', '.join([x for x in line])
             rhs = '[Symbol(' + 'x' + ') for x in [' + ', '.join([x for x in quote(line)]) + ']]'
             content += lhs + ' = ' + rhs + '\n'
-        else:
+        elif len(line) == 1:
             lhs = line[0]
             rhs =  "Symbol('" + lhs + "')"
             content += lhs + ' = ' + rhs + '\n'
+        else:
+            continue
 
     ###############################################################################
     #Equations
@@ -157,7 +159,7 @@ def export_args(measured_states, states, unknown_parameters, input_conditions, i
     #Substitutions
     ###############################################################################
     if known_params:
-        subs = get_substitution(known_params)
+        subs = get_substitution(known_params, unknown_parameters)
         subs += 'diff = diff.subs(known_parameters.items())'
         
         result += '\n\n' + subs
@@ -189,9 +191,12 @@ def get_decomposition(decomposition):
     c = '\n' + ' '* (len(d)) + ']\n'
     return d + j.join([ '[' + ', '.join(group) + ']' for group in decomposition]) + c
 
-def get_substitution(known_params):
+def get_substitution(known_params, unknown_parameters):
     temp    = []
     for param in known_params:
+        if param in unknown_parameters:
+            continue
+        
         value = str(param) + ' : ' + str(known_params[param])
         temp.append(value)
 

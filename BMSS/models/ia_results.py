@@ -44,8 +44,28 @@ def export_sg_results(sg_results, variables, config_data, user_core_models={}, f
     
     outfile = filename if filename[-5:] == '.yaml' else filename + '.yaml'
     
-    with open(outfile, 'w') as file:
-        ya.dump(yaml_dict, file, sort_keys=False)
+    
+    try:
+        with open(outfile, 'w') as file:
+            ya.dump(yaml_dict, file, sort_keys=False)
+    except FileNotFoundError:#user wants to use relative path
+        cwd        = Path(os.getcwd())
+        rel_path   = Path(outfile)
+        folder     = rel_path.parent
+        stem       = rel_path.stem 
+        ext        = rel_path.suffix
+        outfile    = stem + ext if ext == '.yaml' else stem + ext + '.yaml'
+        
+        os.mkdir(folder)
+        
+        full_path = cwd / folder / outfile
+        
+        with open(full_path, 'w') as file:
+            ya.dump(yaml_dict, file, sort_keys=False)
+        
+    except Exception as e:
+        raise e
+        
     return yaml_dict
     
 def dump_sg_results(sg_results, variables, config_data, user_core_models={}, save=False):
