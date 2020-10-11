@@ -53,41 +53,93 @@ def params_to_code(params, indent=1):
     
     return result
 
+# def equations_to_code(equations, states, indent=1):
+#     '''
+#     Excepts a list of strings corresponding to equations and formats them.
+#     Assumes the last block of strings contains the differentials.
+    
+#     E.g. ["a=1","","ds=a**2","dx=a**3"]
+#     will return the following.
+#     "
+#     a = 1
+    
+#     ds = a**2
+#     dx = a**3
+    
+#     return np.array([ds, dx])
+#     "
+#     '''
+#     result = ''
+#     blocks = []
+#     diff = []
+#     expr = []
+#     for equation in equations:
+#         if equation.strip():
+#             diff_, expr_ = [s.strip() for s in equation.split('=')]
+       
+#             diff.append(diff_)
+#             expr.append(expr_)
+#         else:
+#             if diff:
+#                 blocks.append([diff.copy(), expr.copy()])
+#                 diff = []
+#                 expr = []
+#             else:
+#                 pass
+#     if diff:
+#         blocks.append([diff, expr])
+                
+#     temp = []
+#     for block in blocks:
+#         if temp:
+#             temp.append('\t'*indent)
+#         temp.append(equations_to_code_helper(*block, indent=indent))
+    
+#     return_value = '\t'*indent + 'return np.array([' + ', '.join(diff) +'])' 
+    
+#     if len(diff) != len(states):
+#         message = ' '.join(['The final block of equations contains', 
+#                             str(len(diff)),
+#                             'equations. However, the model has', 
+#                             str(len(states)),
+#                             'states.'
+#                             ])
+#         raise Exception(message)
+        
+#     result  = '\n'.join(temp) + '\n\n' + return_value
+#     return result 
+
 def equations_to_code(equations, states, indent=1):
     '''
     Excepts a list of strings corresponding to equations and formats them.
-    Assumes the last block of strings contains the differentials.
+    Assumes the differentials are given by "d"+state_name.
     
-    E.g. ["a=1","","ds=a**2","dx=a**3"]
-    will return the following.
-    "
-    a = 1
+    E.g. If the states are x1 and x2, the return value is np.array([x1, x2])
     
-    ds = a**2
-    dx = a**3
-    
-    return np.array([ds, dx])
-    "
     '''
     result = ''
     blocks = []
-    diff = []
-    expr = []
+    lhs    = []
+    rhs    = []
+    diff   = {'d'+state: False for state in states}
     for equation in equations:
         if equation.strip():
-            diff_, expr_ = [s.strip() for s in equation.split('=')]
+            lhs_, rhs_ = [s.strip() for s in equation.split('=')]
        
-            diff.append(diff_)
-            expr.append(expr_)
+            lhs.append(lhs_)
+            rhs.append(rhs_)
+            
+            if lhs_ in diff:
+                diff[lhs_] = True
         else:
-            if diff:
-                blocks.append([diff.copy(), expr.copy()])
-                diff = []
-                expr = []
+            if lhs:
+                blocks.append([lhs.copy(), rhs.copy()])
+                lhs = []
+                rhs = []
             else:
                 pass
-    if diff:
-        blocks.append([diff, expr])
+    if lhs:
+        blocks.append([lhs, rhs])
                 
     temp = []
     for block in blocks:
@@ -95,15 +147,12 @@ def equations_to_code(equations, states, indent=1):
             temp.append('\t'*indent)
         temp.append(equations_to_code_helper(*block, indent=indent))
     
-    return_value = '\t'*indent + 'return np.array([' + ', '.join(diff) +'])' 
     
-    if len(diff) != len(states):
-        message = ' '.join(['The final block of equations contains', 
-                            str(len(diff)),
-                            'equations. However, the model has', 
-                            str(len(states)),
-                            'states.'
-                            ])
+    return_value = '\t'*indent + 'return np.array([' + ', '.join(diff.keys()) + '])'
+    
+    if not all(diff.values()):
+        missing = [lhs_ for lhs_ in diff if not diff[lhs_]]
+        message = 'The following differentials are missing: {missing}'.format(missing=missing)
         raise Exception(message)
         
     result  = '\n'.join(temp) + '\n\n' + return_value
@@ -126,7 +175,6 @@ if __name__ == '__main__':
                                   ]
                  }
     
-#    code = model_to_code(__model__)
-#    export_code(code)
-    
-    export_models([__model__])
+    equations = __model__['equations']
+    states    = __model__['states']
+    print(equations_to_code(equations, states))
