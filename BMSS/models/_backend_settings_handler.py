@@ -50,13 +50,14 @@ def make_settings(system_type,    settings_name,       units,
     All irrelavant keyword arguments are ignored.
     '''
     
+    system_type1 = system_type if type(system_type) == str else ', '.join(system_type)
     if user_core_model:
-        core_model = user_core_model
-        if core_model['system_type'] != system_type:
+        core_model   = user_core_model
+        if core_model['system_type'] != system_type1:
             raise Exception('system_type does not match that of user_core_model.')
         print('Making settings using user_core_model')
     else:
-        core_model = bmh.quick_search(system_type)
+        core_model = bmh.quick_search(system_type1)
         
     param_values = sc.check_and_assign_param_values(core_model, parameters)
     init1        = sc.check_and_assign_init(core_model['states'], init, init_orient)
@@ -213,7 +214,7 @@ def list_settings(database=None):
             print('Listing core models in UBase.')
         else:
             print('Listing core models in MBase.')
-        comm         = 'SELECT system_type, settings_name FROM settings'
+        comm         = 'SELECT system_type, settings_name FROM settings where active = 1'
         cursor       = database.execute(comm)
         all_settings = [s for s in cursor.fetchall()]
         return all_settings
@@ -243,7 +244,7 @@ def from_df_replace(df, database):
 ###############################################################################
 #Interfacing with Configparser
 ###############################################################################    
-def from_config(filename):
+def from_config(filename, user_core_models={}):
     '''
     Returns a settings data structure
     '''
@@ -314,7 +315,8 @@ def from_config(filename):
                     'fixed_parameters' : fixed_parameters
                     }
         
-        all_settings.append(make_settings(**settings))
+        user_core_model = user_core_models.get(settings['system_type'], {})
+        all_settings.append(make_settings(**settings, user_core_model=user_core_model))
         
     return all_settings
 
@@ -377,7 +379,7 @@ def try_eval(x):
         return eval(x)
     except:
         return x
-
+    
 ###############################################################################
 #Template Generation
 ###############################################################################
@@ -567,8 +569,8 @@ if __name__ == '__main__':
                  'parameters'  : ['synm', 'degm', 'synp', 'degp'],
                  'inputs'      : ['Ind'],
                  'equations'   : ['dm = synm*Ind - degm*m',
-                                 'dp  = synp*m - degp'
-                                 ],
+                                  'dp  = synp*m - degp'
+                                  ],
                  'ia'          : 'ia_result_bmss01001.csv'
                  }
     

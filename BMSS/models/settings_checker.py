@@ -147,6 +147,7 @@ def check_and_assign_init(states, init, init_orient='scenario'):
                 check_valid_states(states, list(init1.columns))
             elif type(init) == pd.DataFrame:
                 init1 = init.reset_index(drop=True)
+                init1.index += 1
                 check_valid_states(states, list(init1.columns))
             elif type(init) == pd.Series:
                 init1 = pd.DataFrame(init).T

@@ -104,6 +104,19 @@ def make_core_model(system_type, states, parameters, inputs, equations, ia='', *
         
     return core_model
 
+def copy_core_model(core_model):
+    keys = ['id', 'system_type', 'states' , 'parameters', 'inputs', 'equations', 'ia']
+    
+    new_core_model = {}
+    for key in keys:
+        try:
+            value = core_model[key].copy()
+        except:
+            value = core_model[key]
+    
+        new_core_model[key] = value
+    return new_core_model
+        
 ###############################################################################
 #Model Storage
 ###############################################################################
