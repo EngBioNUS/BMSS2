@@ -211,69 +211,69 @@ if __name__ == '__main__':
     you can refer to Tutorial 5 Part 2.
     '''
     
-    # # '''
-    # # 4. Updating Function Arguments
-    # # '''
+    '''
+    4. Updating Function Arguments
+    '''
     
-    # # '''
-    # # The models data structure is a dictionary containing all information required
-    # # for numerical integration of a particular model. It has been indexed under 
-    # # "models". You can see what's  inside using this code.
+    '''
+    The models data structure is a dictionary containing all information required
+    for numerical integration of a particular model. It has been indexed under 
+    "models". You can see what's  inside using this code.
     
-    # # print('Printing the first model')
-    # # for key in sampler_args['models'][1]:
-    # #     print(key)
-    # #     print(sampler_args['models'][1][key])
-    # #     print()
+    print('Printing the first model')
+    for key in sampler_args['models'][1]:
+        print(key)
+        print(sampler_args['models'][1][key])
+        print()
     
-    # # During curve-fitting, our algorithm will calculate the SSE by comparing the 
-    # # results of integrating models[model_num] with those of the data[model_num]. 
+    During curve-fitting, our algorithm will calculate the SSE by comparing the 
+    results of integrating models[model_num] with those of the data[model_num]. 
     
-    # # However, the states in the model may have been differently named from the 
-    # # ones in the data.In addition, some models have states that were not measured 
-    # # during the experiment.
+    However, the states in the model may have been differently named from the 
+    ones in the data.In addition, some models have states that were not measured 
+    during the experiment.
     
-    # # How do we ensure BMSS performs the comparison correctly?
-    # # '''
+    How do we ensure BMSS performs the comparison correctly?
+    '''
     
-    # # sampler_args['models'][1]['states'] = ['OD', 'Pep']
-    # # sampler_args['models'][2]['states'] = ['OD', 'ind', 'm', 'Pep']
-    # # sampler_args['models'][3]['states'] = ['OD', 'inde', 'indi', 'm', 'Pep']
+    sampler_args['models'][1]['states'] = ['OD', 'Pep']
+    sampler_args['models'][2]['states'] = ['OD', 'ind', 'm', 'Pep']
+    sampler_args['models'][3]['states'] = ['OD', 'inde', 'indi', 'm', 'Pep']
     
-    # # '''
-    # # The first thing we do is to update the names of the states in each model to 
-    # # match the states specified in data.
+    '''
+    The first thing we do is to update the names of the states in each model to 
+    match the states specified in data.
     
-    # # For example, the default states in the first model are x and h which represent
-    # # biomass and protein respectively. These correspond to OD and Pep in the data.
-    # # We thus change the states in the models data structure to reflect this. States
-    # # that were not measured and are not in the experimental data can be left unchanged.
-    # # '''
+    For example, the default states in the first model are x and h which represent
+    biomass and protein respectively. These correspond to OD and Pep in the data.
+    We thus change the states in the models data structure to reflect this. States
+    that were not measured and are not in the experimental data can be left unchanged.
+    '''
     
-    # # #The inducer concentration is a state for the second and third models
-    # # #We need to incorporate them into the initial values.
-    # # for scenario in inducer_conc:
-    # #     init[2][scenario]['ind'] = inducer_conc[scenario]
-    # #     init[3][scenario]['ind'] = inducer_conc[scenario]
+    #The inducer concentration is a state for the second and third models
+    #We need to incorporate them into the initial values.
+    for scenario in inducer_conc:
+        init[2][scenario]['ind'] = inducer_conc[scenario]
+        init[3][scenario]['ind'] = inducer_conc[scenario]
     
-    # # for model_num in sampler_args['models']:
-    # #     sampler_args['models'][model_num]['tspan'] = [tspan]
-    # #     sampler_args['models'][model_num]['sd']    = state_sd
+    for model_num in sampler_args['models']:
+        sampler_args['models'][model_num]['tspan'] = [tspan]
+        sampler_args['models'][model_num]['sd']    = state_sd
         
-    # #     model_init = {scenario: [init[model_num][scenario].get(state, 0) for state in sampler_args['models'][model_num]['states']] for scenario in init[model_num]}
+        model_init = {scenario: [init[model_num][scenario].get(state, 0) for state in sampler_args['models'][model_num]['states']] for scenario in init[model_num]}
         
-    # #     sampler_args['models'][model_num]['init']                      = model_init
-    # #     sampler_args['models'][model_num]['int_args']['modify_params'] = modify_params
+        sampler_args['models'][model_num]['init']                      = model_init
+        sampler_args['models'][model_num]['int_args']['modify_params'] = modify_params
     
-    # # '''
-    # # We then update the other arguments in the models accordingly.
-    # # '''
+    '''
+    We then update the other arguments in the models accordingly.
+    '''
     
-    # # sampler_args['data'] = data_mu
+    sampler_args['data'] = data_mu
     
-    # # '''
-    # # Finally we add the data to sampler_args
-    # # '''
+    '''
+    Finally we add the data to sampler_args
+    '''
     
     '''
     5. Running the Sampler
@@ -324,10 +324,10 @@ if __name__ == '__main__':
     '''
     
     table = ac.calculate_aic(data   = sampler_args['data'], 
-                              models = sampler_args['models'], 
-                              priors = sampler_args['priors'],
-                              params = posterior
-                              )
+                             models = sampler_args['models'], 
+                             priors = sampler_args['priors'],
+                             params = posterior
+                             )
     
     ranked_table = ac.rank_aic(table, aic_column_name='AIC Value', inplace=False)
     
@@ -370,8 +370,7 @@ if __name__ == '__main__':
     new_settings['parameters']    = cf.get_params_for_model(models    = sampler_args['models'], 
                                                             trace     = accepted, 
                                                             model_num = best_model_num,
-                                                            row_index = best_row_index,
-                                                            user_core_model = user_core_models.get(best_system_type)
+                                                            row_index = best_row_index
                                                             )
     
     new_settings = sh.make_settings(**new_settings)
@@ -407,52 +406,62 @@ if __name__ == '__main__':
                                       skip        = sampler_args['fixed_parameters'], 
                                       legend_args = legend_args
                                       )
+        
+        k_figs, k_AX = ta.plot_steps(traces_, 
+                                     skip        = sampler_args['fixed_parameters'], 
+                                     legend_args = legend_args
+                                     )
+        h_figs, h_AX = ta.plot_steps(traces_, 
+                                     skip        = sampler_args['fixed_parameters'], 
+                                     legend_args = legend_args
+                                     )
+        
     '''
     To save time, we recommend you thin the trace at your discretion!
     '''
     
-    # # '''
-    # # 9. A Priori Identifiability Analysis
-    # # '''
+    '''
+    9. A Priori Identifiability Analysis
+    '''
         
-    # # '''
-    # # BMSS allows you perform algebraic identifiability analysi using the STRIKE-GOLDD
-    # # algorithm developed by Villaverde et al. which makes use of symbolic algebra
-    # # and Lie derivatives to assess parameter identifiability.
-    # # '''
+    '''
+    BMSS allows you perform algebraic identifiability analysi using the STRIKE-GOLDD
+    algorithm developed by Villaverde et al. which makes use of symbolic algebra
+    and Lie derivatives to assess parameter identifiability.
+    '''
     
-    # # ssg.make_settings_template(system_types_settings_names, 
-    # #                            filename         = 'settings_template_sg.ini', 
-    # #                            user_core_models = user_core_models)
+    ssg.make_settings_template(system_types_settings_names, 
+                                filename         = 'settings_template_sg.ini', 
+                                user_core_models = user_core_models)
     
-    # # '''
-    # # Once again, template files for the settings can be generated.
-    # # '''
+    '''
+    Once again, template files for the settings can be generated.
+    '''
     
-    # # sg_args, config_data, variables = ssg.get_strike_goldd_args('settings_sg.ini', 
-    # #                                                             user_core_models = user_core_models,
-    # #                                                             write_file       = True
-    # #                                                             )
+    sg_args, config_data, variables = ssg.get_strike_goldd_args('settings_sg.ini', 
+                                                                user_core_models = user_core_models,
+                                                                write_file       = True
+                                                                )
     
-    # # '''
-    # # The optional argument dst allows you to supply your own dictionary to which the
-    # # results will be added after each iteration. This allows you to thread and/or
-    # # save the results before all the iterations have been completed. Just use an
-    # # empty dictionary for dst.
-    # # '''
-    # # #Run strike-goldd algorithm
-    # # #Details in Tutorial 7 Part 2
-    # # dst        = {}
-    # # sg_results = sg.analyze_sg_args(sg_args, dst=dst)
-    # # outfile    = 'sg_results.yaml'
-    # # yaml_dict  = ir.export_sg_results(sg_results, variables, config_data, user_core_models=user_core_models, filename=outfile)
+    '''
+    The optional argument dst allows you to supply your own dictionary to which the
+    results will be added after each iteration. This allows you to thread and/or
+    save the results before all the iterations have been completed. Just use an
+    empty dictionary for dst.
+    '''
+    #Run strike-goldd algorithm
+    #Details in Tutorial 7 Part 2
+    dst        = {}
+    sg_results = sg.analyze_sg_args(sg_args, dst=dst)
+    outfile    = 'sg_results.yaml'
+    yaml_dict  = ir.export_sg_results(sg_results, variables, config_data, user_core_models=user_core_models, filename=outfile)
     
-    # # '''
-    # # print('Printing yaml_dict[1]', '{')
-    # # for key in yaml_dict[1]:
-    # #     print(key, ':', yaml_dict[1][key])
-    # # print('}')
-    # # '''
+    '''
+    print('Printing yaml_dict[1]', '{')
+    for key in yaml_dict[1]:
+        print(key, ':', yaml_dict[1][key])
+    print('}')
+    '''
     
     
     
