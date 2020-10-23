@@ -50,8 +50,6 @@ if __name__ == '__main__':
     user_core_models          = {core_model['system_type']: core_model}
     sampler_args, config_data = sc.get_sampler_args(config_data, sampler='sa', user_core_models=user_core_models)
     
-    print('Keys in sampler_args: ')
-    print(sampler_args.keys())
         
     '''
     3. Wrapping for Models in Database
