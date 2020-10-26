@@ -177,4 +177,9 @@ if __name__ == '__main__':
     
     equations = __model__['equations']
     states    = __model__['states']
+    
+    equations = equations[::-1]
+    
     print(equations_to_code(equations, states))
+    
+    

@@ -3,17 +3,17 @@ from numba import jit
 
 @jit(nopython=True)
 def model_TestModel_Dummy(y, t, params):
-	m = y[0]
-	p = y[1]
+	mRNA = y[0]
+	Pep  = y[1]
 
-	k_ind = params[0]
-	synm  = params[1]
-	degm  = params[2]
-	synp  = params[3]
-	degp  = params[4]
-	ind   = params[5]
+	syn_mRNA = params[0]
+	deg_mRNA = params[1]
+	syn_Pep  = params[2]
+	deg_Pep  = params[3]
+	Ki       = params[4]
+	Ind      = params[5]
 
-	dm = synm*ind/(ind + k_ind) - degm*m
-	dp = synp*m - degp*p
+	dmRNA = syn_mRNA*Ind/(Ind + Ki) - deg_mRNA*mRNA
+	dPep  = syn_Pep*mRNA - deg_Pep
 
-	return np.array([dm, dp])
+	return np.array([dmRNA, dPep])

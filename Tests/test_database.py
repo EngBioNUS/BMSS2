@@ -1,8 +1,7 @@
-import importlib
 import add_BMSS_to_path
 import pytest
 
-import numpy as np
+import numpy  as np
 import pandas as pd
 
 '''
@@ -26,7 +25,7 @@ class TestModelHandler:
     
     def test_make_core_model(self):
         global core_model_1
-        __model__ = {'system_type' : ['DUMMY', 'DUMMY'],
+        __model__ = {'system_type' : ['TestModel', 'Dummy'],
                       'states'      : ['mRNA', 'Pep'], 
                       'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
                       'inputs'      : ['Ind'],
@@ -48,7 +47,7 @@ class TestModelHandler:
     def test_make_core_model_fail_1(self):
         
         #Division by zero
-        __model__ = {'system_type' : ['DUMMY', 'DUMMY'],
+        __model__ = {'system_type' : ['TestModel', 'Dummy'],
                       'states'      : ['mRNA', 'Pep'], 
                       'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
                       'inputs'      : ['Ind'],
@@ -62,7 +61,7 @@ class TestModelHandler:
     @pytest.mark.xfail
     def test_make_core_model_fail_2(self):
         #Missing state
-        __model__ = {'system_type' : ['DUMMY', 'DUMMY'],
+        __model__ = {'system_type' : ['TestModel', 'Dummy'],
                       'states'      : ['mRNA'], 
                       'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
                       'inputs'      : ['Ind'],
@@ -76,7 +75,7 @@ class TestModelHandler:
     @pytest.mark.xfail
     def test_make_core_model_fail_3(self):
         #Missing parameter
-        __model__ = {'system_type' : ['DUMMY', 'DUMMY'],
+        __model__ = {'system_type' : ['TestModel', 'Dummy'],
                      'states'      : ['mRNA', 'Pep'], 
                      'parameters'  : ['deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
                      'inputs'      : ['Ind'],
@@ -90,7 +89,7 @@ class TestModelHandler:
     @pytest.mark.xfail
     def test_make_core_model_fail_4(self):
         #Unused variable
-        __model__ = {'system_type' : ['DUMMY', 'DUMMY'],
+        __model__ = {'system_type' : ['TestModel', 'Dummy'],
                      'states'      : ['mRNA', 'Pep', 'UnsedDummy'], 
                      'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
                      'inputs'      : ['Ind'],
@@ -158,7 +157,7 @@ class TestSettingsHandler:
         
         mh.add_to_database(core_model, dialog=False)
 
-        __settings__ = {'system_type'      : ['DUMMY', 'DUMMY'],
+        __settings__ = {'system_type'      : ['TestModel', 'Dummy'],
                         'settings_name'    : '__default__',
                         'units'            : {'syn_mRNA' : 'M/min', 
                                               'deg_mRNA' : '1/min',
@@ -232,7 +231,7 @@ class TestSettingsHandler:
     @pytest.mark.xfail
     def test_make_settings_fail_1(self):
         #Init of wrong length
-        __settings__ = {'system_type'      : ['DUMMY, DUMMY'],
+        __settings__ = {'system_type'      : ['TestModel, Dummy'],
                         'settings_name'    : '__default__',
                         'units'            : {'syn_mRNA' : 'M/min', 
                                               'deg_mRNA' : '1/min',
@@ -264,7 +263,7 @@ class TestSettingsHandler:
     @pytest.mark.xfail
     def test_make_settings_fail_2(self):
         #Invalid parameter bounds
-        __settings__ = {'system_type'      : ['DUMMY, DUMMY'],
+        __settings__ = {'system_type'      : ['TestModel, Dummy'],
                         'settings_name'    : '__default__',
                         'units'            : {'syn_mRNA' : 'M/min', 
                                               'deg_mRNA' : '1/min',
@@ -296,7 +295,7 @@ class TestSettingsHandler:
     @pytest.mark.xfail
     def test_make_settings_fail_3(self):
         #Mismatched parameter length
-        __settings__ = {'system_type'      : ['DUMMY, DUMMY'],
+        __settings__ = {'system_type'      : ['TestModel, Dummy'],
                         'settings_name'    : '__default__',
                         'units'            : {'syn_mRNA' : 'M/min', 
                                               'deg_mRNA' : '1/min',
