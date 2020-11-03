@@ -176,6 +176,7 @@ class TestSimulation:
 
         assert len(figs) == 1
     
+    @pytest.fixture(scope='session')
     def test_export_simulation_results(self):
         #Prefix at the front of the filenames
         prefix = ''
@@ -185,6 +186,7 @@ class TestSimulation:
         
         sim.export_simulation_results(ym, em, prefix=prefix, directory=directory)
         
+        #Use temporary directory
         assert 'simulation_results' in os.listdir()
 
 if __name__ == '__main__':

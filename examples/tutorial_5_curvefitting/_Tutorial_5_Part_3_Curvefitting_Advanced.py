@@ -52,7 +52,7 @@ if __name__ == '__main__':
     all_data['Fluor'] = multiply(all_data['Fluor'], 1e-6/(18.814*30))
     
     data_by_model_num = {1: {'OD600': all_data['OD600'],
-                              'Fluor': all_data['Fluor']
+                             'Fluor': all_data['Fluor']
                               }
                           }
     #Extract the necessary information

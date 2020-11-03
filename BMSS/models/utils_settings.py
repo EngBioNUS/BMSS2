@@ -1,5 +1,15 @@
 import numpy  as np
 import pandas as pd
+###############################################################################
+#Check if Analysis Settings
+###############################################################################    
+def is_analysis_settings(config, section):
+    if section in ['id', 'system_type', 'states', 'parameters', 'inputs', 'equations', 'ia']:
+        return False
+    if 'system_type' in config[section]:
+        return False
+    
+    return True
 
 ###############################################################################
 #Supporting Functions for Reading Strings into Python
