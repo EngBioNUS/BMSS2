@@ -9,7 +9,7 @@ from   numba             import jit
 from   pathlib           import Path
 
 '''
-Tests for simulation
+Tests for sensitivity analysis
 '''
 
 import BMSS.models.model_handler    as mh
@@ -23,7 +23,6 @@ model_files      = ['Monod_Constitutive_Single_ProductInhibition.ini']
 settings_file_1  = 'settings_sen_1.ini'
 settings_file_2  = 'settings_sen_2.ini' #Negative test case
 
-config_data      = None
 sensitivity_args = None
 problems         = None
 samples          = None
