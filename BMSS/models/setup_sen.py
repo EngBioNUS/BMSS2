@@ -5,7 +5,7 @@ import configparser
 try:
     from .                   import model_handler    as mh 
     from .                   import settings_handler as sh
-    from ._backend_setup_sim import (compile_models, setup_helper,
+    from .setup_sim          import (compile_models, setup_helper,
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
@@ -15,17 +15,24 @@ try:
 except:
     import model_handler    as     mh
     import settings_handler as     sh
-    from _backend_setup_sim import (compile_models, setup_helper,
-                                     string_to_dict, string_to_dict_array, 
-                                     string_to_list_string, eval_init_string, 
-                                     eval_params_string, eval_tspan_string, 
-                                     dict_template, list_template,
-                                     is_analysis_settings)
+    from   setup_sim        import (compile_models, setup_helper,
+                                    string_to_dict, string_to_dict_array, 
+                                    string_to_list_string, eval_init_string, 
+                                    eval_params_string, eval_tspan_string, 
+                                    dict_template, list_template,
+                                    is_analysis_settings)
     
 ###############################################################################
 #Interfacing with Configparser
 ###############################################################################
 def from_config(filename):
+    '''Opens a config file and reads the fields/subfields required for setting up 
+    the analysis while ignoring the irrelavant ones. Returns a dictionary of the 
+    collected information.
+    
+    :param filename: Name of file to read.
+    :type filename: str
+    '''
     config             = configparser.RawConfigParser()
     config.optionxform = lambda option: option
     config_data               = {}
@@ -68,7 +75,17 @@ def from_config(filename):
 #Main Set Up
 ###############################################################################    
 def get_sensitivity_args(filename, user_core_models={}):
+    '''Reads the config file and adds combines it with core_model data. If you are
+    using a core model that is not in the database, you must provide the core_model
+    using the core_models argument where the key is the system_type. Returns a 
+    dictionary of keyword arguments and the config_data.
     
+    :param filename: The name of the file to read
+    :type filename: str
+    :param user_core_model: A dictionary of core_models indexed by their system_type.
+        core_models already in the database do not need to be specified here.
+    :type user_core_model: dict, optional
+    '''
     config_data, core_models = setup_helper(filename, from_config, user_core_models)
     models, params = compile_models(core_models, config_data)
     
@@ -99,8 +116,17 @@ def get_sensitivity_args(filename, user_core_models={}):
 #Template Generation
 ###############################################################################    
 def make_settings_template(system_types_settings_names, filename='', user_core_models={}):
-    '''
-    Accepts pairs of tuples containing (system_type, settings_name)
+    '''Writes settings to a config file. If you are using a core_model that is 
+    not in the database, you must provide the core_model using the core_models 
+    argument where the key is the system_type.Returns the code as a string.
+    
+    :param system_types_settings_names: Pairs of tuples containing (system_type, settings_name)
+    :type system_types_settings_names: list or tuple
+    :param filename: The name of the file to write to
+    :type filename: str, optional
+    :param user_core_model: A dictionary of core_models indexed by their system_type.
+        core_models already in the database do not need to be specified here.
+    :type user_core_model: dict, optional
     '''
     result = ''
     

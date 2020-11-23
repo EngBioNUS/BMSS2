@@ -78,6 +78,9 @@ def check_and_assign_solver_args(solver_args):
                 'mxstep' : 0
                 }
     
+    if not solver_args:
+        return template
+    
     for key in solver_args:
         if key not in template:
             raise Exception('Error in solver_args. Unexpected key found: ' + str(key))
@@ -189,6 +192,9 @@ def check_and_assign_priors(parameter_df, priors):
     Parameter names must match core model.
     '''
     priors1 = {}
+    if priors is None:
+        return priors1
+    
     for key in priors:
         if key not in parameter_df:
             raise Exception('Unexpected parameter name in priors: ' + str(key))

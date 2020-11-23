@@ -11,7 +11,7 @@ try:
     from .                   import model_handler    as mh 
     from .                   import settings_handler as sh
     from .                   import ia_model_import  as im
-    from ._backend_setup_sim import (compile_models, setup_helper, 
+    from .setup_sim          import (compile_models, setup_helper, 
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
@@ -23,7 +23,7 @@ except:
     import model_handler    as     mh
     import settings_handler as     sh
     import ia_model_import  as     im
-    from _backend_setup_sim import (compile_models, setup_helper, 
+    from   setup_sim        import (compile_models, setup_helper, 
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
@@ -35,6 +35,13 @@ except:
 #Interfacing with ConfigParser
 ###############################################################################  
 def from_config(filename):
+    '''Opens a config file and reads the fields/subfields required for setting up 
+    the analysis while ignoring the irrelavant ones. Returns a dictionary of the 
+    collected information.
+    
+    :param filename: Name of file to read.
+    :type filename: str
+    '''
     config             = configparser.RawConfigParser()
     config.optionxform = lambda option: option
     config_data               = {}
@@ -98,6 +105,17 @@ def from_config(filename):
 #Main Set Up
 ###############################################################################    
 def get_strike_goldd_args(filename, user_core_models={}, write_file=False):
+    '''Reads the config file and adds combines it with core_model data. If you are
+    using a core model that is not in the database, you must provide the core_model
+    using the core_models argument where the key is the system_type. Returns a 
+    dictionary of keyword arguments and the config_data.
+    
+    :param filename: The name of the file to read
+    :type filename: str
+    :param user_core_model: A dictionary of core_models indexed by their system_type.
+        core_models already in the database do not need to be specified here.
+    :type user_core_model: dict, optional
+    '''
     config_data, core_models = setup_helper(filename, from_config, user_core_models)
     
     all_variables = {}
@@ -160,8 +178,17 @@ def get_strike_goldd_args(filename, user_core_models={}, write_file=False):
 #Template Generation
 ###############################################################################    
 def make_settings_template(system_types_settings_names, filename='', user_core_models={}):
-    '''
-    Accepts pairs of tuples containing (system_type, settings_name)
+    '''Writes settings to a config file. If you are using a core_model that is 
+    not in the database, you must provide the core_model using the core_models 
+    argument where the key is the system_type.Returns the code as a string.
+    
+    :param system_types_settings_names: Pairs of tuples containing (system_type, settings_name)
+    :type system_types_settings_names: list or tuple
+    :param filename: The name of the file to write to
+    :type filename: str, optional
+    :param user_core_model: A dictionary of core_models indexed by their system_type.
+        core_models already in the database do not need to be specified here.
+    :type user_core_model: dict, optional
     '''
     result = ''
     
@@ -219,45 +246,3 @@ def make_settings_template(system_types_settings_names, filename='', user_core_m
         with open(filename, 'w') as file:
             file.write(result)
     return result
-    
-# if __name__ == '__main__':
-#     __model__ = {'id'          : 'bmss01001',
-#                  'system_type' : ['Inducible', 'ConstInd'],
-#                  'states'      : ['mRNA', 'Pep'], 
-#                  'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
-#                  'inputs'      : ['Ind'],
-#                  'equations'   : ['dmRNA = syn_mRNA*Ind/(Ind + Ki) - deg_mRNA*mRNA',
-#                                   'dPep  = syn_Pep*mRNA - deg_Pep'
-#                                   ],
-#                  'ia'          : 'ia_result_bmss01001.csv'
-                 
-#                  }
-    
-#     keyword    = 'ConstInd'
-#     core_model = mh.search_models(keyword)[0]
-    
-#     info = {'known_params'    : {'deg_mRNA':[0.13, 'min-1'],
-#                                  },
-#             'inputs'          : {'Ind': 1,
-#                                  },
-#             'outputs'         : ['mRNA', 'Pep'],
-#             'decomp'          : [['Pep'], ['mRNA', 'Pep']],
-#             }
-            
-#     info = from_config('instance_information.ini')
-    
-#     ia_model = instantiate_ia_model(core_model, **info)
-    
-
-#     im.write_to_file(ia_model, 'dummy.py')
-    
-
-# #    make_ia_model_markup(ia_model, filename='mymodel.txt')
-
-# #    print(from_config('instance_information.ini'))
-# #    cf_model = instantiate_model_from_config('instance_information.ini')
-# #    for key in cf_model:
-# #        print(key)
-# #        print(cf_model[key])
-# #        print()
-        

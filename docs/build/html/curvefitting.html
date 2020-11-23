@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>curvefitting module &#8212; BMSS2 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="mcmc module" href="mcmc.html" />
+    <link rel="prev" title="aicanalysis module" href="aicanalysis.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-curvefitting">
+<span id="curvefitting-module"></span><h1>curvefitting module<a class="headerlink" href="#module-curvefitting" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="curvefitting.add_secondary_palette">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">add_secondary_palette</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">palette</span></em>, <em class="sig-param"><span class="n">secondary</span></em>, <em class="sig-param"><span class="n">parameter_sets</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.add_secondary_palette" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.extra_state">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">extra_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">t</span></em>, <em class="sig-param"><span class="n">params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.extra_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.flatten_tspan">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">flatten_tspan</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tspan</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.flatten_tspan" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.get">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nested_dict</span></em>, <em class="sig-param"><span class="n">first_key</span></em>, <em class="sig-param"><span class="n">second_key</span></em>, <em class="sig-param"><span class="n">no_result</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.get_SSE">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">get_SSE</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_data</span></em>, <em class="sig-param"><span class="n">y_model</span></em>, <em class="sig-param"><span class="n">sd_dataset</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.get_SSE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.get_SSE_data">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">get_SSE_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">t_indices</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">params_array</span><span class="o">=</span><span class="default_value">array([], dtype=float64)</span></em>, <em class="sig-param"><span class="n">params_index</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.get_SSE_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates SSE for data against models and returns the negative of the SSE.
+For testing/single calls:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Supply the parameters as a dict. Ignore all other optional arguments.</p></li>
+</ol>
+</div></blockquote>
+<dl class="simple">
+<dt>For iterative calls:</dt><dd><ol class="arabic simple">
+<li><p>Ignore the params argument.</p></li>
+<li><p>Provide a numpy array of parameters instead.</p></li>
+<li><p>Use the function get_liklihood_args to set up the other arguments.</p></li>
+</ol>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.get_SSE_dataset">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">get_SSE_dataset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model_num</span></em>, <em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">t_indices</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.get_SSE_dataset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.get_indices">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">get_indices</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t_data</span></em>, <em class="sig-param"><span class="n">t_model</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.get_indices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.get_indices_dataset">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">get_indices_dataset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">model</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.get_indices_dataset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.get_likelihood_args">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">get_likelihood_args</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.get_likelihood_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Meant to be used with get_SSE. Accepts data, models and a dict of params to
+generate the remaining arguments for get_SSE.</p>
+<p>Note: Actual values of the params do not matter. Only the order.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.get_params_for_model">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">get_params_for_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">trace</span></em>, <em class="sig-param"><span class="n">model_num</span></em>, <em class="sig-param"><span class="n">row_index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.get_params_for_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.get_t_indices">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">get_t_indices</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">models</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.get_t_indices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.get_tspan">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">get_tspan</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.get_tspan" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.make_AX">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">make_AX</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot_index</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.make_AX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a dictionary of axes objects using either plot_index OR data.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.make_colors">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">make_colors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">palette</span></em>, <em class="sig-param"><span class="n">models</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">parameter_sets</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.make_colors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.make_palette">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">make_palette</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">model</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">dataset</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette_type</span><span class="o">=</span><span class="default_value">'color'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.make_palette" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.plot">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">posterior</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">guess</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">models</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">data_sd</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">plot_index</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">labels</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">'color'</span></em>, <em class="sig-param"><span class="n">line_args</span><span class="o">=</span><span class="default_value">{'linewidth': 1.5}</span></em>, <em class="sig-param"><span class="n">guess_palette</span><span class="o">=</span><span class="default_value">'white'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for plotting function for data, guess and posterior in one function call.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.plot_data">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">plot_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">data_sd</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">plot_index</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">labels</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">'color'</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">marker</span><span class="o">=</span><span class="default_value">'+'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.plot_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.plot_model">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">plot_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">plot_index</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">labels</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">'color'</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">line_args</span><span class="o">=</span><span class="default_value">{'linewidth': 1.5}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.plot_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.save_plots">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">save_plots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em>, <em class="sig-param"><span class="n">figures</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.save_plots" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.scipy_basinhopping">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">scipy_basinhopping</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">step_size=0.1</em>, <em class="sig-param">bounds={}</em>, <em class="sig-param">step_size_is_ratio=True</em>, <em class="sig-param">fixed_parameters=[]</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">scipy_args={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.scipy_basinhopping" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.scipy_differential_evolution">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">scipy_differential_evolution</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">fixed_parameters</em>, <em class="sig-param">bounds</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">scipy_args={}</em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.scipy_differential_evolution" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.scipy_dual_annealing">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">scipy_dual_annealing</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">bounds={}</em>, <em class="sig-param">fixed_parameters=[]</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">scipy_args={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.scipy_dual_annealing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.simulated_annealing">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">simulated_annealing</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">step_size</em>, <em class="sig-param">trials=10000</em>, <em class="sig-param">bounds={}</em>, <em class="sig-param">blocks=[]</em>, <em class="sig-param">SA=True</em>, <em class="sig-param">fixed_parameters=[]</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.simulated_annealing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="curvefitting.view_palette">
+<code class="sig-prename descclassname">curvefitting.</code><code class="sig-name descname">view_palette</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">palette</span></em><span class="sig-paren">)</span><a class="headerlink" href="#curvefitting.view_palette" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">BMSS2</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">BMSS</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="aicanalysis.html">aicanalysis module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">curvefitting module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcmc.html">mcmc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scipy_wrappers.html">scipy_wrappers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivityanalysis.html">sensitivityanalysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">simulation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="strike_goldd_simplified.html">strike_goldd_simplified module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traceanalysis.html">traceanalysis module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">BMSS</a><ul>
+      <li>Previous: <a href="aicanalysis.html" title="previous chapter">aicanalysis module</a></li>
+      <li>Next: <a href="mcmc.html" title="next chapter">mcmc module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Russell Ngo Jie Kai.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/curvefitting.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

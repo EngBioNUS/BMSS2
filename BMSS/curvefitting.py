@@ -9,12 +9,15 @@ from scipy.integrate     import odeint
 ###############################################################################
 #Non-Standard Imports
 ###############################################################################
-
-from .mcmc       import *
-from .simulation import piecewise_integrate, palette_types, all_colors, apply_titles_and_legend, fs
-from .           import scipy_wrappers as wrappers
-from .           import timeseries     as ts
-
+try:
+    from .mcmc       import *
+    from .simulation import piecewise_integrate, palette_types, all_colors, apply_titles_and_legend, fs
+    from .           import scipy_wrappers as wrappers
+except:
+    from mcmc import *
+    from simulation import piecewise_integrate, palette_types, all_colors, apply_titles_and_legend, fs
+    import scipy_wrappers as wrappers
+    
 ###############################################################################
 #SSE Calculation
 ###############################################################################
@@ -518,94 +521,94 @@ def get_params_for_model(models, trace, model_num, row_index):
     param_names = models[model_num]['params']
     return trace.loc[row_index, param_names]
 
-###############################################################################
-#Setup and Working with TimeSeries
-###############################################################################
-def extract_from_timeseries(timeseries_dict, states, init={}, keys=[], start=0, stop=None, interval=1, skip=[], subtract_blank=True, subtract_initial=False):
-    '''
-    Accepts a dict of BMSS.timeseries.timeseries objects and performs preprocessing.
-    Includes truncation, thinning, skipping variables and blank subtraction.
-    Returns a dict with arguments required for running curvefitting.
-    '''
-    CFS                  = import_timeseries(timeseries_dict, keys=keys, start=start, stop=stop, interval=interval, skip=skip, subtract_blank=subtract_blank, subtract_initial=subtract_initial)    
-    all_data             = {}
-    all_data['init']     = make_init(states=states, data_dict=CFS['mu'], init=init)
-    all_data['data']     = get_states(states=states, data_dict=CFS['data'])
-    all_data['mu']       = get_states(states=states, data_dict=CFS['mu'])
-    all_data['sd']       = get_states(states=states, data_dict=CFS['sd'])
-    all_data['tspan']    = make_tspan(data_dict = CFS['data'])
-    all_data['state_sd'] = CFS['state_sd']
+# ###############################################################################
+# #Setup and Working with TimeSeries
+# ###############################################################################
+# def extract_from_timeseries(timeseries_dict, states, init={}, keys=[], start=0, stop=None, interval=1, skip=[], subtract_blank=True, subtract_initial=False):
+#     '''
+#     Accepts a dict of BMSS.timeseries.timeseries objects and performs preprocessing.
+#     Includes truncation, thinning, skipping variables and blank subtraction.
+#     Returns a dict with arguments required for running curvefitting.
+#     '''
+#     CFS                  = import_timeseries(timeseries_dict, keys=keys, start=start, stop=stop, interval=interval, skip=skip, subtract_blank=subtract_blank, subtract_initial=subtract_initial)    
+#     all_data             = {}
+#     all_data['init']     = make_init(states=states, data_dict=CFS['mu'], init=init)
+#     all_data['data']     = get_states(states=states, data_dict=CFS['data'])
+#     all_data['mu']       = get_states(states=states, data_dict=CFS['mu'])
+#     all_data['sd']       = get_states(states=states, data_dict=CFS['sd'])
+#     all_data['tspan']    = make_tspan(data_dict = CFS['data'])
+#     all_data['state_sd'] = CFS['state_sd']
     
-    return all_data
+#     return all_data
 
-def import_timeseries(timeseries_dict, keys=[], start=0, stop=None, interval=1, skip=[], subtract_blank=True, subtract_initial=False):
-    '''
-    Supporting function for extrac_from_timeseries. Do not run.
-    '''
-    temp            = ts.unpack(timeseries_dict, keys=keys, dtype='curvefit', start=start, stop=stop, interval=interval, skip=skip, subtract_blank=subtract_blank, subtract_initial=subtract_initial)
-    CFS             = {}
-    CFS['data']     = {state: temp[state]['data'] for state in temp}
-    CFS['mu']       = {state: temp[state]['mu'] for state in temp}
-    CFS['sd']       = {state: temp[state]['sd'] for state in temp}
-    CFS['state_sd'] = extract_state_sd(CFS['sd'])
+# def import_timeseries(timeseries_dict, keys=[], start=0, stop=None, interval=1, skip=[], subtract_blank=True, subtract_initial=False):
+#     '''
+#     Supporting function for extrac_from_timeseries. Do not run.
+#     '''
+#     temp            = ts.unpack(timeseries_dict, keys=keys, dtype='curvefit', start=start, stop=stop, interval=interval, skip=skip, subtract_blank=subtract_blank, subtract_initial=subtract_initial)
+#     CFS             = {}
+#     CFS['data']     = {state: temp[state]['data'] for state in temp}
+#     CFS['mu']       = {state: temp[state]['mu'] for state in temp}
+#     CFS['sd']       = {state: temp[state]['sd'] for state in temp}
+#     CFS['state_sd'] = extract_state_sd(CFS['sd'])
     
-    return CFS
+#     return CFS
 
-def extract_state_sd(CFS_sd):
-    '''
-    Supporting function for extrac_from_timeseries. Do not run.
-    '''
-    sd = {state: np.max( [ np.max(CFS_sd[state][key]) for key in CFS_sd[state] if key > 0] ) for state in CFS_sd}
-    return sd
+# def extract_state_sd(CFS_sd):
+#     '''
+#     Supporting function for extrac_from_timeseries. Do not run.
+#     '''
+#     sd = {state: np.max( [ np.max(CFS_sd[state][key]) for key in CFS_sd[state] if key > 0] ) for state in CFS_sd}
+#     return sd
     
-def make_init(states, init={}, data_dict={}, width=1):
-    '''
+# def make_init(states, init={}, data_dict={}, width=1):
+#     '''
     
-    Supporting function for extrac_from_timeseries. Do not run.
+#     Supporting function for extrac_from_timeseries. Do not run.
     
-    Creates a dictionary of initial values for each state.
-    If data_dict is provided, this function returns the first value of the array for each key that is more than 0. 
-    Values in init that are numbers will be concatenated to the appropriate length.
-    Values in init that are list-like will be used as-is but must be of the correct length.
-    If data_dict is not provided, width will be used to control the array size.
-    Width is ignored when data_dict is provided.
-    Values in init will always override those in data_dict.
-    '''
-    first_value = {state:[] for state in states}
-    for state in data_dict:
-        d = data_dict[state]
+#     Creates a dictionary of initial values for each state.
+#     If data_dict is provided, this function returns the first value of the array for each key that is more than 0. 
+#     Values in init that are numbers will be concatenated to the appropriate length.
+#     Values in init that are list-like will be used as-is but must be of the correct length.
+#     If data_dict is not provided, width will be used to control the array size.
+#     Width is ignored when data_dict is provided.
+#     Values in init will always override those in data_dict.
+#     '''
+#     first_value = {state:[] for state in states}
+#     for state in data_dict:
+#         d = data_dict[state]
             
-        first_value[state] = np.array([d[key][0] for key in d if key > 0])
+#         first_value[state] = np.array([d[key][0] for key in d if key > 0])
     
-    n = len(first_value[next(iter(first_value))]) if data_dict else width
+#     n = len(first_value[next(iter(first_value))]) if data_dict else width
     
-    for state in init:
-        try:
-            next(iter(init[state]))
-            first_value[state] = np.array(init[state])
-        except:
-            first_value[state] = np.array([init[state]]*n)
+#     for state in init:
+#         try:
+#             next(iter(init[state]))
+#             first_value[state] = np.array(init[state])
+#         except:
+#             first_value[state] = np.array([init[state]]*n)
     
-    init_array = []
-    for state in states:
-        if len(first_value[state]) != n:
-            raise Exception('Error in ' + state + '.\nMake sure all data has the same number of scenarios.')
-        init_array.append(first_value[state])
+#     init_array = []
+#     for state in states:
+#         if len(first_value[state]) != n:
+#             raise Exception('Error in ' + state + '.\nMake sure all data has the same number of scenarios.')
+#         init_array.append(first_value[state])
     
-    init_array = np.array(init_array).T
-    init_dict  = {i+1: init_array[i] for i in range(len(init_array))}
-    return init_dict
+#     init_array = np.array(init_array).T
+#     init_dict  = {i+1: init_array[i] for i in range(len(init_array))}
+#     return init_dict
 
-def get_states(states, data_dict):
-    '''
-    Supporting function for extrac_from_timeseries. Do not run.
-    '''
-    return {state: data_dict[state] for state in states if data_dict.get(state)}
+# def get_states(states, data_dict):
+#     '''
+#     Supporting function for extrac_from_timeseries. Do not run.
+#     '''
+#     return {state: data_dict[state] for state in states if data_dict.get(state)}
 
-def make_tspan(data_dict):
-    '''
-    Supporting function for extrac_from_timeseries. Do not run.
-    '''
-    tspan = np.concatenate([data_dict[state][0] for state in data_dict])
-    return np.unique(tspan)
+# def make_tspan(data_dict):
+#     '''
+#     Supporting function for extrac_from_timeseries. Do not run.
+#     '''
+#     tspan = np.concatenate([data_dict[state][0] for state in data_dict])
+#     return np.unique(tspan)
     

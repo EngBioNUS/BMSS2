@@ -1,33 +1,37 @@
 import numpy as np
-def model_BMSS_Monod_Constitutive_Single(y, t, params):
-	x = y[0]
-	s = y[1]
-	h = y[2]
+def model_BMSS_Monod_Constitutive_Double(y, t, params):
+	x  = y[0]
+	s  = y[1]
+	mh = y[2]
+	h  = y[3]
 
 	mu_max = params[0]
 	Ks     = params[1]
 	Y      = params[2]
-	synh   = params[3]
+	synm   = params[3]
+	degm   = params[4]
+	synh   = params[5]
 
 	mu = mu_max*s/(s+Ks)
 	
 	dx = x*mu
 	ds = -dx/Y
-	dh = synh -h*mu
+	dmh= synm    -mh*degm
+	dh = synh*mh -h *mu
 
-	return np.array([dx, ds, dh])
+	return np.array([dx, ds, dmh, dh])
 
-x,s,h,mu_max,Ks,Y,synh= np.random.rand(7)
+x,s,mh,h,mu_max,Ks,Y,synm,degm,synh= np.random.rand(10)
 
-x,s,h,mu_max,Ks,Y,synh= list(map(float, [x,s,h,mu_max,Ks,Y,synh]))
+x,s,mh,h,mu_max,Ks,Y,synm,degm,synh= list(map(float, [x,s,mh,h,mu_max,Ks,Y,synm,degm,synh]))
 
-y = [x,s,h]
+y = [x,s,mh,h]
 
 t = 0
 dt = 1e-3
 
-params = mu_max,Ks,Y,synh
+params = mu_max,Ks,Y,synm,degm,synh
 
-y = y + dt*model_BMSS_Monod_Constitutive_Single(y, t, params)
+y = y + dt*model_BMSS_Monod_Constitutive_Double(y, t, params)
 
-y = y + dt*model_BMSS_Monod_Constitutive_Single(y, t, params)
+y = y + dt*model_BMSS_Monod_Constitutive_Double(y, t, params)

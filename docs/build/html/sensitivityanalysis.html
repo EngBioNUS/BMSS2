@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sensitivityanalysis module &#8212; BMSS2 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="simulation module" href="simulation.html" />
+    <link rel="prev" title="scipy_wrappers module" href="scipy_wrappers.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-sensitivityanalysis">
+<span id="sensitivityanalysis-module"></span><h1>sensitivityanalysis module<a class="headerlink" href="#module-sensitivityanalysis" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="sensitivityanalysis.analyze">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">analyze</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">objective</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'np'</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">100</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.analyze" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main algorithm for sensitivity analysis. Wraps analyze_sensitivty and sample_and_integrate.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sensitivityanalysis.analyze_sensitivity">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">analyze_sensitivity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">objective_function_values</span></em>, <em class="sig-param"><span class="n">samples</span></em>, <em class="sig-param"><span class="n">problems</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.analyze_sensitivity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="sensitivityanalysis.integrate_samples">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">integrate_samples</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">samples</span></em>, <em class="sig-param"><span class="n">objective</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.integrate_samples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="sensitivityanalysis.make_AX1">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">make_AX1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">analysis_result</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.make_AX1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="sensitivityanalysis.make_AX2">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">make_AX2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">analysis_result</span></em>, <em class="sig-param"><span class="n">keys</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.make_AX2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="sensitivityanalysis.make_default_title">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">make_default_title</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model_num</span></em>, <em class="sig-param"><span class="n">scenario_num</span></em>, <em class="sig-param"><span class="n">row_name</span></em>, <em class="sig-param"><span class="n">func_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.make_default_title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="sensitivityanalysis.make_samples">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">make_samples</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">1000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.make_samples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="sensitivityanalysis.make_samples_for_row">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">make_samples_for_row</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em>, <em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.make_samples_for_row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Supporting function for sample_and_integrate. Do not run.
+row must be a pandas Series</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sensitivityanalysis.plot_first_order">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">plot_first_order</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">analysis_result</span></em>, <em class="sig-param"><span class="n">problems</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">analysis_keys</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">heatmap_args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.plot_first_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>If analysis_type is neither sobol, fast nor delta, use analysis_keys to specify which
+keys/columns to use.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sensitivityanalysis.plot_second_order">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">plot_second_order</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">analysis_result</span></em>, <em class="sig-param"><span class="n">problems</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">analysis_keys</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">heatmap_args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.plot_second_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>If analysis_type is not sobol, use analysis_keys to specify which keys/columns to use.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sensitivityanalysis.salib_wrapper">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">salib_wrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">problem</span></em>, <em class="sig-param"><span class="n">y_val</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.salib_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Backend wrapper for sobol, fast and delta analysis.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sensitivityanalysis.sample_and_integrate">
+<code class="sig-prename descclassname">sensitivityanalysis.</code><code class="sig-name descname">sample_and_integrate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span></em>, <em class="sig-param"><span class="n">objective</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">1000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivityanalysis.sample_and_integrate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">BMSS2</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">BMSS</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="aicanalysis.html">aicanalysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curvefitting.html">curvefitting module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcmc.html">mcmc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scipy_wrappers.html">scipy_wrappers module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">sensitivityanalysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">simulation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="strike_goldd_simplified.html">strike_goldd_simplified module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traceanalysis.html">traceanalysis module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">BMSS</a><ul>
+      <li>Previous: <a href="scipy_wrappers.html" title="previous chapter">scipy_wrappers module</a></li>
+      <li>Next: <a href="simulation.html" title="next chapter">simulation module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Russell Ngo Jie Kai.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/sensitivityanalysis.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

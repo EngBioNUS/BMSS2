@@ -163,8 +163,6 @@ def update_sampler_args(data, data_mu, data_sd, init, state_sd, tspan, sampler_a
         for state in init[model_num]:
             temp[state] = init[model_num][state].values()
         
-        print('Printing init. vals. for model ' + str(model_num) + ' in update_sampler_args (df form)')
-        print(temp)
         sampler_args['models'][model_num]['init'] = df_to_dict_array(temp.T)
         
         #Add the sd of the state
@@ -300,7 +298,7 @@ class TestCurveFitting:
         traces[1] = accepted
         
         assert len(accepted)
-    
+        
     def test_scipy(self):
         global data
         global data_mu
@@ -323,10 +321,6 @@ class TestCurveFitting:
                                  'Fluor': all_data['Fluor']
                                  }
                               }
-        #Extract the necessary information
-        #Note that subtraction of the blank has been included in this function!!!
-        data, data_mu, data_sd, init, state_sd, tspan = import_data(all_data, data_by_model_num)
-        
         '''
         Iterate across each type of sampler
         '''
@@ -336,6 +330,11 @@ class TestCurveFitting:
                              ]
         
         for filename, sampler, sampler_function in filename_samplers:
+            print('Test sampler', sampler)
+            #Extract the necessary information
+            #Note that subtraction of the blank has been included in this function!!!
+            data, data_mu, data_sd, init, state_sd, tspan = import_data(all_data, data_by_model_num)
+        
             sampler_args, config_data = sc.get_sampler_args(filename, sampler)
             
             states = {1: ['OD600', 'Glu', 'Fluor'],
@@ -343,10 +342,11 @@ class TestCurveFitting:
             
             sampler_args = update_sampler_args(data, data_mu, data_sd, init, state_sd, tspan, sampler_args, states)
             
+                
             result = sampler_function(**sampler_args)
         
-            assert type(result) == dict
-    
+            # assert type(result) == dict
+            print()
 class TestTraceAnalysis:
     
     def test_plot_steps(self):
@@ -396,15 +396,16 @@ if __name__ == '__main__':
     t.test_get_sampler_args()
     
     t = TestCurveFitting()
-    t.test_simulated_annealing()
-    # t.test_scipy()
+    # t.test_simulated_annealing()
+    t.test_scipy()
+    
     
     # t = TestTraceAnalysis()
     # t.test_plot_steps()
     
-    t = TestAICAnalysis()
-    t.test_calculate_aic()
-    t.test_rank_aic()
+    # t = TestAICAnalysis()
+    # t.test_calculate_aic()
+    # t.test_rank_aic()
     
         
         

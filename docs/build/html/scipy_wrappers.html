@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>scipy_wrappers module &#8212; BMSS2 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="sensitivityanalysis module" href="sensitivityanalysis.html" />
+    <link rel="prev" title="mcmc module" href="mcmc.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-scipy_wrappers">
+<span id="scipy-wrappers-module"></span><h1>scipy_wrappers module<a class="headerlink" href="#module-scipy_wrappers" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="scipy_wrappers.basinhopping">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">basinhopping</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">guess</span></em>, <em class="sig-param"><span class="n">priors</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">skip</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">bounds</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">step_size</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">step_size_is_ratio</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">likelihood_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">likelihood_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">scipy_args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.basinhopping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimizes the negative of the posterior function with custom likelihood function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.bounds_test">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">bounds_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var_param_array</span></em>, <em class="sig-param"><span class="n">bounds_array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.bounds_test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.check_input">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">check_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">guess</span></em>, <em class="sig-param"><span class="n">priors</span></em>, <em class="sig-param"><span class="n">step_size</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">skip</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">bounds</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.check_input" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.convert_input">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">convert_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">guess</span></em>, <em class="sig-param"><span class="n">skip</span></em>, <em class="sig-param"><span class="n">bounds</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">priors</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">step_size</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">bound_max</span><span class="o">=</span><span class="default_value">'inf'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.convert_input" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.differential_evolution">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">differential_evolution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">guess</span></em>, <em class="sig-param"><span class="n">priors</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">skip</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">bounds</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">likelihood_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">likelihood_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">scipy_args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.differential_evolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimizes the negative of the posterior function with custom likelihood function.
+Bounds must be provided for ALL parameters</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.dual_annealing">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">dual_annealing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">guess</span></em>, <em class="sig-param"><span class="n">priors</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">skip</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">bounds</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">likelihood_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">likelihood_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">scipy_args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.dual_annealing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimizes the negative of the posterior function with custom likelihood function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.dummy">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">dummy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params_array</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.dummy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.get_log_likelihood">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">get_log_likelihood</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params_array</span></em>, <em class="sig-param"><span class="n">likelihood_function</span></em>, <em class="sig-param"><span class="n">likelihood_args</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.get_log_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.get_log_prior">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">get_log_prior</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">priors</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.get_log_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pass in a dicts of params and priors OR np.arrays of params and priors</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.get_log_sum">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">get_log_sum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.get_log_sum" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.get_negative_log_posterior">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">get_negative_log_posterior</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var_param_array</span></em>, <em class="sig-param"><span class="n">var_param_index</span></em>, <em class="sig-param"><span class="n">full_params_array</span></em>, <em class="sig-param"><span class="n">prior_index</span></em>, <em class="sig-param"><span class="n">prior_distribution</span></em>, <em class="sig-param"><span class="n">likelihood_function</span></em>, <em class="sig-param"><span class="n">likelihood_args</span></em>, <em class="sig-param"><span class="n">trace</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.get_negative_log_posterior" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.get_prior_distribution">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">get_prior_distribution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">priors</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.get_prior_distribution" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.get_prior_index">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">get_prior_index</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">priors</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.get_prior_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.params_to_array">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">params_to_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.params_to_array" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.reconstruct_params">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">reconstruct_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variable_params</span></em>, <em class="sig-param"><span class="n">variable_param_index</span></em>, <em class="sig-param"><span class="n">params_array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.reconstruct_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.record_trace">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">record_trace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var_param_array</span></em>, <em class="sig-param"><span class="n">var_param_index</span></em>, <em class="sig-param"><span class="n">params_array</span></em>, <em class="sig-param"><span class="n">trace</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.record_trace" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.return_df">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">return_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">arrays</span></em>, <em class="sig-param"><span class="n">columns</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.return_df" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.wrap_bounds_test">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">wrap_bounds_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bounds_array</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">funcs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.wrap_bounds_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps bounds_test as well as any custom functions.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.wrap_log_posterior">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">wrap_log_posterior</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var_param_index</span></em>, <em class="sig-param"><span class="n">full_params_array</span></em>, <em class="sig-param"><span class="n">prior_index</span></em>, <em class="sig-param"><span class="n">prior_distribution</span></em>, <em class="sig-param"><span class="n">likelihood_function</span></em>, <em class="sig-param"><span class="n">likelihood_args</span></em>, <em class="sig-param"><span class="n">trace</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.wrap_log_posterior" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.wrap_record_trace_bh">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">wrap_record_trace_bh</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var_param_index</span></em>, <em class="sig-param"><span class="n">params_array</span></em>, <em class="sig-param"><span class="n">accepted</span></em>, <em class="sig-param"><span class="n">rejected</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.wrap_record_trace_bh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.wrap_record_trace_da">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">wrap_record_trace_da</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var_param_index</span></em>, <em class="sig-param"><span class="n">params_array</span></em>, <em class="sig-param"><span class="n">accepted</span></em>, <em class="sig-param"><span class="n">contexts</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.wrap_record_trace_da" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.wrap_record_trace_de">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">wrap_record_trace_de</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var_param_index</span></em>, <em class="sig-param"><span class="n">params_array</span></em>, <em class="sig-param"><span class="n">trace</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.wrap_record_trace_de" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scipy_wrappers.wrap_transition">
+<code class="sig-prename descclassname">scipy_wrappers.</code><code class="sig-name descname">wrap_transition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">guess_array</span></em>, <em class="sig-param"><span class="n">step_size</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">step_size_is_ratio</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scipy_wrappers.wrap_transition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a scipy.norm object for generating random variables.
+Wraps the transition step into a function that accepts the current array and returns the transitioned one.
+Use the get_step argument to return the norm object instead.
+If size_type_is_ratio is True, the sd equal to guess*step.
+If False, the sd equal to step.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">BMSS2</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">BMSS</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="aicanalysis.html">aicanalysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curvefitting.html">curvefitting module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcmc.html">mcmc module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">scipy_wrappers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivityanalysis.html">sensitivityanalysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">simulation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="strike_goldd_simplified.html">strike_goldd_simplified module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traceanalysis.html">traceanalysis module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">BMSS</a><ul>
+      <li>Previous: <a href="mcmc.html" title="previous chapter">mcmc module</a></li>
+      <li>Next: <a href="sensitivityanalysis.html" title="next chapter">sensitivityanalysis module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Russell Ngo Jie Kai.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/scipy_wrappers.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

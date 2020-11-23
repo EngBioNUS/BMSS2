@@ -6,14 +6,19 @@ import seaborn           as sns
 from SALib.analyze import sobol, fast, rbd_fast, delta
 from SALib.sample import saltelli, fast_sampler, latin
 
-from . import simulation as sim
+###############################################################################
+#Non-Standard Imports
+###############################################################################
+try:
+    from . import simulation as sim
+except:
+    import simulation as sim
     
 ###############################################################################
 #High Level Wrappers
 ###############################################################################
 def analyze(params, models, fixed_parameters, objective, parameter_bounds={}, mode='np', analysis_type='sobol', N=100):
-    '''
-    Main algorithm for sensitivity analysis. Wraps analyze_sensitivty and sample_and_integrate.
+    '''Main algorithm for sensitivity analysis. Wraps analyze_sensitivty and sample_and_integrate.
     '''
     
     #Check for input errors

@@ -5,13 +5,36 @@ from   scipy.stats import norm
 ###############################################################################
 #Non-Standard Imports
 ###############################################################################
-from .       import curvefitting as cf
-from .models import settings_handler as sh
+try:
+    from .       import curvefitting     as cf
+    from .models import settings_handler as sh
+except:
+    import curvefitting as cf
+    from models         import settings_handler as sh
 
 ###############################################################################
 #AIC Calculation
 ###############################################################################    
 def calculate_aic(data, models, params, priors={}):
+    '''Calculates AIC of model calculating posterior and than applying AIC 
+    formula. Returns a DataFrame of the AIC Values.
+
+    Parameters
+    ----------
+    data : dict
+        Curve-fitting data.
+    models : dict
+        The models used for curve-fitting.
+    params : pandas.DataFrame
+        The parameters with which to integrate the models with.
+    priors : dict, optional
+        Priors if any. The default is {}.
+
+    Returns
+    -------
+    table : pandas.DataFrame
+        A DataFrame with AIC values.
+    '''
     aic = {}
     
     #Standardize format
@@ -42,6 +65,8 @@ def calculate_aic(data, models, params, priors={}):
 def get_aic_args(data, models):
     '''
     Supporting function for calculate_aic. Do not run.
+    
+    :meta private:
     '''
     n_points = {}
     n_params = []
@@ -78,6 +103,8 @@ def get_posterior_args(data, models, params, priors):
 def get_posterior_for_each_model(data, models, params_series, prior_distribution, prior_index, t_indices={}):
     '''
     Supporting function for calculate_aic. Do not run.
+    
+    :meta private:
     '''
     log_posterior = []
     for model_num in data:

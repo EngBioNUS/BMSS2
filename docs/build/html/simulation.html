@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>simulation module &#8212; BMSS2 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="strike_goldd_simplified module" href="strike_goldd_simplified.html" />
+    <link rel="prev" title="sensitivityanalysis module" href="sensitivityanalysis.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-simulation">
+<span id="simulation-module"></span><h1>simulation module<a class="headerlink" href="#module-simulation" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="simulation.export_simulation_results">
+<code class="sig-prename descclassname">simulation.</code><code class="sig-name descname">export_simulation_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">e</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">directory</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulation.export_simulation_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the simulation results in csv format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>dict</em>) – The simulation results returned by integrate_models.</p></li>
+<li><p><strong>e</strong> (<em>dict</em>) – The simulation results for the extra variabes returned by integrate_models.</p></li>
+<li><p><strong>prefix</strong> (<em>str</em><em>, </em><em>optional</em>) – A prefix for each file generated. The default is ‘’.</p></li>
+<li><p><strong>directory</strong> (<em>TYPE</em><em>, </em><em>optional</em>) – The directory for storing the exported files. The default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>results</strong> – Names of files generated.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="simulation.integrate_models">
+<code class="sig-prename descclassname">simulation.</code><code class="sig-name descname">integrate_models</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">extra_variables</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'np'</span></em>, <em class="sig-param"><span class="n">overlap</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulation.integrate_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integrates models with params</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>models</strong> (<em>dict</em>) – A dictionary of model data structures.</p></li>
+<li><p><strong>params</strong> (<em>pandas.DataFrame</em>) – A DataFrame of parameter values for integration.</p></li>
+<li><p><strong>*extra_variables</strong> (<em>function</em>) – Additional functions for evaluating the integrated results.</p></li>
+<li><p><strong>args</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Additional arguments for the functions to be integrated. The default is ().</p></li>
+<li><p><strong>mode</strong> (<em>{'np'</em><em>, </em><em>'df'}</em><em>, </em><em>optional</em>) – Use ‘np’ if the functions in extra_variables are meant to work with numpy
+arrays and ‘pd’ if functions are meant to work with DataFrames. The
+default is ‘np’.</p></li>
+<li><p><strong>overlap</strong> (<em>TYPE</em><em>, </em><em>optional</em>) – DESCRIPTION. The default is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>dict</em> – A dictionary of the integrated results.</p></li>
+<li><p><em>dict</em> – A dictionary of the calculated extra variables.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="simulation.make_AX">
+<code class="sig-prename descclassname">simulation.</code><code class="sig-name descname">make_AX</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot_index</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulation.make_AX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a dictionary of axes objects using either plot_index OR data.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="simulation.piecewise_integrate">
+<code class="sig-prename descclassname">simulation.</code><code class="sig-name descname">piecewise_integrate</code><span class="sig-paren">(</span><em class="sig-param">function</em>, <em class="sig-param">init</em>, <em class="sig-param">tspan</em>, <em class="sig-param">params</em>, <em class="sig-param">model_num</em>, <em class="sig-param">scenario_num</em>, <em class="sig-param">modify_init=None</em>, <em class="sig-param">modify_params=None</em>, <em class="sig-param">solver_args={}</em>, <em class="sig-param">solver=&lt;function odeint&gt;</em>, <em class="sig-param">overlap=True</em>, <em class="sig-param">args=()</em><span class="sig-paren">)</span><a class="headerlink" href="#simulation.piecewise_integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Piecewise integration function with scipy.integrate.odeint as default.
+Can be changed using the solver argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> (<em>function</em>) – A function for numerical integration that takes in the form f(states,
+time, params, args). states, params and args are numpy arrays while time
+is a float or numpy float. Will be integrated using scipy.integrate.odeint</p></li>
+<li><p><strong>init</strong> (<em>numpy.array</em>) – Initial values of states for numerical integration.</p></li>
+<li><p><strong>tspan</strong> (<em>list of numpy.array</em>) – Segments for piecewise integration where each segment is a numpy array of
+time points in ascending order.</p></li>
+<li><p><strong>params</strong> (<em>numpy.array</em>) – An array of parameter values.</p></li>
+<li><p><strong>model_num</strong> (<em>int</em>) – Number of the model.</p></li>
+<li><p><strong>scenario_num</strong> (<em>int</em>) – Number of the scenario.</p></li>
+<li><p><strong>modify_init</strong> (<em>function</em><em>, </em><em>optional</em>) – Function for modifying initial values before integrating over a time
+segment. The default is None.</p></li>
+<li><p><strong>modify_params</strong> (<em>function</em><em>, </em><em>optional</em>) – Function for modifying parameter values before integrating over a time
+segment. The default is None.</p></li>
+<li><p><strong>solver_args</strong> (<em>dict</em><em>, </em><em>optional</em>) – Dictionary of keyword arguments for scipy.integrate.odeint. The default is {}.</p></li>
+<li><p><strong>solver</strong> (<em>scipy.integrate.odeint</em><em>, </em><em>optional</em>) – The integrating function. The default is odeint. Do not touch unless you
+know what you are doing.</p></li>
+<li><p><strong>overlap</strong> (<em>bool</em><em>, </em><em>optional</em>) – Avoids double counting between segments. In general, False is required
+only for plotting. The default is True.</p></li>
+<li><p><strong>args</strong> (<em>tuple</em><em>, </em><em>optional</em>) – A tuple of arguments. The default is ().</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>y_model</strong> (<em>numpy.array</em>) – An array of values from numerical integration.</p></li>
+<li><p><strong>t_model</strong> (<em>numpy.array</em>) – An array of time points.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="simulation.plot_model">
+<code class="sig-prename descclassname">simulation.</code><code class="sig-name descname">plot_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot_index</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">e</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">labels</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">line_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulation.plot_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the integrated results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>plot_index</strong> (<em>dict</em>) – A dictionary of states and extra variables to plot.</p></li>
+<li><p><strong>y</strong> (<em>dict</em>) – The values of the integrated results from integrate_models.</p></li>
+<li><p><strong>e</strong> (<em>dict</em><em>, </em><em>optional</em>) – The values of the integrated results from integrate_models. The default
+is {}.</p></li>
+<li><p><strong>titles</strong> (<em>dict</em><em>, </em><em>optional</em>) – A dictionary of axes titles. The default is {}.</p></li>
+<li><p><strong>labels</strong> (<em>TYPE</em><em>, </em><em>optional</em>) – A dictionary of line labels. The default is {}.</p></li>
+<li><p><strong>figs</strong> (<em>list of matplotlib.Figure</em><em>, </em><em>optional</em>) – A list of Figure objects that will be maximized after plotting. The
+default is ().</p></li>
+<li><p><strong>AX</strong> (<em>dict of matplotlib.Axes</em><em>, </em><em>optional</em>) – A dictionary of Axes objects for plotting. If {}, the Axes will be
+automatically generated. The default is {}.</p></li>
+<li><p><strong>palette</strong> (<em>dict</em><em>, </em><em>optional</em>) – A dictionary that controls the color of the plots. The default is {}.</p></li>
+<li><p><strong>line_args</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keyword arguments for the plot method of the Axes class. The default is
+{}.</p></li>
+<li><p><strong>legend_args</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keyword arguments for controlling the appearance of the legend. The
+default is {}.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>figs</strong> (<em>list</em>) – A list of Figure objects.</p></li>
+<li><p><strong>AX</strong> (<em>dict</em>) – A dict of Axes objects.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="simulation.search_string_for_x_y">
+<code class="sig-prename descclassname">simulation.</code><code class="sig-name descname">search_string_for_x_y</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulation.search_string_for_x_y" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">BMSS2</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">BMSS</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="aicanalysis.html">aicanalysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curvefitting.html">curvefitting module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcmc.html">mcmc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scipy_wrappers.html">scipy_wrappers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivityanalysis.html">sensitivityanalysis module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">simulation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="strike_goldd_simplified.html">strike_goldd_simplified module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traceanalysis.html">traceanalysis module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">BMSS</a><ul>
+      <li>Previous: <a href="sensitivityanalysis.html" title="previous chapter">sensitivityanalysis module</a></li>
+      <li>Next: <a href="strike_goldd_simplified.html" title="next chapter">strike_goldd_simplified module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Russell Ngo Jie Kai.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/simulation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
