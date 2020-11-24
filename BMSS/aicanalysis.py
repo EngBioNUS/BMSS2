@@ -85,6 +85,8 @@ def get_aic_args(data, models):
 def get_posterior_args(data, models, params, priors):
     '''
     Supporting function for calculate_aic. Do not run.
+    
+    :meta private:
     '''
     t_indices    = cf.get_t_indices(data, models)
 

@@ -287,7 +287,7 @@ def to_df(database=None):
     
     :param database: The database to be read, if None, both databases will be read,
         defaults to None
-    :type SQL Connection
+    :type database: SQL Connection
     '''
     if database:
         df = read_sql_query("SELECT * from settings", database)

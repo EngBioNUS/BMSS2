@@ -75,6 +75,8 @@ def analyze_sensitivity(objective_function_values, samples, problems, analysis_t
 def salib_wrapper(problem, y_val, x, analysis_type='sobol', **kwargs):
     '''
     Backend wrapper for sobol, fast and delta analysis.
+    
+    :meta private:
     '''
     if analysis_type == 'sobol':
         return sobol.analyze(problem, y_val, **kwargs)
@@ -92,6 +94,25 @@ def salib_wrapper(problem, y_val, x, analysis_type='sobol', **kwargs):
 #Sampling and Integration 
 ###############################################################################
 def integrate_samples(models, samples, objective, args=()):
+    '''
+    Integrates the samples and evaluates the objective function for each.
+
+    Parameters
+    ----------
+    models : dict
+        A dictionary of model data structures.
+    samples : dict
+        A dictionary of parameter values for sampling.
+    objective : dict
+        A dictionary of objective functions to evaluate indexed by model_num.
+    args : tuple, optional
+        Additional arguments for integration. The default is ().
+
+    Returns
+    -------
+    e_models : dict
+        The objective function values.
+    '''
     e_models = {}
     samples1 = {}
     for model_num in samples:
@@ -147,6 +168,8 @@ def integrate_samples(models, samples, objective, args=()):
 #Sample Generation
 ###############################################################################
 def make_samples(models, params, fixed_parameters, parameter_bounds, analysis_type='sobol', N=1000):
+    '''Generates samples for each model.
+    '''
     try:
         params1 = pd.DataFrame(params)
     except:
@@ -176,6 +199,8 @@ def make_samples_for_row(row, model, fixed_parameters, parameter_bounds={}, anal
     '''
     Supporting function for sample_and_integrate. Do not run.
     row must be a pandas Series
+    
+    :meta private:
     '''
 
     param_names      = model['params']
@@ -313,7 +338,9 @@ def plot_second_order(analysis_result, problems={}, titles={}, analysis_type='so
     return figs1, AX1
 
 def make_AX1(analysis_result):
-    # figs = {key: plt.figure() for key in analysis_result}
+    '''
+    :meta private:
+    '''
     figs = []
     AX   = {}
     for model_num in analysis_result:
@@ -336,7 +363,9 @@ def make_AX1(analysis_result):
     return figs, AX
 
 def make_AX2(analysis_result, keys):
-    # figs = {key: plt.figure() for key in analysis_result}
+    '''
+    :meta private:
+    '''
     figs = []
     AX   = {}
     for model_num in analysis_result:
@@ -355,6 +384,9 @@ def make_AX2(analysis_result, keys):
     return figs, AX
 
 def make_default_title(model_num, scenario_num, row_name, func_name):
+    '''
+    :meta private:
+    '''
     return 'Model {model_num}, Scenario {scenario_num}, Row {row_name}, {func}'.format(model_num    = model_num, 
                                                                                   scenario_num = scenario_num,
                                                                                   row_name     = row_name,

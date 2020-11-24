@@ -498,7 +498,7 @@ def export_simulation_results(y, e, prefix='', directory=None):
 
 def search_string_for_x_y(string):
     '''
-    :meta: private
+    :meta private:
     '''
     result = {'x' :'x',
               'y' :'y'
