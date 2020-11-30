@@ -3,12 +3,7 @@ import os
 import os.path    as osp
 from   pathlib    import Path
 
-try:
-    from . import _backend_model_handler    as bmh
-    from . import _backend_settings_handler as bsh
-except:
-    import _backend_model_handler    as bmh
-    import _backend_settings_handler as bsh
+bmh, bsh = None, None
     
 ###############################################################################
 #Globals
@@ -20,25 +15,19 @@ __dir__ = osp.dirname(osp.abspath(__file__))
 ###############################################################################
 def reset_MBase():
     '''
-    Provides a safe way to reset MBase. Close all connections to BMSS first.
+    Provides a safe way to reset MBase. Close all connections to BMSS first. 
+    Restart the kernel if necessary.
     '''
     global bmh
     global bsh
     
-    importlib.reload(bmh)
-    importlib.reload(bsh)
+    mbase_file = osp.join(__dir__, 'MBase.db')
+    os.remove(mbase_file)
+    ubase_file = osp.join(__dir__, 'UBase.db')
+    os.remove(ubase_file)
     
-    bmh.MBase.close()
-    db_file     = osp.join(__dir__, 'MBase.db')
-    os.remove(db_file)
-    
-    importlib.reload(bmh)
-    importlib.reload(bsh)
-    
-    database    = bmh.create_connection(db_file)
-    bmh.MBase   = database
-    bmh.create_table(database, bmh.table_sql)
-    bmh.create_table(database, bsh.table_sql)
+    bmh = importlib.import_module('model_handler')
+    bsh = importlib.import_module('settings_handler')
     
     #For loading markup files in markup to MBase
     markup_directory = Path(os.getcwd()) /'BMSS_markup'

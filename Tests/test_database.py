@@ -26,10 +26,10 @@ class TestModelHandler:
     def test_make_core_model(self):
         global core_model_1
         __model__ = {'system_type' : ['TestModel', 'Dummy'],
-                      'states'      : ['mRNA', 'Pep'], 
-                      'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
-                      'inputs'      : ['Ind'],
-                      'equations'   : ['dmRNA = syn_mRNA*Ind/(Ind + Ki) - deg_mRNA*mRNA',
+                     'states'      : ['mRNA', 'Pep'], 
+                     'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
+                     'inputs'      : ['Ind'],
+                     'equations'   : ['dmRNA = syn_mRNA*Ind/(Ind + Ki) - deg_mRNA*mRNA',
                                       'dPep  = syn_Pep*mRNA - deg_Pep'
                                       ],
                       'ia'          : 'ia_result_bmss01001.csv'

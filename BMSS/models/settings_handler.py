@@ -123,7 +123,7 @@ def make_settings(system_type,    settings_name,       units,
 ###############################################################################
 #Param Storage
 ###############################################################################
-def add_to_database(settings, dialog=True):
+def add_to_database(settings, dialog=False):
     '''Accepts a settings data structure and adds it to UBase. dialog is currently ignored.
     '''
     

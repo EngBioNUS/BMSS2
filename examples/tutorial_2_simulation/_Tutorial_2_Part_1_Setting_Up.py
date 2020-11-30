@@ -39,7 +39,7 @@ if __name__ == '__main__':
     '''
     
     '''
-    1. Reading the Settings File
+    1. Reading the Arguments File
     '''
     
     filename    = 'settings_sim_1.ini'

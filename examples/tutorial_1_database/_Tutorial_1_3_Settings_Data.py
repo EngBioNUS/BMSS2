@@ -1,4 +1,5 @@
 import setup_bmss                   as lab
+import BMSS.models.model_handler    as mh
 import BMSS.models.settings_handler as sh
 
 '''
@@ -19,12 +20,16 @@ if __name__ == '__main__':
     make_settings or read-in from a .ini file.
     '''
     
-    #IMPORTANT! 
-    #YOU MUST RUN PART1 WITHOUT DELETING THE CORE MODEL BEFORE RUNNING THIS!
-    
     #Fill in the filenames here
     filename = 'testmodel.ini'
     
+    #In case you have not run part 1
+    core_model_1 = mh.from_config(filename)
+    lst = mh.list_models()
+    if core_model_1['system_type'] not in lst:
+        mh.add_to_database(core_model_1)
+        
+    #Add settings to database
     system_types_settings_names = sh.config_to_database(filename)
     
     system_type, settings_name = system_types_settings_names[0]

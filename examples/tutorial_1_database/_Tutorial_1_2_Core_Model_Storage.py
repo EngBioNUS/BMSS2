@@ -35,10 +35,9 @@ if __name__ == '__main__':
     model_id        = core_model_1['id']
     search_result_2 = mh.search_database(model_id, search_type='id')
     
-    #If you already know the exact system_type or id, use quick_search to directly return the core model.
+    #If you already know the exact system_type, use quick_search to directly return the core model.
     #This function is a wrapper for search_database tha returns the first result.
     search_result_3 = mh.quick_search(system_type)
-    search_result_4 = mh.quick_search(model_id)
     
     #Deactivate a core model and remove it from searches.
     #Change name to reactivate

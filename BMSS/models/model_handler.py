@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS "models" (
     "inputs"       TEXT,
     "equations"    TEXT,
     "ia"           TEXT,
+    "descriptions" TEXT,
     "active"       INTEGER DEFAULT 1,
     UNIQUE(system_type)
 );
@@ -67,7 +68,7 @@ def create_table(db, *args):
 ###############################################################################
 #Constructor
 ###############################################################################
-def make_core_model(system_type, states, parameters, inputs, equations, ia='', **kwargs):
+def make_core_model(system_type, states, parameters, inputs, equations, descriptions=None, ia='', **kwargs):
     '''Returns a dictionary with the keys id, system_type, states, parameters, inputs, equations, ia.
     Otherwise referred to as a core_model in the BMSS2 documentation. Redundant
     states, parameters and inputs are disallowed.
@@ -82,9 +83,11 @@ def make_core_model(system_type, states, parameters, inputs, equations, ia='', *
     :type parameters: list
     :param inputs: A list of strings corresponding to input names used in the core_model
     :type inputs: list
-    :param parameters: A list of strings corresponding to lines of equations used in the core_model
+    :param equations: A list of strings corresponding to lines of equations used in the core_model
         where the lines form coherent Python code when joined by '\n'.join
-    :type parameters: list
+    :type equations: list
+    :param descriptions: A description of the model.
+    :type descriptions: dict, optional
     :param ia: For IA results as a string that can be read into csv format. Avoid using this argument.
     :type ia: string, optional
     :kwargs: Will be ignored
@@ -95,18 +98,20 @@ def make_core_model(system_type, states, parameters, inputs, equations, ia='', *
         system_type1 = ', '.join(system_type)
         return make_core_model(system_type1, states, parameters, inputs, equations, ia='')
     
-    states1     = list(states)
-    parameters1 = list(parameters)
-    inputs1     = list(inputs)
-    equations1  = list(equations)
+    states1       = list(states)
+    parameters1   = list(parameters)
+    inputs1       = list(inputs)
+    equations1    = list(equations)
+    descriptions1 = descriptions if descriptions else {}
     
-    core_model = {'id'          : '',
-                  'system_type' : system_type1,
-                  'states'      : states1,
-                  'parameters'  : parameters1,
-                  'inputs'      : inputs1,
-                  'equations'   : equations1, 
-                  'ia'          : ia
+    core_model = {'id'           : '',
+                  'system_type'  : system_type1,
+                  'states'       : states1,
+                  'parameters'   : parameters1,
+                  'inputs'       : inputs1,
+                  'equations'    : equations1, 
+                  'ia'           : ia,
+                  'descriptions' : descriptions1,
                   }
     
     for key in ['states', 'parameters', 'inputs', 'equations']:
@@ -120,13 +125,10 @@ def make_core_model(system_type, states, parameters, inputs, equations, ia='', *
     if not is_valid:
         raise Exception('Error in ' + str(system_type1) + ' when checking terms: ' + text)
     
-    # if not ia:
-    #     core_model['ia'] = core_model['system_type'].replace(', ', '_') + '.csv'
-        
     return core_model
 
 def copy_core_model(core_model):
-    keys = ['id', 'system_type', 'states' , 'parameters', 'inputs', 'equations', 'ia']
+    keys = ['id', 'system_type', 'states' , 'parameters', 'inputs', 'equations', 'ia', 'description']
     
     new_core_model = {}
     for key in keys:
@@ -255,7 +257,7 @@ def search_database(keyword, search_type='system_type', database=None, active_on
     global UBase
     
     keyword1  = keyword if type(keyword) == str else ', '.join(keyword)
-    comm      = 'SELECT id, system_type, states, parameters, inputs, equations, ia FROM models WHERE ' + search_type + ' LIKE "%' + keyword1 
+    comm      = 'SELECT id, system_type, states, parameters, inputs, equations, ia, descriptions FROM models WHERE ' + search_type + ' LIKE "%' + keyword1 
     result    = []
     if active_only:
         comm      += '%" AND active = 1;'

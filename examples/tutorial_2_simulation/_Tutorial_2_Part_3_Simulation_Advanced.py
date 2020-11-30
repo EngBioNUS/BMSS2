@@ -6,7 +6,7 @@ import BMSS.models.setup_sim as sm
 import BMSS.simulation       as sim
 
 '''
-Tutorial 2 Part 2: Advanced Simulation of Models
+Tutorial 2 Part 3: Advanced Simulation of Models
 - Make use of piecewise integration
 - Modify the initial values and params
 - Use piecewise integration 

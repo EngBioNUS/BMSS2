@@ -1,37 +1,31 @@
 import numpy as np
-def model_BMSS_Monod_Constitutive_Double(y, t, params):
-	x  = y[0]
-	s  = y[1]
-	mh = y[2]
-	h  = y[3]
+def model_TestModel_Dummy(y, t, params):
+	m = y[0]
+	p = y[1]
 
-	mu_max = params[0]
-	Ks     = params[1]
-	Y      = params[2]
-	synm   = params[3]
-	degm   = params[4]
-	synh   = params[5]
+	k_ind = params[0]
+	synm  = params[1]
+	degm  = params[2]
+	synp  = params[3]
+	degp  = params[4]
+	ind   = params[5]
 
-	mu = mu_max*s/(s+Ks)
-	
-	dx = x*mu
-	ds = -dx/Y
-	dmh= synm    -mh*degm
-	dh = synh*mh -h *mu
+	dm = synm*ind/(ind + k_ind) - degm*m
+	dp = synp*m - degp*p
 
-	return np.array([dx, ds, dmh, dh])
+	return np.array([dm, dp])
 
-x,s,mh,h,mu_max,Ks,Y,synm,degm,synh= np.random.rand(10)
+m,p,k_ind,synm,degm,synp,degp,ind= np.random.rand(8)
 
-x,s,mh,h,mu_max,Ks,Y,synm,degm,synh= list(map(float, [x,s,mh,h,mu_max,Ks,Y,synm,degm,synh]))
+m,p,k_ind,synm,degm,synp,degp,ind= list(map(float, [m,p,k_ind,synm,degm,synp,degp,ind]))
 
-y = [x,s,mh,h]
+y = [m,p]
 
 t = 0
 dt = 1e-3
 
-params = mu_max,Ks,Y,synm,degm,synh
+params = k_ind,synm,degm,synp,degp,ind
 
-y = y + dt*model_BMSS_Monod_Constitutive_Double(y, t, params)
+y = y + dt*model_TestModel_Dummy(y, t, params)
 
-y = y + dt*model_BMSS_Monod_Constitutive_Double(y, t, params)
+y = y + dt*model_TestModel_Dummy(y, t, params)
