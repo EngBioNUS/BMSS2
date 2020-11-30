@@ -96,14 +96,14 @@ def make_core_model(system_type, states, parameters, inputs, equations, descript
         system_type1 = ', '.join([s.strip() for s in system_type.split(',')])
     else:
         system_type1 = ', '.join(system_type)
-        return make_core_model(system_type1, states, parameters, inputs, equations, ia='')
+        return make_core_model(system_type1, states, parameters, inputs, equations, descriptions, ia='')
     
     states1       = list(states)
     parameters1   = list(parameters)
     inputs1       = list(inputs)
     equations1    = list(equations)
     descriptions1 = descriptions if descriptions else {}
-    
+
     core_model = {'id'           : '',
                   'system_type'  : system_type1,
                   'states'       : states1,
@@ -377,12 +377,13 @@ def from_config(filename):
     :type filename: str
     '''
     config = configparser.ConfigParser()
-    model  = {'system_type' : [],
-              'states'      : [], 
-              'parameters'  : [],
-              'inputs'      : [],
-              'equations'   : [],
-              'ia'          : ''
+    model  = {'system_type'  : [],
+              'states'       : [], 
+              'parameters'   : [],
+              'inputs'       : [],
+              'equations'    : [],
+              'ia'           : '',
+              'descriptions' : {}
               }
     with open(filename, 'r') as file:
         config.read_file(file)
@@ -396,12 +397,15 @@ def from_config(filename):
             line = config[key][key].replace('\n', ',').split(',')
             line = [s.strip() if s else '' for s in line]
             line = line if line[0] else line[1:]
+        elif key == 'descriptions':
+            temp = config[key]
+            line = {k: temp[k] for k in temp}
         else:
             line = config[key][key].replace('\n', ',').split(',')
             line = [s.strip() for s in line if s]
         
         model[key] = line
-        
+    
     return make_core_model(**model)
 
 def to_config(core_model, filename):
@@ -419,6 +423,9 @@ def to_config(core_model, filename):
             continue
         if type(core_model[key]) == str:
             line = core_model[key]
+        elif type(core_model[key]) == dict:
+            config[key] = core_model[key]
+            continue
         elif key == 'equations':
             line = '\n' + '\n'.join(core_model[key])
         else:
