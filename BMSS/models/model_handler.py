@@ -207,6 +207,7 @@ def string_dict_values(core_model):
     :meta private:
     '''
     model_dict = {key: str(core_model[key]) for key in core_model}
+    
     return model_dict
 
 def update_value_by_rowid(row_id, column_id, value, database):
@@ -274,35 +275,41 @@ def search_database(keyword, search_type='system_type', database=None, active_on
         columns = columns.fetchall()
         columns = [column[1] for column in columns if column[1]!='active']
         models  = [dict(zip(columns, model)) for model in models]
-        models  = [{key: eval(model[key]) if key not in ['id', 'system_type', 'ia'] else model[key] for key in model } for model in models]
-        
+        models = [process_model(model) for model in models]
         result += models
-
-    return result
     
+    return result
+t = {}
+def process_model(model):
+    '''
+    :meta private:
+    '''
+    global t
+    print(model['system_type'])
+    result = {}
+    for key, value in model.items():
+        if key in ['id', 'system_type', 'ia']:
+            result[key] = value
+        elif key == 'descriptions':
+            t[model['system_type']] = value
+            result[key] = value
+        else:
+            result[key] = eval(value)
+    return result
+
 def quick_search(system_type, error_if_no_result=True, **kwargs):
     '''Searches both system_type/id and returns an exact match in system_type/id.
     Raises an error when no matches are found if error_if_no_result is set to True.
     '''
-    try:
-        core_model = search_database(system_type, search_type='system_type', **kwargs)[0]
+    core_models = search_database(system_type, search_type='system_type', **kwargs)
+    for core_model in core_models:
+        if core_model['system_type'] == system_type:
+            return core_model
+    if error_if_no_result:
+        raise Exception('Could not retrieve model with system_type ' + str(system_type))
         
-    except:
-        try:
-            core_model = search_database(system_type, search_type='id', **kwargs)[0]
-        except:
-            if error_if_no_result:
-                raise Exception('Could not retrieve model with system_type ' + str(system_type))
-            else:
-                return
-                
-    if core_model['system_type'] != system_type:
-        if error_if_no_result:
-            raise Exception('Could not retrieve model with system_type ' + str(system_type))
-        else:
-            return
-        
-    return core_model
+    else:
+        return
 
 def list_models(database=None):
     '''Returns a list of system_types
@@ -377,6 +384,7 @@ def from_config(filename):
     :type filename: str
     '''
     config = configparser.ConfigParser()
+    config.optionxform  = lambda option: option
     model  = {'system_type'  : [],
               'states'       : [], 
               'parameters'   : [],
