@@ -42,4 +42,7 @@ def reset_MBase():
         
     
 if __name__ == '__main__':
+    '''
+    RESTART THE KERNEL OR THIS WILL THROW AN ERROR!
+    '''
     reset_MBase()
