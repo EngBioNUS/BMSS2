@@ -279,22 +279,23 @@ def search_database(keyword, search_type='system_type', database=None, active_on
         result += models
     
     return result
-t = {}
+
 def process_model(model):
     '''
     :meta private:
     '''
-    global t
-    print(model['system_type'])
+    
     result = {}
     for key, value in model.items():
         if key in ['id', 'system_type', 'ia']:
             result[key] = value
-        elif key == 'descriptions':
-            t[model['system_type']] = value
-            result[key] = value
         else:
-            result[key] = eval(value)
+            try:
+                result[key] = eval(value)
+            except Exception as e:
+                system_type = model['system_type']
+                msg         = 'An error occurred when calling eval on {} for {}'.format(key, system_type)
+                raise Exception(msg, *e.args)
     return result
 
 def quick_search(system_type, error_if_no_result=True, **kwargs):
