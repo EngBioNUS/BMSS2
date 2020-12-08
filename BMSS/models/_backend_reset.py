@@ -13,7 +13,7 @@ __dir__ = osp.dirname(osp.abspath(__file__))
 ###############################################################################
 #Reset
 ###############################################################################
-def reset_MBase():
+def reset_MBase(*other_files):
     '''
     Provides a safe way to reset MBase. Close all connections to BMSS first. 
     Restart the kernel if necessary.
@@ -21,10 +21,17 @@ def reset_MBase():
     global bmh
     global bsh
     
-    mbase_file = osp.join(__dir__, 'MBase.db')
-    os.remove(mbase_file)
-    ubase_file = osp.join(__dir__, 'UBase.db')
-    os.remove(ubase_file)
+    to_del = ['MBase.db', 'UBase.db'] + list(other_files)
+    lst    = os.listdir()
+    for filename in os.listdir():
+        if filename in to_del:
+            os.remove(filename)
+            print('Deleted {}'.format(filename))
+            
+    for filename in os.listdir('model_functions'):
+        os.remove('model_functions/' + filename)
+        msg = 'Removed {} from model_functions.'
+        print(msg)
     
     bmh = importlib.import_module('model_handler')
     bsh = importlib.import_module('settings_handler')
