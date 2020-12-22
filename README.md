@@ -1,4 +1,5 @@
 # BMSS2
+![alt text](https://github.com/EngBioNUS/BMSS2/blob/master/BMSSDiagram.png?raw=true)
 
 ## Recommended IDE
 Spyder IDE from Anaconda Distribution [Anaconda Installation]
