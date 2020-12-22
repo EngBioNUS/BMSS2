@@ -18,7 +18,7 @@ If you wish to put your code in notebook format, install Jupyter using pip as sh
 pip install jupyter
 ```
 or if you are using Anaconda:
-````
+```
 conda install jupyter
 ```
 
