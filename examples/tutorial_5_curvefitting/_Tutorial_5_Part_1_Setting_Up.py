@@ -8,13 +8,6 @@ Tutorial 5 Part 1: Setting Up
 '''
 
 if __name__ == '__main__':
-    
-    '''
-    Note: This file is meant to be run after you have added the model from Tutorial 1.
-    If you have not done so, run the following function.
-    mh.config_to_database('testmodel.ini')
-    '''
-    
     '''
     Separating the settings/arguments for your analysis from your main code improves
     readability and convenience during reuse and modification. In addition, it also 

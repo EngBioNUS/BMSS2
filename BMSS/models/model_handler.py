@@ -128,7 +128,7 @@ def make_core_model(system_type, states, parameters, inputs, equations, descript
     return core_model
 
 def copy_core_model(core_model):
-    keys = ['id', 'system_type', 'states' , 'parameters', 'inputs', 'equations', 'ia', 'description']
+    keys = ['id', 'system_type', 'states' , 'parameters', 'inputs', 'equations', 'ia', 'descriptions']
     
     new_core_model = {}
     for key in keys:
@@ -319,10 +319,6 @@ def list_models(database=None):
     global UBase
         
     if database:
-        if database == UBase:
-            print('Listing core models in UBase.')
-        else:
-            print('Listing core models in MBase.')
         with database as db:
             comm      = 'SELECT system_type FROM models WHERE active = 1;'
             cursor    = db.execute(comm)

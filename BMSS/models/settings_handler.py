@@ -267,10 +267,6 @@ def list_settings(database=None):
     database.
     '''
     if database:
-        if database == mh.UBase:
-            print('Listing core models in UBase.')
-        else:
-            print('Listing core models in MBase.')
         comm         = 'SELECT system_type, settings_name FROM settings where active = 1'
         cursor       = database.execute(comm)
         all_settings = [s for s in cursor.fetchall()]

@@ -1,6 +1,7 @@
-import setup_bmss                as lab
-import BMSS.models.model_handler as mh
-import BMSS.models.setup_sim     as sm
+import setup_bmss                   as lab
+import BMSS.models.model_handler    as mh
+import BMSS.models.settings_handler as sh
+import BMSS.models.setup_sim        as sm
 
 
 '''
@@ -11,13 +12,20 @@ Tutorial 2 Part 1: Introduction to simulation datastructures
 
 if __name__ == '__main__':
     '''
-    Note: This file is meant to be run after you have added the model and settings
-    from Tutorial 1 Parts 2 and 3.
-    
-    If you have not done so, run the following function.
-    mh.config_to_database('testmodel.ini')
+    Setting Up
     '''
-    
+    #In case you have not run Tutorial 1
+    filename     = 'testmodel.ini'
+    core_model_1 = mh.from_config(filename)
+    lst          = mh.list_models()
+    if core_model_1['system_type'] not in lst:
+        mh.add_to_database(core_model_1)
+        
+    settings_1  = sh.from_config(filename)[0]
+    lst         = sh.list_settings()
+    if settings_1['settings_name'] not in lst:
+        sh.add_to_database(settings_1)
+
     '''
     Separating the settings/arguments for your analysis from your main code improves
     readability and convenience during reuse and modification. In addition, it also 
@@ -118,7 +126,7 @@ if __name__ == '__main__':
     file and check its contents.
     '''
     system_types_settings_names = [('TestModel, Dummy', '__default__')
-                                   ]
+                                    ]
     
     sm.make_settings_template(system_types_settings_names, 'settings_sim_template.ini')
     
