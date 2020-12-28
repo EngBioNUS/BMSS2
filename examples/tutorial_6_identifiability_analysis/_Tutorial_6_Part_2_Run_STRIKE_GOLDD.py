@@ -5,7 +5,7 @@ import BMSS.models.ia_results       as ir
 import BMSS.models.model_handler    as mh
 
 '''
-Tutorial 7 Part 2: A priori Identifiability Analysis with Strike-Goldd
+Tutorial 6 Part 2: A priori Identifiability Analysis with Strike-Goldd
 - Call the function required to run the strike_goldd algorithm.
 '''
 

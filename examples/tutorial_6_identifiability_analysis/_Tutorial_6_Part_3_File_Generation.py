@@ -4,7 +4,7 @@ import setup_bmss                   as lab
 import BMSS.models.setup_sg         as ssg
 
 '''
-Tutorial 7 Part 3: Generating .py Files
+Tutorial 6 Part 3: Generating .py Files
 - Create standalone .py files for running strike-goldd
 '''
 

@@ -3,7 +3,7 @@ import BMSS.models.setup_sg         as ssg
 
 import BMSS.models.model_handler as mh
 '''
-Tutorial 7 Part 1: Setting Up
+Tutorial 6 Part 1: Setting Up
 - Create symbolic variables for using strike-goldd
 
 '''
