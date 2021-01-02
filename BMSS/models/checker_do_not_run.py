@@ -1,33 +1,32 @@
 import numpy as np
-def model_BMSS_Monod_Constitutive_Single(y, t, params):
-	x = y[0]
-	s = y[1]
-	h = y[2]
+def model_BMSS_GrowthModel_MortalityPhase(y, t, params):
+	OD = y[0]
 
-	mu_max = params[0]
-	Ks     = params[1]
-	Y      = params[2]
-	synh   = params[3]
+	N0  = params[0]
+	m1  = params[1]
+	m2  = params[2]
+	tc1 = params[3]
+	tc2 = params[4]
+	t   = params[5]
 
-	mu = mu_max*s/(s+Ks)
+	a = 1 / (tc1 ** m1)
+	b = 1 / (tc2 ** m2)
 	
-	dx = x*mu
-	ds = -dx/Y
-	dh = synh -h*mu
+	dOD = N0 * (a * m1 * (t ** (m1-1)) - b * m2 * (t ** (m2-1))) * (2.7183**(a * (t ** m1) - b * (t ** m2)))
 
-	return np.array([dx, ds, dh])
+	return np.array([dOD])
 
-x,s,h,mu_max,Ks,Y,synh= np.random.rand(7)
+OD,N0,m1,m2,tc1,tc2,t= np.random.rand(7)*10
 
-x,s,h,mu_max,Ks,Y,synh= list(map(float, [x,s,h,mu_max,Ks,Y,synh]))
+OD,N0,m1,m2,tc1,tc2,t= list(map(float, [OD,N0,m1,m2,tc1,tc2,t]))
 
-y = [x,s,h]
+y = [OD]
 
 t = 0
 dt = 1e-3
 
-params = mu_max,Ks,Y,synh
+params = N0,m1,m2,tc1,tc2,t
 
-y = y + dt*model_BMSS_Monod_Constitutive_Single(y, t, params)
+y = y + dt*model_BMSS_GrowthModel_MortalityPhase(y, t, params)
 
-y = y + dt*model_BMSS_Monod_Constitutive_Single(y, t, params)
+y = y + dt*model_BMSS_GrowthModel_MortalityPhase(y, t, params)

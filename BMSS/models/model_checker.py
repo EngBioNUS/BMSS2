@@ -52,7 +52,7 @@ def check_model_terms(model):
     
     else:
         temp    = states+params+inputs
-        var     = ','.join(temp) + '= np.random.rand(' + str(len(temp)) + ')'
+        var     = ','.join(temp) + '= np.random.rand(' + str(len(temp)) + ')*10'
         conv    = ','.join(temp) + '= list(map(float, [' + ','.join(temp) + ']))'
         y_test  = 'y = [' + ','.join(states) + ']'
         t_test  = 't = 0\ndt = 1e-3'
@@ -151,7 +151,7 @@ def check_illegal_terms(terms):
     
 if __name__ == '__main__':
     __model__ = {'id'          : 'bmss01001',
-                 'system_type' : ['Inducible', 'ConstInd'],
+                 'system_type' : 'Inducible, ConstInd',
                  'states'      : ['mRNA', 'Pep'], 
                  'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
                  'inputs'      : ['Ind'],
@@ -159,9 +159,23 @@ if __name__ == '__main__':
                                   '',
                                   'dPep  = syn_Pep*mRNA - 1/(deg_Pep)'
                                   ],
-                 'ia'          : 'ia_result_bmss01001.csv'
+                 'ia'          : ''
                  
                  }
+    
+    __model__ = {'id'          : 'bmss01002',
+                  'system_type' : 'BMSS, GrowthModel, MortalityPhase',
+                  'states'      : ['OD'], 
+                  'parameters'  : ['N0', 'm1', 'm2', 'tc1', 'tc2'],
+                  'inputs'      : ['t'],
+                  'equations'   : ['a = 1 / (tc1 ** m1)',
+                                  'b = 1 / (tc2 ** m2)',
+                                  '',
+                                  'dOD = N0 * (a * m1 * (t ** (m1-1)) - b * m2 * (t ** (m2-1))) * (2.7183**(a * (t ** m1) - b * (t ** m2)))',
+                                  ],
+                  'ia'          : ''
+                 
+                  }
     
     r = check_model_terms(__model__)
     print(r)
