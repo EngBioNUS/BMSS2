@@ -1,7 +1,7 @@
 # BMSS2
 ![alt text](https://github.com/EngBioNUS/BMSS2/blob/master/BMSSDiagram.png?raw=true)
 
-# # Features
+## Features
 * Database-driven model storage 
 * Simulation and sensitivity analysis and result plotting
 * Model fitting and selection
@@ -34,5 +34,5 @@ conda install jupyter
 
 [Anaconda Installation]: <https://www.anaconda.com/products/individual>
 
-# # Examples
+## Examples
 The examples folder contains case studies for the characterization of common genetic constructs. Detailed explanations of BMSS2's functionalities can be found in the files labeled "tutorial".
