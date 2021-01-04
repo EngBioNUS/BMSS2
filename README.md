@@ -34,5 +34,11 @@ conda install jupyter
 
 [Anaconda Installation]: <https://www.anaconda.com/products/individual>
 
-## Examples
+## Getting started
 The examples folder contains case studies for the characterization of common genetic constructs. Detailed explanations of BMSS2's functionalities can be found in the files labeled "tutorial".
+
+## Contact Us
+Please feel free to contact us at EngBioBMSS.help@gmail.com if you have any questions or to report any bugs.
+
+## Contributing to the Project
+Anyone and everyone is welcome to contribute. Please review the [guidelines for contributing](https://github.com/EngBioNUS/BMSS2/blob/master/CONTRIBUTING.md)
