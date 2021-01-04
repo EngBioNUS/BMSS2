@@ -16,7 +16,7 @@ from   read_data                    import read_data
 
 '''
 This file shows you all the steps required for curve-fitting and assumes you
-have either gone through Example 1 or Tutorial 2.
+have either gone through Example 1 of Tutorial 2.
 
 In this example, we want to characterize the pTet promoter given a set of 
 experimental data. We have three models we want to consider:
