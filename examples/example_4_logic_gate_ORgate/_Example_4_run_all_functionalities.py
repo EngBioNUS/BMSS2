@@ -20,6 +20,10 @@ import BMSS.models.setup_sg         as ssg
 import BMSS.models.ia_results       as ir
 import BMSS.strike_goldd_simplified as sg
 
+'''
+Example 4: Combining all functionalities into one script
+'''
+
 plt.style.use(lab.styles['bmss_notebook_style'])
 
 #Reset Plots

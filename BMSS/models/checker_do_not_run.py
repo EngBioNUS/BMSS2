@@ -1,41 +1,42 @@
 import numpy as np
-def model_Inducible_Double_Uptake_LogisticGrowth(y, t, params):
-	x    = y[0]
-	inde = y[1]
-	indi = y[2]
-	m    = y[3]
-	p    = y[4]
+def model_LogicGate_OR_Double(y, t, params):
+	mRNA1 = y[0]
+	Pep1  = y[1]
+	mRNA2 = y[2]
+	Pep2  = y[3]
+	mRNA3 = y[4]
+	Pep3  = y[5]
 
-	mu_max = params[0]
-	x_max  = params[1]
-	upind  = params[2]
-	k_ind  = params[3]
-	synm   = params[4]
-	degm   = params[5]
-	synp   = params[6]
-	n_ind  = params[7]
+	syn_mRNA1 = params[0]
+	syn_mRNA2 = params[1]
+	syn_mRNA3 = params[2]
+	deg_mRNA  = params[3]
+	syn_Pep   = params[4]
+	deg_Pep   = params[5]
+	Pepmax    = params[6]
+	state1    = params[7]
+	state2    = params[8]
 
-	mu = mu_max*(1 - x/x_max)
-	
-	dx = mu*x
-	dinde= -upind*inde
-	dindi= upind*inde
-	dm = synm*indi**n_ind/(indi**n_ind + k_ind**n_ind) - degm*m
-	dp = synp*m - mu*p
+	dmRNA1 = syn_mRNA1*(state1) - (deg_mRNA *mRNA1)
+	dPep1  = (syn_Pep*mRNA1) - (deg_Pep*Pep1)
+	dmRNA2 = syn_mRNA2*(state2) - (deg_mRNA *mRNA2)
+	dPep2  = (syn_Pep*mRNA2) - (deg_Pep*Pep2)
+	dmRNA3 = (syn_mRNA3*((Pep1+Pep2)/Pepmax))-(deg_mRNA *mRNA3)
+	dPep3  = (syn_Pep*mRNA3)-(deg_Pep*Pep3)
 
-	return np.array([dx, dinde, dindi, dm, dp])
+	return np.array([dmRNA1, dPep1, dmRNA2, dPep2, dmRNA3, dPep3])
 
-x,inde,indi,m,p,mu_max,x_max,upind,k_ind,synm,degm,synp,n_ind= np.random.rand(13)*10
+mRNA1,Pep1,mRNA2,Pep2,mRNA3,Pep3,syn_mRNA1,syn_mRNA2,syn_mRNA3,deg_mRNA,syn_Pep,deg_Pep,Pepmax,state1,state2= np.random.rand(15)*10
 
-x,inde,indi,m,p,mu_max,x_max,upind,k_ind,synm,degm,synp,n_ind= list(map(float, [x,inde,indi,m,p,mu_max,x_max,upind,k_ind,synm,degm,synp,n_ind]))
+mRNA1,Pep1,mRNA2,Pep2,mRNA3,Pep3,syn_mRNA1,syn_mRNA2,syn_mRNA3,deg_mRNA,syn_Pep,deg_Pep,Pepmax,state1,state2= list(map(float, [mRNA1,Pep1,mRNA2,Pep2,mRNA3,Pep3,syn_mRNA1,syn_mRNA2,syn_mRNA3,deg_mRNA,syn_Pep,deg_Pep,Pepmax,state1,state2]))
 
-y = [x,inde,indi,m,p]
+y = [mRNA1,Pep1,mRNA2,Pep2,mRNA3,Pep3]
 
 t = 0
 dt = 1e-3
 
-params = mu_max,x_max,upind,k_ind,synm,degm,synp,n_ind
+params = syn_mRNA1,syn_mRNA2,syn_mRNA3,deg_mRNA,syn_Pep,deg_Pep,Pepmax,state1,state2
 
-y = y + dt*model_Inducible_Double_Uptake_LogisticGrowth(y, t, params)
+y = y + dt*model_LogicGate_OR_Double(y, t, params)
 
-y = y + dt*model_Inducible_Double_Uptake_LogisticGrowth(y, t, params)
+y = y + dt*model_LogicGate_OR_Double(y, t, params)
