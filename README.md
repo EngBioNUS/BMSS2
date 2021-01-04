@@ -8,8 +8,8 @@
 * Trace analysis for _a_ _posteriori_ identifiability analysis
 * Strike-GOLDD algorithm in Python for _a_ _priori_ identifiability analysis
 * Export of models in SBML format
-For more information, refer to the BMSS2 documentation. If you wish to know more about our work, visit the [NUS Engineering Biology Lab website][https://engbio.syncti.org/].
 
+For more information, refer to the BMSS2 documentation. If you wish to know more about our work, visit the [NUS Engineering Biology Lab website](https://engbio.syncti.org).
 
 ## Recommended IDE
 Spyder IDE from Anaconda Distribution [Anaconda Installation]
