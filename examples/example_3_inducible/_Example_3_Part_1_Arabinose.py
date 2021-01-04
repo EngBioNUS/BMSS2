@@ -11,6 +11,10 @@ import BMSS.curvefitting            as cf
 import BMSS.traceanalysis           as ta
 from   read_data                    import read_data
 
+'''
+Example 3 Part 1: Arabinose/pBad promoter
+'''
+
 plt.style.use(lab.styles['bmss_notebook_style'])
 
 #Reset Plots

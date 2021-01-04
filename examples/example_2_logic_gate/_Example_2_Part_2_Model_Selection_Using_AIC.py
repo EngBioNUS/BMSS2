@@ -10,6 +10,10 @@ import BMSS.curvefitting         as cf
 import BMSS.traceanalysis        as ta
 from   read_data                 import read_data
 
+'''
+Example 2 Part 2: Model selection via AIC
+'''
+
 plt.style.use(lab.styles['bmss_notebook_style'])
 
 #Reset Plots
@@ -45,12 +49,16 @@ def modify_params(init_values, params, model_num, scenario_num, segment):
         new_params[-1] = 0
     else:
         new_params[-1] = 1
-
+        
     return new_params
 
 #Plot settings   
 if __name__ == '__main__':
-    
+    '''
+    We have collected data from our characterization experiments of the NOT gate 
+    system. We now want to fit the models and select the best one based on the 
+    AIC criterion.
+    '''
     #Set up core models and sampler arguments
     #Details in Tutorial 5 Parts 1 and 2
     model_files = ['LogicGate_Not_Single.ini',
@@ -132,17 +140,17 @@ if __name__ == '__main__':
                                          figs        = trace_figs,
                                          AX          = trace_AX
                                          )
-    #Rank models 
-    #Details in Tutorial 6 Part 1
-    table = ac.calculate_aic(data   = sampler_args['data'], 
-                             models = sampler_args['models'], 
-                             priors = sampler_args['priors'],
-                             params = accepted.iloc[-10:]
-                             )
+    # #Rank models 
+    # #Details in Tutorial 6 Part 1
+    # table = ac.calculate_aic(data   = sampler_args['data'], 
+    #                          models = sampler_args['models'], 
+    #                          priors = sampler_args['priors'],
+    #                          params = accepted.iloc[-10:]
+    #                          )
     
-    ranked_table  = ac.rank_aic(table, inplace=False)
+    # ranked_table  = ac.rank_aic(table, inplace=False)
     
-    print('Ranked AIC table')
-    print(ranked_table.head())
+    # print('Ranked AIC table')
+    # print(ranked_table.head())
     
     

@@ -5,13 +5,14 @@ import BMSS.models.setup_sim        as sm
 
 '''
 Example 1 Part 2: Creating Settings Templates
-- Avoid unecessary erros and typing by using templates
 '''
 
 if __name__ == '__main__':
     
     '''
-    
+    Creating the settings file in the previous example can be tedious. BMSS 
+    helps you avoid unecessary errors by providing functions for generating 
+    settings templates.
     '''
     #Read model
     #Details in Tutorial 1 Part 1

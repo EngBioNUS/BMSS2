@@ -169,14 +169,15 @@ def plot_helper(plot_func, label, trace, variables, figs=[], AX={}, palette={}, 
         mapped_lines   = [axis_plot(ax, plot_func, x=x[i], y=y[i], color=colors[i],  label=label if i==len(colors)-1 else '_nolabel',**plot_args) for i in range(len(colors))]
 
         lines.append(mapped_lines[-1])
-
-    try:
-        if len(legend_args.get('labels', [])):
-            legend_args['handles'] = lines
-        for key in AX1:
-            AX1[key].legend(**legend_args)
-    except:
-        pass
+    
+    if legend_args: 
+        try:
+            if len(legend_args.get('labels', [])):
+                legend_args['handles'] = lines
+            for key in AX1:
+                AX1[key].legend(**legend_args)
+        except:
+            pass
     return figs1, AX1
 
 def axis_plot(ax, func, x, y, *args, **kwargs):

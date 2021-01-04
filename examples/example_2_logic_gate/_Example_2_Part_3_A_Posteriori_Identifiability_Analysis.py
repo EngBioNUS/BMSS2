@@ -10,6 +10,10 @@ import BMSS.curvefitting         as cf
 import BMSS.traceanalysis        as ta
 from   read_data                 import read_data
 
+'''
+Example 2 Part 3: A posteriori Identifiability Analysis
+'''
+
 plt.style.use(lab.styles['bmss_notebook_style'])
 
 #Reset Plots
@@ -71,7 +75,11 @@ def seed(guess, fixed_parameters, parameter_bounds):
 
 #Plot settings   
 if __name__ == '__main__':
-    
+    '''
+    We want to check if our parameters have been properly identified by 
+    examining convergence. BMSS's traceanalysis submodule allows us to 
+    visualize the trace plot.
+    '''
     #Set up core models and sampler arguments
     #Details in Tutorial 5 Parts 1 and 2
     model_files = ['LogicGate_Not_Single.ini',
@@ -116,25 +124,24 @@ if __name__ == '__main__':
         sampler_args['guess'] = seeder()
         result                = cf.simulated_annealing(**sampler_args)
         accepted              = result['a']
-        traces[i+1]           = accepted.iloc[::5]#Thin the trace
+        traces[i+1]           = accepted.iloc[::10]#Thin the trace
     
     
     trace_params = [p for p in accepted.columns if p not in sampler_args['fixed_parameters']]
-    n_figs       = round(len(trace_params)/10 + 0.5)
+    n_figs       = round(len(trace_params)/8 + 0.5)
     trace_figs   = [plt.figure() for i in range(n_figs)]
-    trace_AX_    = [trace_figs[i].add_subplot(5, 2, ii+1) for i in range(len(trace_figs)) for ii in range(10)]
+    trace_AX_    = [trace_figs[i].add_subplot(4, 2, ii+1) for i in range(len(trace_figs)) for ii in range(8)]
     trace_AX     = dict(zip(trace_params, trace_AX_))
-    
-    legend_args = {'loc': 'upper left'}
     
     #Check if chains converge to same region
     trace_figs, trace_AX = ta.plot_steps(traces, 
                                          skip        = sampler_args['fixed_parameters'], 
                                          figs        = trace_figs,
-                                         AX          = trace_AX
+                                         AX          = trace_AX, 
+                                         legend_args = {}
                                          )
     
-    pairs = [['synp1_1', 'synp1_2'],
+    pairs = [['synp1_1', 'synp2_1'],
              ['synp1_1', 'kp1_1']
              ]
     

@@ -5,11 +5,15 @@ import BMSS.models.ia_results       as ir
 import BMSS.strike_goldd_simplified as sg
 
 '''
-Tutorial 7 Part 2: A priori Identifiability Analysis with Strike-Goldd
-- Call the function required to run the strike_goldd algorithm.
+Example 2 Part 1: A priori Identifiability Analysis with Strike-Goldd
 '''
 
 if __name__ == '__main__':
+    '''
+    In this example, we want to characterize a NOT gate system. We want to know 
+    if our candidate models will be fully identifiable based on the states 
+    measured. This can achieved using the strike-GOLDD algorithm.
+    '''
     #Set up core models and sampler arguments
     #Details in Tutorial 7 Part 1 
     model_files = ['LogicGate_Not_Single.ini',

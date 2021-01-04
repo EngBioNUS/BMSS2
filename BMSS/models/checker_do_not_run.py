@@ -1,32 +1,41 @@
 import numpy as np
-def model_BMSS_GrowthModel_MortalityPhase(y, t, params):
-	OD = y[0]
+def model_Inducible_Double_Uptake_LogisticGrowth(y, t, params):
+	x    = y[0]
+	inde = y[1]
+	indi = y[2]
+	m    = y[3]
+	p    = y[4]
 
-	N0  = params[0]
-	m1  = params[1]
-	m2  = params[2]
-	tc1 = params[3]
-	tc2 = params[4]
-	t   = params[5]
+	mu_max = params[0]
+	x_max  = params[1]
+	upind  = params[2]
+	k_ind  = params[3]
+	synm   = params[4]
+	degm   = params[5]
+	synp   = params[6]
+	n_ind  = params[7]
 
-	a = 1 / (tc1 ** m1)
-	b = 1 / (tc2 ** m2)
+	mu = mu_max*(1 - x/x_max)
 	
-	dOD = N0 * (a * m1 * (t ** (m1-1)) - b * m2 * (t ** (m2-1))) * (2.7183**(a * (t ** m1) - b * (t ** m2)))
+	dx = mu*x
+	dinde= -upind*inde
+	dindi= upind*inde
+	dm = synm*indi**n_ind/(indi**n_ind + k_ind**n_ind) - degm*m
+	dp = synp*m - mu*p
 
-	return np.array([dOD])
+	return np.array([dx, dinde, dindi, dm, dp])
 
-OD,N0,m1,m2,tc1,tc2,t= np.random.rand(7)*10
+x,inde,indi,m,p,mu_max,x_max,upind,k_ind,synm,degm,synp,n_ind= np.random.rand(13)*10
 
-OD,N0,m1,m2,tc1,tc2,t= list(map(float, [OD,N0,m1,m2,tc1,tc2,t]))
+x,inde,indi,m,p,mu_max,x_max,upind,k_ind,synm,degm,synp,n_ind= list(map(float, [x,inde,indi,m,p,mu_max,x_max,upind,k_ind,synm,degm,synp,n_ind]))
 
-y = [OD]
+y = [x,inde,indi,m,p]
 
 t = 0
 dt = 1e-3
 
-params = N0,m1,m2,tc1,tc2,t
+params = mu_max,x_max,upind,k_ind,synm,degm,synp,n_ind
 
-y = y + dt*model_BMSS_GrowthModel_MortalityPhase(y, t, params)
+y = y + dt*model_Inducible_Double_Uptake_LogisticGrowth(y, t, params)
 
-y = y + dt*model_BMSS_GrowthModel_MortalityPhase(y, t, params)
+y = y + dt*model_Inducible_Double_Uptake_LogisticGrowth(y, t, params)
