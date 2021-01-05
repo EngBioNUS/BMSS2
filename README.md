@@ -1,7 +1,7 @@
 # BMSS2
 ![alt text](https://github.com/EngBioNUS/BMSS2/blob/master/BMSSDiagram.png?raw=true)
 
-This package supports routine analysis of kinetic models for biological systems. This includes simulation, sensitivity analysis model selection and identifiability analysis.
+This package supports routine analysis of kinetic models for biological systems. This includes simulation, sensitivity analysis, model selection and identifiability analysis.
 
 ## Features
 * Database-driven model storage 
