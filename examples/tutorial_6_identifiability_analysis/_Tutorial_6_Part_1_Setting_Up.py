@@ -117,7 +117,7 @@ if __name__ == '__main__':
     For models already in the database, templates can be generated. Open the output
     file and check its contents.
     '''
-    system_types_settings_names = [('BMSS, Monod, Inducible', None),
+    system_types_settings_names = [('TestModel, Monod, Inducible', None),
                                     ]
     
     ssg.make_settings_template(system_types_settings_names, filename='settings_sg_template.ini')

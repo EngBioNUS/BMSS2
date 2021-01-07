@@ -24,7 +24,7 @@ if __name__ == '__main__':
     files and take a look inside!
     '''
     
-    mod = importlib.import_module('sg_BMSS_Monod_Inducible')
+    mod = importlib.import_module('sg_TestModel_Monod_Inducible')
     
     result = mod.run_strike_goldd()
     

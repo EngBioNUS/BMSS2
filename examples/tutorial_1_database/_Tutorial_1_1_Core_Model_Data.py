@@ -23,7 +23,7 @@ if __name__ == '__main__':
     '''
     
     #Fill in the filenames here
-    filename = 'testmodel.ini'
+    filename = 'TestModel_Dummy.ini'
     
     #Read a .ini file and return a core_model
     core_model_1 = mh.from_config(filename)

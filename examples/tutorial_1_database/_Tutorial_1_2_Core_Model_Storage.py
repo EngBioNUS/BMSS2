@@ -11,7 +11,7 @@ Tutorial 1 Part 2: Using the Database.
 if __name__ == '__main__':
     
     #Fill in the filenames here
-    filename = 'testmodel.ini'
+    filename = 'TestModel_Dummy.ini'
         
     #Add new core model/Replace existing core model
     #Note that this assigns a unique id to the core model that is then printed to the console.

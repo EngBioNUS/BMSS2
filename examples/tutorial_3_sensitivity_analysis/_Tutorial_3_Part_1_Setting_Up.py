@@ -67,7 +67,7 @@ if __name__ == '__main__':
     For models already in the database, templates can be generated. Open the output
     file and check its contents.
     '''
-    system_types_settings_names = [('BMSS, Monod, Constitutive, Single, ProductInhibition', None),
+    system_types_settings_names = [('TestModel, Monod, Constitutive, Single, ProductInhibition', None),
                                     ]
     
     ss.make_settings_template(system_types_settings_names, filename='settings_sen_template.ini')

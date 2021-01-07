@@ -12,21 +12,6 @@ Tutorial 2 Part 1: Introduction to simulation datastructures
 
 if __name__ == '__main__':
     '''
-    Setting Up
-    '''
-    #In case you have not run Tutorial 1
-    filename     = 'testmodel.ini'
-    core_model_1 = mh.from_config(filename)
-    lst          = mh.list_models()
-    if core_model_1['system_type'] not in lst:
-        mh.add_to_database(core_model_1)
-        
-    settings_1  = sh.from_config(filename)[0]
-    lst         = sh.list_settings()
-    if settings_1['settings_name'] not in lst:
-        sh.add_to_database(settings_1)
-
-    '''
     Separating the settings/arguments for your analysis from your main code improves
     readability and convenience during reuse and modification. In addition, it also 
     prevents accidental modifications to your code when tweaking the settings/arguments.
@@ -57,7 +42,7 @@ if __name__ == '__main__':
     2. Compiling Arguments
     '''
     
-    core_model       = mh.from_config('testmodel.ini')
+    core_model       = mh.from_config('TestModel_Dummy.ini')
     user_core_models = {core_model['system_type']: core_model}
     
     models, params, config_data = sm.get_models_and_params(filename, user_core_models=user_core_models)
