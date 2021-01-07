@@ -1,101 +1,94 @@
 import numpy as np
-def model_TestModel_Naringenin_RBSStrength_PromoterStrength(y, t, params):
-	Inde   = y[0]
-	Indi   = y[1]
-	mCHS   = y[2]
-	OsCHS  = y[3]
-	mMCS   = y[4]
-	MCS    = y[5]
-	mPAL   = y[6]
-	PAL    = y[7]
-	mE4CL  = y[8]
-	E4CL   = y[9]
-	Tyr    = y[10]
-	CouA   = y[11]
-	CouCoA = y[12]
-	MalA   = y[13]
-	MalCoA = y[14]
-	Nar    = y[15]
+def model_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation(y, t, params):
+	rmt = y[0]
+	rmm = y[1]
+	rmq = y[2]
+	rmr = y[3]
+	rmp = y[4]
+	pt  = y[5]
+	pm  = y[6]
+	mt  = y[7]
+	mm  = y[8]
+	mq  = y[9]
+	mr  = y[10]
+	mp  = y[11]
+	si  = y[12]
+	a   = y[13]
+	q   = y[14]
+	r   = y[15]
+	p   = y[16]
+	N   = y[17]
+	s0  = y[18]
 
-	proMCS  = params[0]
-	rbsMCS  = params[1]
-	proPAL  = params[2]
-	rbsPAL  = params[3]
-	proE4CL = params[4]
-	rbsE4CL = params[5]
-	rbsCHS  = params[6]
+	M      = params[0]
+	gmax   = params[1]
+	Kgamma = params[2]
+	thetat = params[3]
+	thetam = params[4]
+	thetaq = params[5]
+	thetar = params[6]
+	thetap = params[7]
+	wt     = params[8]
+	wm     = params[9]
+	wq     = params[10]
+	wr     = params[11]
+	wp     = params[12]
+	nt     = params[13]
+	nm     = params[14]
+	nq     = params[15]
+	nr     = params[16]
+	np_    = params[17]
+	hq     = params[18]
+	Kt     = params[19]
+	vt     = params[20]
+	Kq     = params[21]
+	vm     = params[22]
+	Km     = params[23]
+	ns     = params[24]
+	dm     = params[25]
+	kb     = params[26]
+	ku     = params[27]
+	RegN   = params[28]
+	Regs0  = params[29]
 
-	plasmidcopy_fold = 5
+	gamma  = gmax*a/(Kgamma+a)
+	ttrate = (rmq+rmr+rmp+rmt+rmm)*gamma
+	lam    = ttrate/M
+	nucat  = pm*vm*si/(Km+si)
 	
-	Vm       = 6.1743e-05
-	ntrans   = 0.9416
-	Ktrans   = 0.0448
-	n        = 5.4162
-	K_ind    = 2.0583e-05
-	syn_mRNA = 8.6567e-08 *plasmidcopy_fold
-	syn_Pep  = 0.01931 *0.9504 *rbsCHS
-	deg_Pep  = 0.0010
-	deg_mRNA = 0.1386
-	
-	deg_Pep = 0.007397
-	
-	syn_mMCS = 2.2953e-07 *proMCS*plasmidcopy_fold
-	syn_pMCS = 0.01931 *rbsMCS *0.9218
-	
-	syn_mPAL = 2.2953e-07 *proPAL*plasmidcopy_fold
-	syn_pPAL = 0.01931 *rbsPAL *0.8684
-	
-	syn_mE4CL = 2.2953e-07 *proE4CL*plasmidcopy_fold
-	syn_pE4CL = 0.01931 *rbsE4CL *0.9119
-	
-	kcatTyr = 61.2
-	KmTyr   = 0.195e-3
-	
-	kcatCouA = 16.92
-	KmCouA   = 0.246e-3
-	
-	kcatMalA = 0.15e-3/MCS
-	KmMalA   = 529.4e-6
-	
-	kcatCouMalCoA = 0.0517
-	KmMalCoA      = 47.42e-6
-	KmCouCoA      = 45.44e-6
-	
-	VTyr = kcatTyr*PAL*(Tyr/(KmTyr+Tyr))
-	VCouA= kcatCouA*E4CL*(CouA/(KmCouA+CouA))
-	VMalA= kcatMalA*MCS*(MalA/(KmMalA+MalA))
-	VCouMalCoA= kcatCouMalCoA*OsCHS*(CouCoA*(MalCoA))/((KmMalCoA)*CouCoA + KmCouCoA*(MalCoA) + CouCoA*(MalCoA)+KmCouCoA*KmMalCoA)
-	
-	dInde = -Vm*((Inde**ntrans)/(Inde**ntrans+Ktrans**ntrans))
-	dIndi = Vm*((Inde**ntrans)/(Inde**ntrans+Ktrans**ntrans))
-	dmCHS = (syn_mRNA*((Indi**n)/(Indi**n+K_ind**n)))-(deg_mRNA*mCHS)
-	dOsCHS= (syn_Pep*mCHS)-(deg_Pep*OsCHS)
-	dmMCS = (syn_mMCS)-(deg_mRNA * mMCS)
-	dMCS  = (syn_pMCS*mMCS)-(deg_Pep*MCS)
-	dmPAL = (syn_mPAL)-(deg_mRNA * mPAL)
-	dPAL  = (syn_pPAL*mPAL)-(deg_Pep*PAL)
-	dmE4CL= (syn_mE4CL)-(deg_mRNA * mE4CL)
-	dE4CL = (syn_pE4CL*mE4CL)-(deg_Pep*E4CL)
-	dTyr  = -VTyr
-	dCouA = VTyr -VCouA
-	dCouCoA= VCouA -VCouMalCoA
-	dMalA = -VMalA
-	dMalCoA= VMalA -3*VCouMalCoA
-	dNar  = 1*VCouMalCoA
+	drmt= (+kb*r*mt-ku*rmt-gamma/nt*rmt-lam*rmt)
+	drmm= (+kb*r*mm-ku*rmm-gamma/nm*rmm-lam*rmm)
+	drmq= (+kb*r*mq-ku*rmq-gamma/nq*rmq-lam*rmq)
+	drmr= (+kb*r*mr-ku*rmr-gamma/nr*rmr-lam*rmr)
+	drmp= (+kb*r*mp-ku*rmp-gamma/np_*rmp-lam*rmp)
+	dpt = (+gamma/nt*rmt-lam*pt)
+	dpm = (+gamma/nm*rmm-lam*pm)
+	dmt = (+(wt*a/(thetat + a))+ku*rmt+gamma/nt*rmt-kb*r*mt-dm*mt-lam*mt)
+	dmm = (+(wm*a/(thetam + a))+ku*rmm+gamma/nm*rmm-kb*r*mm-dm*mm-lam*mm)
+	dmq = (+(wq*a/(thetaq + a)/(1 + (q/Kq)**hq))+ku*rmq+gamma/nq*rmq-kb*r*mq-dm*mq-lam*mq)
+	dmr = (+(wr*a/(thetar + a))+ku*rmr+gamma/nr*rmr-kb*r*mr-dm*mr-lam*mr)
+	dmp = (+(wp*a/(thetap + a))+ku*rmp+gamma/np_*rmp-kb*r*mp-dm*mp-lam*mp)
+	dsi = (+pt*vt*(s0/(Kt + s0)) -nucat-lam*si)
+	da  = (+ns*nucat-ttrate-lam*a)
+	dq  = (+gamma/nq*rmq-lam*q)
+	dr  = (+ku*rmr+ku*rmt+ku*rmm+ku*rmp+ku*rmq+gamma/nr*rmr+gamma/nr*rmr+gamma/nt*rmt+gamma/nm*rmm+gamma/np_*rmp+gamma/nq*rmq-kb*r*mr-kb*r*mt-kb*r*mm-kb*r*mp-kb*r*mq-lam*r)
+	dp  = (+gamma/np_*rmp-lam*p)
+	dN  = RegN*(lam*N)
+	ds0 = Regs0*(-(pt*vt*(s0/(Kt + s0))*N))
 
-	return np.array([dInde, dIndi, dmCHS, dOsCHS, dmMCS, dMCS, dmPAL, dPAL, dmE4CL, dE4CL, dTyr, dCouA, dCouCoA, dMalA, dMalCoA, dNar])
+	return np.array([drmt, drmm, drmq, drmr, drmp, dpt, dpm, dmt, dmm, dmq, dmr, dmp, dsi, da, dq, dr, dp, dN, ds0])
 
-Inde,Indi,mCHS,OsCHS,mMCS,MCS,mPAL,PAL,mE4CL,E4CL,Tyr,CouA,CouCoA,MalA,MalCoA,Nar,proMCS,rbsMCS,proPAL,rbsPAL,proE4CL,rbsE4CL,rbsCHS= np.random.rand(23)*10
+rmt,rmm,rmq,rmr,rmp,pt,pm,mt,mm,mq,mr,mp,si,a,q,r,p,N,s0,M,gmax,Kgamma,thetat,thetam,thetaq,thetar,thetap,wt,wm,wq,wr,wp,nt,nm,nq,nr,np_,hq,Kt,vt,Kq,vm,Km,ns,dm,kb,ku,RegN,Regs0= np.random.rand(49)*10
 
-Inde,Indi,mCHS,OsCHS,mMCS,MCS,mPAL,PAL,mE4CL,E4CL,Tyr,CouA,CouCoA,MalA,MalCoA,Nar,proMCS,rbsMCS,proPAL,rbsPAL,proE4CL,rbsE4CL,rbsCHS= list(map(float, [Inde,Indi,mCHS,OsCHS,mMCS,MCS,mPAL,PAL,mE4CL,E4CL,Tyr,CouA,CouCoA,MalA,MalCoA,Nar,proMCS,rbsMCS,proPAL,rbsPAL,proE4CL,rbsE4CL,rbsCHS]))
+rmt,rmm,rmq,rmr,rmp,pt,pm,mt,mm,mq,mr,mp,si,a,q,r,p,N,s0,M,gmax,Kgamma,thetat,thetam,thetaq,thetar,thetap,wt,wm,wq,wr,wp,nt,nm,nq,nr,np_,hq,Kt,vt,Kq,vm,Km,ns,dm,kb,ku,RegN,Regs0= list(map(float, [rmt,rmm,rmq,rmr,rmp,pt,pm,mt,mm,mq,mr,mp,si,a,q,r,p,N,s0,M,gmax,Kgamma,thetat,thetam,thetaq,thetar,thetap,wt,wm,wq,wr,wp,nt,nm,nq,nr,np_,hq,Kt,vt,Kq,vm,Km,ns,dm,kb,ku,RegN,Regs0]))
 
-y = [Inde,Indi,mCHS,OsCHS,mMCS,MCS,mPAL,PAL,mE4CL,E4CL,Tyr,CouA,CouCoA,MalA,MalCoA,Nar]
+y = [rmt,rmm,rmq,rmr,rmp,pt,pm,mt,mm,mq,mr,mp,si,a,q,r,p,N,s0]
 
 t = 0
 dt = 1e-3
 
-params = proMCS,rbsMCS,proPAL,rbsPAL,proE4CL,rbsE4CL,rbsCHS
+params = M,gmax,Kgamma,thetat,thetam,thetaq,thetar,thetap,wt,wm,wq,wr,wp,nt,nm,nq,nr,np_,hq,Kt,vt,Kq,vm,Km,ns,dm,kb,ku,RegN,Regs0
 
-y = y + dt*model_TestModel_Naringenin_RBSStrength_PromoterStrength(y, t, params)
+y = y + dt*model_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation(y, t, params)
 
-y = y + dt*model_TestModel_Naringenin_RBSStrength_PromoterStrength(y, t, params)
+y = y + dt*model_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation(y, t, params)
