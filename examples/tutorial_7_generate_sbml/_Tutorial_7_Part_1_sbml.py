@@ -12,15 +12,26 @@ from pathlib import Path
 
 import setup_bmss as lab
 import BMSS.standardfiles_generators.sbmlgen as sbmlgen
+import BMSS.models.model_handler as mh
+import BMSS.models.settings_handler as sh
 
 '''
-Use database_to_sbml to generate SBML files from model database.
-Running only the function will bring up 2 prompts. The first prompt indicates 
-which model you would like to generate the SBML file. If there are model settings 
-available, the second prompt indicates which setting you would like to use to 
-generate the SBML file.
+Use database_to_sbml to generate SBML file from model database.
+You can view the current models and settings in the database with lst and lst_settings.
+Then, input the model name into the variable; ensure that it is correct word-for-word
+And input the settings name.
+Run sbmlgen.database_to_sbml function
+Use this if you want to only convert from the existing database.
 '''
-sbmlgen.database_to_sbml()
+
+#Views all the models and settings in the database
+lst = mh.list_models()
+lst_setting = sh.list_settings()
+
+model_name = "TestModel, BMSS, LogicGate, gate, DelayActivationInput2" #Enter model name
+settings_name = "__default__" #usually "__default__" by default
+sbmlgen.database_to_sbml(model_name, settings_name)
+
 
 
 '''
@@ -28,9 +39,11 @@ Use config_to_sbml to generate SBML files from a list of configuration files.
 Running only this function will generate SBML files from single/multiple .ini 
 files. Use this if you want to only convert selected files from the whole folder.
 '''
+
 files = ['TestModel_LogicGate_ORgate_DelayActivation_DelayActivation.ini', 
          'TestModel_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation.ini']
 sbmlgen.config_to_sbml(files)
+
 
 
 '''
