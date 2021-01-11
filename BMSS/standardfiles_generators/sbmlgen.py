@@ -17,6 +17,9 @@ import BMSS.models.model_handler as mh
 import BMSS.models.settings_handler as sh
 
 def SBMLcreation(core_model, settings, tut7_1, f, folderpath, sbmlfilelist, number_scenario):
+    '''
+    :meta private:
+    '''
     unit_model = settings['units']
     addparam =  settings['parameters']
     number_init = len(settings['init'])
