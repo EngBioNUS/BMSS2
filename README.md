@@ -56,5 +56,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 ## Contact Us
 Please feel free to contact us at EngBioBMSS.help@gmail.com if you have any questions or to report any bugs.
 
+[guidelines for contributing]: <https://github.com/EngBioNUS/BMSS2/blob/master/contributing.md>
+
 ## Contributing to the Project
-Anyone and everyone is welcome to contribute. Please review the [guidelines for contributing](CONTRIBUTING.md)
+Anyone and everyone is welcome to contribute. Please review the [guidelines for contributing]
