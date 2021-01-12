@@ -11,9 +11,8 @@ Features:
 import os
 import glob
 
-import setup_bmss as lab
 import BMSS.standardfiles_generators.simplesbml as simplesbml
-import BMSS.models.model_handler as mh
+import BMSS.models.model_handler    as mh
 import BMSS.models.settings_handler as sh
 
 def SBMLcreation(core_model, settings, tut7_1, f, folderpath, sbmlfilelist, number_scenario):
