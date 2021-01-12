@@ -1,4 +1,7 @@
 import numpy as np
+from numba import jit
+
+@jit(nopython=True)
 def model_TestModel_LogicGate_ORgate_DelayActivation_DelayActivation(y, t, params):
 	Inde1 = y[0]
 	Indi1 = y[1]
@@ -35,18 +38,3 @@ def model_TestModel_LogicGate_ORgate_DelayActivation_DelayActivation(y, t, param
 	dPep3  = (syn_Pep*mRNA3)-(deg_Pep*Pep3)
 
 	return np.array([dInde1, dIndi1, dInde2, dIndi2, dmRNA1, dPep1, dmRNA2, dPep2, dmRNA3, dPep3])
-
-Inde1,Indi1,Inde2,Indi2,mRNA1,Pep1,mRNA2,Pep2,mRNA3,Pep3,syn_mRNA1,syn_mRNA2,syn_mRNA3,deg_mRNA,syn_Pep,deg_Pep,Pepmax,Km1,Km2,state1,state2= np.random.rand(21)*10
-
-Inde1,Indi1,Inde2,Indi2,mRNA1,Pep1,mRNA2,Pep2,mRNA3,Pep3,syn_mRNA1,syn_mRNA2,syn_mRNA3,deg_mRNA,syn_Pep,deg_Pep,Pepmax,Km1,Km2,state1,state2= list(map(float, [Inde1,Indi1,Inde2,Indi2,mRNA1,Pep1,mRNA2,Pep2,mRNA3,Pep3,syn_mRNA1,syn_mRNA2,syn_mRNA3,deg_mRNA,syn_Pep,deg_Pep,Pepmax,Km1,Km2,state1,state2]))
-
-y = [Inde1,Indi1,Inde2,Indi2,mRNA1,Pep1,mRNA2,Pep2,mRNA3,Pep3]
-
-t = 0
-dt = 1e-3
-
-params = syn_mRNA1,syn_mRNA2,syn_mRNA3,deg_mRNA,syn_Pep,deg_Pep,Pepmax,Km1,Km2,state1,state2
-
-y = y + dt*model_TestModel_LogicGate_ORgate_DelayActivation_DelayActivation(y, t, params)
-
-y = y + dt*model_TestModel_LogicGate_ORgate_DelayActivation_DelayActivation(y, t, params)
