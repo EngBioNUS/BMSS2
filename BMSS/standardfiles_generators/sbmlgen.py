@@ -16,6 +16,10 @@ import BMSS.models.model_handler    as mh
 import BMSS.models.settings_handler as sh
 
 def unitlookup(settings):
+    '''Reads in the list of units listed in the database and converts them to 
+    units defined in simplesbml
+    '''
+    
     unit_model = settings['units']
     for w in unit_model: #Unit Look-up/conversion
         unit_model[w] = unit_model[w].replace('aa', 'items') 
@@ -33,15 +37,19 @@ def unitlookup(settings):
         
     return unit_model
 
-def SBMLcreation(core_model, settings, unit_model, addparam, j, k):
+def SBMLcreation(core_model, settings, unit_model, addparam, init_scenario, param_scenario):
+    '''Reads in the core model, settings, parameters and which scenario of 
+    init and parameters values and outputs SBML format in sbmlstr
+    '''
+    
     model_sbml = simplesbml.SbmlModel()
                 
     for i in range(len(core_model['states'])):
-        model_sbml.addSpecies(core_model['states'][i], settings['init'][j+1][i])    
+        model_sbml.addSpecies(core_model['states'][i], settings['init'][init_scenario+1][i])    
     
     for i in range(len(addparam.columns)):
         name = addparam.columns[i]
-        model_sbml.addParameter(name, addparam.values[k,i], units = unit_model[name])
+        model_sbml.addParameter(name, addparam.values[param_scenario,i], units = unit_model[name])
     
     for eqn in core_model['equations']:
         if eqn is not '':
