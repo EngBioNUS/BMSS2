@@ -3,6 +3,9 @@
 
 This package supports routine analysis of kinetic models for biological systems. This includes simulation, sensitivity analysis, model selection and identifiability analysis.
 
+## Documentation
+The documentation can be found at https://bmss2.readthedocs.io/en/latest/BMSS.html
+
 ## Features
 * Database-driven model storage 
 * Simulation and sensitivity analysis and result plotting
