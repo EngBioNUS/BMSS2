@@ -16,9 +16,10 @@ addparam          =  settings['parameters']
 number_init       = len(settings['init'])
 number_parameters = len(settings['parameters'])
 unit_model        = sbmlgen.unitlookup(settings)
+init_scenario     = 0
+param_scenario    = 0
 
-j = 0
-k = 0
+init_scenario, param_scenario
 
 def samplemodel():
     model_2 = simplesbml.SbmlModel()
@@ -86,10 +87,10 @@ class TestSBMLGen:
         global settings_name
         global unit_model
         global addparam
-        global j
-        global k
+        global init_scenario
+        global param_scenario
         
-        sbmlstrtest = sbmlgen.SBMLcreation(core_model_1, settings, unit_model, addparam, j, k)
+        sbmlstrtest = sbmlgen.SBMLcreation(core_model_1, settings, unit_model, addparam, init_scenario, param_scenario)
         
         assert sbmlstrtest == sample_sbml, "Something went wrong"
         

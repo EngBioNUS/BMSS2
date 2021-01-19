@@ -172,17 +172,17 @@ def autogenerate_sbml_from_folder(folderpath):
 def database_to_sbml(system_type, settings_name):
     '''Select model stored in database and generate the SBML file. 
     '''
-    sbmlfilelist=[]
+    sbmlfilelist    = []
     number_scenario = 0
 
     
     search_result_settings = sh.search_database(system_type, settings_name)
-    search_result_model = mh.quick_search(system_type)
-    core_model    = search_result_model
-    settings = search_result_settings[0]
-    addparam =  settings['parameters']
-    number_init = len(settings['init'])
-    number_parameters = len(settings['parameters'])
+    search_result_model    = mh.quick_search(system_type)
+    core_model             = search_result_model
+    settings               = search_result_settings[0]
+    addparam               = settings['parameters']
+    number_init            = len(settings['init'])
+    number_parameters      = len(settings['parameters'])
     
     unit_model = unitlookup(settings)
     
