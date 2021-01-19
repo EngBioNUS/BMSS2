@@ -22,5 +22,5 @@ setuptools.setup(
     python_requires='>=3.7',
 )
 ##packages     = ['BMSS'],
-##    package_dir  = {'BMSS':'BMSS/models'},
-##    package_data = {'BMSS': ['']}
+##package_dir  = {'BMSS':'BMSS/models'},
+##package_data = {'BMSS': ['']}
