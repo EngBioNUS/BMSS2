@@ -4,6 +4,7 @@
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 autodoc_mock_imports = ['libsbml', 'matplotlib', 'numba', 'numpy', 'pandas', 'SALib', 'scipy', 'sympy', 'seaborn', 'yaml']
+html_static_path     = []
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
