@@ -18,6 +18,8 @@ import BMSS.models.settings_handler as sh
 def unitlookup(settings):
     '''Reads in the list of units listed in the database and converts them to 
     units defined in simplesbml
+    
+    :meta private:
     '''
     
     unit_model = settings['units']
@@ -40,6 +42,8 @@ def unitlookup(settings):
 def SBMLcreation(core_model, settings, unit_model, addparam, init_scenario, param_scenario):
     '''Reads in the core model, settings, parameters and which scenario of 
     init and parameters values and outputs SBML format in sbmlstr
+    
+    :meta private:
     '''
     
     model_sbml = simplesbml.SbmlModel()
