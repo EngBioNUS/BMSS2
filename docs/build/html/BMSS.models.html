@@ -180,12 +180,6 @@
 <div class="section" id="module-BMSS.models.ia_results">
 <span id="bmss-models-ia-results-module"></span><h2>BMSS.models.ia_results module<a class="headerlink" href="#module-BMSS.models.ia_results" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="BMSS.models.ia_results.check_in_lists">
-<code class="sig-prename descclassname">BMSS.models.ia_results.</code><code class="sig-name descname">check_in_lists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variable</span></em>, <em class="sig-param"><span class="n">lst1</span></em>, <em class="sig-param"><span class="n">lst2</span></em>, <em class="sig-param"><span class="n">negate</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.ia_results.check_in_lists" title="Permalink to this definition">¶</a></dt>
-<dd><p>Supporting function for make_new_row. Do not run.</p>
-</dd></dl>
-
-<dl class="py function">
 <dt id="BMSS.models.ia_results.dump_sg_results">
 <code class="sig-prename descclassname">BMSS.models.ia_results.</code><code class="sig-name descname">dump_sg_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sg_results</span></em>, <em class="sig-param"><span class="n">variables</span></em>, <em class="sig-param"><span class="n">config_data</span></em>, <em class="sig-param"><span class="n">user_core_models</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">save</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.ia_results.dump_sg_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds sg_results for each core_model to the csv file indexed under core_model[‘ia’]
@@ -488,18 +482,6 @@ applied to database.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.models.settings_handler.backend_add_to_database">
-<code class="sig-prename descclassname">BMSS.models.settings_handler.</code><code class="sig-name descname">backend_add_to_database</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">database</span></em>, <em class="sig-param"><span class="n">dialog</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.settings_handler.backend_add_to_database" title="Permalink to this definition">¶</a></dt>
-<dd><p>Supporting function for add_to_database. Do not run.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.models.settings_handler.backend_config_to_database">
-<code class="sig-prename descclassname">BMSS.models.settings_handler.</code><code class="sig-name descname">backend_config_to_database</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">database</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.settings_handler.backend_config_to_database" title="Permalink to this definition">¶</a></dt>
-<dd><p>For backend maintenance. Do not run.</p>
-</dd></dl>
-
-<dl class="py function">
 <dt id="BMSS.models.settings_handler.config_to_database">
 <code class="sig-prename descclassname">BMSS.models.settings_handler.</code><code class="sig-name descname">config_to_database</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.settings_handler.config_to_database" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds settings in file to the database. Returns a list of tuples of
@@ -536,12 +518,6 @@ to be ignored if the core_model is already in the database.</p></li>
 </ul>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.models.settings_handler.from_df_replace">
-<code class="sig-prename descclassname">BMSS.models.settings_handler.</code><code class="sig-name descname">from_df_replace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">database</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.settings_handler.from_df_replace" title="Permalink to this definition">¶</a></dt>
-<dd><p>For backend maintenance only. Do not run unless you know what you are doing.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -891,11 +867,6 @@ core_models already in the database do not need to be specified here.</p></li>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.models.setup_sim.dict_template">
-<code class="sig-prename descclassname">BMSS.models.setup_sim.</code><code class="sig-name descname">dict_template</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sub_section</span></em>, <em class="sig-param"><span class="n">keys</span></em>, <em class="sig-param"><span class="n">longest</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">'[]'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.setup_sim.dict_template" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt id="BMSS.models.setup_sim.from_config">
 <code class="sig-prename descclassname">BMSS.models.setup_sim.</code><code class="sig-name descname">from_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.setup_sim.from_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Opens a config file and reads the fields/subfields required for setting up
@@ -925,11 +896,6 @@ core_models already in the database do not need to be specified here.</p></li>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.models.setup_sim.list_template">
-<code class="sig-prename descclassname">BMSS.models.setup_sim.</code><code class="sig-name descname">list_template</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sub_section</span></em>, <em class="sig-param"><span class="n">values</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.setup_sim.list_template" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="py function">
 <dt id="BMSS.models.setup_sim.make_settings_template">

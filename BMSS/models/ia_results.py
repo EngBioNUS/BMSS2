@@ -234,6 +234,8 @@ def make_new_row_template(core_model, init, input_conditions, fixed_parameters, 
 def check_in_lists(variable, lst1, lst2, negate=False):
     '''
     Supporting function for make_new_row. Do not run.
+    
+    :meta private:
     '''
     if negate:
         return variable in lst1 and variable not in lst2
