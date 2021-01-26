@@ -3,9 +3,12 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+p = setuptools.find_packages()
+print(p)
+
 setuptools.setup(
     name                          = "BMSS", 
-    version                       = "2.0.1",
+    version                       = "2.0.7",
     author                        = "Russell Ngo",
     author_email                  = "biernjk@gmail.com",
     description                   = "A package for dyanmic model analysis.",
@@ -20,6 +23,11 @@ setuptools.setup(
         "Operating System :: OS Independent"
     ],
     python_requires='>=3.7',
+    include_package_data = True,
+    package_dir          = {'BMSS': 'BMSS'},
+    package_data         = {'BMSS': ['models/*.db',
+                                     'models/*.txt',
+                                     'models/*.ini']}
 )
 ##packages     = ['BMSS'],
 ##package_dir  = {'BMSS':'BMSS/models'},

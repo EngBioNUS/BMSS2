@@ -1,3 +1,2 @@
 include *.ini
 include *.txt
-include *.py
