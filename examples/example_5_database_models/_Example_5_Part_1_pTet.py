@@ -160,17 +160,6 @@ if __name__ == '__main__':
                    }
     legend_args = {'loc': 'upper left'}
     
-    # figs, AX  = cf.plot(posterior  = posterior, 
-    #                     models     = sampler_args['models'],  
-    #                     data       = data_mu,
-    #                     data_sd    = data_sd,
-    #                     plot_index = plot_index,
-    #                     labels     = labels,
-    #                     titles     = titles,
-    #                     legend_args= legend_args,
-    #                     figs       = None,
-    #                     AX         = None
-    #                     )
     figs, AX  = cf.plot(posterior  = posterior, 
                         models     = sampler_args['models'],  
                         data       = data_mu,
@@ -182,10 +171,3 @@ if __name__ == '__main__':
                         AX         = None
                         )
     
-    # for model_num in sampler_args['models']:
-    #     params   = sampler_args['models'][model_num]['params'] 
-    #     traces_  = {key: traces[key][params] for key in traces}
-    #     figs, AX = ta.plot_steps(traces_, 
-    #                               skip=sampler_args['fixed_parameters'], 
-    #                               legend_args=legend_args
-    #                               )

@@ -37,7 +37,7 @@ def export_code(code, filename='code1.py', local=False, mode='w'):
     
 
 ###############################################################################
-#Supportying Functions
+#Supporting Functions
 ############################################################################### 
 def states_to_code(states, indent=1):
     longest = len(max(states, key=len))
@@ -52,62 +52,6 @@ def params_to_code(params, indent=1):
     result  = '\n'.join(temp)
     
     return result
-
-# def equations_to_code(equations, states, indent=1):
-#     '''
-#     Excepts a list of strings corresponding to equations and formats them.
-#     Assumes the last block of strings contains the differentials.
-    
-#     E.g. ["a=1","","ds=a**2","dx=a**3"]
-#     will return the following.
-#     "
-#     a = 1
-    
-#     ds = a**2
-#     dx = a**3
-    
-#     return np.array([ds, dx])
-#     "
-#     '''
-#     result = ''
-#     blocks = []
-#     diff = []
-#     expr = []
-#     for equation in equations:
-#         if equation.strip():
-#             diff_, expr_ = [s.strip() for s in equation.split('=')]
-       
-#             diff.append(diff_)
-#             expr.append(expr_)
-#         else:
-#             if diff:
-#                 blocks.append([diff.copy(), expr.copy()])
-#                 diff = []
-#                 expr = []
-#             else:
-#                 pass
-#     if diff:
-#         blocks.append([diff, expr])
-                
-#     temp = []
-#     for block in blocks:
-#         if temp:
-#             temp.append('\t'*indent)
-#         temp.append(equations_to_code_helper(*block, indent=indent))
-    
-#     return_value = '\t'*indent + 'return np.array([' + ', '.join(diff) +'])' 
-    
-#     if len(diff) != len(states):
-#         message = ' '.join(['The final block of equations contains', 
-#                             str(len(diff)),
-#                             'equations. However, the model has', 
-#                             str(len(states)),
-#                             'states.'
-#                             ])
-#         raise Exception(message)
-        
-#     result  = '\n'.join(temp) + '\n\n' + return_value
-#     return result 
 
 def equations_to_code(equations, states, indent=1):
     '''

@@ -27,7 +27,7 @@ except:
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
-                                     dict_template, list_template,
+                                     dict_template, list_template, t_template,
                                      split_at_top_level,
                                      is_analysis_settings)
 

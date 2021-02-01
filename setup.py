@@ -8,7 +8,7 @@ print(p)
 
 setuptools.setup(
     name                          = "BMSS", 
-    version                       = "2.0.7",
+    version                       = "2.0.8",
     author                        = "Russell Ngo",
     author_email                  = "biernjk@gmail.com",
     description                   = "A package for dyanmic model analysis.",
@@ -27,8 +27,6 @@ setuptools.setup(
     package_dir          = {'BMSS': 'BMSS'},
     package_data         = {'BMSS': ['models/*.db',
                                      'models/*.txt',
-                                     'models/*.ini']}
+                                     'models/*.ini',
+                                     'stylelib/*.mplstyle']}
 )
-##packages     = ['BMSS'],
-##package_dir  = {'BMSS':'BMSS/models'},
-##package_data = {'BMSS': ['']}

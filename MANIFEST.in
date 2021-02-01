@@ -1,2 +1,3 @@
-include *.ini
-include *.txt
+recursive-include BMSS *.ini
+recursive-include BMSS *.txt
+recursive-include BMSS *.mplstyle

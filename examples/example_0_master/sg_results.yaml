@@ -1,0 +1,89 @@
+1:
+  system_type: TestModel, Logistic, Inducible
+  init:
+    x: 0.1
+    h: 0.1
+  input:
+    x: 1
+    h: 1
+    mu_max: 1
+    synh: 0
+    Kind: 0
+    x_max: 1
+    Ind: 5
+  output:
+    x: 1
+    h: 1
+    mu_max: 1
+    synh: 1
+    Kind: 1
+    x_max: 1
+2:
+  system_type: Inducible, Double, DegradingInducer, LogisticGrowth
+  init:
+    x: 0.1
+    ind: 0.1
+    m: 0.1
+    p: 0.1
+  input:
+    x: 1
+    ind: 1
+    m: 1
+    p: 1
+    mu_max: 1
+    x_max: 1
+    degind: 0
+    k_ind: 0
+    synm: 0
+    degm: 1
+    synp: 0
+    n_ind: 1
+  output:
+    x: 1
+    ind: 1
+    m: 1
+    p: 1
+    mu_max: 1
+    x_max: 1
+    degind: 1
+    k_ind: 1
+    synm: 1
+    degm: 1
+    synp: 1
+    n_ind: 1
+3:
+  system_type: Inducible, Double, Uptake, LogisticGrowth
+  init:
+    x: 0.1
+    inde: 0.1
+    indi: 0.1
+    m: 0.1
+    p: 0.1
+  input:
+    x: 1
+    inde: 0
+    indi: 0
+    m: 0
+    p: 1
+    mu_max: 1
+    x_max: 1
+    upind: 0
+    k_ind: 0
+    synm: 0
+    degm: 1
+    synp: 0
+    n_ind: 1
+  output:
+    x: 1
+    inde: 1
+    indi: 1
+    m: 1
+    p: 1
+    mu_max: 1
+    x_max: 1
+    upind: 1
+    k_ind: 1
+    synm: 1
+    degm: 1
+    synp: 1
+    n_ind: 1

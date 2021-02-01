@@ -140,6 +140,8 @@ def add_to_database(settings, dialog=False):
 ###############################################################################
 def backend_add_to_database(settings, database, dialog=False):
     '''Supporting function for add_to_database. Do not run.
+    
+    :meta private:
     '''
     
     #Check core model exists
@@ -297,6 +299,8 @@ def to_df(database=None):
 def from_df_replace(df, database):
     '''
     For backend maintenance only. Do not run unless you know what you are doing.
+    
+    :meta private:
     '''
     return df.to_sql('settings', database, if_exists='replace', index=False)
 
@@ -546,6 +550,8 @@ def config_to_database(filename):
 def backend_config_to_database(filename, database):
     '''
     For backend maintenance. Do not run.
+    
+    :meta private:
     '''
     all_settings = from_config(filename)
     

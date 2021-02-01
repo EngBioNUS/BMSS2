@@ -9,7 +9,7 @@ try:
                                      string_to_dict, string_to_dict_array, 
                                      string_to_list_string, eval_init_string, 
                                      eval_params_string, eval_tspan_string, 
-                                     dict_template, list_template,
+                                     dict_template, list_template, t_template,
                                      is_analysis_settings)
 
 except:
@@ -173,7 +173,7 @@ def make_settings_template(system_types_settings_names, filename='', user_core_m
         parameter_bounds = dict_template('parameter_bounds', parameters, longest, settings['parameters'])
         units_values     = dict_template('units',            parameters, longest, settings['units'], default='')
         tspan            = ['[' + ', '.join(['{:.2f}'.format(x) for x in segment]) + ']' for segment in settings['tspan']]
-        tspan            = list_template('tspan',            '[' + ', '.join(tspan) + ']')
+        tspan            = t_template('tspan',            '[' + ', '.join(tspan) + ']')
         fixed_parameters = list_template('fixed_parameters', settings['fixed_parameters'])
         solver_args      = dict_template('solver_args',      solver_args, longest_, settings['solver_args'])
         

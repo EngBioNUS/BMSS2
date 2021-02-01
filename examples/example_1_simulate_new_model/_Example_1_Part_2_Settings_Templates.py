@@ -45,7 +45,7 @@ if __name__ == '__main__':
     needed.
     '''
     settings_template_filename  = 'settings_template_2.ini'
-    system_types_settings_names = [('BMSS, Monod, Inducible, Bioconversion, ProductInhibition', '__default__')
+    system_types_settings_names = [('TestModel, Monod, Inducible, Bioconversion, ProductInhibition', '__default__')
                                    ]
     
     sm.make_settings_template(system_types_settings_names, 
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     '''
     settings_template_filename  = 'settings_template_3.ini'
     system_types_settings_names = [('TestModel, Dummy', None),
-                                   ('BMSS, Monod, Inducible, Bioconversion, ProductInhibition', '__default__')
+                                   ('TestModel, Monod, Inducible, Bioconversion, ProductInhibition', '__default__')
                                    ]
     
     sm.make_settings_template(system_types_settings_names, 

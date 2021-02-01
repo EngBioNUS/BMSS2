@@ -124,7 +124,7 @@ if __name__ == '__main__':
     appropriate version of the function make_settings_template which is shown below.
     '''
     
-    system_types_settings_names = [('BMSS, Logistic, Inducible', 'pTet'),
+    system_types_settings_names = [('TestModel, Logistic, Inducible', 'pTet'),
                                    ('Inducible, Double, DegradingInducer, LogisticGrowth', None),
                                    ('Inducible, Double, Uptake, LogisticGrowth', None)
                                    ]

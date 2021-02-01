@@ -225,7 +225,7 @@ def make_settings_template(system_types_settings_names, filename='', user_core_m
         param_values  = dict_template('parameter_values', parameters, longest, settings['parameters'])
         units_values  = dict_template('units',            parameters, longest, settings['units'], default='')
         tspan         = ['[' + ', '.join(['{:.2f}'.format(x) for x in segment]) + ']' for segment in settings['tspan']]
-        tspan         = list_template('tspan',            '[' + ', '.join(tspan) + ']')
+        tspan         = t_template('tspan',            '[' + ', '.join(tspan) + ']')
         solver_args   = dict_template('solver_args',      solver_args, longest_, settings['solver_args'])
         
         model_id         = '#id = ' + str(core_model['id'])
@@ -240,13 +240,28 @@ def make_settings_template(system_types_settings_names, filename='', user_core_m
     return result
 
 def dict_template(sub_section, keys, longest, data={}, default='[]'):
+    '''
+    :meta private:
+    '''
     result  = sub_section + ' = \n' + ',\n'.join(['\t'  + key + ' '*(longest - len(key)) + ' = ' + str(data.get(key, default)) for key in keys])
     
     return result
 
-def list_template(sub_section, values):
-    result = sub_section + ' = \n' + '\n\t' + '[' +', '.join([str(value) for value in values]) + ']'
+def t_template(sub_section, values):
+    '''
+    :meta private:
+    '''
     
+    result = sub_section + ' = \n' + '\n\t' + values
+    return result
+    
+def list_template(sub_section, values):
+    '''
+    :meta private:
+    '''
+
+    result = sub_section + ' = \n' + '\n\t' + '[' +', '.join([str(value) for value in values]) + ']'
+
     return result
                        
 if __name__ == '__main__':
