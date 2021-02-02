@@ -1,0 +1,25 @@
+1:
+  system_type: TestModel, Monod, Inducible
+  init:
+    x: 1.0
+    s: 1.0
+    h: 1.0
+  input:
+    x: 1
+    s: 1
+    h: 1
+    mu_max: 1
+    Ks: 1
+    Y: 1
+    synh: 0
+    Kind: 0
+    Ind: 6
+  output:
+    x: 1
+    s: 1
+    h: 1
+    mu_max: 1
+    Ks: 1
+    Y: 1
+    synh: 1
+    Kind: 1
