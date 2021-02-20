@@ -74,7 +74,7 @@ def get_models_and_params(filename, user_core_models={}):
     return models, params, config_data
 
 def compile_models(core_models, config_data):
-    models         = make_compiled_models_template(core_models)
+    models     = make_compiled_models_template(core_models)
     params     = {}
     
     for key in config_data:
