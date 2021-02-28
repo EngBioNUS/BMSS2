@@ -3,6 +3,7 @@ import importlib
 import os
 import os.path    as osp
 import sqlite3    as sq
+import warnings
 import yaml       as ya
 from   io         import StringIO
 from   pandas     import concat, DataFrame, Series, read_sql_query, read_csv
@@ -123,7 +124,8 @@ def make_core_model(system_type, states, parameters, inputs, equations, descript
     
     is_valid, text = check_model_terms(core_model)
     if not is_valid:
-        raise Exception('Error in ' + str(system_type1) + ' when checking terms: ' + text)
+        warnings.warn('Error in ' + str(system_type1) + ' when checking terms: ' + text)
+        # raise Exception('Error in ' + str(system_type1) + ' when checking terms: ' + text)
     
     return core_model
 

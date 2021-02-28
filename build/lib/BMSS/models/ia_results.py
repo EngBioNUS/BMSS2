@@ -33,10 +33,12 @@ def export_sg_results(sg_results, variables, config_data, user_core_models={}, f
         if not core_model:
             core_model = mh.quick_search(system_type)
             
+        fixed_parameters = list(config_data[key]['parameter_values'].keys())
         
-        nested_dict = make_new_nested_dict(sg_result       = sg_results[key],
-                                           model_variables = variables[key],
-                                           core_model      = core_model,
+        nested_dict = make_new_nested_dict(sg_result        = sg_results[key],
+                                           model_variables  = variables[key],
+                                           core_model       = core_model,
+                                           fixed_parameters = fixed_parameters,
                                            **config_data[key]
                                            )
         nested_dict    = {**{'system_type' : system_type}, **nested_dict}
@@ -83,11 +85,14 @@ def dump_sg_results(sg_results, variables, config_data, user_core_models={}, sav
 
         if not core_model:
             core_model = mh.quick_search(system_type)
-            
-        new_row = update_core_model(sg_result       = sg_results[key],
-                                    model_variables = variables[key],
-                                    core_model      = core_model,
-                                    save            = save,
+        
+        fixed_parameters = list(config_data[key]['parameter_values'].keys())
+        
+        new_row = update_core_model(sg_result        = sg_results[key],
+                                    model_variables  = variables[key],
+                                    core_model       = core_model,
+                                    save             = save,
+                                    fixed_parameters = fixed_parameters,
                                     **config_data[key]
                                     )
         

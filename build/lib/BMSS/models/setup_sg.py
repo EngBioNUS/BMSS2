@@ -55,14 +55,12 @@ def from_config(filename):
             continue
         
         parameter_values = config[section].get('parameter_values')
-        fixed_parameters = config[section].get('fixed_parameters')
         measured_states  = config[section].get('measured_states')
         input_conditions = config[section].get('input_conditions')
         decomposition    = config[section].get('decomposition')
         init             = config[section].get('init')
         units            = config[section].get('units')
         
-        fixed_parameters = string_to_list_string(fixed_parameters) if fixed_parameters else []
         measured_states  = string_to_list_string(measured_states)  if measured_states  else []
         input_conditions = string_to_dict(input_conditions)        if input_conditions else {}
         parameter_values = string_to_dict(parameter_values)        if parameter_values else {} 
@@ -92,7 +90,6 @@ def from_config(filename):
                           'parameter_values' : parameter_values,
                           'init'             : init,
                           'input_conditions' : input_conditions,
-                          'fixed_parameters' : fixed_parameters,
                           'measured_states'  : measured_states, 
                           'decomposition'    : decomposition,
                           'units'            : units
@@ -126,7 +123,7 @@ def get_strike_goldd_args(filename, user_core_models={}, write_file=False):
         eq      = core_model['equations']
         h       = config_data[model_num].get('measured_states')
         x       = core_model['states']
-        p       = [v for v in core_model['parameters'] if v not in config_data[model_num].get('fixed_parameters', [])]
+        p       = [v for v in core_model['parameters'] if v not in config_data[model_num].get('parameter_values', {}) ]
         u       = config_data[model_num].get('input_conditions', {})
         ics     = config_data[model_num].get('init')
         ics     = dict(zip(x, ics[next(iter(ics))]))
