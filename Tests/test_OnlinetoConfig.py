@@ -11,7 +11,7 @@ from pathlib import Path
 import add_BMSS_to_path
 import pytest
 import tellurium as te, os
-import BMSS.standardfiles_generators.OnlinetoConfiggen as onlinegen
+import BMSS.standardfiles_generators.OnlinetoConfig as onlinegen
 import tempfile
 import io
 import zipfile
@@ -19,10 +19,6 @@ import requests
 from bs4 import BeautifulSoup 
 
 
-import_filename = 'DatabasetoSBML_Repressilator_TestModel.xml'
-
-with open(import_filename, 'r', encoding='utf8', errors='ignore') as f: 
-    samplesbmlstr = f.read() 
 Model_name = "Repressilator_TestModel"
 #antimony_str = te.sbmlToAntimony(samplesbmlstr)
 system_type = 'Test_Model, Repressilator'

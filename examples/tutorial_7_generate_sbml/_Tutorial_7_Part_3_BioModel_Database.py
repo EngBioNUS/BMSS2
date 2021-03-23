@@ -6,7 +6,7 @@ Created on Mon Feb  8 11:14:39 2021
 """
 
 import setup_bmss as lab
-import BMSS.standardfiles_generators.OnlinetoConfiggen as onlinegen
+import BMSS.standardfiles_generators.OnlinetoConfig as onlinegen
 import tellurium as te
 import BMSS.models.model_handler    as mh
 import BMSS.models.setup_sim        as sm
