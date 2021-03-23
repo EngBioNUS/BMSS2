@@ -8,6 +8,7 @@ Created on Tue Feb  9 10:54:18 2021
 import tellurium as te, os
 from pathlib import Path
 import tempfile
+import re
 import io
 import zipfile
 import requests
@@ -50,6 +51,8 @@ def sbmltoconfig(sbmlstr, system_type, tspan, Model_name):
     :return: config file in string format and nested dictionary for settings
     
     '''
+    #--Ensure TSpan declared correctly--
+    tspanchecker(tspan)
     
     species_store, parameters_store, reactions_store, rules_store, antimony_str, description_store = gen_dictionary(sbmlstr)
 
@@ -635,4 +638,24 @@ def Convertplus(string):
     '''
     li = list(string.split("+"))
     return li
+
+def tspanchecker(tspan):
+    assert '[' in tspan, 'Include "[" at the start of tspan'
+    assert ']' in tspan, 'Include "]" at the end of tspan'
+    
+    start_tspan = tspan.index('[') + 1
+    firstcomma = tspan.index(',')
+    start_time = tspan[start_tspan:firstcomma]
+    secondcomma = tspan.find(',', firstcomma+1)
+    end_time = tspan[firstcomma+2:secondcomma]
+    
+    end_tspan = tspan.index(']')
+    temp_tspan = tspan[start_tspan:end_tspan]
+    matched = re.match("^[0-9]+\, [0-9]+\, [0-9]+$", temp_tspan)
+    is_match = bool(matched)
+    if start_time>end_time:
+        raise ValueError('first value declared cannot be larger than second')
+    if is_match == False:
+        raise NameError('Tspan was not declared in proper format(e.g. [0, 600, 61])')
+    return
 

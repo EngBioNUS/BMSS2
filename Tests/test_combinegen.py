@@ -23,6 +23,8 @@ class TestCombinecreator:
     def test_genOMEX(self):
         global model_name
         global KISAO_algorithm
+        global Plot_Variable
+        global core_model
         outputpath = (Path.cwd())
         model_name = "TestModel, CellModel, CellularResources, ProteomeAllocation, RibosomeLimitation" #Enter model name
         settings_name = "__default__" #usually "__default__" by default
@@ -64,11 +66,30 @@ class TestCombinecreator:
         return
     
     def test_outputOMEX_fail(self):
+        #OMEX file does not exist
         global model_name
         filename = model_name.replace(", ", "_")
         filename = 'COMBINE_fail_' + filename + '.omex'
         if os.path.exists(filename) == False:
             raise IOError("File did not output properly")
+        return
+    
+    def test_plotvariablechecker(self):
+        #Test if plot variable declared is in the species
+        #Checker is called in beginning of database_to_combine
+        global core_model
+        Plot_Variable = ["r", "a", "p"]
+        combinegen.plotvariablechecker(Plot_Variable, core_model)
+        return
+    
+    def test_plotvariablechecker_fail(self):
+        #Test if plot variable declared is in the species
+        #None of the variables exist in the model
+        #Checker is called in beginning of database_to_combine
+        global core_model
+        Plot_Variable = ["z", "y", "x"]
+        combinegen.plotvariablechecker(Plot_Variable, core_model)
+        return
             
 if __name__ == '__main__':
     t = TestCombinecreator()
@@ -76,4 +97,8 @@ if __name__ == '__main__':
     filename = "TestModel_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation_2.ini"
     system_type = mh.config_to_database(filename)
     system_types_settings_names = sh.config_to_database(filename)
+    search_result_settings = sh.search_database(system_type, "__default__")
+    search_result_model = mh.quick_search(system_type)
+    core_model = search_result_model
+    settings = search_result_settings[0]
     t.test_genOMEX()

@@ -30,7 +30,7 @@ if __name__ == '__main__':
     To create config ini file from SBML file in folder
     Reading the data inside the xml file to a variable 
     data 
-    
+    '''
     
     Model_name = "Repressilator_TestModel"
     antimony_str = te.sbmlToAntimony(onlinemodelstr)
@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
     inicomplete, settings_database = onlinegen.sbmltoconfig(onlinemodelstr, system_type, tspan, Model_name)
     #Returns the config file statement and the nested dictionary of the settings    
-    '''
+    
     
     
     '''

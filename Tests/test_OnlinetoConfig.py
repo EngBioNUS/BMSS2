@@ -12,11 +12,7 @@ import add_BMSS_to_path
 import pytest
 import tellurium as te, os
 import BMSS.standardfiles_generators.OnlinetoConfig as onlinegen
-import tempfile
-import io
-import zipfile
-import requests
-from bs4 import BeautifulSoup 
+
 
 
 Model_name = "Repressilator_TestModel"
@@ -103,6 +99,7 @@ class TestConfigGen:
     def test_compare_equations(self):
         #Tests whether reactions pertaining to the same species are combined
         global onlinemodelstr
+        global eqn_sample
         antimony_str = '''// Reactions:
   Reaction1: X => ; kd_mRNA*X;
   Reaction2: Y => ; kd_mRNA*Y;
@@ -145,6 +142,7 @@ class TestConfigGen:
     def test_compare_equations_fail(self):
         #Typo in Reaction 10 where it generates PX instead of X
         global onlinemodelstr
+        global eqn_sample
         antimony_str = '''// Reactions:
   Reaction1: X => ; kd_mRNA*X;
   Reaction2: Y => ; kd_mRNA*Y;
@@ -162,12 +160,6 @@ class TestConfigGen:
 '''
         reaction_test = onlinegen.gen_reactions(antimony_str)
         eqn_clean = ['']
-        eqn_sample =['', '  dPX = +(k_tl*X) -(kd_prot*PX)', 
-                     '  dPY = +(k_tl*Y) -(kd_prot*PY)', 
-                     '  dPZ = +(k_tl*Z) -(kd_prot*PZ)',
-                     '  dX = +(a0_tr + a_tr*KM**n/(KM**n + PZ**n)) -(kd_mRNA*X)',
-                     '  dY = +(a0_tr + a_tr*KM**n/(KM**n + PX**n)) -(kd_mRNA*Y)',
-                     '  dZ = +(a0_tr + a_tr*KM**n/(KM**n + PY**n)) -(kd_mRNA*Z)']
         
         before = len(reaction_test)
         after = 0
@@ -363,6 +355,36 @@ Description =  This model describes the deterministic version of the repressilat
         if os.path.exists(filename) == False:
             raise IOError("File did not output properly")
             
+    def test_tspanchecker(self):
+        #Check if tspan has been declared correctly
+        tspan = '[0, 600, 61]'
+        onlinegen.tspanchecker(tspan)
+        return
+    
+    def test_tspanchecker_fail_1(self):
+        #Missing '[' at start of tspan
+        tspan = '0, 600, 61]'
+        onlinegen.tspanchecker(tspan)
+        return
+    
+    def test_tspanchecker_fail_2(self):
+        #Missing ']' at end of tspan
+        tspan = '0, 600, 61]'
+        onlinegen.tspanchecker(tspan)
+        return
+    
+    def test_tspanchecker_fail_3(self):
+        #Start time larger than end time
+        tspan = '[6000, 600, 61]'
+        onlinegen.tspanchecker(tspan)
+        return
+    
+    def test_tspanchecker_fail_4(self):
+        #Format missing space after commas
+        tspan = '[0,600,61]'
+        onlinegen.tspanchecker(tspan)
+        return
+    
 
 if __name__ == '__main__':
     t = TestConfigGen()

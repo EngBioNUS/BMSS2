@@ -35,6 +35,8 @@ def database_to_combine(system_type, settings_name, Plot_Variable, outputpath, K
     search_result_model = mh.quick_search(system_type)
     core_model    = search_result_model
     settings = search_result_settings[0]
+    plotvariablechecker(Plot_Variable, core_model)
+    KISAOchecker(KISAO_algorithm)
     
     combinefilename, number_scenario = Combinecreator(core_model, settings, Plot_Variable, outputpath, KISAO_algorithm)
     combinefilelist.append(combinefilename)
@@ -274,6 +276,11 @@ def KISAOchecker(KISAO_algorithm):
         return
     else:
         raise AttributeError('KISAO Algorithm not accepted in Tellurium')
+        
+def plotvariablechecker(Plot_Variable, core_model):
+    for variable in Plot_Variable:
+        assert variable in core_model['states'], 'Plot Variable declared does not exist in model'  
+    return
     
     
 
