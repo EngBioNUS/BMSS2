@@ -17,11 +17,11 @@ except:
     #Append to path
     sys.path.insert(0, __base_dir__)
     
-    #Add Styles
-    try:
-        __src_dir__  = join(__base_dir__, 'BMSS')
-        library      = join(__src_dir__, 'stylelib')
-        styles       = {file.split('.')[0]: abspath(join(library,file)) for file in listdir(library)}
-    except:
-        styles = {}
+#Add Styles
+try:
+    __src_dir__  = join(__base_dir__, 'BMSS')
+    library      = join(__src_dir__, 'stylelib')
+    styles       = {file.split('.')[0]: abspath(join(library,file)) for file in listdir(library)}
+except:
+    styles = {}
 
