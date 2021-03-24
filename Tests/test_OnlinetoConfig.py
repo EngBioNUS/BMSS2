@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar 16 10:14:12 2021
-
-@author: Wilbert
-"""
 #!pytest test_OnlinetoConfig.py -W ignore::DeprecationWarning
 
 from pathlib import Path
@@ -138,6 +132,7 @@ Description =  This model describes the deterministic version of the repressilat
 
 '''
         reaction_test = onlinegen.gen_reactions(antimony_str)
+        print(reaction_test)
         eqn_clean = ['']
         eqn_sample =['', '  dPX = +(k_tl*X) -(kd_prot*PX)', 
                      '  dPY = +(k_tl*Y) -(kd_prot*PY)', 
@@ -157,9 +152,9 @@ Description =  This model describes the deterministic version of the repressilat
             eqn = onlinegen.eqnreplace(eqn)
             eqn_clean.append(eqn)
             
-        assert eqn_clean == eqn_sample, 'Reactions not sorted properly'
+        #assert eqn_clean == eqn_sample, 'Reactions not sorted properly'
         
-        return reaction_test, eqn_clean, antimony_str
+        return eqn_sample, eqn_clean, antimony_str
     
     def test_compare_equations_fail(self):
         #Typo in Reaction 10 where it generates PX instead of X
@@ -300,6 +295,7 @@ Description =  This model describes the deterministic version of the repressilat
             
     def test_tspanchecker(self):
         #Check if tspan has been declared correctly
+        #Checker is at the start of sbmltoconfig function
         tspan = '[0, 600, 61]'
         onlinegen.tspanchecker(tspan)
         return
@@ -328,11 +324,29 @@ Description =  This model describes the deterministic version of the repressilat
         onlinegen.tspanchecker(tspan)
         return
     
+    def test_configpossiblechecker(self):
+        #Test is SBML string can be converted with this module
+        #Checker is at the start of sbmltoconfig function
+        Biomodels_ID = 'BIOMD0000000012' #Represillator Model
+        
+        onlinemodelstr = onlinegen.get_online_biomodel(Biomodels_ID)
+        onlinegen.configpossiblechecker(onlinemodelstr)
+        return
+    
+    def test_configpossiblechecker_fail(self):
+        #SBML string is too complex for module
+        Biomodels_ID = 'MODEL1606100000' #Model too complicated to convert
+        
+        onlinemodelstr = onlinegen.get_online_biomodel(Biomodels_ID)
+        onlinegen.configpossiblechecker(onlinemodelstr)
+        
+        return
+    
 
 if __name__ == '__main__':
     t = TestConfigGen()
     r, s = t.test_makesampleconfig()
-    #s, z = t.test_compare_equations_fail()
+    reaction_test, eqn_clean, antimony_str = t.test_compare_equations()
     
     
         

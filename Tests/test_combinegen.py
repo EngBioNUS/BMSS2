@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 22 20:06:28 2021
-
-@author: Wilbert
-"""
 #!pytest test_combinegen.py -W ignore::DeprecationWarning
 
 import add_BMSS_to_path
