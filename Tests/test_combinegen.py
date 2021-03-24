@@ -82,12 +82,20 @@ class TestCombinecreator:
         combinegen.plotvariablechecker(Plot_Variable, core_model)
         return
     
-    def test_plotvariablechecker_fail(self):
+    def test_plotvariablechecker_fail_1(self):
         #Test if plot variable declared is in the species
         #None of the variables exist in the model
         #Checker is called in beginning of database_to_combine
         global core_model
         Plot_Variable = ["z", "y", "x"]
+        combinegen.plotvariablechecker(Plot_Variable, core_model)
+        return
+    
+    def test_plotvariablechecker_fail_2(self):
+        #No Plot Variable was declared
+        #Checker is called in beginning of database_to_combine
+        global core_model
+        Plot_Variable = []
         combinegen.plotvariablechecker(Plot_Variable, core_model)
         return
             

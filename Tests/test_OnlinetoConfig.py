@@ -14,88 +14,110 @@ import tellurium as te, os
 import BMSS.standardfiles_generators.OnlinetoConfig as onlinegen
 
 
-
-Model_name = "Repressilator_TestModel"
-#antimony_str = te.sbmlToAntimony(samplesbmlstr)
-system_type = 'Test_Model, Repressilator'
-tspan = '[0, 600, 61]'
-species_dict = {
-'PX': '0',
-'PY': '0',
-'PZ': '0',
-'X': '0',
-'Y': '20',
-'Z': '0'}
-parameter_dict = {
-'a0_tr': '0',
-'a_tr' : '0',
-'alpha':'216.404',
-'alpha0':'0.2164',
-'beta':'0.2',
-'eff':'20',
-'k_tl':'0',
-'kd_mRNA':'0',
-'kd_prot':'0',
-'KM':'40',
-'n':'2',
-'ps_0':'0.0005',
-'ps_a':'0.5',
-'t_ave':'0',
-'tau_mRNA':'2',
-'tau_prot':'10',
-    }
-parametersunits_dict ={
-'a0_tr': 	'per_sec',
-'a_tr' : 	'per_sec',
-'alpha':	'per_sec',
-'alpha0':	'per_sec',
-'beta':	'per_sec',
-'eff':	'per_sec',
-'k_tl':	'per_sec',
-'kd_mRNA':	'per_sec',
-'kd_prot':	'per_sec',
-'KM':	'per_sec',
-'n':	'per_sec',
-'ps_0':	'per_sec',
-'ps_a':	'per_sec',
-'t_ave':	'per_sec',
-'tau_mRNA':	'per_sec',
-'tau_prot':	'per_sec',
-}
-equations = [
-  'beta = tau_mRNA/tau_prot',
-  'alpha0 = a0_tr*eff*tau_prot/(ln(2)*KM)',
-  'a0_tr = ps_0*60',
-  'alpha = a_tr*eff*tau_prot/(ln(2)*KM)',
-  'a_tr = (ps_a - ps_0)*60',
-  't_ave = tau_mRNA/ln(2)',
-  'kd_mRNA = ln(2)/tau_mRNA',
-  'kd_prot = ln(2)/tau_prot',
-  'k_tl = eff/t_ave',
-'',
-  'dPX = +(k_tl*X) -(kd_prot*PX)',
-  'dPY = +(k_tl*Y) -(kd_prot*PY)',
-  'dPZ = +(k_tl*Z) -(kd_prot*PZ)',
-  'dX = +(a0_tr + a_tr*KM**n/(KM**n + PZ**n)) -(kd_mRNA*X)',
-  'dY = +(a0_tr + a_tr*KM**n/(KM**n + PX**n)) -(kd_mRNA*Y)',
-  'dZ = +(a0_tr + a_tr*KM**n/(KM**n + PY**n)) -(kd_mRNA*Z)'    
-    ]
-description_store = '''[descriptions]
-Description =  This model describes the deterministic version of the repressilator system. The authors of this model (see reference) use three transcriptional repressor systems that are not part of any natural biological clock to build an oscillating network that they called the repressilator. The model system was induced in Escherichia coli. In this system, LacI (variable X is the mRNA, variable PX is the protein) inhibits the tetracycline-resistance transposon tetR (Y, PY describe mRNA and protein). Protein tetR inhibits the gene Cl from phage Lambda (Z, PZ: mRNA, protein),and protein Cl inhibits lacI expression. With the appropriate parameter values this system oscillates.  '''
-
-settings_test = {
-"Species" : species_dict,
-"parameters" : parameter_dict,
-"units" : parametersunits_dict,
-"equations" : equations,
-"description": description_store 
-    }
-Biomodels_ID = 'BIOMD0000000012' #input biomodels ID number
-
-onlinemodelstr = onlinegen.get_online_biomodel(Biomodels_ID)
-sampleconfig, settings_sample = onlinegen.sbmltoconfig(onlinemodelstr, system_type, tspan, Model_name)
-
 class TestConfigGen:
+    def test_makesampleconfig(self):
+        global system_type
+        global tspan
+        global sampleconfig
+        global settings_sample
+        global species_dict
+        global parameter_dict
+        global parametersunits_dict
+        global equations
+        global description_store
+        global Model_name
+        global sampleconfig, settings_sample
+        
+        Model_name = "Repressilator_TestModel"
+        #antimony_str = te.sbmlToAntimony(samplesbmlstr)
+        system_type = 'Test_Model, Repressilator'
+        tspan = '[0, 600, 61]'
+        species_dict = {'PX': '0',
+                        'PY': '0',
+                        'PZ': '0',
+                        'X': '0',
+                        'Y': '20',
+                        'Z': '0'
+                        }
+        parameter_dict = {'beta':'0.2',
+                          'alpha0':'0.2164',
+                          'alpha':'216.404',
+                          'eff':'20',
+                          'n':'2',
+                          'KM':'40',
+                          'tau_mRNA':'2',
+                          'tau_prot':'10',
+                          't_ave':'0',
+                          'kd_mRNA':'0',
+                          'kd_prot':'0',
+                          'k_tl':'0',
+                          'a_tr' : '0',
+                          'ps_a':'0.5',
+                          'ps_0':'0.0005',
+                          'a0_tr': '0',
+                          }
+        parametersunits_dict ={'beta': 'per_sec',
+                              'alpha0':'per_sec',
+                              'alpha': 'per_sec',
+                              'eff': 'per_sec',
+                              'n': 'per_sec',
+                              'KM': 'per_sec',
+                              'tau_mRNA': 'per_sec',
+                              'tau_prot': 'per_sec',
+                              't_ave': 'per_sec',
+                              'kd_mRNA': 'per_sec',
+                              'kd_prot': 'per_sec',
+                              'k_tl': 'per_sec',
+                              'a_tr' : 'per_sec',
+                              'ps_a': 'per_sec',
+                              'ps_0': 'per_sec',
+                              'a0_tr': 'per_sec',
+
+                               }
+        equations = ['  beta = tau_mRNA/tau_prot',
+                     '  alpha0 = a0_tr*eff*tau_prot/(ln(2)*KM)',
+                     '  a0_tr = ps_0*60',
+                     '  alpha = a_tr*eff*tau_prot/(ln(2)*KM)',
+                     '  a_tr = (ps_a - ps_0)*60',
+                     '  t_ave = tau_mRNA/ln(2)',
+                     '  kd_mRNA = ln(2)/tau_mRNA',
+                     '  kd_prot = ln(2)/tau_prot',
+                     '  k_tl = eff/t_ave',
+                     '',
+                     '  dPX = +(k_tl*X) -(kd_prot*PX)',
+                     '  dPY = +(k_tl*Y) -(kd_prot*PY)',
+                     '  dPZ = +(k_tl*Z) -(kd_prot*PZ)',
+                     '  dX = +(a0_tr + a_tr*KM**n/(KM**n + PZ**n)) -(kd_mRNA*X)',
+                     '  dY = +(a0_tr + a_tr*KM**n/(KM**n + PX**n)) -(kd_mRNA*Y)',
+                     '  dZ = +(a0_tr + a_tr*KM**n/(KM**n + PY**n)) -(kd_mRNA*Z)'    
+                     ]
+        description_store = '''[descriptions]
+Description =  This model describes the deterministic version of the repressilator system. The authors of this model (see reference) use three transcriptional repressor systems that are not part of any natural biological clock to build an oscillating network that they called the repressilator. The model system was induced in Escherichia coli. In this system, LacI (variable X is the mRNA, variable PX is the protein) inhibits the tetracycline-resistance transposon tetR (Y, PY describe mRNA and protein). Protein tetR inhibits the gene Cl from phage Lambda (Z, PZ: mRNA, protein),and protein Cl inhibits lacI expression. With the appropriate parameter values this system oscillates.  
+
+'''
+        
+        settings_test = {
+        "Species" : species_dict,
+        "parameters" : parameter_dict,
+        "units" : parametersunits_dict,
+        "equations" : equations,
+        "description": description_store 
+            }
+        Biomodels_ID = 'BIOMD0000000012' #Represillator Model
+        
+        onlinemodelstr = onlinegen.get_online_biomodel(Biomodels_ID)
+        sampleconfig, settings_sample = onlinegen.sbmltoconfig(onlinemodelstr, system_type, tspan, Model_name)
+        #To use for later test as well
+        
+        
+        testconfig = onlinegen.gen_config(settings_test, system_type, tspan)
+        
+        assert testconfig == sampleconfig, 'Config Statements are not the same'
+        
+        
+        return testconfig, sampleconfig
+    
+    
     def test_compare_equations(self):
         #Tests whether reactions pertaining to the same species are combined
         global onlinemodelstr
@@ -176,86 +198,7 @@ class TestConfigGen:
         
         return reaction_test, eqn_clean
     
-    def test_makesampleconfig(self):
-        global system_type
-        global tspan
-        global sampleconfig
-        global settings_sample
-        species_dict = {'PX': '0',
-                        'PY': '0',
-                        'PZ': '0',
-                        'X': '0',
-                        'Y': '20',
-                        'Z': '0'
-                        }
-        parameter_dict = {'beta':'0.2',
-                          'alpha0':'0.2164',
-                          'alpha':'216.404',
-                          'eff':'20',
-                          'n':'2',
-                          'KM':'40',
-                          'tau_mRNA':'2',
-                          'tau_prot':'10',
-                          't_ave':'0',
-                          'kd_mRNA':'0',
-                          'kd_prot':'0',
-                          'k_tl':'0',
-                          'a_tr' : '0',
-                          'ps_a':'0.5',
-                          'ps_0':'0.0005',
-                          'a0_tr': '0',
-                          }
-        parametersunits_dict ={'beta': 'per_sec',
-                              'alpha0':'per_sec',
-                              'alpha': 'per_sec',
-                              'eff': 'per_sec',
-                              'n': 'per_sec',
-                              'KM': 'per_sec',
-                              'tau_mRNA': 'per_sec',
-                              'tau_prot': 'per_sec',
-                              't_ave': 'per_sec',
-                              'kd_mRNA': 'per_sec',
-                              'kd_prot': 'per_sec',
-                              'k_tl': 'per_sec',
-                              'a_tr' : 'per_sec',
-                              'ps_a': 'per_sec',
-                              'ps_0': 'per_sec',
-                              'a0_tr': 'per_sec',
 
-                               }
-        equations = ['  beta = tau_mRNA/tau_prot',
-                     '  alpha0 = a0_tr*eff*tau_prot/(ln(2)*KM)',
-                     '  a0_tr = ps_0*60',
-                     '  alpha = a_tr*eff*tau_prot/(ln(2)*KM)',
-                     '  a_tr = (ps_a - ps_0)*60',
-                     '  t_ave = tau_mRNA/ln(2)',
-                     '  kd_mRNA = ln(2)/tau_mRNA',
-                     '  kd_prot = ln(2)/tau_prot',
-                     '  k_tl = eff/t_ave',
-                     '',
-                     '  dPX = +(k_tl*X) -(kd_prot*PX)',
-                     '  dPY = +(k_tl*Y) -(kd_prot*PY)',
-                     '  dPZ = +(k_tl*Z) -(kd_prot*PZ)',
-                     '  dX = +(a0_tr + a_tr*KM**n/(KM**n + PZ**n)) -(kd_mRNA*X)',
-                     '  dY = +(a0_tr + a_tr*KM**n/(KM**n + PX**n)) -(kd_mRNA*Y)',
-                     '  dZ = +(a0_tr + a_tr*KM**n/(KM**n + PY**n)) -(kd_mRNA*Z)'    
-                     ]
-        description_store = '''[descriptions]
-Description =  This model describes the deterministic version of the repressilator system. The authors of this model (see reference) use three transcriptional repressor systems that are not part of any natural biological clock to build an oscillating network that they called the repressilator. The model system was induced in Escherichia coli. In this system, LacI (variable X is the mRNA, variable PX is the protein) inhibits the tetracycline-resistance transposon tetR (Y, PY describe mRNA and protein). Protein tetR inhibits the gene Cl from phage Lambda (Z, PZ: mRNA, protein),and protein Cl inhibits lacI expression. With the appropriate parameter values this system oscillates.  
-
-'''
-        
-        settings_test = {
-        "Species" : species_dict,
-        "parameters" : parameter_dict,
-        "units" : parametersunits_dict,
-        "equations" : equations,
-        "description": description_store 
-            }
-
-        testconfig = onlinegen.gen_config(settings_test, system_type, tspan)
-        assert testconfig == sampleconfig, 'Config Statements are not the same'
-        return testconfig, sampleconfig
         
     
     def test_missingparameterunit_fail(self):

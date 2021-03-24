@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jan 14 16:28:02 2021
+This module contains functions to generate COMBINE OMEX files.
 
-@author: Wilbert
+Features:
+-to generate COMBINE OMEX file from a BMSS database
 """
 
 import tellurium as te, os
@@ -26,7 +27,6 @@ def database_to_combine(system_type, settings_name, Plot_Variable, outputpath, K
     :param KISAO_algorithm:  Kinetic Simulation Algorithm Ontology number in string format   
     '''
     
-    KISAOchecker(KISAO_algorithm)
     combinefilelist=[]
     number_scenario = 0
 
@@ -35,6 +35,8 @@ def database_to_combine(system_type, settings_name, Plot_Variable, outputpath, K
     search_result_model = mh.quick_search(system_type)
     core_model    = search_result_model
     settings = search_result_settings[0]
+    
+    #-- Checkers --
     plotvariablechecker(Plot_Variable, core_model)
     KISAOchecker(KISAO_algorithm)
     
@@ -278,6 +280,7 @@ def KISAOchecker(KISAO_algorithm):
         raise AttributeError('KISAO Algorithm not accepted in Tellurium')
         
 def plotvariablechecker(Plot_Variable, core_model):
+    assert len(Plot_Variable) > 0, 'No Plot Variable was declared.'
     for variable in Plot_Variable:
         assert variable in core_model['states'], 'Plot Variable declared does not exist in model'  
     return

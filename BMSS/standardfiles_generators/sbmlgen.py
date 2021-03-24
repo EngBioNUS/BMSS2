@@ -45,7 +45,13 @@ def unitlookup(settings):
 def SBMLcreation(core_model, settings, unit_model, addparam, init_scenario, param_scenario):
     '''Reads in the core model, settings, parameters and which scenario of 
     init and parameters values and outputs SBML format in sbmlstr
-    
+    :param core_model:  core model of model in nested dictionary format
+    :param settings:  settings database of model
+    :param unit_model:  units for parameters in list format
+    :param addparam:  parameters of model in dataframe
+    :param init_scenario:  init value scenario in int format
+    :param param_scenario:  parameter value scenario in int format
+    :return: SBML string in XML format
     :meta private:
     '''
     assert core_model['system_type'] == settings['system_type'], 'System_type not the same between the core_model and settings'
@@ -183,6 +189,8 @@ def autogenerate_sbml_from_folder(folderpath):
 
 def database_to_sbml(system_type, settings_name):
     '''Select model stored in database and generate the SBML file. 
+    :param system_type:  system_type of model to search in database in string format
+    :param settings_name:  settings_name of model to search in database in string format
     '''
     sbmlfilelist    = []
     number_scenario = 0

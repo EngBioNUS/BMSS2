@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Feb  9 10:54:18 2021
+This module contains functions to generate config file to be used within BMSS2.
 
-@author: Wilbert
+Features:
+-to generate SBML string from a online database
+-to generate Config File from SBML string
+-to generate Setting Template File from SBML string for BMSS simulation
 """
 
 import tellurium as te, os

@@ -83,21 +83,6 @@ class TestSBMLGen:
         
         return unit_model_test
     
-    def test_sbmlcreation_1(self):
-        global core_model_1
-        global settings_name
-        global unit_model
-        global addparam
-        global init_scenario
-        global param_scenario
-        
-        sbmlstrtest = sbmlgen.SBMLcreation(core_model_1, settings, unit_model, addparam, init_scenario, param_scenario)
-        
-        assert sbmlstrtest == sample_sbml, "Something went wrong"
-        
-        return sbmlstrtest 
-    
-    #@pytest.mark.xfail
     def test_unitlookup_fail(self):
         #Unit not declared for parameter state 1
         global settings
@@ -117,8 +102,23 @@ class TestSBMLGen:
         assert len(fail_units) == len(unit_model_test), "Not all Parameters have Units Declared"
         
         return 
+        
+    def test_sbmlcreation_1(self):
+        global core_model_1
+        global settings_name
+        global unit_model
+        global addparam
+        global init_scenario
+        global param_scenario
+        
+        sbmlstrtest = sbmlgen.SBMLcreation(core_model_1, settings, unit_model, addparam, init_scenario, param_scenario)
+        
+        assert sbmlstrtest == sample_sbml, "Something went wrong"
+        
+        return sbmlstrtest 
     
-    #@pytest.mark.xfail
+
+    
     def test_sbmlcreation_fail_1(self):
         #Core Model System Type does not match with settings system type
         global unit_model
@@ -142,7 +142,7 @@ class TestSBMLGen:
         return 
     
     def test_sbmlcreation_fail_2(self):
-        #Missing Parameter in core model as 
+        #Missing Parameter in core model(syn_mRNA1)
         global unit_model
         global settings
         global addparam
@@ -152,7 +152,7 @@ class TestSBMLGen:
         wrong_model = {'system_type' : 'TestModel, LogicGate, ORgate, DelayActivation, DelayActivation',
                       'states'      : ['Inde1', 'Indi1', 'Inde2', 'Indi2', 'mRNA1', 'Pep1',
                                        'mRNA2', 'Pep2', 'mRNA3', 'Pep3'], 
-                      'parameters'  : ['syn_mRNA1', 'syn_mRNA3', 'deg_mRNA', 'syn_Pep',
+                      'parameters'  : ['syn_mRNA2', 'syn_mRNA3', 'deg_mRNA', 'syn_Pep',
                                        'deg_Pep', 'Pepmax', 'Km1', 'Km2', 'state1', 'state2'],
                       'equations'   : ['dInde1 = -(Inde1/(Inde1+Km1))*Inde1',
                                        'dIndi1 = (Inde1/(Inde1+Km1))*Inde1',
@@ -168,7 +168,8 @@ class TestSBMLGen:
         
         sbmlstrtest = sbmlgen.SBMLcreation(wrong_model, settings, unit_model, addparam, init_scenario, param_scenario)
         
-        return wrong_model
+        return wrong_model        
+        
 if __name__ == '__main__':
     t = TestSBMLGen()
     r = t.test_unitlookup_1()
