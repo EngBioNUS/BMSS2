@@ -75,8 +75,7 @@ sample_units = {'syn_mRNA1': 'molperLmin',
 
 class TestSBMLGen:
     def test_unitlookup_1(self):
-        global settings
-        
+               
         unit_model_test = sbmlgen.unitlookup(settings)
         
         assert unit_model_test == sample_units, "Something went wrong"
@@ -85,7 +84,7 @@ class TestSBMLGen:
     
     def test_unitlookup_fail(self):
         #Unit not declared for parameter state 1
-        global settings
+        #Check is done at beginning of unitlookup function 
         unit_model_test = sbmlgen.unitlookup(settings)
         fail_units = {'syn_mRNA1': 'molperLmin',
                 'syn_mRNA2': 'molperLmin',
@@ -104,28 +103,16 @@ class TestSBMLGen:
         return 
         
     def test_sbmlcreation_1(self):
-        global core_model_1
-        global settings_name
-        global unit_model
-        global addparam
-        global init_scenario
-        global param_scenario
         
         sbmlstrtest = sbmlgen.SBMLcreation(core_model_1, settings, unit_model, addparam, init_scenario, param_scenario)
-        
         assert sbmlstrtest == sample_sbml, "Something went wrong"
         
-        return sbmlstrtest 
     
 
-    
+    @pytest.mark.xfail(strict=True) 
     def test_sbmlcreation_fail_1(self):
         #Core Model System Type does not match with settings system type
-        global unit_model
-        global settings
-        global addparam
-        global init_scenario
-        global param_scenario
+        #Check is done at beginning of SBMLcreation function 
         
         wrong_model = {'system_type' : ['TestModel', 'Dummy'],
                       'states'      : ['mRNA'], 
@@ -139,15 +126,11 @@ class TestSBMLGen:
         
         sbmlstrtest = sbmlgen.SBMLcreation(wrong_model, settings, unit_model, addparam, init_scenario, param_scenario)
         
-        return 
-    
+         
+    @pytest.mark.xfail(strict=True) 
     def test_sbmlcreation_fail_2(self):
         #Missing Parameter in core model(syn_mRNA1)
-        global unit_model
-        global settings
-        global addparam
-        global init_scenario
-        global param_scenario
+        #Check is done at beginning of SBMLcreation function
 
         wrong_model = {'system_type' : 'TestModel, LogicGate, ORgate, DelayActivation, DelayActivation',
                       'states'      : ['Inde1', 'Indi1', 'Inde2', 'Indi2', 'mRNA1', 'Pep1',
@@ -164,16 +147,16 @@ class TestSBMLGen:
                                        'dPep2 = (syn_Pep*mRNA2) - (deg_Pep*Pep2)',
                                        'dmRNA3 = (syn_mRNA3*((Pep1+Pep2)/Pepmax))-(deg_mRNA *mRNA3)',
                                        'dPep3 = (syn_Pep*mRNA3)-(deg_Pep*Pep3)'],
-                  }
+                      }
         
         sbmlstrtest = sbmlgen.SBMLcreation(wrong_model, settings, unit_model, addparam, init_scenario, param_scenario)
+            
         
-        return wrong_model        
+    def test_config_to_sbml(self):
+        
         
 if __name__ == '__main__':
     t = TestSBMLGen()
-    r = t.test_unitlookup_1()
-    b = t.test_sbmlcreation_1()
     
     
     

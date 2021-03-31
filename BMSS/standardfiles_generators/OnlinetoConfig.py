@@ -543,7 +543,7 @@ def clean_compartment(antimony_str):
     compartment_start = antimony_str.find('t ', compartment_find)
     compartment_end = antimony_str.find(';', compartment_start)
     compartment_name = antimony_str[compartment_start+2:compartment_end]
-    print(compartment_name)
+    #print(compartment_name)
     return compartment_name
 
 
@@ -688,7 +688,11 @@ def tspanchecker(tspan):
     end_tspan = tspan.index(']')
     temp_tspan = tspan[start_tspan:end_tspan]
     matched = re.match("^[0-9]+\, [0-9]+\, [0-9]+$", temp_tspan)
+    matched_2 = re.match("^[0-9]+\,[0-9]+\,[0-9]+$", temp_tspan)
     is_match = bool(matched)
+    is_match_2 = bool(matched_2)
+    if is_match_2 == True:
+        is_match = is_match_2
     if start_time>end_time:
         raise ValueError('first value declared cannot be larger than second')
     if is_match == False:

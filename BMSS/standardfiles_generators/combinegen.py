@@ -39,6 +39,7 @@ def database_to_combine(system_type, settings_name, Plot_Variable, outputpath, K
     #-- Checkers --
     plotvariablechecker(Plot_Variable, core_model)
     KISAOchecker(KISAO_algorithm)
+    assert system_type in mh.list_models(), "Model is not in database"
     
     combinefilename, number_scenario = Combinecreator(core_model, settings, Plot_Variable, outputpath, KISAO_algorithm)
     combinefilelist.append(combinefilename)
@@ -68,7 +69,7 @@ def Combinecreator(core_model, settings, Plot_Variable, outputpath, KISAO_algori
     addparam =  settings['parameters']
     unit_model = sbmlgen.unitlookup(settings)
     total_scenarios = number_init * number_parameters
-    print(total_scenarios)
+    #print(total_scenarios)
     scenario_name = core_model["system_type"]
     scenario_name = scenario_name.replace(", ", "_")
     modelname_file = []
@@ -99,7 +100,7 @@ def Combinecreator(core_model, settings, Plot_Variable, outputpath, KISAO_algori
         antimony_final[l] = antimony_final[l].replace('*doc0', modelname_file[l])
         scenario_name = scenario_name.replace(scenario_placeholder[l], "")
         inline_omex = inline_omex + str(antimony_final[l])
-        print("This is antimony_final", scenario_number,": \n", antimony_final[l])
+        #print("This is antimony_final", scenario_number,": \n", antimony_final[l])
     
     #--- Generates phrasedml file ---    
     phrasedml_final = gen_phrasedml(settings, modelname_file, Plot_Variable, KISAO_algorithm)    
@@ -194,7 +195,7 @@ def gen_plotvariables(modelname_file, tspan, Plot_Variable):
     for taskvariable in range(task_total):
         for variable_count in range(len(Plot_Variable)):
             variabletask_list.append('task' + str(taskvariable+1) + '.' + Plot_Variable[variable_count])
-    print(variabletask_list, len(Plot_Variable))
+    #print(variabletask_list, len(Plot_Variable))
     
     return variabletask_list, task_total
 
@@ -274,10 +275,10 @@ def KISAOchecker(KISAO_algorithm):
                            'kisao.0000411', 'kisao.0000412', 'kisao.0000413',
                            'kisao.0000432', 'kisao.0000437', '0']
     
-    if KISAO_algorithm in accepted_KISAO_list:
-        return
-    else:
-        raise AttributeError('KISAO Algorithm not accepted in Tellurium')
+    assert KISAO_algorithm in accepted_KISAO_list, 'KISAO Algorithm not accepted in Tellurium'
+    
+    return
+
         
 def plotvariablechecker(Plot_Variable, core_model):
     assert len(Plot_Variable) > 0, 'No Plot Variable was declared.'

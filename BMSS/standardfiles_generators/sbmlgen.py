@@ -25,7 +25,10 @@ def unitlookup(settings):
     '''
     
     unit_model = settings['units']
+    
+    #--Checker--
     assert len(unit_model) == len(settings['parameters'].columns), 'Not all Parameters have units declared'
+    
     for w in unit_model: #Unit Look-up/conversion
         unit_model[w] = unit_model[w].replace('aa', 'items') 
         unit_model[w] = unit_model[w].replace('mol-1', 'permol')
@@ -54,13 +57,17 @@ def SBMLcreation(core_model, settings, unit_model, addparam, init_scenario, para
     :return: SBML string in XML format
     :meta private:
     '''
-    assert core_model['system_type'] == settings['system_type'], 'System_type not the same between the core_model and settings'
     
+    #--Checker--
+    assert core_model['system_type'] == settings['system_type'], 'System_type not the same between the core_model and settings'
     if 'inputs' in core_model.keys():
         assert (len(core_model['parameters'])+len(core_model['inputs'])) == len(addparam.columns), 'settings have missing parameters'
     else:
         assert len(core_model['parameters']) == len(addparam.columns), 'settings have missing parameters'
+    
         
+    
+    
     model_sbml = simplesbml.SbmlModel()      
     for i in range(len(core_model['states'])):
         model_sbml.addSpecies(core_model['states'][i], settings['init'][init_scenario+1][i])    
