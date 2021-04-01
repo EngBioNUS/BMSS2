@@ -27,9 +27,9 @@ if __name__ == '__main__':
     
     
     '''
-    Use the following section to add model to database from config file if not done so.
+    Use the following section to add model to database from config file.
     '''
-    filename = "TestModel_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation_2.ini"
+    filename = "TestModel_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation_omex.ini"
     
     #Add model to database and view all the models in the database
     system_type = mh.config_to_database(filename)
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     '''
     Use database_to_combine to create a COMBINE archive from an existing model in database.
     '''
-    model_name = "TestModel, CellModel, CellularResources, ProteomeAllocation, RibosomeLimitation" #Enter model name
+    model_name = "TestModel, CellModel, CellularResources, ProteomeAllocation, RibosomeLimitation, omex" #Enter model name
     settings_name = "__default__" #usually "__default__" by default
     Plot_Variable = ["r", "a", "p"] #, "rmq"] #Assign which variables you would like to plot
     KISAO_algorithm = "kisao.0000433"

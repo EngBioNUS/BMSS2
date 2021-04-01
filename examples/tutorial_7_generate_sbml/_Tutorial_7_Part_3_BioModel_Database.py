@@ -19,19 +19,19 @@ if __name__ == '__main__':
     '''
     Use following function to create SBML from BIOModel online database
     Outputs both the sbmlstring and the XML file
-    ''' 
+    '''
     
     Biomodels_ID = 'BIOMD0000000012' 
-    #input biomodels ID number
-    #Examples:
+    #Input biomodels ID number
+    #Other Examples:
     #Repressilator:BIOMD0000000012 (Converts without issue)
     #Network of a toggle switch: BIOMD0000000483
     #Negative Feedback By MicroRNA with Delay: MODEL1610100002 (Has boundary Species which not reflected in config)
-    #Kim2011_Oscillator_ExtendedIII: MODEL1012090006 (Can convert but config file too big, crashes kernal)
+    #Kim2011_Oscillator_ExtendedIII: MODEL1012090006
+    #DO NOT RUN MODEL1004010000, will crash computer IDK why
     SBMLfilename = 'Repressilator_TestModel_SBML.xml' #Name the XML file
     outputpath = str(Path.cwd()/SBMLfilename)
     onlinemodelstr = onlinegen.get_online_biomodel(Biomodels_ID, outputfile=outputpath)
-     
     
     
     
@@ -53,14 +53,15 @@ if __name__ == '__main__':
     Reading the data inside the xml file to a variable 
     data 
     '''
-    
+    config_output_path = Path.cwd()
     Model_name = "Repressilator_TestModel"
     antimony_str = te.sbmlToAntimony(onlinemodelstr)
+    
     system_type = 'Test_Model, Repressilator'
     tspan = '[0, 600, 61]' 
     #Name the Tspan to be simulated [x, y ,z] x = start time, y = end time, z = number of points inbetween
 
-    inicomplete, settings_database = onlinegen.sbmltoconfig(onlinemodelstr, system_type, tspan, Model_name)
+    inicomplete, settings_database = onlinegen.sbmltoconfig(onlinemodelstr, system_type, tspan, Model_name, config_output_path)
     #Returns the config file statement and the nested dictionary of the settings  
     #Change onlinemodelstr to localmodelstr to convert local xml file 
     
