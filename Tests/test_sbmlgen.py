@@ -151,10 +151,6 @@ class TestSBMLGen:
         
         sbmlstrtest = sbmlgen.SBMLcreation(wrong_model, settings, unit_model, addparam, init_scenario, param_scenario)
             
-        
-    def test_config_to_sbml(self):
-        
-        
 if __name__ == '__main__':
     t = TestSBMLGen()
     

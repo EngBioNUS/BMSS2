@@ -9,7 +9,7 @@ Features:
 """
 
 import tellurium as te, os
-from pathlib import Path
+
 import tempfile
 import re
 import io
@@ -26,7 +26,7 @@ def get_online_biomodel(Biomodels_ID, **kwargs):
     return modelstr
 
 #--- Main Bodys ---
-def sbmltoconfig(sbmlstr, system_type, tspan, Model_name):
+def sbmltoconfig(sbmlstr, system_type, tspan, Model_name, output_path):
     '''
     Generates the config file statment and nested dictionary.
     :param sbmlstr: SBML string in string format
@@ -63,8 +63,8 @@ def sbmltoconfig(sbmlstr, system_type, tspan, Model_name):
     
     config_statement = gen_config(settings_combine, system_type, tspan)
     settings_statement = gen_settingstemplate(settings_combine, system_type, tspan, Model_name)
-    Config_filepath = Path.cwd().joinpath(str(Model_name) + '_coremodel.ini')
-    settings_filepath = Path.cwd().joinpath('sim_settings_' + str(Model_name) + '.ini')
+    Config_filepath = os.path.join(str(output_path), str(Model_name) + '_coremodel.ini')
+    settings_filepath = os.path.join(str(output_path), 'sim_settings_' + str(Model_name) + '.ini')
     
     with open(Config_filepath, "w") as f:
         f.write(config_statement) 

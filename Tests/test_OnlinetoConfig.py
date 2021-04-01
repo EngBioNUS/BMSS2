@@ -1,8 +1,7 @@
 #!pytest test_OnlinetoConfig.py -W ignore::DeprecationWarning
 
-from pathlib import Path
-
 import add_BMSS_to_path
+import tempfile
 import pytest
 import tellurium as te, os
 import BMSS.standardfiles_generators.OnlinetoConfig as onlinegen
@@ -91,26 +90,16 @@ eqn_sample =['', '  dPX = +(k_tl*X) -(kd_prot*PX)',
              '  dZ = +(a0_tr + a_tr*KM**n/(KM**n + PY**n)) -(kd_mRNA*Z)']
 
 Biomodels_ID = 'BIOMD0000000012' #Represillator Model
-
+output_path = tempfile.gettempdir()
+onlinemodelstr = onlinegen.get_online_biomodel(Biomodels_ID)
+sampleconfig, settings_sample = onlinegen.sbmltoconfig(onlinemodelstr, system_type, tspan, Model_name, output_path)
 
 class TestConfigGen:
     def test_makesampleconfig(self):
-        global settings_sample
-        global sampleconfig, settings_sample
-        
-                
-        onlinemodelstr = onlinegen.get_online_biomodel(Biomodels_ID)
-        sampleconfig, settings_sample = onlinegen.sbmltoconfig(onlinemodelstr, system_type, tspan, Model_name)
-        #To use for later test as well
-        
-        
         testconfig = onlinegen.gen_config(settings_test, system_type, tspan)
         
         assert testconfig == sampleconfig, 'Config Statements are not the same'
         
-        
-        return testconfig, sampleconfig
-    
     
     def test_compare_equations(self):
         #Tests whether reactions pertaining to the same species are combined
@@ -224,9 +213,8 @@ class TestConfigGen:
     def test_configfileoutput(self):
         #Checking output of file. 
         #File output should be defined Model_name + '.ini'
-        onlinemodelstr = onlinegen.get_online_biomodel(Biomodels_ID)
-        sampleconfig, settings_sample = onlinegen.sbmltoconfig(onlinemodelstr, system_type, tspan, Model_name)
-        filename = Model_name + '_coremodel.ini'
+        Model_name_test = 'Repressilator_TestModel'
+        filename = os.path.join(output_path, Model_name_test + '_coremodel.ini')
         assert os.path.exists(filename) == True, "File did not output properly"
 
     @pytest.mark.xfail(strict=True) 
@@ -234,7 +222,7 @@ class TestConfigGen:
         #Searching for a file that does not exist
         #Wrong naming
         Model_name_fail = 'Repressilator_TestModel_Fail'
-        filename = Model_name_fail + '_coremodel.ini'
+        filename = os.path.join(output_path, Model_name_fail + '_coremodel.ini')
         assert os.path.exists(filename) == True, "File did not output properly"
             
     def test_tspanchecker(self):

@@ -2,17 +2,13 @@
 
 import add_BMSS_to_path
 import pytest
+import tempfile
 import tellurium as te, os
 import BMSS.standardfiles_generators.combinegen as combinegen
-from pathlib import Path
-import glob
-
-import BMSS.standardfiles_generators.simplesbml as simplesbml
 import BMSS.models.model_handler    as mh
 import BMSS.models.settings_handler as sh
-import phrasedml
 
-outputpath = (Path.cwd())
+outputpath = tempfile.gettempdir()
 model_name = "TestModel, Dummy, CellModel, CellularResources, ProteomeAllocation, RibosomeLimitation" #Enter model name
 settings_name = "__default__" #usually "__default__" by default
 Plot_Variable = ["r", "a", "p"] #, "rmq"] #Assign which variables you would like to plot
@@ -60,6 +56,7 @@ class TestCombinecreator:
         combinegen.database_to_combine(model_name, settings_name, Plot_Variable, outputpath, KISAO_algorithm)
         filename = model_name.replace(", ", "_")
         filename = 'COMBINE_' + filename + '.omex'
+        filename = os.path.join(outputpath, filename)
         assert os.path.exists(filename) == True, "File did not output properly"
         
     @pytest.mark.xfail(strict=True) 
@@ -68,6 +65,7 @@ class TestCombinecreator:
         combinegen.database_to_combine(model_name, settings_name, Plot_Variable, outputpath, KISAO_algorithm)
         filename = model_name.replace(", ", "_")
         filename = 'COMBINE_fail_' + filename + '.omex'
+        filename = os.path.join(outputpath, filename)
         assert os.path.exists(filename) == True, "File did not output properly"
         
     
