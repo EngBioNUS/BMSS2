@@ -39,7 +39,8 @@ def database_to_combine(system_type, settings_name, Plot_Variable, outputpath, K
     #-- Checkers --
     plotvariablechecker(Plot_Variable, core_model)
     KISAOchecker(KISAO_algorithm)
-    assert system_type in mh.list_models(), "Model is not in database"
+    if system_type not in mh.list_models():
+        raise Exception("Model is not in database")
     
     combinefilename, number_scenario = Combinecreator(core_model, settings, Plot_Variable, outputpath, KISAO_algorithm)
     combinefilelist.append(combinefilename)
@@ -94,7 +95,6 @@ def Combinecreator(core_model, settings, Plot_Variable, outputpath, KISAO_algori
     #--- Names the models in antimony string according the scenario ---         
     inline_omex = '\n'
     for l in range(total_scenarios):
-        scenario_number = l + 1
         scenario_name = scenario_name + scenario_placeholder[l]
         modelname_file.append(scenario_name)
         antimony_final[l] = antimony_final[l].replace('*doc0', modelname_file[l])
@@ -275,15 +275,18 @@ def KISAOchecker(KISAO_algorithm):
                            'kisao.0000411', 'kisao.0000412', 'kisao.0000413',
                            'kisao.0000432', 'kisao.0000437', '0']
     
-    assert KISAO_algorithm in accepted_KISAO_list, 'KISAO Algorithm not accepted in Tellurium'
+    if KISAO_algorithm not in accepted_KISAO_list:
+        raise Exception('KISAO Algorithm not accepted in Tellurium')
     
     return
 
         
 def plotvariablechecker(Plot_Variable, core_model):
-    assert len(Plot_Variable) > 0, 'No Plot Variable was declared.'
+    if len(Plot_Variable) == 0:
+        raise Exception('No Plot Variable was declared.')
     for variable in Plot_Variable:
-        assert variable in core_model['states'], 'Plot Variable declared does not exist in model'  
+        if variable not in core_model['states']:
+            raise NameError('Plot Variable declared does not exist in model')  
     return
     
     

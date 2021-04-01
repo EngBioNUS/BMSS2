@@ -105,21 +105,21 @@ class TestConfigGen:
         #Tests whether reactions pertaining to the same species are combined
         global eqn_sample
         antimony_str_test = '''
-// Reactions:
-  Reaction1: X => ; kd_mRNA*X;
-  Reaction2: Y => ; kd_mRNA*Y;
-  Reaction3: Z => ; kd_mRNA*Z;
-  Reaction4:  => PX; k_tl*X;
-  Reaction5:  => PY; k_tl*Y;
-  Reaction6:  => PZ; k_tl*Z;
-  Reaction7: PX => ; kd_prot*PX;
-  Reaction8: PY => ; kd_prot*PY;
-  Reaction9: PZ => ; kd_prot*PZ;
-  Reaction10:  => X; a0_tr + a_tr*KM^n/(KM^n + PZ^n);
-  Reaction11:  => Y; a0_tr + a_tr*KM^n/(KM^n + PX^n);
-  Reaction12:  => Z; a0_tr + a_tr*KM^n/(KM^n + PY^n);
+        // Reactions:
+          Reaction1: X => ; kd_mRNA*X;
+          Reaction2: Y => ; kd_mRNA*Y;
+          Reaction3: Z => ; kd_mRNA*Z;
+          Reaction4:  => PX; k_tl*X;
+          Reaction5:  => PY; k_tl*Y;
+          Reaction6:  => PZ; k_tl*Z;
+          Reaction7: PX => ; kd_prot*PX;
+          Reaction8: PY => ; kd_prot*PY;
+          Reaction9: PZ => ; kd_prot*PZ;
+          Reaction10:  => X; a0_tr + a_tr*KM^n/(KM^n + PZ^n);
+          Reaction11:  => Y; a0_tr + a_tr*KM^n/(KM^n + PX^n);
+          Reaction12:  => Z; a0_tr + a_tr*KM^n/(KM^n + PY^n);
 
-'''
+        '''
         reaction_test = onlinegen.gen_reactions(antimony_str_test)
         print(reaction_test)
         eqn_clean = ['']
@@ -143,21 +143,21 @@ class TestConfigGen:
     def test_compare_equations_fail(self):
         #Typo in Reaction 10 where it generates PX instead of X
         antimony_str_fail = '''
-// Reactions:
-  Reaction1: X => ; kd_mRNA*X;
-  Reaction2: Y => ; kd_mRNA*Y;
-  Reaction3: Z => ; kd_mRNA*Z;
-  Reaction4:  => PX; k_tl*X;
-  Reaction5:  => PY; k_tl*Y;
-  Reaction6:  => PZ; k_tl*Z;
-  Reaction7: PX => ; kd_prot*PX;
-  Reaction8: PY => ; kd_prot*PY;
-  Reaction9: PZ => ; kd_prot*PZ;
-  Reaction10:  => PX; a0_tr + a_tr*KM^n/(KM^n + PZ^n);
-  Reaction11:  => Y; a0_tr + a_tr*KM^n/(KM^n + PX^n);
-  Reaction12:  => Z; a0_tr + a_tr*KM^n/(KM^n + PY^n);
+        // Reactions:
+          Reaction1: X => ; kd_mRNA*X;
+          Reaction2: Y => ; kd_mRNA*Y;
+          Reaction3: Z => ; kd_mRNA*Z;
+          Reaction4:  => PX; k_tl*X;
+          Reaction5:  => PY; k_tl*Y;
+          Reaction6:  => PZ; k_tl*Z;
+          Reaction7: PX => ; kd_prot*PX;
+          Reaction8: PY => ; kd_prot*PY;
+          Reaction9: PZ => ; kd_prot*PZ;
+          Reaction10:  => PX; a0_tr + a_tr*KM^n/(KM^n + PZ^n);
+          Reaction11:  => Y; a0_tr + a_tr*KM^n/(KM^n + PX^n);
+          Reaction12:  => Z; a0_tr + a_tr*KM^n/(KM^n + PY^n);
 
-'''
+         '''
         reaction_test = onlinegen.gen_reactions(antimony_str_fail)
         eqn_clean = ['']
         

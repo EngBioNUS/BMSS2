@@ -121,7 +121,10 @@ equations =
     parameters_section = 'parameter_values = \n'
     parameters_section = build_section(parameters_section, settings, 'parameters')
     units_section = 'units = \n'
-    assert len(settings['units']) == len(settings['parameters']), 'Missing Unit for Parameter'
+    
+    #--Checker to ensure all parameters have units defined)
+    if len(settings['units']) != len(settings['parameters']):
+        raise Exception('Missing Unit for Parameter')
     units_section = build_section(units_section, settings, 'units')
     priors, parameter_bounds = gen_prior_bounds(settings)
     
@@ -385,9 +388,11 @@ def clean_eqns(store_species):
         for index, item in enumerate(store_species):
             store_species[index] = item.replace(" + ", '')
             store_species[index] = item.replace("$", '')
-            if bool(re.search(r'\d+', store_species[index])) == True:
-                species_multiplier.append(re.search(r'\d+', store_species[index]).group())
-                multiplier_remove = str(re.search(r'\d+', store_species[index]).group())
+            if bool(re.search(r'\ [0-9]+ ', store_species[index])) == True:
+                species_multiplier.append(re.search(r'\ [0-9]+ ', store_species[index]).group())
+                multiplier_remove = str(re.search(r'\ [0-9]+ ', store_species[index]).group())
+                species_multiplier[index] = species_multiplier[index].replace(' ', '')
+                multiplier_remove = multiplier_remove.replace(' ', '')
             else:
                 species_multiplier.append('')
             store_species[index] = item.replace(" ", '')
@@ -399,10 +404,12 @@ def clean_eqns(store_species):
         multiplier_remove = ''
         store_species = store_species.replace("+", '')
         store_species = store_species.replace('$', '')
-        if bool(re.search(r'\d+', store_species)) == True:
-            species_multiplier = re.search(r'\d+', store_species).group()
-            multiplier_remove = str(re.search(r'\d+', store_species).group())
-
+        if bool(re.search(r'\ [0-9]+ ', store_species)) == True:
+            species_multiplier = re.search(r'\ [0-9]+ ', store_species).group()
+            multiplier_remove = str(re.search(r'\ [0-9]+ ', store_species).group())
+            species_multiplier = species_multiplier.replace(' ', '')
+            multiplier_remove = multiplier_remove.replace(' ', '')
+            
         store_species = store_species.replace(' ', '')
         store_species = 'd' + store_species
         store_species = store_species.replace(str(multiplier_remove), '')
@@ -676,8 +683,10 @@ def Convertplus(string):
     return li
 
 def tspanchecker(tspan):
-    assert '[' in tspan, 'Include "[" at the start of tspan'
-    assert ']' in tspan, 'Include "]" at the end of tspan'
+    if '[' not in tspan:
+        raise Exception('Include "[" at the start of tspan')
+    if ']' not in tspan:
+        raise Exception('Include "]" at the end of tspan')
     
     start_tspan = tspan.index('[') + 1
     firstcomma = tspan.index(',')
