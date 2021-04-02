@@ -56,7 +56,11 @@ if __name__ == '__main__':
     Running this function will generate the corresponding SBML files for all .ini 
     files stored in ConfigSBML folder. Ensure that all .ini files are in correct 
     format or the function will terminate with error.
+<<<<<<< Updated upstream
    '''
+=======
+    '''
+>>>>>>> Stashed changes
    
     inputpath = (Path.cwd()/'ConfigSBML')
     output_path = (Path.cwd()/'ConfigSBML')

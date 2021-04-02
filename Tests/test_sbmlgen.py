@@ -97,6 +97,7 @@ class TestSBMLGen:
         
         sbmlstrtest = sbmlgen.SBMLcreation(core_model_1, settings, unit_model, addparam, init_scenario, param_scenario)
         assert sbmlstrtest == sample_sbml, "Sample and Generated Units do not match"
+<<<<<<< Updated upstream
         
     
 
@@ -211,8 +212,125 @@ class TestSBMLGen:
         inputpath = (Path.cwd()/'ConfigSBML_fail')
         output_path_auto = os.path.join(output_path, 'ConfigSBML')
         sbmlgen.autogenerate_sbml_from_folder(inputpath, output_path_auto)
+=======
+        
+    
+
+    @pytest.mark.xfail(strict=True) 
+    def test_sbmlcreation_fail_1(self):
+        #Core Model System Type does not match with settings system type
+        #Check is done at beginning of SBMLcreation function 
+        
+        wrong_model = {'system_type' : ['TestModel', 'Dummy'],
+                      'states'      : ['mRNA'], 
+                      'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
+                      'inputs'      : ['Ind'],
+                      'equations'   : ['dmRNA = syn_mRNA*Ind/(Ind + Ki) - deg_mRNA*mRNA',
+                                      'dPep  = syn_Pep*mRNA - deg_Pep'
+                                      ],
+                      'ia'          : 'ia_result_bmss01001.csv'
+                  }
+        
+        sbmlstrtest = sbmlgen.SBMLcreation(wrong_model, settings, unit_model, addparam, init_scenario, param_scenario)
+        
+         
+    @pytest.mark.xfail(strict=True) 
+    def test_sbmlcreation_fail_2(self):
+        #Missing Parameter in core model(syn_mRNA1)
+        #Check is done at beginning of SBMLcreation function
+
+        wrong_model = {'system_type' : 'TestModel, LogicGate, ORgate, DelayActivation, DelayActivation',
+                      'states'      : ['Inde1', 'Indi1', 'Inde2', 'Indi2', 'mRNA1', 'Pep1',
+                                       'mRNA2', 'Pep2', 'mRNA3', 'Pep3'], 
+                      'parameters'  : ['syn_mRNA2', 'syn_mRNA3', 'deg_mRNA', 'syn_Pep',
+                                       'deg_Pep', 'Pepmax', 'Km1', 'Km2', 'state1', 'state2'],
+                      'equations'   : ['dInde1 = -(Inde1/(Inde1+Km1))*Inde1',
+                                       'dIndi1 = (Inde1/(Inde1+Km1))*Inde1',
+                                       'dInde2 = -(Inde2/(Inde2+Km2))*Inde2',
+                                       'dIndi2 = (Inde2/(Inde2+Km2))*Inde2',
+                                       'dmRNA1 = syn_mRNA1*(Indi1)*(state1) - (deg_mRNA *mRNA1)',
+                                       'dPep1 = (syn_Pep*mRNA1) - (deg_Pep*Pep1)',
+                                       'dmRNA2 = syn_mRNA2*(Indi2)*(state2) - (deg_mRNA *mRNA2)',
+                                       'dPep2 = (syn_Pep*mRNA2) - (deg_Pep*Pep2)',
+                                       'dmRNA3 = (syn_mRNA3*((Pep1+Pep2)/Pepmax))-(deg_mRNA *mRNA3)',
+                                       'dPep3 = (syn_Pep*mRNA3)-(deg_Pep*Pep3)'],
+                      }
+        
+        sbmlstrtest = sbmlgen.SBMLcreation(wrong_model, settings, unit_model, addparam, init_scenario, param_scenario)
+        
+    def test_config_to_sbml(self):
+        #Test if files are output correctly
+        filelist = ['TestModel_LogicGate_ORgate_DelayActivation_DelayActivation.ini',
+                    'TestModel_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation.ini']
+>>>>>>> Stashed changes
+
+        sbmlgen.config_to_sbml(filelist, output_path)
+        
+        for file in filelist:
+            core_model_test = mh.from_config(file)
+            system_type = core_model_test['system_type']
+            settings_name = 'Setting_test1'
+            mh.delete(system_type)
+            sh.delete(system_type=system_type, settings_name=settings_name)
+            assert system_type not in (mh.list_models()), 'Model was not deleted'
+            assert system_type not in (sh.list_settings()), 'settings was not deleted'
+            
+        for outputfile in filelist:
+            placeholder = outputfile.replace('.ini', '')
+            filename = os.path.join(output_path, 'DatabasetoSBML_' + placeholder +'.xml')
+            assert os.path.exists(filename) == True, "File did not output properly"
+            
+    @pytest.mark.xfail(strict=True)        
+    def test_config_to_sbml_fail(self):
+        #Test if files declared exists
+        #Both files do not exist
+        filelist = ['TestModel_fail_1.ini',
+                    'TestModel_fail_2.ini']
+        inputpath = Path.cwd()
+        for file in filelist:
+            filepath = os.path.join(inputpath, file)
+            assert os.path.exists(filepath) == True, "Input file(s) does not exist" 
+    
+    def test_autogenerate_sbml_from_folder(self):
+        #Test if the function is correctly taking in Config files from folder 
+        #and outputting to Tempdir
+        inputpath = (Path.cwd()/'ConfigSBML')
+        output_path_auto = os.path.join(output_path, 'ConfigSBML')
+            
+        files = [f for f in glob.glob(os.path.join(inputpath,"**/*.ini"), recursive=True)]
+
+<<<<<<< Updated upstream
+=======
+        sbmlgen.autogenerate_sbml_from_folder(inputpath, output_path_auto)
+        
+        for file in files:
+            core_model_test = mh.from_config(file)
+            system_type = core_model_test['system_type']
+            settings_name = 'Setting_test1'
+            mh.delete(system_type)
+            sh.delete(system_type=system_type, settings_name=settings_name)
+            assert system_type not in (mh.list_models()), 'Model was not deleted'
+            assert system_type not in (sh.list_settings()), 'settings was not deleted'
+            
+        for outputfile in files:
+            placeholder = outputfile.replace(str(inputpath), '')
+            placeholder = placeholder.replace('.ini', '')
+            placeholder = placeholder.replace('\\', '')
+            filename = os.path.join(output_path_auto, 'DatabasetoSBML_' + placeholder +'.xml')
+            print('This is the file name:', filename)
+            print()
+            assert os.path.exists(filename) == True, "File did not output properly" 
+        
+    @pytest.mark.xfail(strict=True)     
+    def test_autogenerate_sbml_from_folder_fail(self):
+        #Test if input path exists
+        #Input path does not exist
+        inputpath = (Path.cwd()/'ConfigSBML_fail')
+        output_path_auto = os.path.join(output_path, 'ConfigSBML')
+        sbmlgen.autogenerate_sbml_from_folder(inputpath, output_path_auto)
 
 
+>>>>>>> Stashed changes
     def test_database_to_sbml(self):
         #Test if the function is correctly taking model from database
         #Should output to Tempdir
@@ -229,5 +347,9 @@ class TestSBMLGen:
         
 if __name__ == '__main__':
     t = TestSBMLGen()
+<<<<<<< Updated upstream
+=======
+    t.test_config_to_sbml()
+>>>>>>> Stashed changes
     
     
