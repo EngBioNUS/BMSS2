@@ -1449,10 +1449,10 @@ def writeCode(doc):
         command_list.append(initassign_template % (sym, math))
 
     commands = '\n'.join(command_list)
-    commands = sub('\w+=\'?del\'?(?=[,)])', '', commands)
-    commands = sub('\((, )+', '(', commands)
-    commands = sub('(, )+\)', ')', commands)
-    commands = sub('(, )+', ', ', commands)
+    commands = sub(r'\w+=\'?del\'?(?=[,)])', '', commands)
+    commands = sub(r'\((, )+', '(', commands)
+    commands = sub(r'(, )+\)', ')', commands)
+    commands = sub(r'(, )+', ', ', commands)
     return commands
 
 def writeCodeFromFile(filename):

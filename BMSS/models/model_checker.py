@@ -39,8 +39,10 @@ def check_model_terms(model):
     check_illegal_terms(terms)
     
     defined = lhs.union(states_set, params_set, inputs_set)
-    
-    undefined = [term for term in rhs if term not in defined]
+    defined.add('ln')
+    defined.add('log')
+    print(defined)
+    undefined = [term for term in rhs if term not in defined] 
     
     if undefined:
         return False, 'Undefined terms ' + str(undefined)

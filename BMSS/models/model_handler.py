@@ -166,7 +166,7 @@ def backend_add_to_database(core_model, database, dialog=False):
      
     system_type    = core_model['system_type']
     make_new_id    = True
-    existing_model = quick_search(system_type, error_if_no_result=False, active_only=False)
+    existing_model = quick_search(system_type, error_if_no_result=False, active_only=True)
     d              = 'Mbase' if database == MBase else 'UBase'
     if existing_model:
         if dialog:
@@ -174,15 +174,13 @@ def backend_add_to_database(core_model, database, dialog=False):
                 x = input('Overwrite existing model? (y/n): ')
                 if x.lower() == 'y':
                     break
-                elif x.lower() == 'n':
-                    return existing_model['id']
-                else:
-                    continue
-                    
+                return existing_model['id']
+        
         if system_type == existing_model['system_type']:
             core_model['id'] = existing_model['id']
             make_new_id = False
-                
+    
+    
 
     row    = string_dict_values(core_model)   
     row_id = add_row('models', row, database)
