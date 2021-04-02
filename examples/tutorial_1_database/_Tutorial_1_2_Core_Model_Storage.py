@@ -9,7 +9,6 @@ Tutorial 1 Part 2: Using the Database.
 '''
     
 if __name__ == '__main__':
-    
     #Fill in the filenames here
     filename = 'TestModel_Dummy.ini'
         
@@ -42,7 +41,7 @@ if __name__ == '__main__':
     #Deactivate a core model and remove it from searches.
     #Change name to reactivate
     mh.delete(system_type)
-    
+
     #Check if it is still visible in the list view and search results
     new_lst         = mh.list_models()
     search_result_5 = mh.search_database(system_type)
