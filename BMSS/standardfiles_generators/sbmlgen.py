@@ -61,14 +61,16 @@ def SBMLcreation(core_model, settings, unit_model, addparam, init_scenario, para
                 variable_start = eqn.index("d")
                 variable_end = eqn.index("=")
                 eqn = eqn.replace('**', '^')  
-                variable_name = eqn[variable_start+1:variable_end-1]
-                model_sbml.addRateRule(variable_name, eqn[variable_end+2:])
+                variable_name = eqn[variable_start+1:variable_end]
+                variable_name = variable_name.replace(' ', '')
+                model_sbml.addRateRule(variable_name, eqn[variable_end+1:])
                 
             else: #if equation is for variable directly
                 variable_end = eqn.index("=")
-                assignment_name = eqn[:variable_end-1]
+                assignment_name = eqn[:variable_end]
+                assignment_name = assignment_name.replace(' ', '')
                 eqn = eqn.replace('**', '^') 
-                model_sbml.addAssignmentRule(assignment_name, eqn[variable_end+2:])
+                model_sbml.addAssignmentRule(assignment_name, eqn[variable_end+1:])
                 
     sbmlstr = model_sbml.toSBML()
     return sbmlstr
