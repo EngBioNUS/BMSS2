@@ -18,11 +18,18 @@ import BMSS.models.settings_handler as sh
 def unitlookup(settings):
     '''Reads in the list of units listed in the database and converts them to 
     units defined in simplesbml
+    :param settings:  settings database of model
+    :return: cleaned units of parameters in list format
     
     :meta private:
     '''
     
     unit_model = settings['units']
+    
+    #--Checker--
+    if len(unit_model) != len(settings['parameters'].columns):
+        raise Exception('Not all Parameters have units declared')
+    
     for w in unit_model: #Unit Look-up/conversion
         unit_model[w] = unit_model[w].replace('aa', 'items') 
         unit_model[w] = unit_model[w].replace('mol-1', 'permol')
@@ -42,12 +49,31 @@ def unitlookup(settings):
 def SBMLcreation(core_model, settings, unit_model, addparam, init_scenario, param_scenario):
     '''Reads in the core model, settings, parameters and which scenario of 
     init and parameters values and outputs SBML format in sbmlstr
-    
+    :param core_model:  core model of model in nested dictionary format
+    :param settings:  settings database of model
+    :param unit_model:  units for parameters in list format
+    :param addparam:  parameters of model in dataframe
+    :param init_scenario:  init value scenario in int format
+    :param param_scenario:  parameter value scenario in int format
+    :return: SBML string in XML format
     :meta private:
     '''
     
-    model_sbml = simplesbml.SbmlModel()
-                
+    #--Checker--
+    if core_model['system_type'] != settings['system_type']:
+        raise Exception('System_type not the same between the core_model and settings')
+        
+    if 'inputs' in core_model.keys():
+        if (len(core_model['parameters'])+len(core_model['inputs'])) != len(addparam.columns):
+            raise Exception('settings have missing parameters')
+    else:
+        if len(core_model['parameters']) != len(addparam.columns):
+            raise Exception('settings have missing parameters')
+    
+        
+    
+    
+    model_sbml = simplesbml.SbmlModel()      
     for i in range(len(core_model['states'])):
         model_sbml.addSpecies(core_model['states'][i], settings['init'][init_scenario+1][i])    
     
@@ -76,7 +102,7 @@ def SBMLcreation(core_model, settings, unit_model, addparam, init_scenario, para
     return sbmlstr
 
   
-def config_to_sbml(inifileslist):
+def config_to_sbml(inifileslist, output_path):
     '''Read in list of configuration files and generate the corresponding SBML
     files.
     
@@ -111,7 +137,7 @@ def config_to_sbml(inifileslist):
                 #Function that creates SBML file and returns the number of files outputed and the file list.
                 number_scenario = number_scenario + 1
                 placeholder = os.path.splitext(f)[0]
-                sbmlfilename = 'DatabasetoSBML_' + placeholder +'.xml'
+                sbmlfilename = os.path.join(output_path, 'DatabasetoSBML_' + placeholder +'.xml')
                 f = open(sbmlfilename, 'w') #creates SBML file in same folder as python script
                 f.write(sbmlstr)
                 f.close()
@@ -126,13 +152,23 @@ def config_to_sbml(inifileslist):
 
 
 
-def autogenerate_sbml_from_folder(folderpath):
+def autogenerate_sbml_from_folder(folderpath, output_path):
     '''To automatically generate the corresponding SBML files from the given
     folder containing all the configuration files.
     
     :param folderpath: the path to the folder containing all the configuration files.
     :type folderpath: str
     '''
+    if os.path.exists(folderpath) != True:
+        raise Exception("Input folder does not exist") 
+    
+    #-- Makes output folder if not already created -- 
+    try:
+        os.mkdir(output_path)
+    except OSError:
+        print('Output Folder Exists')
+    else:
+        print('Folder created: \n', output_path)
         
     files = [f for f in glob.glob(os.path.join(folderpath,"**/*.ini"), recursive=True)]
     
@@ -160,7 +196,7 @@ def autogenerate_sbml_from_folder(folderpath):
                 sbmlstr = SBMLcreation(core_model, settings, unit_model, addparam, j, k)
                 number_scenario = number_scenario + 1
                 placeholder = os.path.splitext(os.path.basename(f))[0]
-                sbmlfilename = os.path.join(folderpath, 'DatabasetoSBML_' + placeholder +'.xml')
+                sbmlfilename = os.path.join(output_path, 'DatabasetoSBML_' + placeholder +'.xml')
                 f = open(sbmlfilename, 'w') #creates SBML file in same folder as python script
                 f.write(sbmlstr)
                 f.close()
@@ -175,8 +211,10 @@ def autogenerate_sbml_from_folder(folderpath):
     print('SBML files outputed: ', sbmlfilelist)
 
 
-def database_to_sbml(system_type, settings_name):
+def database_to_sbml(system_type, settings_name, output_path):
     '''Select model stored in database and generate the SBML file. 
+    :param system_type:  system_type of model to search in database in string format
+    :param settings_name:  settings_name of model to search in database in string format
     '''
     sbmlfilelist    = []
     number_scenario = 0
@@ -196,7 +234,7 @@ def database_to_sbml(system_type, settings_name):
         for k in range(number_parameters): #Cycle through number of parameters
             sbmlstr = SBMLcreation(core_model, settings, unit_model, addparam, j, k)           
             number_scenario = number_scenario + 1
-            sbmlfilename = 'DatabasetoSBML_' + str(number_scenario)+'.xml'
+            sbmlfilename = os.path.join(output_path, 'DatabasetoSBML_' + str(number_scenario)+'.xml')
             f = open(sbmlfilename, 'w')
             f.write(sbmlstr)
             f.close()

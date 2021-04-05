@@ -16,6 +16,8 @@ import BMSS.models.model_handler as mh
 import BMSS.models.settings_handler as sh
 
 if __name__ == '__main__':
+    
+    
     '''
     Use database_to_sbml to generate SBML file from model database.
     You can view the current models and settings in the database with lst and lst_settings.
@@ -31,7 +33,8 @@ if __name__ == '__main__':
     
     model_name = "TestModel, BMSS, LogicGate, gate, DelayActivationInput2" #Enter model name
     settings_name = "__default__" #usually "__default__" by default
-    sbmlgen.database_to_sbml(model_name, settings_name)
+    output_path = Path.cwd()
+    sbmlgen.database_to_sbml(model_name, settings_name, output_path)
     
     
     
@@ -41,9 +44,10 @@ if __name__ == '__main__':
     files. Use this if you want to only convert selected files from the whole folder.
     '''
     
-    files = ['TestModel_LogicGate_ORgate_DelayActivation_DelayActivation.ini', 
+    files = ['TestModel_LogicGate_ORgate_DelayActivation_DelayActivation.ini',
              'TestModel_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation.ini']
-    sbmlgen.config_to_sbml(files)
+    output_path = Path.cwd()
+    sbmlgen.config_to_sbml(files, output_path)
     
     
     
@@ -53,9 +57,11 @@ if __name__ == '__main__':
     files stored in ConfigSBML folder. Ensure that all .ini files are in correct 
     format or the function will terminate with error.
     '''
+   
     inputpath = (Path.cwd()/'ConfigSBML')
+    output_path = (Path.cwd()/'ConfigSBML')
     print(inputpath)
-    sbmlgen.autogenerate_sbml_from_folder(inputpath)
+    sbmlgen.autogenerate_sbml_from_folder(inputpath, output_path)
     
     
     
