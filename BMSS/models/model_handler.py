@@ -167,17 +167,19 @@ def backend_add_to_database(core_model, database, dialog=False):
     system_type    = core_model['system_type']
     make_new_id    = True
     existing_model = quick_search(system_type, error_if_no_result=False, active_only=False)
-    is_active      = existing_model['system_type'] in list_models(UBase)  
+    is_active      = existing_model['system_type'] in list_models(UBase) if existing_model else False 
     d              = 'Mbase' if database == MBase else 'UBase'
-    print(existing_model, is_active)
+    
     if existing_model:
         if is_active and dialog:
+            #Break and continue if overwrite else return immediately
             while True:
                 x = input('Overwrite existing model? (y/n): ')
                 if x.lower() == 'y':
                     break
                 return existing_model['id']
         
+        #Check existing model and edit if it matches
         if system_type == existing_model['system_type']:
             core_model['id'] = existing_model['id']
             make_new_id = False
