@@ -69,17 +69,48 @@ equations = ['  beta = tau_mRNA/tau_prot',
              '  dY = +(a0_tr + a_tr*KM**n/(KM**n + PX**n)) -(kd_mRNA*Y)',
              '  dZ = +(a0_tr + a_tr*KM**n/(KM**n + PY**n)) -(kd_mRNA*Z)'    
              ]
+
 description_store = '''[descriptions]
-Description =  This model describes the deterministic version of the repressilator system. The authors of this model (see reference) use three transcriptional repressor systems that are not part of any natural biological clock to build an oscillating network that they called the repressilator. The model system was induced in Escherichia coli. In this system, LacI (variable X is the mRNA, variable PX is the protein) inhibits the tetracycline-resistance transposon tetR (Y, PY describe mRNA and protein). Protein tetR inhibits the gene Cl from phage Lambda (Z, PZ: mRNA, protein),and protein Cl inhibits lacI expression. With the appropriate parameter values this system oscillates.  
+Description = This model describes the deterministic version of the repressilator system. The authors of this model (see reference) use three transcriptional repressor systems that are not part of any natural biological clock to build an oscillating network that they called the repressilator. The model system was induced in Escherichia coli. In this system, LacI (variable X is the mRNA, variable PX is the protein) inhibits the tetracycline-resistance transposon tetR (Y, PY describe mRNA and protein). Protein tetR inhibits the gene Cl from phage Lambda (Z, PZ: mRNA, protein),and protein Cl inhibits lacI expression. With the appropriate parameter values this system oscillates. 
+'''
+
+reference_store = '''
+Reference= 
+    title: A synthetic oscillatory network of transcriptional regulators.
+    authors: Elowitz MB, Leibler S.
+    journal: Nature. 2000 Jan; 403(6767):335-338
+    doi: 
+
 
 '''
 
+species_parameter_descriptions = '''\
+Definition of states=
+    PX: LacI protein
+    PY: TetR protein
+    PZ: cI protein
+    X: LacI mRNA
+    Y: TetR mRNA
+    Z: cI mRNA
+
+Definition of parameters=
+    tau_mRNA: mRNA half life
+    tau_prot: protein half life
+    eff: translation efficiency
+    t_ave: average mRNA life time
+    ps_a: tps_active
+    ps_0: tps_repr
+
+'''
+    
 settings_test = {
 "Species" : species_dict,
 "parameters" : parameter_dict,
 "units" : parametersunits_dict,
 "equations" : equations,
-"description": description_store 
+"description": description_store,
+"reference": reference_store,
+"species_parameter_descriptions": species_parameter_descriptions  
     }
 
 eqn_sample =['', '  dPX = +(k_tl*X) -(kd_prot*PX)', 

@@ -41,7 +41,7 @@ def sbmltoconfig(sbmlstr, system_type, tspan, Model_name, output_path):
     #--Ensure that sbmlstr can be converted--
     configpossiblechecker(sbmlstr)
     
-    species_store, parameters_store, reactions_store, rules_store, antimony_str, description_store = gen_dictionary(sbmlstr)
+    species_store, parameters_store, reactions_store, rules_store, antimony_str, description_store, reference_store = gen_dictionary(sbmlstr)
 
     
     species_clean = clean_id(species_store)
@@ -54,12 +54,23 @@ def sbmltoconfig(sbmlstr, system_type, tspan, Model_name, output_path):
     parameter_dict = build_settings(parameter_clean, parametersvalue_clean)
     parametersunits_dict = build_settings(parameter_clean, units_clean)
     equations = gen_eqns(antimony_str)
+    species_parameter_descriptions = gen_species_parameter_descriptions(antimony_str, species_dict, parameter_dict)
+    '''
+    try:
+        species_parameter_descriptions = gen_species_parameter_descriptions(antimony_str, species_dict, parameter_dict)
+        print('Species and Parameter Descriptions exist\n')
+    except ValueError:
+        species_parameter_descriptions = ''
+    '''    
     settings_combine = {
         "Species" : species_dict,
         "parameters" : parameter_dict,
         "units" : parametersunits_dict,
         "equations" : equations,
-        "description": description_store}
+        "description": description_store,
+        "reference": reference_store,
+        "species_parameter_descriptions": species_parameter_descriptions
+        }
     
     config_statement = gen_config(settings_combine, system_type, tspan)
     settings_statement = gen_settingstemplate(settings_combine, system_type, tspan, Model_name)
@@ -113,8 +124,9 @@ equations =
     equations_section = build_section(equations_section, settings, 'equations')
 
     
-    combined_top = systemtype_section + statestop_section + parametertop_section + inputs_section + equations_section + settings['description']
-    
+    combined_top = (systemtype_section + statestop_section + parametertop_section + inputs_section 
+                    + equations_section + settings['species_parameter_descriptions'] +
+                    settings['description'] + settings['reference'])
     
     species_section = 'init = \n'
     species_section = build_section(species_section, settings, 'Species')
@@ -129,8 +141,8 @@ equations =
     priors, parameter_bounds = gen_prior_bounds(settings)
     
     
-    combined_bottom = '[_]\n' + 'system_type = '+ system_type + ' \n\n' + species_section + parameters_section 
-    combined_bottom = combined_bottom + priors + parameter_bounds + units_section
+    combined_bottom = ('[_]\n' + 'system_type = '+ system_type + ' \n\n' + species_section + parameters_section 
+                       + priors + parameter_bounds + units_section)
     combined = combined_top + combined_bottom + 'tspan = \n' + ' '*4 + tspan
     
     return combined
@@ -192,6 +204,10 @@ def gen_dictionary(data):
         description_store = gen_description(description_store)
     else:
         description_store = ''
+    if Bs_data.find_all(class_='dc:bibliographicCitation') != []:
+        reference_store = gen_reference(Bs_data)
+    else:
+        reference_store = ''        
         
     '''
     print(species_store, '\n')
@@ -200,7 +216,7 @@ def gen_dictionary(data):
     print(rules_store, '\n')
     '''
     #print(description_store)
-    return species_store, parameters_store, reactions_store, rules_store, antimony_str, description_store
+    return species_store, parameters_store, reactions_store, rules_store, antimony_str, description_store, reference_store
 
 #--- ID,Values Clean-up---
 #Finds the ID of Species/Paramters and combines with values
@@ -647,24 +663,125 @@ parameter_bounds =
     
     return priors, bounds
 
-def gen_description(string):
+def gen_description(desc_list):
     '''
     Generates Description section
-    :param string: parsed description data from XML 
+    :param desc_list: parsed description data from XML in list format 
     :return: cleaned description in string format
     '''
     clean_string = '[descriptions]\n' + 'Description = '
-    for value in string:
+    clean_string = clean_string + xmlclean(desc_list)
+    clean_string = clean_string + '\n\n'
+    return clean_string 
+
+def gen_reference(Bs_data):
+    '''
+    Generates Reference section
+    :param string: parsed description data from XML 
+    :return: cleaned reference in string format
+    '''
+    clean_string = 'Reference= \n'
+    title = Bs_data.find_all(class_='bibo:title')
+    title = str(xmlclean(str(title)))
+    title_start = title.find('">')
+    title_end = title.find('.', title_start)
+    clean_title = title[title_start+2:title_end+1]
+    authors = Bs_data.find_all(class_='bibo:authorList')
+    authors = xmlclean(str(authors))
+    journal = Bs_data.find_all(class_='bibo:Journal')
+    journal = xmlclean(str(journal))
+    doi = Bs_data.find_all(class_='bibo:doi')
+    doi = xmlclean(str(doi))
+    clean_string = clean_string + ' '*4 + 'title: ' + clean_title +'\n'
+    clean_string = clean_string + ' '*4 + 'authors: ' + authors +'\n'
+    clean_string = clean_string + ' '*4 + 'journal: ' + journal +'\n'
+    clean_string = clean_string + ' '*4 + 'doi: ' + doi +'\n'
+    clean_string = clean_string + '\n\n'
+    return clean_string 
+
+def xmlclean(xmldata):
+    '''
+    Cleans away xml related characters
+    :param xmldata: parsed data from XML 
+    :return: cleaned text in string format
+    '''
+    clean_string = ''
+    if isinstance(xmldata, list) == True:
+        for value in xmldata:
+            value = value.replace('<p>', '')
+            value = value.replace('</a>', '')
+            value = value.replace('</p>', '')
+            value = value.replace('</div>', '')
+            value = value.replace('.', '. ')
+            value = value.replace('  ', ' ')
+            value = value.replace('[', '')
+            value = value.replace(']', '')
+            value = value.replace('<div class="dc:description">', '')
+            value = value.replace('<div class="bibo:title">', '')
+            value = value.replace('<div class="dc:bibliographicCitation">', '')
+            value = value.replace('<div class="bibo:authorList">', '')
+            value = value.replace('<div class="bibo:Journal">', '')
+            value = value.replace('<div class="bibo:authorList">', '')
+            clean_string = clean_string + value
+    else:
+        value = xmldata
         value = value.replace('<p>', '')
+        value = value.replace('\n', ' ')
+        value = value.replace('  ', '')
+        value = value.replace('</a>', '')
         value = value.replace('</p>', '')
         value = value.replace('</div>', '')
         value = value.replace('[', '')
         value = value.replace(']', '')
         value = value.replace('<div class="dc:description">', '')
-        clean_string = clean_string + value + ' '
-    clean_string = clean_string + '\n\n'
-    return clean_string 
+        value = value.replace('<div class="bibo:title">', '')
+        value = value.replace('<div class="dc:bibliographicCitation">', '')
+        value = value.replace('<div class="bibo:authorList">', '')
+        value = value.replace('<div class="bibo:Journal">', '')
+        value = value.replace('<div class="bibo:authorList">', '')
+        clean_string = value
+    return clean_string
 
+def gen_species_parameter_descriptions(antimony_str, species_dict, parameter_dict):
+    '''
+    Generates Species and Parameter Descriptions if defined.
+    :param antimony_str: SBML Model converted to Antimony format string 
+    :param species_dict: dictionary containing all species in model
+    :param parameter_dict: dictionary containing all species in model
+    :return: species and parameter description in string format
+    '''
+    name_start = antimony_str.index('// Display Names:')
+    name_end = antimony_str.find('\n\n', name_start)
+    display_names = antimony_str[name_start:name_end]
+    display_names = Convert(display_names)
+    s_description = 'Definition of states=\n'
+    p_description = 'Definition of parameters=\n'
+    for line in display_names:
+        try:
+            variablename = line.index('is')
+        except ValueError:
+            variablename = 2
+        variable = line[:variablename]
+        variable = variable.replace('  ', '')
+        variable = variable.replace(' ', '')
+        #print(variable)
+        if variable in species_dict.keys():
+            line = line.replace(' is "', ': ')
+            line = line.replace('";', '')
+            s_description = s_description + ' '*2 + line + '\n'
+        if variable in parameter_dict.keys():
+            line = line.replace(' is "', ': ')
+            line = line.replace('";', '')
+            p_description = p_description + ' '*2 + line + '\n'
+    s_description = s_description + '\n'
+    p_description = p_description + '\n'
+    #print(s_description)
+    #print(p_description)
+    s_p_descriptions = s_description + p_description
+    
+    return s_p_descriptions
+    
+    
 #--- Other Functions ---
 def Convert(string): 
     '''

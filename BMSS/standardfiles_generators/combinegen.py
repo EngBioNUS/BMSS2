@@ -155,7 +155,7 @@ def gen_phrasedml(settings, modelname_file, Plot_Variable, KISAO_algorithm):
     variable_statement, Total_Fig = clean_groupvariables(Plot_Variable, tspan, task_total, variabletask_list) 
       
     #--- Generates the 'plot figure' statements based on tasks and sims --- 
-    Plot_statement = gen_figurestatment(Total_Fig, variable_statement, tspan)
+    Plot_statement = gen_figurestatment(Total_Fig, variable_statement, Plot_Variable)
     
     phrasedml_final = model_statement + sim_statement + task_statement + Plot_statement
 
@@ -228,7 +228,7 @@ def clean_groupvariables(Plot_Variable, tspan, task_total, variabletask_list):
   
     
   
-def gen_figurestatment(Total_Fig, variable_statement, tspan):
+def gen_figurestatment(Total_Fig, variable_statement, Plot_Variable):
     '''
     Generates the 'plot figure' statements based on tasks and sims
     :param variable_statement: variables for each plot in list format 
@@ -241,7 +241,7 @@ def gen_figurestatment(Total_Fig, variable_statement, tspan):
     for plot_count in range(Total_Fig):#Change to meet fig count
         Figure_Statement.append('plot "Figure ' + str(plot_count+1) + '" task' + str(time_count) +'.time vs ')
         Plot_statement = Plot_statement + Figure_Statement[plot_count] + variable_statement[plot_count] + '\n'
-        if (plot_count+1)%len(tspan) == 0:
+        if (plot_count+1)%len(Plot_Variable) == 0:
             time_count +=1
     return Plot_statement
 
