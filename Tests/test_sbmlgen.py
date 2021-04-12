@@ -146,8 +146,6 @@ class TestSBMLGen:
         #Test if files are output correctly
         filelist = ['TestModel_LogicGate_ORgate_DelayActivation_DelayActivation.ini',
                     'TestModel_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation.ini']
-
-        sbmlgen.config_to_sbml(filelist, output_path)
         
         for file in filelist:
             core_model_test = mh.from_config(file)
@@ -157,6 +155,8 @@ class TestSBMLGen:
             sh.delete(system_type=system_type, settings_name=settings_name)
             assert system_type not in (mh.list_models()), 'Model was not deleted'
             assert system_type not in (sh.list_settings()), 'settings was not deleted'
+            
+        sbmlgen.config_to_sbml(filelist, output_path)
             
         for outputfile in filelist:
             placeholder = outputfile.replace('.ini', '')
@@ -181,8 +181,6 @@ class TestSBMLGen:
         output_path_auto = os.path.join(output_path, 'ConfigSBML')
             
         files = [f for f in glob.glob(os.path.join(inputpath,"**/*.ini"), recursive=True)]
-
-        sbmlgen.autogenerate_sbml_from_folder(inputpath, output_path_auto)
         
         for file in files:
             core_model_test = mh.from_config(file)
@@ -193,6 +191,8 @@ class TestSBMLGen:
             assert system_type not in (mh.list_models()), 'Model was not deleted'
             assert system_type not in (sh.list_settings()), 'settings was not deleted'
             
+        sbmlgen.autogenerate_sbml_from_folder(inputpath, output_path_auto)
+        
         for outputfile in files:
             placeholder = outputfile.replace(str(inputpath), '')
             placeholder = placeholder.replace('.ini', '')
