@@ -28,7 +28,6 @@ if __name__ == '__main__':
     #Network of a toggle switch: BIOMD0000000483
     #Negative Feedback By MicroRNA with Delay: MODEL1610100002 (Has boundary Species which not reflected in config)
     #Kim2011_Oscillator_ExtendedIII: MODEL1012090006
-    #DO NOT RUN MODEL1004010000, still debugging why it crashes computer
     SBMLfilename = 'Repressilator_TestModel_SBML.xml' #Name the XML file
     outputpath = str(Path.cwd()/SBMLfilename)
     onlinemodelstr = onlinegen.get_online_biomodel(Biomodels_ID, outputfile=outputpath)
