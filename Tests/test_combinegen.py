@@ -97,7 +97,7 @@ class TestCombinecreator:
         number_scenarios_test = len(settings['init']) * len(settings['parameters'])
         assert number_scenario == number_scenarios_test, 'Wrong number of scenarios was outputted'
     
-    def gen_phrasedml(self):
+    def test_gen_phrasedml(self):
         #Test if phrasedml outputted normally. 
         #It should output as many models as there are scenarios 
         #It should also plot each variable on each tspan declared
@@ -126,11 +126,13 @@ class TestCombinecreator:
                             task12 = run sim2 on model6
                             plot "Figure 1" task1.time vs task1.r, task3.r, task5.r, task7.r, task9.r, task11.r
                             plot "Figure 2" task1.time vs task1.a, task3.a, task5.a, task7.a, task9.a, task11.a
-                            plot "Figure 3" task2.time vs task1.p, task3.p, task5.p, task7.p, task9.p, task11.p
+                            plot "Figure 3" task1.time vs task1.p, task3.p, task5.p, task7.p, task9.p, task11.p
                             plot "Figure 4" task2.time vs task2.r, task4.r, task6.r, task8.r, task10.r, task12.r
-                            plot "Figure 5" task3.time vs task2.a, task4.a, task6.a, task8.a, task10.a, task12.a
-                            plot "Figure 6" task3.time vs task2.p, task4.p, task6.p, task8.p, task10.p, task12.p 
+                            plot "Figure 5" task2.time vs task2.a, task4.a, task6.a, task8.a, task10.a, task12.a
+                            plot "Figure 6" task2.time vs task2.p, task4.p, task6.p, task8.p, task10.p, task12.p
                             '''
+                            
+        phrasedml_sample = phrasedml_sample.replace((' '*28), '') #Remove indent
         modelname_file = ['TestModel_Dummy_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation_1_1',
                           'TestModel_Dummy_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation_1_2',
                           'TestModel_Dummy_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation_1_3',
@@ -142,5 +144,4 @@ class TestCombinecreator:
             
 if __name__ == '__main__':
     t = TestCombinecreator()
-    r = t.test_Combinecreator()
     
