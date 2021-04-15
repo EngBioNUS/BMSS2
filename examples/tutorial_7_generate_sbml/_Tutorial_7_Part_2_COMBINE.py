@@ -47,7 +47,7 @@ if __name__ == '__main__':
     '''
     Use database_to_combine to create a COMBINE archive from an existing model in database.
     '''
-    model_name = "Test_Model, Repressilator, OMEX, Example" #Enter model name
+    model_name = "Test_Model, OMEX, Repressilator, Example" #Enter model name
     settings_name = "__default__" #usually "__default__" by default
     Plot_Variable = ["X", "Y", "Z"] #, "rmq"] #Assign which variables you would like to plot
     KISAO_algorithm = "0"
