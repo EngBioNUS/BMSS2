@@ -383,6 +383,7 @@ def eqnreplace(tempstore):
     tempstore = tempstore.replace('^', '**')
     tempstore = tempstore.replace(':', '')
     tempstore = tempstore.replace("'", '')
+    tempstore = tempstore.replace(")(", ')*(')
     return tempstore
 
 def clean_eqns(store_species):
