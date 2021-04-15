@@ -54,14 +54,12 @@ def sbmltoconfig(sbmlstr, system_type, tspan, Model_name, output_path):
     parameter_dict = build_settings(parameter_clean, parametersvalue_clean)
     parametersunits_dict = build_settings(parameter_clean, units_clean)
     equations = gen_eqns(antimony_str)
-    species_parameter_descriptions = gen_species_parameter_descriptions(antimony_str, species_dict, parameter_dict)
-    '''
     try:
         species_parameter_descriptions = gen_species_parameter_descriptions(antimony_str, species_dict, parameter_dict)
         print('Species and Parameter Descriptions exist\n')
     except ValueError:
         species_parameter_descriptions = ''
-    '''    
+       
     settings_combine = {
         "Species" : species_dict,
         "parameters" : parameter_dict,
