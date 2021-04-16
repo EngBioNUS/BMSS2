@@ -44,16 +44,16 @@ def sbmltoconfig(sbmlstr, system_type, tspan, Model_name, output_path):
     species_store, parameters_store, reactions_store, rules_store, antimony_str, description_store, reference_store = gen_dictionary(sbmlstr)
 
     
-    species_clean = clean_id(species_store)
-    parameter_clean = clean_id(parameters_store)
-    speciesvalue_clean = gen_cleanvalue(species_store)
-    parametersvalue_clean = gen_cleanvalue(parameters_store)
-    units_clean = clean_units(parameters_store)
+    species_clean           = clean_id(species_store)
+    parameter_clean         = clean_id(parameters_store)
+    speciesvalue_clean      = gen_cleanvalue(species_store)
+    parametersvalue_clean   = gen_cleanvalue(parameters_store)
+    units_clean             = clean_units(parameters_store)
     
-    species_dict = build_settings(species_clean, speciesvalue_clean)
-    parameter_dict = build_settings(parameter_clean, parametersvalue_clean)
-    parametersunits_dict = build_settings(parameter_clean, units_clean)
-    equations = gen_eqns(antimony_str)
+    species_dict            = build_settings(species_clean, speciesvalue_clean)
+    parameter_dict          = build_settings(parameter_clean, parametersvalue_clean)
+    parametersunits_dict    = build_settings(parameter_clean, units_clean)
+    equations               = gen_eqns(antimony_str)
     try:
         species_parameter_descriptions = gen_species_parameter_descriptions(antimony_str, species_dict, parameter_dict)
         print('Species and Parameter Descriptions exist\n')
@@ -70,10 +70,10 @@ def sbmltoconfig(sbmlstr, system_type, tspan, Model_name, output_path):
         "species_parameter_descriptions": species_parameter_descriptions
         }
     
-    config_statement = gen_config(settings_combine, system_type, tspan)
-    settings_statement = gen_settingstemplate(settings_combine, system_type, tspan, Model_name)
-    Config_filepath = os.path.join(str(output_path), str(Model_name) + '_coremodel.ini')
-    settings_filepath = os.path.join(str(output_path), 'sim_settings_' + str(Model_name) + '.ini')
+    config_statement    = gen_config(settings_combine, system_type, tspan)
+    settings_statement  = gen_settingstemplate(settings_combine, system_type, tspan, Model_name)
+    Config_filepath     = os.path.join(str(output_path), str(Model_name) + '_coremodel.ini')
+    settings_filepath   = os.path.join(str(output_path), 'sim_settings_' + str(Model_name) + '.ini')
     
     with open(Config_filepath, "w") as f:
         f.write(config_statement) 
@@ -97,51 +97,52 @@ def gen_config(settings, system_type, tspan):
     :param tspan: Tspan of Model defined in String Format
     :return: full config statement in string format
     '''
-    systemtype_section = '''[system_type]
+    systemtype_section      = '''[system_type]
 system_type = ''' + system_type + '\n'
     
-    statestop_section = '''
+    statestop_section       = '''
 [states]
 states = ''' 
-    statestop_section = statestop_section + build_section_top(settings, 'Species')
+    statestop_section       = statestop_section + build_section_top(settings, 'Species')
     
-    parametertop_section = '''
+    parametertop_section    = '''
 [parameters]
 parameters = '''
     parametertop_section = parametertop_section + build_section_top(settings, 'parameters')
     
-    inputs_section = '''
+    inputs_section          = '''
 [inputs]
 inputs = 
 '''
     
-    equations_section = '''
+    equations_section       = '''
 [equations]
 equations =
 ''' 
-    equations_section = build_section(equations_section, settings, 'equations')
+    equations_section       = build_section(equations_section, settings, 'equations')
 
     
-    combined_top = (systemtype_section + statestop_section + parametertop_section + inputs_section 
-                    + equations_section + settings['species_parameter_descriptions'] +
-                    settings['description'] + settings['reference'])
+    combined_top            = (systemtype_section + statestop_section + parametertop_section + inputs_section 
+                            + equations_section + settings['species_parameter_descriptions'] +
+                            settings['description'] + settings['reference'])
     
-    species_section = 'init = \n'
-    species_section = build_section(species_section, settings, 'Species')
-    parameters_section = 'parameter_values = \n'
-    parameters_section = build_section(parameters_section, settings, 'parameters')
-    units_section = 'units = \n'
+    species_section         = 'init = \n'
+    species_section         = build_section(species_section, settings, 'Species')
+    parameters_section      = 'parameter_values = \n'
+    parameters_section      = build_section(parameters_section, settings, 'parameters')
+    units_section           = 'units = \n'
     
     #--Checker to ensure all parameters have units defined)
     if len(settings['units']) != len(settings['parameters']):
         raise Exception('Missing Unit for Parameter')
-    units_section = build_section(units_section, settings, 'units')
-    priors, parameter_bounds = gen_prior_bounds(settings)
+        
+    units_section               = build_section(units_section, settings, 'units')
+    priors, parameter_bounds    = gen_prior_bounds(settings)
     
     
-    combined_bottom = ('[_]\n' + 'system_type = '+ system_type + ' \n\n' + species_section + parameters_section 
-                       + priors + parameter_bounds + units_section)
-    combined = combined_top + combined_bottom + 'tspan = \n' + ' '*4 + tspan
+    combined_bottom             = ('[_]\n' + 'system_type = '+ system_type + ' \n\n' + species_section + parameters_section 
+                                   + priors + parameter_bounds + units_section)
+    combined                    = combined_top + combined_bottom + 'tspan = \n' + ' '*4 + tspan
     
     return combined
 
@@ -156,17 +157,17 @@ def gen_settingstemplate(settings, system_type, tspan, Model_name):
     :param Model_name: Name of Model defined in String Format, Used to name files
     :return: full settings template in string format
     '''
-    settings_template = '[' + system_type + ']\n\n'
-    species_section = 'init = \n'
-    species_section = build_section(species_section, settings, 'Species')
-    parameters_section = 'parameter_values = \n'
-    parameters_section = build_section(parameters_section, settings, 'parameters')
-    units_section = 'units = \n'
-    units_section = build_section(units_section, settings, 'units')
-    priors, parameter_bounds = gen_prior_bounds(settings)
-    settings_template = settings_template + species_section + parameters_section
-    settings_template = settings_template + priors + parameter_bounds + units_section
-    settings_template = settings_template + 'tspan = \n' + ' '*4 + tspan
+    settings_template           = '[' + system_type + ']\n\n'
+    species_section             = 'init = \n'
+    species_section             = build_section(species_section, settings, 'Species')
+    parameters_section          = 'parameter_values = \n'
+    parameters_section          = build_section(parameters_section, settings, 'parameters')
+    units_section               = 'units = \n'
+    units_section               = build_section(units_section, settings, 'units')
+    priors, parameter_bounds    = gen_prior_bounds(settings)
+    settings_template           = (settings_template + species_section + parameters_section
+                                   + priors + parameter_bounds + units_section
+                                   + 'tspan = \n' + ' '*4 + tspan)
     
     
     
@@ -183,29 +184,29 @@ def gen_dictionary(data):
 
     '''
 
-    antimony_str = te.sbmlToAntimony(data)
+    antimony_str            = te.sbmlToAntimony(data)
  
-    Bs_data = BeautifulSoup(data, "xml") 
-    b_species = Bs_data.find_all('listOfSpecies')
-    species_store = Convert(str(b_species))
-    b_parameters = Bs_data.find_all('listOfParameters')
-    parameters_store = Convert(str(b_parameters))
-    b_reactions = Bs_data.find_all('listOfReactions')
-    reactions_store = Convert(str(b_reactions))
-    b_rules = Bs_data.find_all('listOfRules')
-    rules_store = Convert(str(b_rules)) 
+    Bs_data                 = BeautifulSoup(data, "xml") 
+    b_species               = Bs_data.find_all('listOfSpecies')
+    species_store           = Convert(str(b_species))
+    b_parameters            = Bs_data.find_all('listOfParameters')
+    parameters_store        = Convert(str(b_parameters))
+    b_reactions             = Bs_data.find_all('listOfReactions')
+    reactions_store         = Convert(str(b_reactions))
+    b_rules                 = Bs_data.find_all('listOfRules')
+    rules_store             = Convert(str(b_rules)) 
     #soup.find_all("a", class_="sister")
     #print(Bs_data.find_all('div', class_='dc:description'))
     if Bs_data.find_all(class_='dc:description') != []:
-        b_description = Bs_data.find_all(class_='dc:description')
-        description_store = Convert(str(b_description))
-        description_store = gen_description(description_store)
+        b_description       = Bs_data.find_all(class_='dc:description')
+        description_store   = Convert(str(b_description))
+        description_store   = gen_description(description_store)
     else:
-        description_store = ''
+        description_store   = ''
     if Bs_data.find_all(class_='dc:bibliographicCitation') != []:
-        reference_store = gen_reference(Bs_data)
+        reference_store     = gen_reference(Bs_data)
     else:
-        reference_store = ''        
+        reference_store     = ''        
         
     '''
     print(species_store, '\n')
@@ -225,15 +226,15 @@ def clean_id(store):
     :param store: stored Species/Parameters data in list format
     :return: IDs for Species/Parameters in list format
     '''
-    tempstore = ''
+    tempstore   = ''
     store_clean = []
     for value in store:
         if 'listOfSpecies' not in value and 'listOfParameters' not in value:
             #if 'name=' in value:
             if 'id=' in value:
-                id_find = value.index('id="')
-                tempstore = value[id_find+4:] 
-                id_end = tempstore.index('"')
+                id_find     = value.index('id="')
+                tempstore   = value[id_find+4:] 
+                id_end      = tempstore.index('"')
                 store_clean.append(tempstore[:id_end])
     #print(store_clean)
     return store_clean
@@ -247,20 +248,20 @@ def clean_value(value, store_clean):
     '''
     tempstore = ''
     if 'initialAmount=' in value:
-        id_find = value.index('initialAmount="')
-        tempstore = value[id_find+15:] 
+        id_find     = value.index('initialAmount="')
+        tempstore   = value[id_find+15:] 
         #print('this is tempstore\n', tempstore)
-        id_end = tempstore.index('"')
+        id_end      = tempstore.index('"')
         store_clean.append(tempstore[:id_end])    
     elif 'initialConcentration=' in value:
-        id_find = value.index('initialConcentration="')
-        tempstore = value[id_find+22:] 
-        id_end = tempstore.index('"')
+        id_find     = value.index('initialConcentration="')
+        tempstore   = value[id_find+22:] 
+        id_end      = tempstore.index('"')
         store_clean.append(tempstore[:id_end])                  
     elif 'value=' in value:
-        id_find = value.index('value="')
-        tempstore = value[id_find+7:] 
-        id_end = tempstore.index('"')
+        id_find     = value.index('value="')
+        tempstore   = value[id_find+7:] 
+        id_end      = tempstore.index('"')
         store_clean.append(tempstore[:id_end])
 
     return store_clean
@@ -277,8 +278,8 @@ def gen_cleanvalue(store):
         #print(value)
         #if 'listOfSpecies' not in value and 'listOfParameters' not in value:
         if 'listOfParameters' in store[0] and 'id="' in value:
-            len_store_clean = len(store_clean)
-            store_clean = clean_value(value, store_clean)
+            len_store_clean     = len(store_clean)
+            store_clean         = clean_value(value, store_clean)
             if len_store_clean == len(store_clean):
                 store_clean.append('0')
         else:
@@ -299,15 +300,15 @@ def clean_units(store):
     for value in store:
         if 'listOfSpecies' not in value and 'listOfParameters' not in value:
             if 'substanceUnits' in value:
-                id_find = value.index('substanceUnits="')
-                tempstore = value[id_find+16:] 
-                id_end = tempstore.index('"')
+                id_find     = value.index('substanceUnits="')
+                tempstore   = value[id_find+16:] 
+                id_end      = tempstore.index('"')
                 store_clean.append(tempstore[:id_end])
             elif 'units' in value:
-                id_find = value.index('units="')
-                tempstore = value[id_find+7:]
-                tempstore = tempstore.replace('_le', '_less')
-                id_end = tempstore.index('"')
+                id_find     = value.index('units="')
+                tempstore   = value[id_find+7:]
+                tempstore   = tempstore.replace('_le', '_less')
+                id_end      = tempstore.index('"')
                 store_clean.append(tempstore[:id_end])
             else:
                 store_clean.append('per_sec')
@@ -321,8 +322,8 @@ def build_settings(idstore, valuestore):
     :param valuestore: all values of IDS in list format
     :return: matched ID to values in dictionary format
     '''
-    settings_dict = {}
-    i=0
+    settings_dict   = {}
+    i               = 0
     for value in idstore:
         settings_dict[value] = valuestore[i]
         i += 1
@@ -338,36 +339,36 @@ def gen_eqns(antimony_str):
     '''
     eqn_clean = ['']
     if '// Assignment Rules:' in antimony_str:
-        assignment_find = antimony_str.index('// Assignment Rules:')
-        assignment_end = antimony_str.find('\n\n', assignment_find)
-        tempstore_assignment = antimony_str[assignment_find+21:assignment_end]
-        tempstore_assignment = eqnreplace(tempstore_assignment)
-        assignment_clean = Convert(tempstore_assignment)
+        assignment_find         = antimony_str.index('// Assignment Rules:')
+        assignment_end          = antimony_str.find('\n\n', assignment_find)
+        tempstore_assignment    = antimony_str[assignment_find+21:assignment_end]
+        tempstore_assignment    = eqnreplace(tempstore_assignment)
+        assignment_clean        = Convert(tempstore_assignment)
         
         eqn_clean = assignment_clean +['']
         
     if '// Rate Rules:' in antimony_str:
         
-        rate_find = antimony_str.index('// Rate Rules:')
-        rate_end = antimony_str.find('\n\n', rate_find)
-        tempstore_rate = antimony_str[rate_find+15:rate_end]
-        tempstore_rate = eqnreplace(tempstore_rate)
-        tempstore_rate = tempstore_rate.replace("  ", '  d')
-        rate_clean = Convert(tempstore_rate)
+        rate_find       = antimony_str.index('// Rate Rules:')
+        rate_end        = antimony_str.find('\n\n', rate_find)
+        tempstore_rate  = antimony_str[rate_find+15:rate_end]
+        tempstore_rate  = eqnreplace(tempstore_rate)
+        tempstore_rate  = tempstore_rate.replace("  ", '  d')
+        rate_clean      = Convert(tempstore_rate)
         
-        eqn_clean = eqn_clean + [''] + rate_clean
+        eqn_clean       = eqn_clean + [''] + rate_clean
         
     if '// Reactions:' in antimony_str:
-        reaction_formula_store = gen_reactions(antimony_str)
-        before = len(reaction_formula_store)
-        after = 0
+        reaction_formula_store  = gen_reactions(antimony_str)
+        before                  = len(reaction_formula_store)
+        after                   = 0
         while before != after:
-            before = len(reaction_formula_store)
-            reaction_formula_store = clean_reactions(reaction_formula_store)
-            after = len(reaction_formula_store)
+            before                  = len(reaction_formula_store)
+            reaction_formula_store  = clean_reactions(reaction_formula_store)
+            after                   = len(reaction_formula_store)
         #eqn_clean = eqn_clean + ['']
         for eqn in reaction_formula_store:
-            eqn = eqnreplace(eqn)
+            eqn                     = eqnreplace(eqn)
             eqn_clean.append(eqn)
 
     
@@ -397,37 +398,37 @@ def clean_eqns(store_species):
     :returns species_multiplier: string format if reactions only have 1 variable in reaction
     '''
     if store_species.count('+') > 0:
-        store_species = Convertplus(store_species)
-        species_multiplier = []
-        multiplier_remove = ''
+        store_species       = Convertplus(store_species)
+        species_multiplier  = []
+        multiplier_remove   = ''
         for index, item in enumerate(store_species):
-            store_species[index] = item.replace(" + ", '')
-            store_species[index] = item.replace("$", '')
+            store_species[index]    = item.replace(" + ", '')
+            store_species[index]    = item.replace("$", '')
             if bool(re.search(r'\ [0-9]+ ', store_species[index])) == True:
                 species_multiplier.append(re.search(r'\ [0-9]+ ', store_species[index]).group())
-                multiplier_remove = str(re.search(r'\ [0-9]+ ', store_species[index]).group())
+                multiplier_remove   = str(re.search(r'\ [0-9]+ ', store_species[index]).group())
                 species_multiplier[index] = species_multiplier[index].replace(' ', '')
-                multiplier_remove = multiplier_remove.replace(' ', '')
+                multiplier_remove   = multiplier_remove.replace(' ', '')
             else:
                 species_multiplier.append('')
-            store_species[index] = item.replace(" ", '')
-            store_species[index] = 'd' + store_species[index]
-            store_species[index] = store_species[index].replace(str(multiplier_remove), '')
+            store_species[index]    = item.replace(" ", '')
+            store_species[index]    = 'd' + store_species[index]
+            store_species[index]    = store_species[index].replace(str(multiplier_remove), '')
 
     else:
-        species_multiplier = ''
-        multiplier_remove = ''
-        store_species = store_species.replace("+", '')
-        store_species = store_species.replace('$', '')
+        species_multiplier      = ''
+        multiplier_remove       = ''
+        store_species           = store_species.replace("+", '')
+        store_species           = store_species.replace('$', '')
         if bool(re.search(r'\ [0-9]+ ', store_species)) == True:
-            species_multiplier = re.search(r'\ [0-9]+ ', store_species).group()
-            multiplier_remove = str(re.search(r'\ [0-9]+ ', store_species).group())
-            species_multiplier = species_multiplier.replace(' ', '')
-            multiplier_remove = multiplier_remove.replace(' ', '')
+            species_multiplier  = re.search(r'\ [0-9]+ ', store_species).group()
+            multiplier_remove   = str(re.search(r'\ [0-9]+ ', store_species).group())
+            species_multiplier  = species_multiplier.replace(' ', '')
+            multiplier_remove   = multiplier_remove.replace(' ', '')
             
-        store_species = store_species.replace(' ', '')
-        store_species = 'd' + store_species
-        store_species = store_species.replace(str(multiplier_remove), '')
+        store_species           = store_species.replace(' ', '')
+        store_species           = 'd' + store_species
+        store_species           = store_species.replace(str(multiplier_remove), '')
 
     
     return store_species, species_multiplier
@@ -442,19 +443,22 @@ def get_posreaction(reaction_formula_store, value, reaction_reactant_end, reacti
     :param reactioneqns: reaction equation in string format
     :returns: added "create product" reactions in list format
     '''
-    tempstore_product = value[reaction_reactant_end+2:reaction_product_end]
-    tempstore_product_list, species_multiplier = clean_eqns(tempstore_product)
+    tempstore_product                           = value[reaction_reactant_end+2:reaction_product_end]
+    tempstore_product_list, species_multiplier  = clean_eqns(tempstore_product)
     if isinstance(tempstore_product_list, list) == True:
         for index, item in enumerate(tempstore_product_list):
             if species_multiplier[index] != '':
-                reaction_formula_store.append('  ' + item + ' = +(1/' + species_multiplier[index] + ')' + '(' + reactioneqns + ')')
+                reaction_formula_store.append('  ' + item + ' = +(1/' + species_multiplier[index] 
+                                              + ')' + '(' + reactioneqns + ')')
             else:
                 reaction_formula_store.append('  ' + item + ' = +(' + reactioneqns + ')')
     else:
             if species_multiplier != '':
-                reaction_formula_store.append('  ' + tempstore_product_list + ' = +(1/' + species_multiplier + ')' + '(' + reactioneqns + ')')
+                reaction_formula_store.append('  ' + tempstore_product_list + ' = +(1/' 
+                                              + species_multiplier + ')' + '(' + reactioneqns + ')')
             else:
-                reaction_formula_store.append('  ' + tempstore_product_list + ' = +(' + reactioneqns + ')')
+                reaction_formula_store.append('  ' + tempstore_product_list 
+                                              + ' = +(' + reactioneqns + ')')
     
     return reaction_formula_store 
 
@@ -468,17 +472,19 @@ def get_negreaction(reaction_formula_store, value, reaction_reactant_start, reac
     :param reactioneqns: reaction equation in string format
     :returns: added "use reactant" reactions in list format
     '''
-    tempstore_reactant = value[reaction_reactant_start+1:reaction_reactant_end]
-    tempstore_reactant_list, species_multiplier = clean_eqns(tempstore_reactant)
+    tempstore_reactant                              = value[reaction_reactant_start+1:reaction_reactant_end]
+    tempstore_reactant_list, species_multiplier     = clean_eqns(tempstore_reactant)
     if isinstance(tempstore_reactant_list, list) == True:
         for index, item in enumerate(tempstore_reactant_list):
             if species_multiplier[index] != '':
-                reaction_formula_store.append('  ' + item + ' = -(1/' + species_multiplier[index] + ')' +'(' + reactioneqns + ')')
+                reaction_formula_store.append('  ' + item + ' = -(1/' + species_multiplier[index] 
+                                              + ')' +'(' + reactioneqns + ')')
             else:
                 reaction_formula_store.append('  ' + item + ' = -(' + reactioneqns + ')')
     else:
         if species_multiplier != '':
-            reaction_formula_store.append('  ' + tempstore_reactant_list + ' = -(1/' + species_multiplier + ')' + '(' + reactioneqns + ')')
+            reaction_formula_store.append('  ' + tempstore_reactant_list + ' = -(1/' + species_multiplier 
+                                          + ')' + '(' + reactioneqns + ')')
         else:
             reaction_formula_store.append('  ' + tempstore_reactant_list + ' = -(' + reactioneqns + ')')
     return reaction_formula_store
@@ -489,38 +495,38 @@ def gen_reactions(antimony_str):
     :param antimony_str: antimony string in string format
     :returns: all reactions in list format
     '''
-    reactioneqns = ''
-    reaction_formula_store = []
-    reaction_find = antimony_str.index('// Reactions:')
-    reaction_start = antimony_str.find('\n', reaction_find)
-    reaction_end = antimony_str.find('\n\n', reaction_find)
-    tempstore_reaction = antimony_str[reaction_start+1:reaction_end]
-    tempstore_reaction = Convert(tempstore_reaction)
+    reactioneqns                    = ''
+    reaction_formula_store          = []
+    reaction_find                   = antimony_str.index('// Reactions:')
+    reaction_start                  = antimony_str.find('\n', reaction_find)
+    reaction_end                    = antimony_str.find('\n\n', reaction_find)
+    tempstore_reaction              = antimony_str[reaction_start+1:reaction_end]
+    tempstore_reaction              = Convert(tempstore_reaction)
     for value in tempstore_reaction:
-        reaction_reactant_start = value.find(':')
-        reaction_reactant_end = value.find('=>')
-        if reaction_reactant_end == -1:
-            reaction_reactant_end = value.find('->')
-        reaction_product_end = value.find(';')
-        reaction_formula_end = value.find(';', reaction_product_end+1)
-        reactioneqns = value[reaction_product_end+2:reaction_formula_end]
+        reaction_reactant_start     = value.find(':')
+        reaction_reactant_end       = value.find('=>')
+        if reaction_reactant_end    == -1:
+            reaction_reactant_end   = value.find('->')
+        reaction_product_end        = value.find(';')
+        reaction_formula_end        = value.find(';', reaction_product_end+1)
+        reactioneqns                = value[reaction_product_end+2:reaction_formula_end]
         #Replaces compartment name in reactions
         if '// Compartments' in antimony_str:
-            compartment_name = clean_compartment(antimony_str)
-            reactioneqns = reactioneqns.replace(compartment_name, '1')
+            compartment_name        = clean_compartment(antimony_str)
+            reactioneqns            = reactioneqns.replace(compartment_name, '1')
   
         if value[reaction_reactant_start+1:reaction_reactant_end] != "  " and value[reaction_reactant_end+2:reaction_product_end] == " ":
             #print('only reactant present in reaction statement\n')
-            reaction_formula_store = get_negreaction(reaction_formula_store, value, reaction_reactant_start, reaction_reactant_end, reactioneqns)
+            reaction_formula_store  = get_negreaction(reaction_formula_store, value, reaction_reactant_start, reaction_reactant_end, reactioneqns)
 
         if value[reaction_reactant_start+1:reaction_reactant_end] == "  " and value[reaction_reactant_end+2:reaction_product_end] != " ":
             #print('only product present in reaction statement\n')
-            reaction_formula_store = get_posreaction(reaction_formula_store, value, reaction_reactant_end, reaction_product_end, reactioneqns)
+            reaction_formula_store  = get_posreaction(reaction_formula_store, value, reaction_reactant_end, reaction_product_end, reactioneqns)
            
         if value[reaction_reactant_start+1:reaction_reactant_end] != "  " and value[reaction_reactant_end+2:reaction_product_end] != " ":
             #print('reactant and product present in reaction statement\n')
-            reaction_formula_store = get_negreaction(reaction_formula_store, value, reaction_reactant_start, reaction_reactant_end, reactioneqns)
-            reaction_formula_store = get_posreaction(reaction_formula_store, value, reaction_reactant_end, reaction_product_end, reactioneqns)
+            reaction_formula_store  = get_negreaction(reaction_formula_store, value, reaction_reactant_start, reaction_reactant_end, reactioneqns)
+            reaction_formula_store  = get_posreaction(reaction_formula_store, value, reaction_reactant_end, reaction_product_end, reactioneqns)
     
     return reaction_formula_store
 
@@ -531,24 +537,24 @@ def clean_reactions(reaction):
     :return: cleaned reactions in list format
     '''
     
-    new_equations = sorted(reaction)
-    equations_final = []
+    new_equations       = sorted(reaction)
+    equations_final     = []
     for index, item in enumerate(new_equations):
-        equation_before_start = new_equations[index-1].find('d')
-        equation_before_end = new_equations[index-1].find('=')
-        equation_before = new_equations[index-1][equation_before_start:equation_before_end]
-        equation_current_start = item.find('d')
-        equation_current_end = item.find('=')
-        equation_current = item[equation_current_start:equation_current_end]
+        equation_before_start       = new_equations[index-1].find('d')
+        equation_before_end         = new_equations[index-1].find('=')
+        equation_before             = new_equations[index-1][equation_before_start:equation_before_end]
+        equation_current_start      = item.find('d')
+        equation_current_end        = item.find('=')
+        equation_current            = item[equation_current_start:equation_current_end]
         if (index+1) != len(new_equations):
-            equation_after_start = new_equations[index+1].find('d')
-            equation_after_end = new_equations[index+1].find('=')        
-            equation_after = new_equations[index+1][equation_after_start:equation_after_end]
+            equation_after_start    = new_equations[index+1].find('d')
+            equation_after_end      = new_equations[index+1].find('=')        
+            equation_after          = new_equations[index+1][equation_after_start:equation_after_end]
         else:
-            equation_after = 'null'
+            equation_after          = 'null'
             
         if equation_current == equation_before:
-            new_equation = str(new_equations[index-1]) + str(item[equation_current_end+1:])
+            new_equation            = str(new_equations[index-1]) + str(item[equation_current_end+1:])
             equations_final.append(new_equation)
         elif equation_current != equation_before and equation_current != equation_after:
             equations_final.append(item)
@@ -561,10 +567,10 @@ def clean_compartment(antimony_str):
     :param antimony_str: antimony string in string format
     :returns: compartment name in string format
     '''
-    compartment_find = antimony_str.index('// Compartments')
-    compartment_start = antimony_str.find('t ', compartment_find)
-    compartment_end = antimony_str.find(';', compartment_start)
-    compartment_name = antimony_str[compartment_start+2:compartment_end]
+    compartment_find    = antimony_str.index('// Compartments')
+    compartment_start   = antimony_str.find('t ', compartment_find)
+    compartment_end     = antimony_str.find(';', compartment_start)
+    compartment_name    = antimony_str[compartment_start+2:compartment_end]
     #print(compartment_name)
     return compartment_name
 
@@ -581,7 +587,7 @@ def build_section(section, settings, key):
     indent = ' '*4
     if key == 'units':
         for species in settings[key].keys():
-            section = section + indent + str(species) + ' = '  + str(settings[key].get(species))
+            section     = section + indent + str(species) + ' = '  + str(settings[key].get(species))
             if species == list(settings[key])[-1]:
                 section = section + '\n\n'
             else:
@@ -629,21 +635,21 @@ def gen_prior_bounds(settings):
     bounds = 'parameter_bounds = \n'
     
     for parameter in settings['parameters']:
-        upperbound_value = float(settings['parameters'][parameter]) + 0.5
-        bounds = bounds + ' '*4 + str(parameter) + ' = [0, ' 
+        upperbound_value    = float(settings['parameters'][parameter]) + 0.5
+        bounds              = bounds + ' '*4 + str(parameter) + ' = [0, ' 
         if parameter != list(settings['parameters'])[-1]:
             if upperbound_value > 0.5:
-                upperbound = str(round((upperbound_value)))
-                bounds = bounds + upperbound + '],\n'
+                upperbound  = str(round((upperbound_value)))
+                bounds      = bounds + upperbound + '],\n'
             else:
-                bounds = bounds + '1],\n'    
+                bounds      = bounds + '1],\n'    
             #print(settings['parameters'][parameter])
         else:
             if upperbound_value > 0.5:
-                upperbound = str(round((upperbound_value)))
-                bounds = bounds + upperbound + ']\n\n'
+                upperbound  = str(round((upperbound_value)))
+                bounds      = bounds + upperbound + ']\n\n'
             else:
-                bounds = bounds + '1]\n\n'
+                bounds      = bounds + '1]\n\n'
                 
     
     ''' #Example statement
@@ -679,23 +685,23 @@ def gen_reference(Bs_data):
     :param string: parsed description data from XML 
     :return: cleaned reference in string format
     '''
-    clean_string = 'Reference= \n'
-    title = Bs_data.find_all(class_='bibo:title')
-    title = str(xmlclean(str(title)))
-    title_start = title.find('">')
-    title_end = title.find('.', title_start)
-    clean_title = title[title_start+2:title_end+1]
-    authors = Bs_data.find_all(class_='bibo:authorList')
-    authors = xmlclean(str(authors))
-    journal = Bs_data.find_all(class_='bibo:Journal')
-    journal = xmlclean(str(journal))
-    doi = Bs_data.find_all(class_='bibo:doi')
-    doi = xmlclean(str(doi))
-    clean_string = clean_string + ' '*4 + 'title: ' + clean_title +'\n'
-    clean_string = clean_string + ' '*4 + 'authors: ' + authors +'\n'
-    clean_string = clean_string + ' '*4 + 'journal: ' + journal +'\n'
-    clean_string = clean_string + ' '*4 + 'doi: ' + doi +'\n'
-    clean_string = clean_string + '\n\n'
+    clean_string    = 'Reference= \n'
+    title           = Bs_data.find_all(class_='bibo:title')
+    title           = str(xmlclean(str(title)))
+    title_start     = title.find('">')
+    title_end       = title.find('.', title_start)
+    clean_title     = title[title_start+2:title_end+1]
+    authors         = Bs_data.find_all(class_='bibo:authorList')
+    authors         = xmlclean(str(authors))
+    journal         = Bs_data.find_all(class_='bibo:Journal')
+    journal         = xmlclean(str(journal))
+    doi             = Bs_data.find_all(class_='bibo:doi')
+    doi             = xmlclean(str(doi))
+    clean_string    = clean_string + ' '*4 + 'title: ' + clean_title +'\n'
+    clean_string    = clean_string + ' '*4 + 'authors: ' + authors +'\n'
+    clean_string    = clean_string + ' '*4 + 'journal: ' + journal +'\n'
+    clean_string    = clean_string + ' '*4 + 'doi: ' + doi +'\n'
+    clean_string    = clean_string + '\n\n'
     return clean_string 
 
 def xmlclean(xmldata):
@@ -749,34 +755,34 @@ def gen_species_parameter_descriptions(antimony_str, species_dict, parameter_dic
     :param parameter_dict: dictionary containing all species in model
     :return: species and parameter description in string format
     '''
-    name_start = antimony_str.index('// Display Names:')
-    name_end = antimony_str.find('\n\n', name_start)
-    display_names = antimony_str[name_start:name_end]
-    display_names = Convert(display_names)
-    s_description = 'Definition of states=\n'
-    p_description = 'Definition of parameters=\n'
+    name_start      = antimony_str.index('// Display Names:')
+    name_end        = antimony_str.find('\n\n', name_start)
+    display_names   = antimony_str[name_start:name_end]
+    display_names   = Convert(display_names)
+    s_description   = 'Definition of states=\n'
+    p_description   = 'Definition of parameters=\n'
     for line in display_names:
         try:
-            variablename = line.index('is')
+            variablename    = line.index('is')
         except ValueError:
             variablename = 2
-        variable = line[:variablename]
-        variable = variable.replace('  ', '')
-        variable = variable.replace(' ', '')
+        variable            = line[:variablename]
+        variable            = variable.replace('  ', '')
+        variable            = variable.replace(' ', '')
         #print(variable)
         if variable in species_dict.keys():
-            line = line.replace(' is "', ': ')
-            line = line.replace('";', '')
-            s_description = s_description + ' '*2 + line + '\n'
+            line            = line.replace(' is "', ': ')
+            line            = line.replace('";', '')
+            s_description   = s_description + ' '*2 + line + '\n'
         if variable in parameter_dict.keys():
-            line = line.replace(' is "', ': ')
-            line = line.replace('";', '')
-            p_description = p_description + ' '*2 + line + '\n'
-    s_description = s_description + '\n'
-    p_description = p_description + '\n'
+            line            = line.replace(' is "', ': ')
+            line            = line.replace('";', '')
+            p_description   = p_description + ' '*2 + line + '\n'
+    s_description           = s_description + '\n'
+    p_description           = p_description + '\n'
     #print(s_description)
     #print(p_description)
-    s_p_descriptions = s_description + p_description
+    s_p_descriptions        = s_description + p_description
     
     return s_p_descriptions
     
@@ -804,20 +810,20 @@ def tspanchecker(tspan):
     if ']' not in tspan:
         raise Exception('Include "]" at the end of tspan')
     
-    start_tspan = tspan.index('[') + 1
-    firstcomma = tspan.index(',')
-    start_time = tspan[start_tspan:firstcomma]
-    secondcomma = tspan.find(',', firstcomma+1)
-    end_time = tspan[firstcomma+2:secondcomma]
+    start_tspan     = tspan.index('[') + 1
+    firstcomma      = tspan.index(',')
+    start_time      = tspan[start_tspan:firstcomma]
+    secondcomma     = tspan.find(',', firstcomma+1)
+    end_time        = tspan[firstcomma+2:secondcomma]
     
-    end_tspan = tspan.index(']')
-    temp_tspan = tspan[start_tspan:end_tspan]
-    matched = re.match("^[0-9]+\, [0-9]+\, [0-9]+$", temp_tspan)
-    matched_2 = re.match("^[0-9]+\,[0-9]+\,[0-9]+$", temp_tspan)
-    is_match = bool(matched)
-    is_match_2 = bool(matched_2)
+    end_tspan       = tspan.index(']')
+    temp_tspan      = tspan[start_tspan:end_tspan]
+    matched         = re.match("^[0-9]+\, [0-9]+\, [0-9]+$", temp_tspan)
+    matched_2       = re.match("^[0-9]+\,[0-9]+\,[0-9]+$", temp_tspan)
+    is_match        = bool(matched)
+    is_match_2      = bool(matched_2)
     if is_match_2 == True:
-        is_match = is_match_2
+        is_match    = is_match_2
     if start_time>end_time:
         raise ValueError('first value declared cannot be larger than second')
     if is_match == False:
@@ -825,7 +831,7 @@ def tspanchecker(tspan):
     return
 
 def configpossiblechecker(sbmlstr):
-    antimony_str = te.sbmlToAntimony(sbmlstr)
+    antimony_str    = te.sbmlToAntimony(sbmlstr)
     is_match = bool(re.search('function', antimony_str))
     if is_match==True:
         raise NotImplementedError('SBML string is too complex for module to convert')

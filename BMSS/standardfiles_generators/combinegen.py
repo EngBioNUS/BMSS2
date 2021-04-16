@@ -31,10 +31,9 @@ def database_to_combine(system_type, settings_name, Plot_Variable, outputpath, K
     number_scenario = 0
 
     
-    search_result_settings = sh.search_database(system_type, settings_name)
-    search_result_model = mh.quick_search(system_type)
-    core_model    = search_result_model
-    settings = search_result_settings[0]
+    search_result_settings  = sh.search_database(system_type, settings_name)
+    core_model              = mh.quick_search(system_type)
+    settings                = search_result_settings[0]
     
     #-- Checkers --
     plotvariablechecker(Plot_Variable, core_model)
@@ -65,16 +64,16 @@ def Combinecreator(core_model, settings, Plot_Variable, outputpath, KISAO_algori
     '''
     
     #--- Extract data from settings and clean up units ---
-    number_init = len(settings['init'])
-    number_parameters = len(settings['parameters'])
-    addparam =  settings['parameters']
-    unit_model = sbmlgen.unitlookup(settings)
-    total_scenarios = number_init * number_parameters
+    number_init         = len(settings['init'])
+    number_parameters   = len(settings['parameters'])
+    addparam            = settings['parameters']
+    unit_model          = sbmlgen.unitlookup(settings)
+    total_scenarios     = number_init * number_parameters
     #print(total_scenarios)
-    scenario_name = core_model["system_type"]
-    scenario_name = scenario_name.replace(", ", "_")
-    modelname_file = []
-    antimony_final = []
+    scenario_name       = core_model["system_type"]
+    scenario_name       = scenario_name.replace(", ", "_")
+    modelname_file      = []
+    antimony_final      = []
     
     #--- Generates SBML string and adds to list
     #based on the number of combinations with init 
@@ -95,22 +94,24 @@ def Combinecreator(core_model, settings, Plot_Variable, outputpath, KISAO_algori
     #--- Names the models in antimony string according the scenario ---         
     inline_omex = '\n'
     for l in range(total_scenarios):
-        scenario_name = scenario_name + scenario_placeholder[l]
+        scenario_name       = scenario_name + scenario_placeholder[l]
         modelname_file.append(scenario_name)
-        antimony_final[l] = antimony_final[l].replace('*doc0', modelname_file[l])
-        scenario_name = scenario_name.replace(scenario_placeholder[l], "")
-        inline_omex = inline_omex + str(antimony_final[l])
+        antimony_final[l]   = antimony_final[l].replace('*doc0', modelname_file[l])
+        scenario_name       = scenario_name.replace(scenario_placeholder[l], "")
+        inline_omex         = inline_omex + str(antimony_final[l])
         #print("This is antimony_final", scenario_number,": \n", antimony_final[l])
     
     #--- Generates phrasedml file ---    
     phrasedml_final = gen_phrasedml(settings, modelname_file, Plot_Variable, KISAO_algorithm)    
     
     #--- Generates and outputs OMEX file---
-    inline_omex = inline_omex + phrasedml_final
-    combine_filename = 'COMBINE_' + scenario_name + '.omex'
+    inline_omex         = inline_omex + phrasedml_final
+    combine_filename    = 'COMBINE_' + scenario_name + '.omex'
+    
     archive = os.path.join(outputpath, combine_filename)
     print('COMBINE Archive output: ', archive)
     te.exportInlineOmex(inline_omex, archive)
+    
     return combine_filename, total_scenarios
 
 
@@ -133,12 +134,12 @@ def gen_phrasedml(settings, modelname_file, Plot_Variable, KISAO_algorithm):
     task_statement = ""
     task_count = 1
     for model_name in range(len(modelname_file)):
-        model_statement = model_statement + 'model' + str(model_name+1) + ' = model "' +  modelname_file[model_name] + '"\n'
+        model_statement     = model_statement + 'model' + str(model_name+1) + ' = model "' +  modelname_file[model_name] + '"\n'
         for tasksim_count in range(len(tspan)):
-            task_statement = task_statement + 'task' + str(task_count)
-            task_statement = task_statement + ' = run sim' + str(tasksim_count+1) + ' on '
-            task_count += 1
-            task_statement = task_statement + 'model' + str(model_name+1) + '\n'
+            task_statement  = task_statement + 'task' + str(task_count)
+            task_statement  = task_statement + ' = run sim' + str(tasksim_count+1) + ' on '
+            task_count      += 1
+            task_statement  = task_statement + 'model' + str(model_name+1) + '\n'
     
     print("Task_statement = \n", task_statement)    
     
@@ -149,10 +150,10 @@ def gen_phrasedml(settings, modelname_file, Plot_Variable, KISAO_algorithm):
     sim_statement = gen_simstatements(tspan, KISAO_algorithm)
     
     #--- Generates the plot variables for each figure ---  
-    variabletask_list, task_total = gen_plotvariables(modelname_file, tspan, Plot_Variable)
+    variabletask_list, task_total   = gen_plotvariables(modelname_file, tspan, Plot_Variable)
     
     #--- Groups variables pertaining to the same plot figure together ---                             
-    variable_statement, Total_Fig = clean_groupvariables(Plot_Variable, tspan, task_total, variabletask_list) 
+    variable_statement, Total_Fig   = clean_groupvariables(Plot_Variable, tspan, task_total, variabletask_list) 
       
     #--- Generates the 'plot figure' statements based on tasks and sims --- 
     Plot_statement = gen_figurestatment(Total_Fig, variable_statement, Plot_Variable)
@@ -171,13 +172,13 @@ def gen_simstatements(tspan, KISAO_algorithm):
     '''
     sim_statement = "" 
     for sim_count in range(len(tspan)): 
-        tspan_start = float(tspan[sim_count][0])
-        tspan_end = float(tspan[sim_count][-1])
-        tspan_interval = len(tspan[sim_count])
-        sim_statement = sim_statement + 'sim' + str(sim_count+1) + ' = simulate uniform(' 
-        sim_statement = sim_statement + str(tspan_start) + ", "+ str(tspan_end) + ", " + str(tspan_interval) + ')\n'
+        tspan_start         = float(tspan[sim_count][0])
+        tspan_end           = float(tspan[sim_count][-1])
+        tspan_interval      = len(tspan[sim_count])
+        sim_statement       = (sim_statement + 'sim' + str(sim_count+1) + ' = simulate uniform(' 
+                               + str(tspan_start) + ", "+ str(tspan_end) + ", " + str(tspan_interval) + ')\n')
         if KISAO_algorithm != '0':
-            sim_statement = sim_statement + 'sim' + str(sim_count+1) + '.algorithm = ' + KISAO_algorithm + '\n'
+            sim_statement   = sim_statement + 'sim' + str(sim_count+1) + '.algorithm = ' + KISAO_algorithm + '\n'
     return sim_statement
 
 
@@ -211,18 +212,18 @@ def clean_groupvariables(Plot_Variable, tspan, task_total, variabletask_list):
     :return variable_statement: variables for each plot in list format 
     :return Total_Fig: total number of plots (number of sims * number of variables to plot) in int format
     '''
-    Total_Fig = len(Plot_Variable) * len(tspan)
-    variable_statement = ['']*Total_Fig  
-    var_stepjump = len(Plot_Variable) * len(tspan)   
-    fig_variable = 0                                                
+    Total_Fig           = len(Plot_Variable) * len(tspan)
+    variable_statement  = ['']*Total_Fig  
+    var_stepjump        = len(Plot_Variable) * len(tspan)   
+    fig_variable        = 0                                                
     for plot_count in range(Total_Fig):
         while fig_variable < (task_total*len(Plot_Variable)): 
             if (fig_variable+var_stepjump) < (task_total*len(Plot_Variable)):
                 variable_statement[plot_count] = variable_statement[plot_count] + variabletask_list[fig_variable] + ', ' 
             else:
                 variable_statement[plot_count] = variable_statement[plot_count] + variabletask_list[fig_variable]
-            fig_variable = fig_variable + var_stepjump
-        fig_variable = plot_count + 1
+            fig_variable    = fig_variable + var_stepjump
+        fig_variable        = plot_count + 1
       
     return variable_statement, Total_Fig
   
@@ -235,9 +236,9 @@ def gen_figurestatment(Total_Fig, variable_statement, Plot_Variable):
     :param Total_Fig: total number of plots in int format
     :return Plot_statement: Plot figure statements in str format
     '''
-    Figure_Statement = []
-    Plot_statement="" 
-    time_count = 1
+    Figure_Statement    = []
+    Plot_statement      = "" 
+    time_count          = 1
     for plot_count in range(Total_Fig):#Change to meet fig count
         Figure_Statement.append('plot "Figure ' + str(plot_count+1) + '" task' + str(time_count) +'.time vs ')
         Plot_statement = Plot_statement + Figure_Statement[plot_count] + variable_statement[plot_count] + '\n'
