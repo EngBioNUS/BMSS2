@@ -29,16 +29,16 @@ if __name__ == '__main__':
     '''
     Use the following section to add model to database from config file.
     '''
-    filename = "TestModel_Repressilator_OMEX_example.ini"
+    filename                    = "TestModel_Repressilator_OMEX_example.ini"
     
     #Add model to database and view all the models in the database
-    system_type = mh.config_to_database(filename)
-    lst = mh.list_models()
+    system_type                 = mh.config_to_database(filename)
+    lst                         = mh.list_models()
     print(lst)
     
     #Add settings to database and view all the settings in the database
     system_types_settings_names = sh.config_to_database(filename)
-    lst_setting = sh.list_settings()
+    lst_setting                 = sh.list_settings()
     print(lst_setting)
     
     
@@ -47,9 +47,9 @@ if __name__ == '__main__':
     '''
     Use database_to_combine to create a COMBINE archive from an existing model in database.
     '''
-    model_name = "Test_Model, OMEX, Repressilator, Example" #Enter model name
-    settings_name = "__default__" #usually "__default__" by default
-    Plot_Variable = ["X", "Y", "Z"] #, "rmq"] #Assign which variables you would like to plot
+    model_name      = "Test_Model, OMEX, Repressilator, Example" #Enter model name
+    settings_name   = "__default__" #usually "__default__" by default
+    Plot_Variable   = ["X", "Y", "Z"] #, "rmq"] #Assign which variables you would like to plot
     KISAO_algorithm = "0"
     #Define which KISAO algorithm to use for tspan, write "0" if to use default CVODE
     

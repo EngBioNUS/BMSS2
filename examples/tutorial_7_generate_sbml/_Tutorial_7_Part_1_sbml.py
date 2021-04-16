@@ -28,12 +28,12 @@ if __name__ == '__main__':
     '''
     
     #Views all the models and settings in the database
-    lst = mh.list_models()
-    lst_setting = sh.list_settings()
+    lst             = mh.list_models()
+    lst_setting     = sh.list_settings()
     
-    model_name = "TestModel, BMSS, LogicGate, gate, DelayActivationInput2" #Enter model name
-    settings_name = "__default__" #usually "__default__" by default
-    output_path = Path.cwd()
+    model_name      = "TestModel, BMSS, LogicGate, gate, DelayActivationInput2" #Enter model name
+    settings_name   = "__default__" #usually "__default__" by default
+    output_path     = Path.cwd()
     sbmlgen.database_to_sbml(model_name, settings_name, output_path)
     
     
@@ -44,8 +44,8 @@ if __name__ == '__main__':
     files. Use this if you want to only convert selected files from the whole folder.
     '''
     
-    files = ['TestModel_LogicGate_ORgate_DelayActivation_DelayActivation.ini',
-             'TestModel_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation.ini']
+    files       = ['TestModel_LogicGate_ORgate_DelayActivation_DelayActivation.ini',
+                   'TestModel_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation.ini']
     output_path = Path.cwd()
     sbmlgen.config_to_sbml(files, output_path)
     
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     format or the function will terminate with error.
     '''
    
-    inputpath = (Path.cwd()/'ConfigSBML')
+    inputpath   = (Path.cwd()/'ConfigSBML')
     output_path = (Path.cwd()/'ConfigSBML')
     print(inputpath)
     sbmlgen.autogenerate_sbml_from_folder(inputpath, output_path)
