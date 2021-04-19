@@ -65,7 +65,7 @@ if __name__ == '__main__':
     '''
     Use the following function to execute the COMBINE archive
     ''' 
-    COMBINEfilelocation = str(Path.cwd()/'COMBINE_Test_Model_Repressilator_OMEX_Example.omex')
+    COMBINEfilelocation = str(Path.cwd()/'COMBINE_Test_Model_OMEX_Repressilator_Example.omex')
     #Autoexecute omex file from file location. Path set to where this python script is saved.
     
     #Use this to choose which COMBINE Archive to execute
