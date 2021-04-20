@@ -403,16 +403,17 @@ def clean_eqns(store_species):
         multiplier_remove   = ''
         for index, item in enumerate(store_species):
             store_species[index]    = item.replace(" + ", '')
-            store_species[index]    = item.replace("$", '')
-            if bool(re.search(r'\ [0-9]+ ', store_species[index])) == True:
-                species_multiplier.append(re.search(r'\ [0-9]+ ', store_species[index]).group())
-                multiplier_remove   = str(re.search(r'\ [0-9]+ ', store_species[index]).group())
+            store_species[index]    = store_species[index].replace("$", '')
+            if bool(re.search(r' [-+]?\d*\.\d+|\d+ ', store_species[index])) == True:
+                species_multiplier.append(re.search(r' [-+]?\d*\.\d+|\d+ ', store_species[index]).group())
+                multiplier_remove   = str(re.search(r' [-+]?\d*\.\d+|\d+ ', store_species[index]).group())
                 species_multiplier[index] = species_multiplier[index].replace(' ', '')
                 multiplier_remove   = multiplier_remove.replace(' ', '')
             else:
                 species_multiplier.append('')
-            store_species[index]    = item.replace(" ", '')
+            store_species[index]    = store_species[index].replace(" ", '')
             store_species[index]    = 'd' + store_species[index]
+            store_species[index]    = store_species[index].replace('$', '')
             store_species[index]    = store_species[index].replace(str(multiplier_remove), '')
 
     else:
@@ -420,9 +421,9 @@ def clean_eqns(store_species):
         multiplier_remove       = ''
         store_species           = store_species.replace("+", '')
         store_species           = store_species.replace('$', '')
-        if bool(re.search(r'\ [0-9]+ ', store_species)) == True:
-            species_multiplier  = re.search(r'\ [0-9]+ ', store_species).group()
-            multiplier_remove   = str(re.search(r'\ [0-9]+ ', store_species).group())
+        if bool(re.search(r' [-+]?\d*\.\d+|\d+ ', store_species)) == True:
+            species_multiplier  = re.search(r' [-+]?\d*\.\d+|\d+ ', store_species).group()
+            multiplier_remove   = str(re.search(r' [-+]?\d*\.\d+|\d+ ', store_species).group())
             species_multiplier  = species_multiplier.replace(' ', '')
             multiplier_remove   = multiplier_remove.replace(' ', '')
             
@@ -815,7 +816,8 @@ def tspanchecker(tspan):
     start_time      = tspan[start_tspan:firstcomma]
     secondcomma     = tspan.find(',', firstcomma+1)
     end_time        = tspan[firstcomma+2:secondcomma]
-    
+    print(start_time)
+    print(end_time)
     end_tspan       = tspan.index(']')
     temp_tspan      = tspan[start_tspan:end_tspan]
     matched         = re.match("^[0-9]+\, [0-9]+\, [0-9]+$", temp_tspan)
@@ -824,7 +826,7 @@ def tspanchecker(tspan):
     is_match_2      = bool(matched_2)
     if is_match_2 == True:
         is_match    = is_match_2
-    if start_time>end_time:
+    if int(start_time) > int(end_time):
         raise ValueError('first value declared cannot be larger than second')
     if is_match == False:
         raise NameError('Tspan was not declared in proper format(e.g. [0, 600, 61])')
