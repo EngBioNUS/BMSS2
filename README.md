@@ -1,18 +1,22 @@
 # BMSS2
-![alt text](https://github.com/EngBioNUS/BMSS2/blob/master/BMSSDiagram.png?raw=true)
+This package supports routine building and analysis of kinetic models for biological systems. This includes simulation, sensitivity analysis, model selection and identifiability analysis. The whole package is database-driven which allows one to interactively retrieve, store and update model information and implementation from/into SQL databases to ensure reproducibility and reusability, particularly for ease of model selection. 
 
-This package supports routine analysis of kinetic models for biological systems. This includes simulation, sensitivity analysis, model selection and identifiability analysis. A web app database of our models can be found at https://engbio.syncti.org/BMSS2/index.html
+__*Note:*__ An extensible web app database listing some of the pre-established models can be found at https://engbio.syncti.org/BMSS2/index.html
+
+![alt text](https://github.com/EngBioNUS/BMSS2/blob/master/BMSSDiagram.png?raw=true)
 
 ## Documentation
 The documentation can be found at https://bmss2.readthedocs.io/en/latest/BMSS.html
 
 ## Features
-* Database-driven model storage 
-* Simulation and sensitivity analysis and result plotting
-* Model fitting and selection
+* Database-driven model manipulation and storage 
+* Model simulation
+* Sensitivity analysis
+* Parameter estimation using Bayesian Inference
+* Model selection
 * Trace analysis for _a_ _posteriori_ identifiability analysis
 * Strike-GOLDD algorithm in Python for _a_ _priori_ identifiability analysis
-* Export of models in SBML format
+* Support read/export of models in SBML format and model export in COMBINE archive
 
 For more information, refer to the BMSS2 documentation. If you wish to know more about our work, visit the [NUS Engineering Biology Lab website](https://engbio.syncti.org).
 
@@ -24,7 +28,7 @@ Recommended: Python 3.7, Other Python versions will be tested soon.
 ## Dependencies: 
 Install the dependent packages using pip as shown below.
 ```
-pip install numpy matplotlib seaborn pandas numba scipy SALib dnaplotlib pyyaml
+pip install numpy matplotlib seaborn pandas numba scipy SALib dnaplotlib pyyaml synbiopython
 ```
 
 ## Optional
