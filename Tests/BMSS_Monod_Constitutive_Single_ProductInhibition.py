@@ -5,7 +5,7 @@ from numpy import exp
 from numba import jit
 
 @jit(nopython=True)
-def model_TestModel_Monod_Constitutive_Single_ProductInhibition(y, t, params):
+def model_BMSS_Monod_Constitutive_Single_ProductInhibition(y, t, params):
 	x = y[0]
 	s = y[1]
 	h = y[2]

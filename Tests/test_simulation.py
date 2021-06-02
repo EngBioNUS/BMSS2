@@ -19,7 +19,7 @@ import BMSS.simulation              as sim
 
 config_data      = None
 user_core_models = None
-model_files      = ['testmodel.ini']
+model_files      = ['pytestmodel.ini']
 settings_file_1  = 'settings_sim_1.ini'
 settings_file_2  = 'settings_sim_2.ini' #Negative test case
 
@@ -192,7 +192,7 @@ class TestSimulation:
 if __name__ == '__main__':
     t = TestSetupSim()
     t.test_from_config()
-    t.test_from_config_fail_1()
+    # t.test_from_config_fail_1()
     t.test_get_models_and_params()
         
         

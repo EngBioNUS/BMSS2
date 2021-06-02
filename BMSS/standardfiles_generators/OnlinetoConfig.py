@@ -821,8 +821,8 @@ def tspanchecker(tspan):
     end_time        = tspan[firstcomma+2:secondcomma]
     end_tspan       = tspan.index(']')
     temp_tspan      = tspan[start_tspan:end_tspan]
-    matched         = re.match("^[0-9]+\, [0-9]+\, [0-9]+$", temp_tspan)
-    matched_2       = re.match("^[0-9]+\,[0-9]+\,[0-9]+$", temp_tspan)
+    matched         = re.match(r"^[0-9]+\, [0-9]+\, [0-9]+$", temp_tspan)
+    matched_2       = re.match(r"^[0-9]+\,[0-9]+\,[0-9]+$", temp_tspan)
     is_match        = bool(matched)
     is_match_2      = bool(matched_2)
     if is_match_2 == True:

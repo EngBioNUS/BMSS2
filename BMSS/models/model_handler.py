@@ -163,7 +163,7 @@ def backend_add_to_database(core_model, database, dialog=False):
     global MBase
     global UBase
     global userid
-     
+    
     system_type    = core_model['system_type']
     make_new_id    = True
     existing_model = quick_search(system_type, error_if_no_result=False, active_only=False)
@@ -171,6 +171,13 @@ def backend_add_to_database(core_model, database, dialog=False):
     d              = 'Mbase' if database == MBase else 'UBase'
     
     if existing_model:
+        existing_db = MBase if system_type in list_models(MBase) else UBase
+        if database != existing_db:
+            a = 'MBase' if database == MBase else 'UBase'
+            b = 'UBase' if database == UBase else 'MBase'
+            raise Exception(f'The model already exists in {a}. You cannot add it to {b}.')
+        
+        
         if is_active and dialog:
             #Break and continue if overwrite else return immediately
             while True:

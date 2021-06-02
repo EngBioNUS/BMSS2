@@ -25,7 +25,7 @@ class TestModelHandler:
     
     def test_make_core_model(self):
         global core_model_1
-        __model__ = {'system_type' : ['TestModel', 'Dummy'],
+        __model__ = {'system_type' : ['pyTestModel', 'Dummy'],
                      'states'      : ['mRNA', 'Pep'], 
                      'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
                      'inputs'      : ['Ind'],
@@ -47,7 +47,7 @@ class TestModelHandler:
     def test_make_core_model_fail_1(self):
         
         #Division by zero
-        __model__ = {'system_type' : ['TestModel', 'Dummy'],
+        __model__ = {'system_type' : ['pyTestModel', 'Dummy'],
                       'states'      : ['mRNA', 'Pep'], 
                       'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
                       'inputs'      : ['Ind'],
@@ -61,7 +61,7 @@ class TestModelHandler:
     @pytest.mark.xfail
     def test_make_core_model_fail_2(self):
         #Missing state
-        __model__ = {'system_type' : ['TestModel', 'Dummy'],
+        __model__ = {'system_type' : ['pyTestModel', 'Dummy'],
                       'states'      : ['mRNA'], 
                       'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
                       'inputs'      : ['Ind'],
@@ -75,11 +75,11 @@ class TestModelHandler:
     @pytest.mark.xfail
     def test_make_core_model_fail_3(self):
         #Missing parameter
-        __model__ = {'system_type' : ['TestModel', 'Dummy'],
-                     'states'      : ['mRNA', 'Pep'], 
-                     'parameters'  : ['deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
-                     'inputs'      : ['Ind'],
-                     'equations'   : ['dmRNA = syn_mRNA*Ind/(Ind + Ki) - deg_mRNA*mRNA',
+        __model__ = {'system_type' : ['pyTestModel', 'Dummy'],
+                      'states'      : ['mRNA', 'Pep'], 
+                      'parameters'  : ['deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
+                      'inputs'      : ['Ind'],
+                      'equations'   : ['dmRNA = syn_mRNA*Ind/(Ind + Ki) - deg_mRNA*mRNA',
                                       'dPep  = syn_Pep*mRNA - deg_Pep'
                                       ],
                       'ia'          : 'ia_result_bmss01001.csv'
@@ -89,14 +89,14 @@ class TestModelHandler:
     @pytest.mark.xfail
     def test_make_core_model_fail_4(self):
         #Unused variable
-        __model__ = {'system_type' : ['TestModel', 'Dummy'],
-                     'states'      : ['mRNA', 'Pep', 'UnsedDummy'], 
-                     'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
-                     'inputs'      : ['Ind'],
-                     'equations'   : ['dmRNA = syn_mRNA*Ind/(Ind + Ki) - deg_mRNA*mRNA',
+        __model__ = {'system_type' : ['pyTestModel', 'Dummy'],
+                      'states'      : ['mRNA', 'Pep', 'UnsedDummy'], 
+                      'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
+                      'inputs'      : ['Ind'],
+                      'equations'   : ['dmRNA = syn_mRNA*Ind/(Ind + Ki) - deg_mRNA*mRNA',
                                       'dPep  = syn_Pep*mRNA - deg_Pep/0'
-                                     ],
-                     'ia'          : 'ia_result_bmss01001.csv'
+                                      ],
+                      'ia'          : 'ia_result_bmss01001.csv'
                   }
         core_model = mh.make_core_model(**__model__)
     
@@ -126,6 +126,8 @@ class TestModelHandler:
         global core_model_1
         
         system_type = core_model_1['system_type']
+        lst = mh.list_models()
+        assert core_model_1['system_type'] in lst
         mh.delete(system_type)
         
         #Check if in database
@@ -145,7 +147,7 @@ class TestModelHandler:
     def test_from_config(self):
         global core_model_2
         
-        core_model_2 = mh.from_config('testmodel.ini')
+        core_model_2 = mh.from_config('pyTestModel.ini')
         
 class TestSettingsHandler:
     
@@ -157,7 +159,7 @@ class TestSettingsHandler:
         
         mh.add_to_database(core_model, dialog=False)
 
-        __settings__ = {'system_type'      : ['TestModel', 'Dummy'],
+        __settings__ = {'system_type'      : ['pyTestModel', 'Dummy'],
                         'settings_name'    : '__default__',
                         'units'            : {'syn_mRNA' : 'M/min', 
                                               'deg_mRNA' : '1/min',
@@ -231,7 +233,7 @@ class TestSettingsHandler:
     @pytest.mark.xfail
     def test_make_settings_fail_1(self):
         #Init of wrong length
-        __settings__ = {'system_type'      : ['TestModel, Dummy'],
+        __settings__ = {'system_type'      : ['pyTestModel, Dummy'],
                         'settings_name'    : '__default__',
                         'units'            : {'syn_mRNA' : 'M/min', 
                                               'deg_mRNA' : '1/min',
@@ -263,7 +265,7 @@ class TestSettingsHandler:
     @pytest.mark.xfail
     def test_make_settings_fail_2(self):
         #Invalid parameter bounds
-        __settings__ = {'system_type'      : ['TestModel, Dummy'],
+        __settings__ = {'system_type'      : ['pyTestModel, Dummy'],
                         'settings_name'    : '__default__',
                         'units'            : {'syn_mRNA' : 'M/min', 
                                               'deg_mRNA' : '1/min',
@@ -295,7 +297,7 @@ class TestSettingsHandler:
     @pytest.mark.xfail
     def test_make_settings_fail_3(self):
         #Mismatched parameter length
-        __settings__ = {'system_type'      : ['TestModel, Dummy'],
+        __settings__ = {'system_type'      : ['pyTestModel, Dummy'],
                         'settings_name'    : '__default__',
                         'units'            : {'syn_mRNA' : 'M/min', 
                                               'deg_mRNA' : '1/min',
@@ -379,4 +381,12 @@ class TestSettingsHandler:
         
         user_core_models = {core_model_2['system_type'] : core_model_2}
         
-        settings_2 = sh.from_config('testmodel.ini', user_core_models=user_core_models)
+        settings_2 = sh.from_config('pyTestModel.ini', user_core_models=user_core_models)
+
+if __name__ == '__main__':
+    # T = pyTestModelHandler()
+    # T.test_make_core_model()
+    # T.test_add_to_database()
+    # T.test_delete()
+    pass
+

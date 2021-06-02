@@ -1,4 +1,7 @@
 import numpy as np
+from numpy import log   as ln
+from numpy import log10 as log
+from numpy import exp
 from numba import jit
 
 @jit(nopython=True)

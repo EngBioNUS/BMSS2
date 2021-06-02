@@ -5,7 +5,7 @@ from numpy import exp
 from numba import jit
 
 @jit(nopython=True)
-def model_Temporary(y, t, params):
+def model_pyTestModel_Dummy(y, t, params):
 	m = y[0]
 	p = y[1]
 
