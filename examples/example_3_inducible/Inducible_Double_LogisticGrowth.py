@@ -5,26 +5,24 @@ from numpy import exp
 from numba import jit
 
 @jit(nopython=True)
-def model_Inducible_Double_DegradingInducer_LogisticGrowth(y, t, params):
-	x   = y[0]
-	ind = y[1]
-	m   = y[2]
-	p   = y[3]
+def model_Inducible_Double_LogisticGrowth(y, t, params):
+	x = y[0]
+	m = y[1]
+	p = y[2]
 
 	mu_max = params[0]
 	x_max  = params[1]
-	degind = params[2]
-	k_ind  = params[3]
-	synm   = params[4]
-	degm   = params[5]
-	synp   = params[6]
-	n_ind  = params[7]
+	k_ind  = params[2]
+	synm   = params[3]
+	degm   = params[4]
+	synp   = params[5]
+	n_ind  = params[6]
+	ind    = params[7]
 
 	mu = mu_max*(1 - x/x_max)
 	
 	dx = mu*x
-	dind= -degind*ind
 	dm = synm*ind**n_ind/(ind**n_ind + k_ind**n_ind) - degm*m
 	dp = synp*m - mu*p
 
-	return np.array([dx, dind, dm, dp])
+	return np.array([dx, dm, dp])

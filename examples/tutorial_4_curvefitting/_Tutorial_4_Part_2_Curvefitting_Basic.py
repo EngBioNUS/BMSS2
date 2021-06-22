@@ -8,7 +8,7 @@ import BMSS.models.setup_cf    as sc
 import BMSS.traceanalysis      as ta
 import BMSS.curvefitting       as cf
 
-plt.style.use(lab.styles['bmss_notebook_style'])
+plt.style.use(lab.styles['dark_style'])
 
 #Reset Plots
 plt.close('all')

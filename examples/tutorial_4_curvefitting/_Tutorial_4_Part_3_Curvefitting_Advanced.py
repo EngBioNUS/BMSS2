@@ -8,7 +8,7 @@ import BMSS.models.setup_cf    as sc
 import BMSS.traceanalysis      as ta
 import BMSS.curvefitting       as cf
 
-plt.style.use(lab.styles['bmss_notebook_style'])
+plt.style.use(lab.styles['dark_style'])
 
 #Reset Plots
 plt.close('all')
@@ -91,6 +91,10 @@ if __name__ == '__main__':
         
 
         titles     = {1: dict(zip(plot_index[1], plot_index[1]))
+                      }
+        titles     = {1: {'OD600': 'OD600', 'Glu': 'Glu', 
+                          'Fluor': 'FLuor', specific_growth: 'specific_growth'
+                          }
                       }
         
         #Create our own Figure and Axes objects for cutom layouts

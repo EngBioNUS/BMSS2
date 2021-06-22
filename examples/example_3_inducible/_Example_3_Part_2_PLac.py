@@ -15,7 +15,7 @@ from   read_data                    import read_data
 Example 3 Part 2: IPTG/pLAC promoter
 '''
 
-plt.style.use(lab.styles['bmss_notebook_style'])
+plt.style.use(lab.styles['dark_style'])
 
 #Reset Plots
 plt.close('all')
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     sampler_args, config_data = sc.get_sampler_args(settings_files, user_core_models=user_core_models)
     
     #Import data
-    #Details in Tutorial 5 Part 2
+    #Details in Tutorial 4 Part 2
     #Function for importing the data is different from the one the tutorial
     #as the blanks and means have already been accounted for.
     #Data structures are still the same

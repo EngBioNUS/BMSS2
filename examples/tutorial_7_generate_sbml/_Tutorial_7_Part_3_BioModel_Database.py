@@ -13,6 +13,10 @@ import BMSS.models.model_handler    as mh
 import BMSS.models.setup_sim        as sm
 import BMSS.simulation       as sim
 
+#Use Qt5Agg if plotting with tellurium
+import matplotlib 
+matplotlib.use('Qt5Agg')
+
     
 if __name__ == '__main__':
     

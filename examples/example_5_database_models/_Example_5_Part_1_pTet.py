@@ -11,7 +11,7 @@ import BMSS.curvefitting            as cf
 import BMSS.traceanalysis           as ta
 from   read_data                    import read_data
 
-plt.style.use(lab.styles['bmss_notebook_style'])
+plt.style.use(lab.styles['dark_style'])
 
 #Reset Plots
 plt.close('all')
@@ -25,12 +25,6 @@ def modify_params(init_values, params, model_num, scenario_num, segment):
     if model_num == 1:
         new_params[-1] = inducer_conc[scenario_num]
     
-    #Change x_max (maximum OD) based on scenario
-    if scenario_num == 1:
-        new_params[1] = 0.91
-    else:
-        new_params[1] = 1.0
-        
     return new_params
 
 #Plot settings   
@@ -61,7 +55,7 @@ if __name__ == '__main__':
         print('Model '+ str(key), config_data[key]['system_type'])
     
     #Import data
-    #Details in Tutorial 5 Part 2
+    #Details in Tutorial 4 Part 2
     #Function for importing the data is different from the one the tutorial
     #as the blanks and means have already been accounted for.
     #Data structures are still the same
@@ -150,14 +144,14 @@ if __name__ == '__main__':
     inducer_conc_str = {key: str(inducer_conc[key]) for key in inducer_conc}
     
     plot_index  = {1: ['OD', 'Fluor/OD'],
-                   2: ['OD', 'Fluor/OD', 'm', 'ind']
-                   }
+                    2: ['OD', 'Fluor/OD', 'm', 'ind']
+                    }
     titles      = {1: {'OD':'OD', 'Fluor/OD': 'Pep'},
-                   2: {'OD':'OD','Fluor/OD': 'Pep', 'm': 'mRNA', 'ind': 'Inducer'}
-                   }
+                    2: {'OD':'OD','Fluor/OD': 'Pep', 'm': 'mRNA', 'ind': 'Inducer'}
+                    }
     labels      = {1: inducer_conc_str,
-                   2: inducer_conc_str
-                   }
+                    2: inducer_conc_str
+                    }
     legend_args = {'loc': 'upper left'}
     
     figs, AX  = cf.plot(posterior  = posterior, 
@@ -170,4 +164,3 @@ if __name__ == '__main__':
                         figs       = None,
                         AX         = None
                         )
-    

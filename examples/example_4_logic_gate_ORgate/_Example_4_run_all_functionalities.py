@@ -24,7 +24,7 @@ import BMSS.strike_goldd_simplified as sg
 Example 4: Combining all functionalities into one script
 '''
 
-plt.style.use(lab.styles['bmss_notebook_style'])
+plt.style.use(lab.styles['dark_style'])
 
 #Reset Plots
 plt.close('all')
@@ -268,7 +268,8 @@ if __name__ == '__main__':
     '''
     
     sampler_args, config_data = sc.get_sampler_args(model_files, user_core_models=user_core_models)
-    print('\nsampler_args:\n', sampler_args)
+    #Uncomment this to see what's inside sampler args
+    #print('\nsampler_args:\n', sampler_args)
     
     sampler_args['data'] = data_mu
     

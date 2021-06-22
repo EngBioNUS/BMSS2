@@ -55,7 +55,6 @@ if __name__ == '__main__':
     Use this method when:
         1. You want to resuse models while writing less code
         2. You want to avoid accidentally touching/modifying the model
-        3. You want to avoid 
     
     Code:
     filename    = 'settings_sim_1.ini'
