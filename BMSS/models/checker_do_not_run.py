@@ -2,37 +2,35 @@ import numpy as np
 from numpy import log   as ln
 from numpy import log10 as log
 from numpy import exp
-def model_Inducible_Double_Uptake(y, t, params):
-	inde = y[0]
-	indi = y[1]
-	m    = y[2]
-	p    = y[3]
+def model_BMSS_Monod_Constitutive_Single(y, t, params):
+	x = y[0]
+	s = y[1]
+	h = y[2]
 
-	upind = params[0]
-	k_ind = params[1]
-	synm  = params[2]
-	degm  = params[3]
-	synp  = params[4]
-	degp  = params[5]
+	mu_max = params[0]
+	Ks     = params[1]
+	Y      = params[2]
+	synh   = params[3]
 
-	dinde= -upind*inde
-	dindi= upind*inde
-	dm = synm*indi/(indi + k_ind) - degm*m
-	dp = synp*m - degp*p
+	mu = mu_max*s/(s+Ks)
+	
+	dx = x*mu
+	ds = -dx/Y
+	dh = synh -h*mu
 
-	return np.array([dinde, dindi, dm, dp])
+	return np.array([dx, ds, dh])
 
-inde,indi,m,p,upind,k_ind,synm,degm,synp,degp= np.random.rand(10)*10
+x,s,h,mu_max,Ks,Y,synh= np.random.rand(7)*10
 
-inde,indi,m,p,upind,k_ind,synm,degm,synp,degp= list(map(float, [inde,indi,m,p,upind,k_ind,synm,degm,synp,degp]))
+x,s,h,mu_max,Ks,Y,synh= list(map(float, [x,s,h,mu_max,Ks,Y,synh]))
 
-y = [inde,indi,m,p]
+y = [x,s,h]
 
 t = 0
 dt = 1e-3
 
-params = upind,k_ind,synm,degm,synp,degp
+params = mu_max,Ks,Y,synh
 
-y = y + dt*model_Inducible_Double_Uptake(y, t, params)
+y = y + dt*model_BMSS_Monod_Constitutive_Single(y, t, params)
 
-y = y + dt*model_Inducible_Double_Uptake(y, t, params)
+y = y + dt*model_BMSS_Monod_Constitutive_Single(y, t, params)

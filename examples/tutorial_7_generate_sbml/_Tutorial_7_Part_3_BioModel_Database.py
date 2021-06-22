@@ -6,6 +6,8 @@ Created on Mon Feb  8 11:14:39 2021
 """
 from pathlib import Path
 
+import matplotlib
+
 import setup_bmss as lab
 import BMSS.standardfiles_generators.OnlinetoConfig as onlinegen
 import tellurium as te
@@ -13,10 +15,14 @@ import BMSS.models.model_handler    as mh
 import BMSS.models.setup_sim        as sm
 import BMSS.simulation       as sim
 
+<<<<<<< HEAD
 #Use Qt5Agg if plotting with tellurium
 import matplotlib 
 matplotlib.use('Qt5Agg')
 
+=======
+matplotlib.use('Qt5Agg')
+>>>>>>> 202db9ee9eb0f33a51904d140104a71154cbacb7
     
 if __name__ == '__main__':
     

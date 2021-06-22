@@ -113,7 +113,7 @@ if __name__ == '__main__':
     Unless you are working with a highly customized workflow, we recommend this
     approach.
     
-    sensitivity_args = ss.get_sensitivity_args(filename)
+    sensitivity_args, config_data = ss.get_sensitivity_args(filename)
     sensitivity_args['params'].index = ['Strain 1', 'Strain 2']
     sensitivity_args['N'] = 500
     
