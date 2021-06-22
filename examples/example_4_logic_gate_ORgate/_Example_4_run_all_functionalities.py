@@ -493,7 +493,7 @@ if __name__ == '__main__':
     new_user_core_models = {config_data[model_num]['system_type']: user_core_models[config_data[model_num]['system_type']] for model_num in config_data}
     print('\nuser_core_models:\n', new_user_core_models)
     
-    sensitivity_args = ss.get_sensitivity_args(config_data, user_core_models=new_user_core_models)
+    sensitivity_args, _ = ss.get_sensitivity_args(config_data, user_core_models=new_user_core_models)
     print('\nsensitivity_args:\n', sensitivity_args)
     print('\nsensitivity_args keys:\n', sensitivity_args.keys())
     
