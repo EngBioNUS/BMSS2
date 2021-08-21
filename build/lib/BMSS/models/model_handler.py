@@ -163,27 +163,34 @@ def backend_add_to_database(core_model, database, dialog=False):
     global MBase
     global UBase
     global userid
-     
+    
     system_type    = core_model['system_type']
     make_new_id    = True
     existing_model = quick_search(system_type, error_if_no_result=False, active_only=False)
+    is_active      = existing_model['system_type'] in list_models(UBase) if existing_model else False 
     d              = 'Mbase' if database == MBase else 'UBase'
+    
     if existing_model:
-        if dialog:
+        existing_db = MBase if system_type in list_models(MBase) else UBase
+        if database != existing_db:
+            a = 'MBase' if database == MBase else 'UBase'
+            b = 'UBase' if database == UBase else 'MBase'
+            raise Exception(f'The model already exists in {a}. You cannot add it to {b}.')
+        
+        
+        if is_active and dialog:
+            #Break and continue if overwrite else return immediately
             while True:
                 x = input('Overwrite existing model? (y/n): ')
                 if x.lower() == 'y':
                     break
-                elif x.lower() == 'n':
-                    return existing_model['id']
-                else:
-                    continue
-                    
+                return existing_model['id']
+        
+        #Check existing model and edit if it matches
         if system_type == existing_model['system_type']:
             core_model['id'] = existing_model['id']
             make_new_id = False
-                
-
+    
     row    = string_dict_values(core_model)   
     row_id = add_row('models', row, database)
 
@@ -196,7 +203,7 @@ def backend_add_to_database(core_model, database, dialog=False):
     else:
         model_id = core_model['id']
     
-    o = 'Added model ' if make_new_id else 'Modified model '
+    o = 'Added model ' if make_new_id else 'Modified model ' if is_active else 'Added model '
     n =  model_id      if make_new_id else core_model['id']
     print(o + n + ' to '+ d)
     

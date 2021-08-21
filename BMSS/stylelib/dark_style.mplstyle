@@ -283,7 +283,7 @@ text.color: white
 ## default fontsizes for ticklabels, and so on.  See
 ## https://matplotlib.org/api/axes_api.html#module-matplotlib.axes
 axes.facecolor:     black   # axes background color
-axes.edgecolor:     white   # axes edge color
+axes.edgecolor:     black   # axes edge color
 #axes.linewidth:     0.8     # edge linewidth
 #axes.grid:          False   # display grid or not
 #axes.grid.axis:     both    # which axis the grid should apply to
@@ -479,11 +479,11 @@ figure.edgecolor:   black     # figure edgecolor
 ## The figure subplot parameters.  All dimensions are a fraction of the figure width and height.
 figure.subplot.left:   0.05  # the left side of the subplots of the figure
 figure.subplot.right:  0.97    # the right side of the subplots of the figure
-figure.subplot.bottom: 0.08   # the bottom of the subplots of the figure
+figure.subplot.bottom: 0.06   # the bottom of the subplots of the figure
 figure.subplot.top:    0.94   # the top of the subplots of the figure
 figure.subplot.wspace: 0.22    # the amount of width reserved for space between subplots,
                                # expressed as a fraction of the average axis width
-figure.subplot.hspace: 0.2    # the amount of height reserved for space between subplots,
+figure.subplot.hspace: 0.31    # the amount of height reserved for space between subplots,
                                # expressed as a fraction of the average axis height
 
 ## Figure layout

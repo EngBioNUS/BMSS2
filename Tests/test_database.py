@@ -197,7 +197,8 @@ class TestSettingsHandler:
         __settings__['parameters'] = {key+'_1' : __settings__['parameters'][key] for key in __settings__['parameters']}
         settings = sh.make_settings(**__settings__, user_core_model=core_model)
         
-        __settings__['parameters'] = pd.Series(__settings__['parameters'], name=500)
+        temp                       = {k: v[0] for k, v in __settings__['parameters'].items()}
+        __settings__['parameters'] = pd.Series(temp, name=500)
         settings = sh.make_settings(**__settings__, user_core_model=core_model)
         
         ##############################################################################
@@ -206,18 +207,20 @@ class TestSettingsHandler:
         __settings__['init'] = {'mRNA' : [0],
                                 'Pep'  : [0],
                                 }
+        print('ggg')
+        print(__settings__)
+        print()
         settings = sh.make_settings(**__settings__, init_orient='states', user_core_model=core_model)
         
         __settings__['init'] = [[0, 0], [0, 0]]
         settings = sh.make_settings(**__settings__, init_orient='states', user_core_model=core_model)
-        
+
         __settings__['init'] = pd.Series([0, 0], index=['mRNA', 'Pep'])
         settings = sh.make_settings(**__settings__, init_orient='states', user_core_model=core_model)
-        
+
         __settings__['init'] = pd.DataFrame([[0, 0]], columns=['mRNA', 'Pep'], index=[1])
         settings = sh.make_settings(**__settings__, init_orient='states', user_core_model=core_model)
     
-        
         #Assert here
         for key in __settings__:
             try:
@@ -384,9 +387,15 @@ class TestSettingsHandler:
         settings_2 = sh.from_config('pyTestModel.ini', user_core_models=user_core_models)
 
 if __name__ == '__main__':
-    # T = pyTestModelHandler()
-    # T.test_make_core_model()
-    # T.test_add_to_database()
+    T = TestModelHandler()
+    T.test_make_core_model()
+    T.test_add_to_database()
     # T.test_delete()
+    
+    T = TestSettingsHandler()
+    T.test_make_settings()
+    T.test_add_to_database()
+    sh.search_database('pyTestModel, Dummy')
+    # T.test_add_to_database()
     pass
 

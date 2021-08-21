@@ -192,9 +192,9 @@ class SbmlModel(object):
             unit = Dimension_less.createUnit()
             self._check(unit,                               'create unit')
             self._check(unit.setKind(libsbml.UNIT_KIND_DIMENSIONLESS),     'set unit kind')
-            self._check(unit.setExponent(0),               'set unit exponent')
+            self._check(unit.setExponent(1),               'set unit exponent')
             self._check(unit.setScale(0),                   'set unit scale')
-            self._check(unit.setMultiplier(0),              'set unit multiplier')
+            self._check(unit.setMultiplier(1),              'set unit multiplier')
             
             items = self.model.createUnitDefinition()
             self._check(items,                         'create unit definition')
@@ -1449,10 +1449,10 @@ def writeCode(doc):
         command_list.append(initassign_template % (sym, math))
 
     commands = '\n'.join(command_list)
-    commands = sub('\w+=\'?del\'?(?=[,)])', '', commands)
-    commands = sub('\((, )+', '(', commands)
-    commands = sub('(, )+\)', ')', commands)
-    commands = sub('(, )+', ', ', commands)
+    commands = sub(r'\w+=\'?del\'?(?=[,)])', '', commands)
+    commands = sub(r'\((, )+', '(', commands)
+    commands = sub(r'(, )+\)', ')', commands)
+    commands = sub(r'(, )+', ', ', commands)
     return commands
 
 def writeCodeFromFile(filename):

@@ -32,6 +32,7 @@ BMSS/models/setup_sg.py
 BMSS/models/setup_sim.py
 BMSS/models/utils_settings.py
 BMSS/models/BMSS_markup/TestModel_Dummy.ini
+BMSS/models/BMSS_markup/TestModel_Dummy_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation_2.ini
 BMSS/models/BMSS_markup/TestModel_LogicGate_ORgate_DelayActivation.ini
 BMSS/models/BMSS_markup/TestModel_Logistic_Inducible.ini
 BMSS/models/BMSS_markup/TestModel_Monod_Constitutive_Double.ini
@@ -90,7 +91,9 @@ BMSS/models/BMSS_markup/bmss47.ini
 BMSS/models/BMSS_markup/bmss48.ini
 BMSS/models/BMSS_markup/bmss49.ini
 BMSS/models/BMSS_markup/bmss50.ini
+BMSS/standardfiles_generators/OnlinetoConfig.py
 BMSS/standardfiles_generators/__init__.py
+BMSS/standardfiles_generators/combinegen.py
 BMSS/standardfiles_generators/sbmlgen.py
 BMSS/standardfiles_generators/simplesbml.py
 BMSS/stylelib/bmss_notebook_style.mplstyle

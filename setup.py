@@ -28,5 +28,14 @@ setuptools.setup(
     package_data         = {'BMSS': ['models/*.db',
                                      'models/*.txt',
                                      'models/*.ini',
-                                     'stylelib/*.mplstyle']}
+                                     'stylelib/*.mplstyle']},
+    install_requires     = ['PyYAML',
+                            'pandas>=1.1.0',
+                            'numpy',
+                            'matplotlib>=3.3.0',
+                            'scipy>=1.5.2',
+                            'SALib',
+                            'simplesbml>=2.0',
+                            'tellurium>=2.2.1'
+                            ]
 )

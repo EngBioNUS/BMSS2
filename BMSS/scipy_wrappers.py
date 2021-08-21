@@ -221,19 +221,20 @@ def check_input(guess, priors, step_size={}, skip=[], bounds={}):
 ###############################################################################
 #Posterior Calculation and Acceptance
 ###############################################################################
-def wrap_log_posterior(var_param_index, full_params_array, prior_index, prior_distribution, likelihood_function, likelihood_args, trace=[]):
+def wrap_log_posterior(var_param_index, full_params_array, prior_index, prior_distribution, likelihood_function, likelihood_args, trace=None):
     def helper(var_param_array):
         log_posterior, log_prior, log_likelihood = get_negative_log_posterior(var_param_array, var_param_index, full_params_array, prior_index, prior_distribution, likelihood_function, likelihood_args, trace)
         return log_posterior
     return helper
 
-def get_negative_log_posterior(var_param_array, var_param_index, full_params_array, prior_index, prior_distribution, likelihood_function, likelihood_args, trace=[]):
+def get_negative_log_posterior(var_param_array, var_param_index, full_params_array, prior_index, prior_distribution, likelihood_function, likelihood_args, trace=None, p=None):
     params_array   = reconstruct_params(var_param_array, var_param_index, full_params_array)
     log_prior      = get_log_prior(params_array[prior_index], prior_distribution)
     log_likelihood = get_log_likelihood(params_array, likelihood_function=likelihood_function, likelihood_args=likelihood_args)
     log_posterior  = -(log_prior + log_likelihood) 
     
-    trace.append(params_array)
+    if trace is not None:
+        trace.append(params_array)
     
     return log_posterior, log_prior, log_likelihood
 

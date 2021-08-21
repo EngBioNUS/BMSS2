@@ -267,7 +267,7 @@ def plot_model(plot_index, y, e={}, titles={}, labels={}, figs=(), AX={}, palett
                     
                     ax.plot(x_arr, y_arr, label=label, color=color, **line_args)
                     ax.ticklabel_format(style='sci', scilimits=(-2,3))
-                    
+                    ax.legend()
                     first = False
 
     [fs(fig) for fig in figs1]

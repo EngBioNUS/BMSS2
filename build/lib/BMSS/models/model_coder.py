@@ -9,7 +9,7 @@ model_functions_directory = join(dirname(__file__), 'model_functions')
 #Functions
 ###############################################################################
 def model_to_code(core_model,  use_numba=True, local=False, mode='w'):
-    header = 'import numpy as np\n'
+    header = 'import numpy as np\nfrom numpy import log   as ln\nfrom numpy import log10 as log\nfrom numpy import exp\n'
     if use_numba:
         header += 'from numba import jit\n\n' + '@jit(nopython=True)\n'
     
@@ -109,13 +109,15 @@ def equations_to_code_helper(diff, expr, indent=1):
     return result
     
 if __name__ == '__main__':
-    __model__ = {'system_type' : ['Inducible', 'ConstInd'],    
+    __model__ = {'system_type' : 'Inducible, ConstInd',    
                  'variables'   : ['Ind', 'mRNA', 'Pep', 'syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
                  'states'      : ['mRNA', 'Pep'], 
                  'parameters'  : ['syn_mRNA', 'deg_mRNA', 'syn_Pep', 'deg_Pep', 'Ki'],
                  'inputs'      : ['Ind'],
                  'equations'   : ['dmRNA  = syn_mRNA*Ind/(Ind + Ki)     - deg_mRNA*mRNA',
-                                  'dPep   = syn_Pep*mRNA - deg_Pep'
+                                  'dPep   = syn_Pep*mRNA - deg_Pep',
+                                  'dummy  = log(2.7)',
+                                  'dPep   = dummy'
                                   ]
                  }
     
@@ -124,6 +126,9 @@ if __name__ == '__main__':
     
     equations = equations[::-1]
     
-    print(equations_to_code(equations, states))
-    
-    
+    # print(equations_to_code(equations, states))
+    code = model_to_code(__model__,  use_numba=True, local=False, mode='')
+    print(code)
+    exec(code)
+    d = model_Inducible_ConstInd(np.array([1, 1]), 0, np.array([0.1, 0.1, 0.1, 0.1, 0.1]))
+    assert all(np.isclose(d, [-0.1, 0.43136], atol=1e-3))

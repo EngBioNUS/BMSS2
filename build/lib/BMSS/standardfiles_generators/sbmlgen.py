@@ -18,11 +18,18 @@ import BMSS.models.settings_handler as sh
 def unitlookup(settings):
     '''Reads in the list of units listed in the database and converts them to 
     units defined in simplesbml
+    :param settings:  settings database of model
+    :return: cleaned units of parameters in list format
     
     :meta private:
     '''
     
     unit_model = settings['units']
+    
+    #--Checker--
+    if len(unit_model) != len(settings['parameters'].columns):
+        raise Exception('Not all Parameters have units declared')
+    
     for w in unit_model: #Unit Look-up/conversion
         unit_model[w] = unit_model[w].replace('aa', 'items') 
         unit_model[w] = unit_model[w].replace('mol-1', 'permol')
@@ -42,12 +49,31 @@ def unitlookup(settings):
 def SBMLcreation(core_model, settings, unit_model, addparam, init_scenario, param_scenario):
     '''Reads in the core model, settings, parameters and which scenario of 
     init and parameters values and outputs SBML format in sbmlstr
-    
+    :param core_model:  core model of model in nested dictionary format
+    :param settings:  settings database of model
+    :param unit_model:  units for parameters in list format
+    :param addparam:  parameters of model in dataframe
+    :param init_scenario:  init value scenario in int format
+    :param param_scenario:  parameter value scenario in int format
+    :return: SBML string in XML format
     :meta private:
     '''
     
-    model_sbml = simplesbml.SbmlModel()
-                
+    #--Checker--
+    if core_model['system_type'] != settings['system_type']:
+        raise Exception('System_type not the same between the core_model and settings')
+        
+    if 'inputs' in core_model.keys():
+        if (len(core_model['parameters'])+len(core_model['inputs'])) != len(addparam.columns):
+            raise Exception('settings have missing parameters')
+    else:
+        if len(core_model['parameters']) != len(addparam.columns):
+            raise Exception('settings have missing parameters')
+    
+        
+    
+    
+    model_sbml = simplesbml.SbmlModel()      
     for i in range(len(core_model['states'])):
         model_sbml.addSpecies(core_model['states'][i], settings['init'][init_scenario+1][i])    
     
@@ -58,23 +84,25 @@ def SBMLcreation(core_model, settings, unit_model, addparam, init_scenario, para
     for eqn in core_model['equations']:
         if eqn is not '':
             if eqn[0] == 'd': #if equation is for deritive with time
-                variable_start = eqn.index("d")
-                variable_end = eqn.index("=")
+                variable_start  = eqn.index("d")
+                variable_end    = eqn.index("=")
                 eqn = eqn.replace('**', '^')  
-                variable_name = eqn[variable_start+1:variable_end-1]
-                model_sbml.addRateRule(variable_name, eqn[variable_end+2:])
+                variable_name   = eqn[variable_start+1:variable_end]
+                variable_name   = variable_name.replace(' ', '')
+                model_sbml.addRateRule(variable_name, eqn[variable_end+1:])
                 
             else: #if equation is for variable directly
-                variable_end = eqn.index("=")
-                assignment_name = eqn[:variable_end-1]
-                eqn = eqn.replace('**', '^') 
-                model_sbml.addAssignmentRule(assignment_name, eqn[variable_end+2:])
+                variable_end    = eqn.index("=")
+                assignment_name = eqn[:variable_end]
+                assignment_name = assignment_name.replace(' ', '')
+                eqn             = eqn.replace('**', '^') 
+                model_sbml.addAssignmentRule(assignment_name, eqn[variable_end+1:])
                 
     sbmlstr = model_sbml.toSBML()
     return sbmlstr
 
   
-def config_to_sbml(inifileslist):
+def config_to_sbml(inifileslist, output_path):
     '''Read in list of configuration files and generate the corresponding SBML
     files.
     
@@ -91,26 +119,26 @@ def config_to_sbml(inifileslist):
        
     for f in inifileslist:    #Add ini files to database
         print('filename', f)
-        system_type = mh.config_to_database(f)
+        system_type                 = mh.config_to_database(f)
         system_types_settings_names = sh.config_to_database(f)
-        system_type, settings_name = system_types_settings_names[0]
-        search_result_model = mh.quick_search(system_type)
-        search_result_settings = sh.quick_search(system_type=system_type, settings_name=settings_name)
-        core_model    = search_result_model
-        settings = search_result_settings
-        addparam =  settings['parameters']
-        number_init = len(settings['init'])
-        number_parameters = len(settings['parameters'])
-        unit_model = unitlookup(settings)
+        system_type, settings_name  = system_types_settings_names[0]
+        search_result_model         = mh.quick_search(system_type)
+        search_result_settings      = sh.quick_search(system_type=system_type, settings_name=settings_name)
+        core_model                  = search_result_model
+        settings                    = search_result_settings
+        addparam                    = settings['parameters']
+        number_init                 = len(settings['init'])
+        number_parameters           = len(settings['parameters'])
+        unit_model                  = unitlookup(settings)
     
         for j in range(number_init): #Cycle through number of init values
             for k in range(number_parameters): #Cycle through number of parameters
-                sbmlstr = SBMLcreation(core_model, settings, unit_model, addparam, j, k)
+                sbmlstr             = SBMLcreation(core_model, settings, unit_model, addparam, j, k)
                 #Function that creates SBML file and returns the number of files outputed and the file list.
-                number_scenario = number_scenario + 1
-                placeholder = os.path.splitext(f)[0]
-                sbmlfilename = 'DatabasetoSBML_' + placeholder +'.xml'
-                f = open(sbmlfilename, 'w') #creates SBML file in same folder as python script
+                number_scenario     = number_scenario + 1
+                placeholder         = os.path.splitext(f)[0]
+                sbmlfilename        = os.path.join(output_path, 'DatabasetoSBML_' + placeholder +'.xml')
+                f                   = open(sbmlfilename, 'w') #creates SBML file in same folder as python script
                 f.write(sbmlstr)
                 f.close()
                 del sbmlstr
@@ -124,13 +152,23 @@ def config_to_sbml(inifileslist):
 
 
 
-def autogenerate_sbml_from_folder(folderpath):
+def autogenerate_sbml_from_folder(folderpath, output_path):
     '''To automatically generate the corresponding SBML files from the given
     folder containing all the configuration files.
     
     :param folderpath: the path to the folder containing all the configuration files.
     :type folderpath: str
     '''
+    if os.path.exists(folderpath) != True:
+        raise Exception("Input folder does not exist") 
+    
+    #-- Makes output folder if not already created -- 
+    try:
+        os.mkdir(output_path)
+    except OSError:
+        print('Output Folder Exists')
+    else:
+        print('Folder created: \n', output_path)
         
     files = [f for f in glob.glob(os.path.join(folderpath,"**/*.ini"), recursive=True)]
     
@@ -141,25 +179,25 @@ def autogenerate_sbml_from_folder(folderpath):
     number_scenario = 0
        
     for f in files:    #Add ini files to database
-        system_type = mh.config_to_database(f)
+        system_type                 = mh.config_to_database(f)
         system_types_settings_names = sh.config_to_database(f)
-        system_type, settings_name = system_types_settings_names[0]
-        search_result_model = mh.quick_search(system_type)
-        search_result_settings = sh.quick_search(system_type=system_type, settings_name=settings_name)
-        core_model    = search_result_model
-        settings = search_result_settings
-        addparam =  settings['parameters']
-        number_init = len(settings['init'])
-        number_parameters = len(settings['parameters'])
-        unit_model = unitlookup(settings)
+        system_type, settings_name  = system_types_settings_names[0]
+        search_result_model         = mh.quick_search(system_type)
+        search_result_settings      = sh.quick_search(system_type=system_type, settings_name=settings_name)
+        core_model                  = search_result_model
+        settings                    = search_result_settings
+        addparam                    = settings['parameters']
+        number_init                 = len(settings['init'])
+        number_parameters           = len(settings['parameters'])
+        unit_model                  = unitlookup(settings)
        
         for j in range(number_init): #Cycle through number of init values
             for k in range(number_parameters): #Cycle through number of parameters
-                sbmlstr = SBMLcreation(core_model, settings, unit_model, addparam, j, k)
-                number_scenario = number_scenario + 1
-                placeholder = os.path.splitext(os.path.basename(f))[0]
-                sbmlfilename = os.path.join(folderpath, 'DatabasetoSBML_' + placeholder +'.xml')
-                f = open(sbmlfilename, 'w') #creates SBML file in same folder as python script
+                sbmlstr             = SBMLcreation(core_model, settings, unit_model, addparam, j, k)
+                number_scenario     = number_scenario + 1
+                placeholder         = os.path.splitext(os.path.basename(f))[0]
+                sbmlfilename        = os.path.join(output_path, 'DatabasetoSBML_' + placeholder +'.xml')
+                f                   = open(sbmlfilename, 'w') #creates SBML file in same folder as python script
                 f.write(sbmlstr)
                 f.close()
                 del sbmlstr
@@ -173,29 +211,31 @@ def autogenerate_sbml_from_folder(folderpath):
     print('SBML files outputed: ', sbmlfilelist)
 
 
-def database_to_sbml(system_type, settings_name):
+def database_to_sbml(system_type, settings_name, output_path):
     '''Select model stored in database and generate the SBML file. 
+    :param system_type:  system_type of model to search in database in string format
+    :param settings_name:  settings_name of model to search in database in string format
     '''
-    sbmlfilelist    = []
-    number_scenario = 0
+    sbmlfilelist            = []
+    number_scenario         = 0
 
     
-    search_result_settings = sh.search_database(system_type, settings_name)
-    search_result_model    = mh.quick_search(system_type)
-    core_model             = search_result_model
-    settings               = search_result_settings[0]
-    addparam               = settings['parameters']
-    number_init            = len(settings['init'])
-    number_parameters      = len(settings['parameters'])
+    search_result_settings  = sh.search_database(system_type, settings_name)
+    search_result_model     = mh.quick_search(system_type)
+    core_model              = search_result_model
+    settings                = search_result_settings[0]
+    addparam                = settings['parameters']
+    number_init             = len(settings['init'])
+    number_parameters       = len(settings['parameters'])
     
     unit_model = unitlookup(settings)
     
     for j in range(number_init): #Cycle through number of init
         for k in range(number_parameters): #Cycle through number of parameters
-            sbmlstr = SBMLcreation(core_model, settings, unit_model, addparam, j, k)           
+            sbmlstr         = SBMLcreation(core_model, settings, unit_model, addparam, j, k)           
             number_scenario = number_scenario + 1
-            sbmlfilename = 'DatabasetoSBML_' + str(number_scenario)+'.xml'
-            f = open(sbmlfilename, 'w')
+            sbmlfilename    = os.path.join(output_path, 'DatabasetoSBML_' + str(number_scenario)+'.xml')
+            f               = open(sbmlfilename, 'w')
             f.write(sbmlstr)
             f.close()
             del sbmlstr

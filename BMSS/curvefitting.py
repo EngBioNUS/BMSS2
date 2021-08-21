@@ -86,8 +86,11 @@ def get_SSE_dataset(model_num, data, models, params, t_indices):
     tspan    = get_tspan(model)
     init     = model['init']
     int_args = model.get('int_args', {})
-    
-    for scenario in range(1, len(init)+1):
+
+    for scenario in init:
+        if scenario == 'time':
+            continue
+        
         y_model, t_model  = piecewise_integrate(model['function'], init[scenario], tspan, params, model_num, scenario, **int_args, overlap=False)
         
         for i in range(len(model['states'])):
@@ -128,7 +131,7 @@ def get_indices_dataset(dataset, model):
     indices = {}
     for state in dataset:
         t_model            = flatten_tspan(model['tspan'])
-        indices[state] = get_indices(dataset[state][0], t_model)
+        indices[state] = get_indices(dataset[state]['time'], t_model)
     return indices
         
 def get_indices(t_data, t_model):
@@ -466,7 +469,7 @@ def plot_model(models,         params,          plot_index={}, titles=[], labels
             init        = model['init']
             int_args    = model.get('int_args', {})
             
-            for scenario in range(1, len(init)+1):
+            for scenario in init:
                 label = get(labels, model_num, scenario, no_result='')
                 
                 if type(label) == str:
@@ -554,10 +557,10 @@ def plot_data(data,           data_sd={},      plot_index={}, titles={}, labels=
                     state_data = get(data, model_num, state, no_result=None)
                     if not state_data:
                         continue
-                    time          = state_data[0]
+                    time          = state_data['time']
                     
                     for scenario in state_data:
-                        if scenario > 0:
+                        if scenario != 'time':
                             y     = state_data[scenario]
                             label = get(labels, model_num, scenario, no_result='')
                             
@@ -663,7 +666,7 @@ def make_palette(n=0, model={}, dataset={}, palette_type='color', **kwargs):
             palette = [all_colors[palette_type]]*n_scenarios
     elif dataset:
         state_data = dataset[next(iter(dataset))]
-        n_scenarios = len([key for key in state_data if key > 0])
+        n_scenarios = len([key for key in state_data if key != 'time'])
 
         if func:
             palette = func(n_scenarios, **kwargs)
@@ -703,17 +706,19 @@ def make_colors(palette, models={}, data={}, parameter_sets=0):
                     
             palette_            = make_palette(model=models[model_num], **kwargs)
 
-            for scenario in range(1, len(models[model_num]['init'])+1):
-                result[model_num][scenario] = palette_[scenario-1]
+            for i, scenario in enumerate(models[model_num]['init']):
+                result[model_num][scenario] = palette_[i]
                
     if data:
         for model_num in data:
             result[model_num] = {}
-            palette_            = make_palette(dataset=data[model_num], **kwargs)
-            state_data       = data[model_num][next(iter(data[model_num]))]
-            for scenario in state_data:
-                if scenario > 0:
-                    result[model_num][scenario] = palette_[scenario-1]
+            palette_          = make_palette(dataset=data[model_num], **kwargs)
+            state_data        = data[model_num][next(iter(data[model_num]))]
+            
+            for i, scenario in enumerate(state_data):
+                if scenario == 'time':
+                    continue
+                result[model_num][scenario] = palette_[i]
 
     return result
 

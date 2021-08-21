@@ -79,8 +79,8 @@ def import_data(all_data, data_by_model_num):
             '''
             Calculate the mean and sd
             '''
-            vals_sd = vals.std( axis=1, level=0)
-            vals_mu = vals.mean(axis=1, level=0) 
+            vals_sd = vals.groupby(axis=1, level=0).std()
+            vals_mu = vals.groupby(axis=1, level=0).mean()
             vals    = vals.stack().droplevel(level=1).reset_index(drop=True)
             
             '''

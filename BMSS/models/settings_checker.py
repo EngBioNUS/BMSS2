@@ -22,7 +22,7 @@ def check_and_assign_param_values(core_model, parameters):
     Returns a DataFrame of parameters with columns in order.
     '''
     if type(parameters) == pd.DataFrame:
-        parameter_df = pd.DataFrame(parameters)
+        parameter_df = parameters
     elif type(parameters) == pd.Series:
         parameter_df = pd.DataFrame(parameters).T
     elif type(parameters) == dict:
@@ -131,21 +131,26 @@ def check_and_assign_init(states, init, init_orient='scenario'):
         if len(states) == len(row):
             return
         else:
+            print(states)
+            print(row)
             raise Exception('Error in init. Number of states does not match core model. Expected:\n' + str(states) + '\nDetected:\n' + str(row))
     
     def check_valid_states(states, columns):
         if set(states).difference(columns):
             raise Exception('Error in init. Unexpected states found. Expected:\n' + str(states) + '\nDetected:\n' + str(columns))
+    
     if init is not None:
-        if init_orient == 'scenario':
+        if init_orient == 'scenario' and type(init) == dict:
             for key in init:
                 check_valid_num_states(states, init[key])
                 check_valid_scenario_num(key)
-            return init
+            init1 = pd.DataFrame.from_dict(init, orient='index')
+            
+            return init1
         
         else:
             if type(init) == dict:
-                init1 = pd.DataFrame([init])
+                init1 = pd.DataFrame.from_dict(init, orient='columns')
                 init1.index += 1
                 check_valid_states(states, list(init1.columns))
             elif type(init) == pd.DataFrame:

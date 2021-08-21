@@ -55,7 +55,7 @@ if __name__ == '__main__':
     
     #Create a template
     sh.make_settings_template(system_types_settings_names, filename='settings_template.ini')
-        
+    
     #Deactivate a settings and remove it from searches.
     sh.delete(system_type=system_type, settings_name=settings_name)
     
