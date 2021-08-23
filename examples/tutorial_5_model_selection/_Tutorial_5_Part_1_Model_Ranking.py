@@ -6,7 +6,7 @@ from   numba             import jit
 import setup_bmss                   as lab
 import BMSS.models.settings_handler as sh
 import BMSS.models.setup_cf         as sc
-import BMSS.aicanalysis             as ac
+import BMSS.icanalysis              as ac
 import BMSS.curvefitting            as cf
 
 plt.style.use(lab.styles['bmss_notebook_style'])
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     In order to calculate the AIC, we need the data, models, priors and
     parameters for evaluation. 
     '''
-    table = ac.calculate_aic(data   = sampler_args['data'], 
+    table = ac.calculate_ic(data   = sampler_args['data'], 
                              models = sampler_args['models'], 
                              priors = sampler_args['priors'],
                              params = accepted.iloc[-10:]
@@ -50,16 +50,16 @@ if __name__ == '__main__':
     print()
     
     '''
-    rank_aic accepts a DataFrame containing AIC values indexed under 
-    aic_column_name. It then sorts the DataFrame and adds columns for the normalized
+    rank_ic accepts a DataFrame containing AIC values indexed under 
+    ic_column_name. It then sorts the DataFrame and adds columns for the normalized
     AIC and the evidence for that model. The original columns in the input
     DataFrame remain untouched.
     
-    As can be seen from the result, rank_aic isn't picky about what indices and 
-    columns you use as long as your DataFrame has its AIC values indexed under aic_column_name.
+    As can be seen from the result, rank_ic isn't picky about what indices and 
+    columns you use as long as your DataFrame has its AIC values indexed under ic_column_name.
     '''
     
-    ranked_table  = ac.rank_aic(table, aic_column_name='AIC Value', inplace=False)
+    ranked_table  = ac.rank_ic(table, inplace=False)
     
     '''
     Plots

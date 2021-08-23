@@ -62,7 +62,7 @@ def calculate_ic(data, models, params, priors={}, sample_size=1, ictype='AIC'):
     ic = pd.DataFrame(ic, columns=models.keys(), index=params1.index)
     
     table         = pd.DataFrame(ic.stack().reset_index())
-    table.columns = ['row', 'model_num', 'ic Value']
+    table.columns = ['row', 'model_num', 'ic value']
     return table
 
 def get_ic_args(data, models):
@@ -142,7 +142,7 @@ def normalize_ic(ic_values):
 ###############################################################################
 #ic Tables/DataFrames
 ###############################################################################
-def rank_ic(ic_dataframe, ic_column_name='ic Value', inplace=True):
+def rank_ic(ic_dataframe, ic_column_name='ic value', inplace=True):
     '''
     Accepts a dataframe where each row corresponds to one model
     ic_dataframe cannot have any columns named 'Evidence'.
