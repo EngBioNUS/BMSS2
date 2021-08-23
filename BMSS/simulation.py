@@ -6,7 +6,7 @@ import re
 import seaborn           as sns
 from matplotlib          import get_backend
 from numba               import jit
-from scipy.integrate     import odeint
+from scipy.integrate     import odeint, solve_ivp
 
 from numba import jit
 
@@ -26,6 +26,11 @@ all_colors    = sns.colors.xkcd_rgb
 ###############################################################################
 #Integration
 ###############################################################################
+def solver(f, y0, tspan,**kwargs):
+    f_ = lambda t, y, *args: f(y, t, *args)
+    r = solve_ivp(f_, [tspan[0], tspan[-1]], y0, t_eval=tspan, **kwargs)
+    return r.y.T
+
 def piecewise_integrate(function, init, tspan, params, model_num, scenario_num, modify_init=None, modify_params=None, solver_args={}, solver=odeint, overlap=True, args=()):
     '''Piecewise integration function with scipy.integrate.odeint as default. 
     Can be changed using the solver argument.
