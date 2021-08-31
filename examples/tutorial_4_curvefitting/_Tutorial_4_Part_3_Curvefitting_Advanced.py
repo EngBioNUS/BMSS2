@@ -62,7 +62,8 @@ if __name__ == '__main__':
     '''
     Iterate across each type of sampler
     '''
-    filename_samplers = [('settings_de.ini', 'de', cf.scipy_differential_evolution),
+    filename_samplers = [('settings_op.ini', 'op', cf.scipy_optimize),
+                         ('settings_de.ini', 'de', cf.scipy_differential_evolution),
                          ('settings_bh.ini', 'bh', cf.scipy_basinhopping),
                          ('settings_da.ini', 'da', cf.scipy_dual_annealing)
                          ]

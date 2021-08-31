@@ -9,7 +9,7 @@ from   pathlib           import Path
 import setup_bmss                as lab
 import BMSS.models.model_handler as mh
 import BMSS.models.setup_cf      as sc
-import BMSS.aicanalysis          as ac
+import BMSS.icanalysis           as ac
 import BMSS.curvefitting         as cf
 import BMSS.traceanalysis        as ta
 import BMSS.models.setup_sim     as sm

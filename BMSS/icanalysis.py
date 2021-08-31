@@ -10,7 +10,7 @@ from . import curvefitting     as cf
 ###############################################################################
 #ic Calculation
 ###############################################################################    
-def calculate_ic(data, models, params, priors={}, sample_size=1, ictype='AIC'):
+def calculate_ic(data, models, params, priors={}, ictype='AIC', alpha=0.2):
     '''Calculates ic of model calculating posterior and than applying ic 
     formula. Returns a DataFrame of the ic Values.
 
@@ -24,10 +24,11 @@ def calculate_ic(data, models, params, priors={}, sample_size=1, ictype='AIC'):
         The parameters with which to integrate the models with.
     priors : dict, optional
         Priors if any. The default is {}.
-    sample_size : int, optional
-        The sample size of the data. Ignored if ictype is 'AIC'
-    ictype : {'AIC', 'BIC'}
-        The infromation criterion used.
+    ictype : {'AIC', 'BIC', 'CAIC'}
+        The information criterion used.
+    alpha : float, optional
+        Controls the ratio of AIC/BIC when using CAIC. Ignored when ictype is not 
+        'CAIC'. The default is 0.2.
 
     Returns
     -------
@@ -43,8 +44,8 @@ def calculate_ic(data, models, params, priors={}, sample_size=1, ictype='AIC'):
         params1 = pd.DataFrame([params])
         
     #Set up arguments
-    posterior_args     = get_posterior_args(data, models, params1, priors)
-    n_points, n_params = get_ic_args(data, models)
+    posterior_args              = get_posterior_args(data, models, params1, priors)
+    n_points, n_params, samples = get_ic_args(data, models)
     
     ic = []  
 
@@ -55,6 +56,10 @@ def calculate_ic(data, models, params, priors={}, sample_size=1, ictype='AIC'):
             model_ic = n_points*np.log(-log_posterior/n_points) + 2*n_params
         elif ictype == 'BIC':
             model_ic = n_points*np.log(-log_posterior/n_points) + np.log(sample_size)*n_params
+        elif ictype == 'CAIC':
+            aic = n_points*np.log(-log_posterior/n_points) + 2*n_params
+            bic = n_points*np.log(-log_posterior/n_points) + np.log(sample_size)*n_params
+            model_ic = alpha*aic-(1-alpha)*bic
         else:
             raise ValueError(f'Invalid value given for ictype: {ictype}')
         ic.append(model_ic)
@@ -73,17 +78,21 @@ def get_ic_args(data, models):
     '''
     n_points = {}
     n_params = []
+    sample   = [] 
     for model_num in data:
         n_points[model_num] = 0
         n_params.append( len(models[model_num]['params']) )
+        temp = 0
         for state in data[model_num]:
             for scenario in data[model_num][state]:
                 if scenario < 1:
                     continue
                 else:
                     n_points[model_num] += len(data[model_num][state][scenario])
-    
-    return np.array(list(n_points.values())), np.array(n_params)
+                    temp += 1
+        sample.append(temp)
+        
+    return np.array(list(n_points.values())), np.array(n_params), np.array(sample)
 
 def get_posterior_args(data, models, params, priors):
     '''

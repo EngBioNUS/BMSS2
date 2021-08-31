@@ -59,6 +59,7 @@ def from_config(filename, sampler='sa'):
         de_args          = config[section].get('de_args')
         bh_args          = config[section].get('bh_args')
         da_args          = config[section].get('da_args')
+        op_args          = config[section].get('op_args')
         guess            = config[section].get('guess')
         units            = config[section].get('units')
         
@@ -73,6 +74,7 @@ def from_config(filename, sampler='sa'):
         de_args          = string_to_dict(de_args)                 if de_args          else {}
         bh_args          = string_to_dict(bh_args)                 if bh_args          else {}
         da_args          = string_to_dict(da_args)                 if da_args          else {}
+        op_args          = string_to_dict(op_args)                 if op_args          else {}
         guess            = eval_params_string(guess)               if guess            else {}
         units            = string_to_dict(units)                   if units            else {}
         
@@ -102,6 +104,16 @@ def from_config(filename, sampler='sa'):
                               'da_args'     : da_args,     'fixed_parameters' : fixed_parameters, 
                               'units'       : units,       'init'   : init,   'tspan' : tspan 
                               }
+        
+        elif sampler == 'op':
+            config_data[n] = {'system_type' : section,     'guess'  : guess,  'priors' : priors, 
+                              'solver_args' : solver_args, 'parameter_bounds' : parameter_bounds,   
+                              'op_args'     : op_args,     'fixed_parameters' : fixed_parameters, 
+                              'units'       : units,       'init'   : init,   'tspan' : tspan 
+                              }
+        
+        else:
+            raise Exception(f'Invalid sampler: {sampler}')
         n += 1
  
     return config_data
@@ -133,6 +145,8 @@ def get_sampler_args(filename, sampler='sa', user_core_models={}):
         return get_sampler_args_bh(filename, user_core_models=user_core_models)
     elif sampler == 'da':
         return get_sampler_args_da(filename, user_core_models=user_core_models)
+    elif sampler == 'op':
+        return get_sampler_args_op(filename, user_core_models=user_core_models)
     else:
         raise Exception('sampler must be sa, de, bh or da. sampler given was ' + str(sampler))
     
@@ -323,6 +337,50 @@ def get_sampler_args_da(filename, user_core_models={}):
                     'guess'              : guess,
                     'models'             : models, 
                     'fixed_parameters'               : fixed_parameters,
+                    'priors'             : priors,
+                    'bounds'             : bounds,
+                    'scipy_args'         : scipy_args,
+                    }
+        
+    return sampler_args, config_data
+
+def get_sampler_args_op(filename, user_core_models={}):
+    '''Shortcut for setting up differential evolution for one model
+    
+    :meta: private
+    '''
+
+    config_data    = from_config(filename, 'op') if type(filename) == str else filename
+    core_models    = [mh.quick_search(config_data[key]['system_type']) for key in config_data]
+    models, params = compile_models(core_models, config_data)
+    
+    guess            = {}
+    bounds           = {}
+    priors           = {}
+    fixed_parameters = []
+    scipy_args       = {}
+
+    for key in config_data:
+        models[key]['int_args']['solver_args'] = config_data[key]['solver_args']
+        
+        temp      = {param + '_' + str(key): float(config_data[key]['guess'][param]) for param in config_data[key]['guess']}
+        guess     = {**guess, **temp}
+        
+        temp      = {param + '_' + str(key): config_data[key]['parameter_bounds'][param] for param in config_data[key]['parameter_bounds']}
+        bounds    = {**bounds, **temp} 
+        
+        temp      = {param + '_' + str(key): config_data[key]['priors'][param] for param in config_data[key]['priors']}
+        priors    = {**priors, **temp}
+        
+        fixed_parameters   += [param + '_' + str(key) for param in config_data[key]['fixed_parameters']]
+        fixed_parameters   += [i     + '_' + str(key) for i     in core_models[key-1]['inputs']]
+        
+        scipy_args = config_data[key]['op_args'] if 'op_args' in config_data[key] else scipy_args
+        
+    sampler_args = {'data'               : {},
+                    'guess'              : guess,
+                    'models'             : models, 
+                    'fixed_parameters'   : fixed_parameters,
                     'priors'             : priors,
                     'bounds'             : bounds,
                     'scipy_args'         : scipy_args,

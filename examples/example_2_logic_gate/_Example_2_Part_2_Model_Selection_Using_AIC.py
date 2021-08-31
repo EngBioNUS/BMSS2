@@ -5,7 +5,7 @@ import pandas            as pd
 import setup_bmss                as lab
 import BMSS.models.model_handler as mh
 import BMSS.models.setup_cf      as sc
-import BMSS.aicanalysis          as ac
+import BMSS.icanalysis           as ac
 import BMSS.curvefitting         as cf
 import BMSS.traceanalysis        as ta
 from   read_data                 import read_data

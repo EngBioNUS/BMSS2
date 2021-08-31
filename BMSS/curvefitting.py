@@ -329,6 +329,51 @@ def scipy_dual_annealing(data, models, guess, priors, bounds={},
     
     return result
 
+def scipy_optimize(data, models, guess, priors, bounds={},  
+                   fixed_parameters=[], 
+                   likelihood_function=get_SSE_data, 
+                   scipy_args={},
+                   **kwargs):
+    '''
+    Wrapper for scipy's dual annealing algorithm.
+    
+    Parameters
+    ----------
+    data : dict
+        Experimental data.
+    models : dict
+        Dictionary of model data structures.
+    guess : dict
+        The initial guess. The default is {}.
+    priors : dict, optional
+        Priors if any. The default is {}.
+    bounds : dict, optional
+        A dictionary mapping parameter names to tuples (lower, upper). The 
+        default is {}.
+    fixed_parameters : list, optional
+        A list of parameters that will be fixed. The default is [].
+    likelihood_function : function, optional
+        The likelihood function to be calculated. Do not change unless you know 
+        what you are doing.
+    
+    Returns
+    ---------- 
+    result : dict
+        A dictionary with the following mapping:
+            "a" : The accepted samples
+            "r" : The rejected samples
+    '''
+    likelihood_args = get_likelihood_args(data, models, guess)
+    
+    result = wrappers.optimize(guess,     priors, 
+                               skip=fixed_parameters, bounds=bounds,  
+                               likelihood_function=likelihood_function, 
+                               likelihood_args=likelihood_args,
+                               **scipy_args,
+                               **kwargs)
+    
+    return result
+
 def scipy_differential_evolution(data, models, guess, priors, 
                                  fixed_parameters, bounds, 
                                  likelihood_function=get_SSE_data,

@@ -43,6 +43,8 @@ CREATE TABLE IF NOT EXISTS "models" (
 );
 '''
 
+all_model_funcs = {}
+
 ###############################################################################
 #Database and Table Construction
 ###############################################################################
@@ -338,18 +340,21 @@ def list_models(database=None):
         return list_models(MBase) + list_models(UBase)
 
 def get_model_function(system_type, local=False):
-    '''Supporting function for get_model_function. Do not run.
+    global all_model_funcs
     
-    :meta private:
-    '''
-    model_name     = system_type.replace(', ', '_')
-    if local:
-        module = importlib.import_module(model_name)
-    else:
-        module = importlib.import_module('.model_functions.' + model_name, 'BMSS.models')
-    model_function = getattr(module, 'model_'+  model_name )
+    model_name = system_type.replace(', ', '_')
+    func_name  = 'model_'+  model_name
+    filename   = model_name + '.py' if local else f'BMSS/models/model_functions/{model_name}.py'
+        
+    with open(filename, 'r') as file:
+        code = file.read()
+        
+        if '__' in code:
+            raise Exception('Double underscores not allowed.')
+        
+        exec(code, all_model_funcs)
     
-    return model_function
+    return all_model_funcs[func_name]
 
 ###############################################################################
 #Interfacing with Pandas

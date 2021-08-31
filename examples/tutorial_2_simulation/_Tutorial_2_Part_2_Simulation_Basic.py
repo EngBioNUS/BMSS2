@@ -25,19 +25,33 @@ if __name__ == '__main__':
     
     models, params, config_data = sm.get_models_and_params(filename)
     
-    ym, _ = sim.integrate_models(models, params)
+    ym, _ = sim.integrate_models(models, params, multiply=True)
     
     '''
     The results of the integration are stored in ym as a nested dictionary in the
     form of ym[model_num][scenario_num][row] where row is a row index in params.
-    Meanwhile, ym[model_num][0] contains the time array for the model.
     Thus, suppose we only have one model. ym will then have one key.
-    If that model has 2 scenarios, ym[1] will have 2 keys not including 0.
-    Finally, if there are two rows of parameters, ym[1][1] and ym[1][2] will have two keys each.
     '''
     print('Keys in ym:', ym.keys())
+    
+    '''
+    If that model has 2 scenarios, ym[1] will have 2 keys not including 0.
+    Meanwhile, ym[model_num][0] contains the time array for the model.
+    '''
     print('Keys in ym[1]', ym[1].keys())
+    
+    '''
+    The multiply argument of integrate_models is set to True, the parameters and 
+    scenarios are simulated combinatorially. Since there are two scenarios and two 
+    rows of parameters, ym[1][1] and ym[1][2] will have two keys each.
+    '''
+    
     print('Keys in ym[1][1]', ym[1][1].keys())
+    
+    '''
+    If the multiply argument is set to False, the parameters are "zipped" with 
+    the scenarios and ym[1][1] and ym[1][2] will have one key each.
+    '''
     
     ##Plot Settings
     '''
@@ -48,11 +62,11 @@ if __name__ == '__main__':
     labels     : A dict of scenario: name pairs that will be used in the legend. This argument is optional.                            
     '''
     plot_index  = {1: ['m', 'p'],
-                   }
+                    }
     titles      = {1: {'m': 'Model 1 mRNA', 'p': 'Model 1 Protein'},
-                   }
+                    }
     labels      = {1: {1: 'Scenario 1', 2: 'Scenario 2'}
-                   }
+                    }
     
     figs, AX = sim.plot_model(plot_index, ym, titles=titles, labels=labels)
     
@@ -92,11 +106,11 @@ if __name__ == '__main__':
     
     #Modify the plot settings accordingly
     plot_index  = {1: ['p', synthesis_p],
-                   }
+                    }
     titles      = {1: {'p': 'Model 1 Protein', synthesis_p: 'Rate of Protein Synthesis'},
-                   }
+                    }
     labels      = {1: {1: 'Scenario 1', 2: 'Scenario 2'}
-                   }
+                    }
     
     figs, AX = sim.plot_model(plot_index, ym, e=em, titles=titles, labels=labels) 
     
