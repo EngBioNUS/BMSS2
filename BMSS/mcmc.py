@@ -4,6 +4,11 @@ from pandas              import DataFrame
 from scipy.stats         import norm
 from scipy.integrate     import odeint
 
+try:
+    from tqdm import tqdm
+except:
+    tqdm = None
+    
 ###############################################################################
 #Sampler Algorithm
 ###############################################################################
@@ -30,7 +35,8 @@ def sampler(guess,     priors,    step_size,
     
     theta_curr  = params_array.copy()
     block_index = 0
-    for i in range(trials):
+    to_iter     = range(trials) if tqdm is None else tqdm(range(trials)) 
+    for i in to_iter:
         #Transition
         block            = blocks_dict[block_index]
         theta_new        = theta_curr.copy()

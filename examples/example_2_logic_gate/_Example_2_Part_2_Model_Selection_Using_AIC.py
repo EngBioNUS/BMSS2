@@ -140,17 +140,17 @@ if __name__ == '__main__':
                                          figs        = trace_figs,
                                          AX          = trace_AX
                                          )
-    # #Rank models 
-    # #Details in Tutorial 6 Part 1
-    # table = ac.calculate_aic(data   = sampler_args['data'], 
-    #                          models = sampler_args['models'], 
-    #                          priors = sampler_args['priors'],
-    #                          params = accepted.iloc[-10:]
-    #                          )
+    #Rank models 
+    #Details in Tutorial 6 Part 1
+    table = ac.calculate_ic(data   = sampler_args['data'], 
+                              models = sampler_args['models'], 
+                              priors = sampler_args['priors'],
+                              params = accepted.iloc[-10:]
+                              )
     
-    # ranked_table  = ac.rank_aic(table, inplace=False)
+    ranked_table  = ac.rank_ic(table, inplace=False)
     
-    # print('Ranked AIC table')
-    # print(ranked_table.head())
+    print('Ranked AIC table')
+    print(ranked_table.head())
     
     

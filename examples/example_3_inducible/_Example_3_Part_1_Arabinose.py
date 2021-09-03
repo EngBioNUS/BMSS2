@@ -92,11 +92,11 @@ if __name__ == '__main__':
     In order to calculate the AIC, we need the data, models, priors and
     parameters for evaluation. 
     '''
-    table = ac.calculate_aic(data   = sampler_args['data'], 
-                              models = sampler_args['models'], 
-                              priors = sampler_args['priors'],
-                              params = posterior
-                              )
+    table = ac.calculate_ic(data   = sampler_args['data'], 
+                             models = sampler_args['models'], 
+                             priors = sampler_args['priors'],
+                             params = posterior
+                             )
     
     '''
     rank_aic accepts a DataFrame containing AIC values indexed under 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     columns you use as long as your DataFrame has its AIC values indexed under aic_column_name.
     '''
     
-    ranked_table = ac.rank_aic(table, inplace=False)
+    ranked_table = ac.rank_ic(table, inplace=False)
     
     '''
     After choosing the best model and its fitted parameters, we can convert it into 

@@ -2,35 +2,33 @@ import numpy as np
 from numpy import log   as ln
 from numpy import log10 as log
 from numpy import exp
-def model_BMSS_Monod_Constitutive_Single(y, t, params):
-	x = y[0]
-	s = y[1]
-	h = y[2]
+def model_TestModel_Dummy(y, t, params):
+	m = y[0]
+	p = y[1]
 
-	mu_max = params[0]
-	Ks     = params[1]
-	Y      = params[2]
-	synh   = params[3]
+	k_ind = params[0]
+	synm  = params[1]
+	degm  = params[2]
+	synp  = params[3]
+	degp  = params[4]
+	ind   = params[5]
 
-	mu = mu_max*s/(s+Ks)
-	
-	dx = x*mu
-	ds = -dx/Y
-	dh = synh -h*mu
+	dm = synm*ind/(ind + k_ind) - degm*m
+	dp = synp*m - degp*p
 
-	return np.array([dx, ds, dh])
+	return np.array([dm, dp])
 
-x,s,h,mu_max,Ks,Y,synh= np.random.rand(7)*10
+m,p,k_ind,synm,degm,synp,degp,ind= np.random.rand(8)*10
 
-x,s,h,mu_max,Ks,Y,synh= list(map(float, [x,s,h,mu_max,Ks,Y,synh]))
+m,p,k_ind,synm,degm,synp,degp,ind= list(map(float, [m,p,k_ind,synm,degm,synp,degp,ind]))
 
-y = [x,s,h]
+y = [m,p]
 
 t = 0
 dt = 1e-3
 
-params = mu_max,Ks,Y,synh
+params = [k_ind,synm,degm,synp,degp,ind]
 
-y = y + dt*model_BMSS_Monod_Constitutive_Single(y, t, params)
+y = y + dt*model_TestModel_Dummy(y, t, params)
 
-y = y + dt*model_BMSS_Monod_Constitutive_Single(y, t, params)
+y = y + dt*model_TestModel_Dummy(y, t, params)

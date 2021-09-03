@@ -364,13 +364,13 @@ if __name__ == '__main__':
     plt.tight_layout(pad = 1.0) # set spacing between figures
     
     #Rank models
-    table = ac.calculate_aic(data   = sampler_args['data'], 
+    table = ac.calculate_ic(data   = sampler_args['data'], 
                              models = sampler_args['models'], 
                              priors = sampler_args['priors'],
                              params = accepted.iloc[-10:]
                              )
     
-    ranked_table  = ac.rank_aic(table, inplace=False)
+    ranked_table  = ac.rank_ic(table, inplace=False)
     print('\nRanked AIC table:\n', ranked_table.head())
     
     #export the ranked table into csv file inside the output folder

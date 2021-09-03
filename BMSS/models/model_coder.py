@@ -8,7 +8,8 @@ model_functions_directory = join(dirname(__file__), 'model_functions')
 ###############################################################################
 #Functions
 ###############################################################################
-def model_to_code(core_model,  use_numba=True, local=False, mode='w'):
+def model_to_code(core_model, use_numba=True, local=False):
+    
     header = 'import numpy as np\nfrom numpy import log   as ln\nfrom numpy import log10 as log\nfrom numpy import exp\n'
     if use_numba:
         header += 'from numba import jit\n\n' + '@jit(nopython=True)\n'
@@ -21,21 +22,20 @@ def model_to_code(core_model,  use_numba=True, local=False, mode='w'):
     result    += '\n\n'.join([states, params, equations])
     
     filename = core_model['system_type'].replace(', ', '_') + '.py'
-    if mode == 'w' or mode == 'a':
-        export_code(result, filename, local, mode)
+    export_code(result, filename, local)
     return result
 
 ###############################################################################
 #Export
 ###############################################################################
-def export_code(code, filename='code1.py', local=False, mode='w'):
+def export_code(code, filename='code1.py', local=False):
     global model_functions_directory
     filename1 = filename if local else join(model_functions_directory, filename)
-    with open(filename1, mode) as file:
+    
+    with open(filename1, 'w') as file:
         file.write(code)
     return
     
-
 ###############################################################################
 #Supporting Functions
 ############################################################################### 

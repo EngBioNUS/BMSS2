@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy             as np
 import pandas            as pd
-from   numba             import jit
 
 import setup_bmss              as lab
 import BMSS.models.setup_cf    as sc

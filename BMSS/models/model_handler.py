@@ -9,6 +9,9 @@ from   io         import StringIO
 from   pandas     import concat, DataFrame, Series, read_sql_query, read_csv
 from   sqlite3    import Error
 
+import numpy as np
+from numba import jit
+
 ###############################################################################
 #Non-Standard Imports
 ###############################################################################
@@ -43,7 +46,9 @@ CREATE TABLE IF NOT EXISTS "models" (
 );
 '''
 
-all_model_funcs = {}
+all_model_funcs = {'np'  : np,      'log' : np.log10, 'ln' : np.log, 
+                   'exp' : np.exp,  'jit' : jit
+                   }
 
 ###############################################################################
 #Database and Table Construction
@@ -127,8 +132,9 @@ def make_core_model(system_type, states, parameters, inputs, equations, descript
     is_valid, text = check_model_terms(core_model)
     if not is_valid:
         warnings.warn('Error in ' + str(system_type1) + ' when checking terms: ' + text)
-        # raise Exception('Error in ' + str(system_type1) + ' when checking terms: ' + text)
     
+    model_to_code(core_model, local=False)
+    get_model_function(system_type, local=False)
     return core_model
 
 def copy_core_model(core_model):
@@ -344,13 +350,22 @@ def get_model_function(system_type, local=False):
     
     model_name = system_type.replace(', ', '_')
     func_name  = 'model_'+  model_name
-    filename   = model_name + '.py' if local else f'BMSS/models/model_functions/{model_name}.py'
+    
+    if func_name in all_model_funcs:
+        return all_model_funcs[func_name]
+    
+    if local:
+        filename = f'{model_name}.py'
+    else:
+        filename = osp.join(osp.dirname(__file__), 'model_functions', f'{model_name}.py')
+    
+    if not osp.isfile(filename):
+        raise Exception(f'Could not find file for model function: {filename}')
         
     with open(filename, 'r') as file:
         code = file.read()
         
-        if '__' in code:
-            raise Exception('Double underscores not allowed.')
+        code = 'def' + code.split('def')[1]
         
         exec(code, all_model_funcs)
     
@@ -413,7 +428,8 @@ def from_config(filename):
         if key == 'ia':
             line = config[key][key].strip()
         elif key == 'equations':
-            line = config[key][key].replace('\n', ',').split(',')
+            # line = config[key][key].replace('\n', ',').split(',')
+            line = split_at_top_level(config[key][key].replace('\n', ','))
             line = [s.strip() if s else '' for s in line]
             line = line if line[0] else line[1:]
         elif key == 'descriptions':
@@ -426,6 +442,37 @@ def from_config(filename):
         model[key] = line
     
     return make_core_model(**model)
+
+def split_at_top_level(string, delimiter=','):
+    '''
+    Use this for nested lists.
+    This is also a helper function for string_to_dict.
+    '''
+    nested = []
+    buffer = ''
+    result = []
+    matching_bracket = {'(':')', '[':']', '{':'}'}
+    
+    for char in string:
+        if char in ['[', '(', '{']:
+            nested.append(char)
+            buffer += char
+        
+        elif char in [']', ')', '}']:
+            if char == matching_bracket.get(nested[-1]):
+                nested = nested[:-1]
+                buffer += char
+            else:
+                raise Exception('Mismatched brackets.' )
+        elif char == delimiter and not nested:
+            if buffer:
+                result.append(buffer)
+                buffer = ''
+        else:
+            buffer += char
+    if buffer:
+        result.append(buffer)
+    return result
 
 def to_config(core_model, filename):
     '''Exports a core_model data structure to a config file.
