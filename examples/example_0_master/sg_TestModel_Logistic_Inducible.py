@@ -23,7 +23,7 @@ variables = {'x': x, 'h': h, 'mu_max': mu_max, 'synh': synh, 'Kind': Kind, 'x_ma
 #User makes changes here
 measured_states    = Matrix([x, h])
 states             = Matrix([x, h])
-unknown_parameters = Matrix([synh, Kind])
+unknown_parameters = Matrix([])
 diff               = Matrix([dx, dh])
 input_conditions   = {Ind: 5}
 init_conditions    = {x: Float(0.1, 3), h: Float(0.1, 3)}
@@ -31,7 +31,7 @@ decomposition      = [
                       ]
 
 
-known_parameters = {mu_max : 1, x_max : 1}
+known_parameters = {mu_max : 1, synh : 1, Kind : 1, x_max : 1}
 diff = diff.subs(known_parameters.items())
 
 

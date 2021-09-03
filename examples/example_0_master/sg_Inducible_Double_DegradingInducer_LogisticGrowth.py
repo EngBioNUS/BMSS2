@@ -10,7 +10,6 @@ mu_max, x_max, degind, k_ind, synm, degm, synp, n_ind = [Symbol(x) for x in ['mu
 
 
 mu = mu_max*(1 - x/x_max)
-
 dx   = mu*x
 dind = -degind*ind
 dm   =  synm*ind**n_ind/(ind**n_ind + k_ind**n_ind) - degm*m
@@ -24,7 +23,7 @@ variables = {'x': x, 'ind': ind, 'm': m, 'p': p, 'mu_max': mu_max, 'x_max': x_ma
 #User makes changes here
 measured_states    = Matrix([x, ind, m, p])
 states             = Matrix([x, ind, m, p])
-unknown_parameters = Matrix([degind, k_ind, synm, synp])
+unknown_parameters = Matrix([])
 diff               = Matrix([dx, dind, dm, dp])
 input_conditions   = {}
 init_conditions    = {x: Float(0.1, 3), ind: Float(0.1, 3), m: Float(0.1, 3), p: Float(0.1, 3)}
@@ -35,7 +34,7 @@ decomposition      = [[x],
                       ]
 
 
-known_parameters = {mu_max : 1, x_max : 1, degm : 1, n_ind : 1}
+known_parameters = {mu_max : 1, x_max : 1, degind : 1, k_ind : 1, synm : 1, degm : 1, synp : 1, n_ind : 1}
 diff = diff.subs(known_parameters.items())
 
 

@@ -7,8 +7,8 @@
     x: 1
     h: 1
     mu_max: 1
-    synh: 0
-    Kind: 0
+    synh: 1
+    Kind: 1
     x_max: 1
     Ind: 5
   output:
@@ -32,11 +32,11 @@
     p: 1
     mu_max: 1
     x_max: 1
-    degind: 0
-    k_ind: 0
-    synm: 0
+    degind: 1
+    k_ind: 1
+    synm: 1
     degm: 1
-    synp: 0
+    synp: 1
     n_ind: 1
   output:
     x: 1
@@ -67,11 +67,11 @@
     p: 1
     mu_max: 1
     x_max: 1
-    upind: 0
-    k_ind: 0
-    synm: 0
+    upind: 1
+    k_ind: 1
+    synm: 1
     degm: 1
-    synp: 0
+    synp: 1
     n_ind: 1
   output:
     x: 1
