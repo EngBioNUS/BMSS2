@@ -696,6 +696,12 @@ def setup():
             os.mkdir(osp.join(_dir, folder))
     print('Connected to MBase_models, UBase_models')
     
+    #Get functions
+    for system_type in list_models():
+        core_model = quick_search(system_type)
+        model_to_code(core_model)
+        get_model_function(system_type)
+    
     return database
 
 def change_userid(new_userid):
