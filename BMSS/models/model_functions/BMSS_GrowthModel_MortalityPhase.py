@@ -17,9 +17,8 @@ def model_BMSS_GrowthModel_MortalityPhase(y, t, params):
 	b   = params[6]
 	t   = params[7]
 
-	a = 1 / (tc1 ** m1)
-	b = 1 / (tc2 ** m2)
-	
+	a   = 1 / (tc1 ** m1)
+	b   = 1 / (tc2 ** m2)
 	dOD = N0 * (a * m1 * (t ** (m1-1)) - b * m2 * (t ** (m2-1))) * (2.7183**(a * (t ** m1) - b * (t ** m2)))
 
 	return np.array([dOD])

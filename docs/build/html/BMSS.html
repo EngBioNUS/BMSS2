@@ -86,12 +86,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">BMSS</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">BMSS package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="BMSS.models.html">BMSS.models package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BMSS.standardfiles_generators.html">BMSS.standardfiles_generators package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html">BMSS.models package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BMSS.sbml.html">BMSS.sbml package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-BMSS.aicanalysis">BMSS.aicanalysis module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-BMSS.curvefitting">BMSS.curvefitting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-BMSS.sensitivityanalysis">BMSS.sensitivityanalysis module</a></li>
@@ -172,8 +168,6 @@
             
   <div class="section" id="bmss-package">
 <h1>BMSS package<a class="headerlink" href="#bmss-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="BMSS.models.html">BMSS.models package</a><ul>
@@ -188,17 +182,16 @@
 <li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="BMSS.standardfiles_generators.html">BMSS.standardfiles_generators package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.standardfiles_generators.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.standardfiles_generators.html#module-BMSS.standardfiles_generators.sbmlgen">BMSS.standardfiles_generators.sbmlgen module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.standardfiles_generators.html#module-BMSS.standardfiles_generators">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BMSS.sbml.html">BMSS.sbml package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.sbml.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.sbml.html#module-BMSS.sbml.OnlinetoConfig">BMSS.sbml.OnlinetoConfig module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.sbml.html#module-BMSS.sbml.combinegen">BMSS.sbml.combinegen module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.sbml.html#module-BMSS.sbml.sbmlgen">BMSS.sbml.sbmlgen module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.sbml.html#module-BMSS.sbml.simplesbml">BMSS.sbml.simplesbml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.sbml.html#module-BMSS.sbml">Module contents</a></li>
 </ul>
 </li>
 </ul>
-</div>
-</div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-BMSS.aicanalysis">
 <span id="bmss-aicanalysis-module"></span><h2>BMSS.aicanalysis module<a class="headerlink" href="#module-BMSS.aicanalysis" title="Permalink to this headline">¶</a></h2>
@@ -487,6 +480,39 @@ what you are doing.</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt id="BMSS.curvefitting.scipy_optimize">
+<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">scipy_optimize</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">bounds={}</em>, <em class="sig-param">fixed_parameters=[]</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">scipy_args={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.scipy_optimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for scipy’s dual annealing algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>dict</em>) – Experimental data.</p></li>
+<li><p><strong>models</strong> (<em>dict</em>) – Dictionary of model data structures.</p></li>
+<li><p><strong>guess</strong> (<em>dict</em>) – The initial guess. The default is {}.</p></li>
+<li><p><strong>priors</strong> (<em>dict</em><em>, </em><em>optional</em>) – Priors if any. The default is {}.</p></li>
+<li><p><strong>bounds</strong> (<em>dict</em><em>, </em><em>optional</em>) – A dictionary mapping parameter names to tuples (lower, upper). The
+default is {}.</p></li>
+<li><p><strong>fixed_parameters</strong> (<em>list</em><em>, </em><em>optional</em>) – A list of parameters that will be fixed. The default is [].</p></li>
+<li><p><strong>likelihood_function</strong> (<em>function</em><em>, </em><em>optional</em>) – The likelihood function to be calculated. Do not change unless you know
+what you are doing.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><strong>result</strong> –</p>
+<dl class="simple">
+<dt>A dictionary with the following mapping:</dt><dd><p>”a” : The accepted samples
+“r” : The rejected samples</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="BMSS.curvefitting.simulated_annealing">
 <code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">simulated_annealing</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">step_size</em>, <em class="sig-param">trials=10000</em>, <em class="sig-param">bounds={}</em>, <em class="sig-param">blocks=[]</em>, <em class="sig-param">SA=True</em>, <em class="sig-param">fixed_parameters=[]</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.simulated_annealing" title="Permalink to this definition">¶</a></dt>
 <dd><p>BMSS2’s primary curve-fitting algorithm.</p>
@@ -531,7 +557,7 @@ what you are doing.</p></li>
 <span id="bmss-sensitivityanalysis-module"></span><h2>BMSS.sensitivityanalysis module<a class="headerlink" href="#module-BMSS.sensitivityanalysis" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="BMSS.sensitivityanalysis.analyze">
-<code class="sig-prename descclassname">BMSS.sensitivityanalysis.</code><code class="sig-name descname">analyze</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">objective</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'np'</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">100</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.analyze" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">BMSS.sensitivityanalysis.</code><code class="sig-name descname">analyze</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">objective</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'np'</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">256</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.analyze" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main algorithm for sensitivity analysis. Wraps analyze_sensitivty and sample_and_integrate.</p>
 </dd></dl>
 
@@ -564,7 +590,7 @@ what you are doing.</p></li>
 
 <dl class="py function">
 <dt id="BMSS.sensitivityanalysis.make_samples">
-<code class="sig-prename descclassname">BMSS.sensitivityanalysis.</code><code class="sig-name descname">make_samples</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">1000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.make_samples" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">BMSS.sensitivityanalysis.</code><code class="sig-name descname">make_samples</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">256</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.make_samples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates samples for each model.</p>
 </dd></dl>
 
@@ -583,7 +609,7 @@ keys/columns to use.</p>
 
 <dl class="py function">
 <dt id="BMSS.sensitivityanalysis.sample_and_integrate">
-<code class="sig-prename descclassname">BMSS.sensitivityanalysis.</code><code class="sig-name descname">sample_and_integrate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span></em>, <em class="sig-param"><span class="n">objective</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">1000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.sample_and_integrate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">BMSS.sensitivityanalysis.</code><code class="sig-name descname">sample_and_integrate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span></em>, <em class="sig-param"><span class="n">objective</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">256</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.sample_and_integrate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -613,7 +639,7 @@ keys/columns to use.</p>
 
 <dl class="py function">
 <dt id="BMSS.simulation.integrate_models">
-<code class="sig-prename descclassname">BMSS.simulation.</code><code class="sig-name descname">integrate_models</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">extra_variables</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'np'</span></em>, <em class="sig-param"><span class="n">overlap</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.integrate_models" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">BMSS.simulation.</code><code class="sig-name descname">integrate_models</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">extra_variables</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'np'</span></em>, <em class="sig-param"><span class="n">overlap</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">multiply</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.integrate_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>Integrates models with params</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -625,7 +651,8 @@ keys/columns to use.</p>
 <li><p><strong>mode</strong> (<em>{'np'</em><em>, </em><em>'df'}</em><em>, </em><em>optional</em>) – Use ‘np’ if the functions in extra_variables are meant to work with numpy
 arrays and ‘pd’ if functions are meant to work with DataFrames. The
 default is ‘np’.</p></li>
-<li><p><strong>overlap</strong> (<em>TYPE</em><em>, </em><em>optional</em>) – DESCRIPTION. The default is True.</p></li>
+<li><p><strong>overlap</strong> (<em>TYPE</em><em>, </em><em>optional</em>) – Whether or not to include the overlapping points between time segments. The default is True.</p></li>
+<li><p><strong>multiply</strong> (<em>bool</em><em>, </em><em>optional</em>) – Permutes parameters and scenarios if True and vice versa. The default is True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -718,6 +745,11 @@ default is {}.</p></li>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.simulation.solver">
+<code class="sig-prename descclassname">BMSS.simulation.</code><code class="sig-name descname">solver</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f</span></em>, <em class="sig-param"><span class="n">y0</span></em>, <em class="sig-param"><span class="n">tspan</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.solver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-BMSS.strike_goldd_simplified">

@@ -1,0 +1,6 @@
+
+<sedML xmlns="http://sed-ml.org/sed-ml/level1/version3" level="1" version="3">
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml.level-3.version-1" source="Test_Model_OMEX_Repressilator_Example_2_1.xml"/>
+  </listOfModels>
+</sedML>

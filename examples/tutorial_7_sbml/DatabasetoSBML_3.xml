@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model substanceUnits="mole" timeUnits="second" extentUnits="mole">
+    <listOfUnitDefinitions>
+      <unitDefinition id="per_second">
+        <listOfUnits>
+          <unit kind="second" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="per_min">
+        <listOfUnits>
+          <unit kind="second" exponent="-1" scale="0" multiplier="60"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="minute">
+        <listOfUnits>
+          <unit kind="second" exponent="1" scale="0" multiplier="60"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="seconds">
+        <listOfUnits>
+          <unit kind="second" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="molperLmin">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+          <unit kind="litre" exponent="-1" scale="0" multiplier="1"/>
+          <unit kind="second" exponent="-1" scale="0" multiplier="60"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="molpermin">
+        <listOfUnits>
+          <unit kind="second" exponent="-1" scale="0" multiplier="60"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="molperL">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+          <unit kind="litre" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="mol">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="Dimension_less">
+        <listOfUnits>
+          <unit kind="dimensionless" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="items">
+        <listOfUnits>
+          <unit kind="item" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="itemspermol">
+        <listOfUnits>
+          <unit kind="item" exponent="1" scale="0" multiplier="1"/>
+          <unit kind="mole" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="c1" spatialDimensions="3" size="1" units="litre" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="PX" compartment="c1" initialAmount="10" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="PY" compartment="c1" initialAmount="10" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="PZ" compartment="c1" initialAmount="20" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="X" compartment="c1" initialAmount="20" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="Y" compartment="c1" initialAmount="40" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="Z" compartment="c1" initialAmount="20" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="beta" value="0.2" units="per_second" constant="false"/>
+      <parameter id="alpha0" value="0.2164" units="per_second" constant="false"/>
+      <parameter id="alpha" value="216.404" units="per_second" constant="false"/>
+      <parameter id="eff" value="20" units="per_second" constant="false"/>
+      <parameter id="n" value="2" units="per_second" constant="false"/>
+      <parameter id="KM" value="40" units="per_second" constant="false"/>
+      <parameter id="tau_mRNA" value="2" units="per_second" constant="false"/>
+      <parameter id="tau_prot" value="10" units="per_second" constant="false"/>
+      <parameter id="t_ave" value="0" units="per_second" constant="false"/>
+      <parameter id="kd_mRNA" value="0" units="per_second" constant="false"/>
+      <parameter id="kd_prot" value="0" units="per_second" constant="false"/>
+      <parameter id="k_tl" value="0" units="per_second" constant="false"/>
+      <parameter id="a_tr" value="0" units="per_second" constant="false"/>
+      <parameter id="ps_a" value="0.5" units="per_second" constant="false"/>
+      <parameter id="ps_0" value="0.0005" units="per_second" constant="false"/>
+      <parameter id="a0_tr" value="0" units="per_second" constant="false"/>
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="beta">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <ci> tau_mRNA </ci>
+            <ci> tau_prot </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="alpha0">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <apply>
+              <times/>
+              <ci> a0_tr </ci>
+              <ci> eff </ci>
+              <ci> tau_prot </ci>
+            </apply>
+            <apply>
+              <times/>
+              <apply>
+                <ln/>
+                <cn type="integer"> 2 </cn>
+              </apply>
+              <ci> KM </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="a0_tr">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> ps_0 </ci>
+            <cn type="integer"> 60 </cn>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="alpha">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <apply>
+              <times/>
+              <ci> a_tr </ci>
+              <ci> eff </ci>
+              <ci> tau_prot </ci>
+            </apply>
+            <apply>
+              <times/>
+              <apply>
+                <ln/>
+                <cn type="integer"> 2 </cn>
+              </apply>
+              <ci> KM </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="a_tr">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <apply>
+              <minus/>
+              <ci> ps_a </ci>
+              <ci> ps_0 </ci>
+            </apply>
+            <cn type="integer"> 60 </cn>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="t_ave">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <ci> tau_mRNA </ci>
+            <apply>
+              <ln/>
+              <cn type="integer"> 2 </cn>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="kd_mRNA">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <apply>
+              <ln/>
+              <cn type="integer"> 2 </cn>
+            </apply>
+            <ci> tau_mRNA </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="kd_prot">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <apply>
+              <ln/>
+              <cn type="integer"> 2 </cn>
+            </apply>
+            <ci> tau_prot </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="k_tl">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <ci> eff </ci>
+            <ci> t_ave </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <rateRule variable="PX">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <times/>
+              <ci> k_tl </ci>
+              <ci> X </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd_prot </ci>
+              <ci> PX </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="PY">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <times/>
+              <ci> k_tl </ci>
+              <ci> Y </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd_prot </ci>
+              <ci> PY </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="PZ">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <times/>
+              <ci> k_tl </ci>
+              <ci> Z </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd_prot </ci>
+              <ci> PZ </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="X">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <plus/>
+              <ci> a0_tr </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> a_tr </ci>
+                  <apply>
+                    <power/>
+                    <ci> KM </ci>
+                    <ci> n </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <power/>
+                    <ci> KM </ci>
+                    <ci> n </ci>
+                  </apply>
+                  <apply>
+                    <power/>
+                    <ci> PZ </ci>
+                    <ci> n </ci>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd_mRNA </ci>
+              <ci> X </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="Y">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <plus/>
+              <ci> a0_tr </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> a_tr </ci>
+                  <apply>
+                    <power/>
+                    <ci> KM </ci>
+                    <ci> n </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <power/>
+                    <ci> KM </ci>
+                    <ci> n </ci>
+                  </apply>
+                  <apply>
+                    <power/>
+                    <ci> PX </ci>
+                    <ci> n </ci>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd_mRNA </ci>
+              <ci> Y </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="Z">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <plus/>
+              <ci> a0_tr </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> a_tr </ci>
+                  <apply>
+                    <power/>
+                    <ci> KM </ci>
+                    <ci> n </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <power/>
+                    <ci> KM </ci>
+                    <ci> n </ci>
+                  </apply>
+                  <apply>
+                    <power/>
+                    <ci> PY </ci>
+                    <ci> n </ci>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd_mRNA </ci>
+              <ci> Z </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+    </listOfRules>
+  </model>
+</sbml>

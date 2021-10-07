@@ -1,0 +1,999 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model substanceUnits="mole" timeUnits="second" extentUnits="mole">
+    <listOfUnitDefinitions>
+      <unitDefinition id="per_second">
+        <listOfUnits>
+          <unit kind="second" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="per_min">
+        <listOfUnits>
+          <unit kind="second" exponent="-1" scale="0" multiplier="60"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="minute">
+        <listOfUnits>
+          <unit kind="second" exponent="1" scale="0" multiplier="60"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="seconds">
+        <listOfUnits>
+          <unit kind="second" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="molperLmin">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+          <unit kind="litre" exponent="-1" scale="0" multiplier="1"/>
+          <unit kind="second" exponent="-1" scale="0" multiplier="60"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="molpermin">
+        <listOfUnits>
+          <unit kind="second" exponent="-1" scale="0" multiplier="60"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="molperL">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+          <unit kind="litre" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="mol">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="Dimension_less">
+        <listOfUnits>
+          <unit kind="dimensionless" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="items">
+        <listOfUnits>
+          <unit kind="item" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="itemspermol">
+        <listOfUnits>
+          <unit kind="item" exponent="1" scale="0" multiplier="1"/>
+          <unit kind="mole" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="c1" spatialDimensions="3" size="1" units="litre" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="rmt" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="rmm" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="rmq" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="rmr" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="rmp" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="pt" compartment="c1" initialAmount="1" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="pm" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="mt" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="mm" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="mq" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="mr" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="mp" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="si" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="a" compartment="c1" initialAmount="1000" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="q" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="r" compartment="c1" initialAmount="10" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="p" compartment="c1" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="N" compartment="c1" initialAmount="1" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="s0" compartment="c1" initialAmount="10000000000" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="M" value="100000000" units="items" constant="false"/>
+      <parameter id="gmax" value="1260" units="itemspermol" constant="false"/>
+      <parameter id="Kgamma" value="300000000" units="mol" constant="false"/>
+      <parameter id="thetat" value="4.3797" units="mol" constant="false"/>
+      <parameter id="thetam" value="4.3797" units="mol" constant="false"/>
+      <parameter id="thetaq" value="4.3797" units="mol" constant="false"/>
+      <parameter id="thetar" value="426.869" units="mol" constant="false"/>
+      <parameter id="thetap" value="4.3797" units="mol" constant="false"/>
+      <parameter id="wt" value="4.139" units="molpermin" constant="false"/>
+      <parameter id="wm" value="4.139" units="molpermin" constant="false"/>
+      <parameter id="wq" value="948.9349" units="molpermin" constant="false"/>
+      <parameter id="wr" value="929.9678" units="molpermin" constant="false"/>
+      <parameter id="wp" value="0" units="molpermin" constant="false"/>
+      <parameter id="nt" value="300" units="items" constant="false"/>
+      <parameter id="nm" value="300" units="items" constant="false"/>
+      <parameter id="nq" value="300" units="items" constant="false"/>
+      <parameter id="nr" value="7549" units="items" constant="false"/>
+      <parameter id="np_" value="300" units="items" constant="false"/>
+      <parameter id="hq" value="4" units="Dimension_less" constant="false"/>
+      <parameter id="Kt" value="1000" units="mol" constant="false"/>
+      <parameter id="vt" value="726" units="per_min" constant="false"/>
+      <parameter id="Kq" value="152200" units="mol" constant="false"/>
+      <parameter id="vm" value="5800" units="per_min" constant="false"/>
+      <parameter id="Km" value="1000" units="mol" constant="false"/>
+      <parameter id="ns" value="100" units="Dimension_less" constant="false"/>
+      <parameter id="dm" value="0.1" units="per_min" constant="false"/>
+      <parameter id="kb" value="1" units="per_min" constant="false"/>
+      <parameter id="ku" value="1" units="per_min" constant="false"/>
+      <parameter id="RegN" value="0" units="Dimension_less" constant="false"/>
+      <parameter id="Regs0" value="0" units="Dimension_less" constant="false"/>
+      <parameter id="gamma" value="0" units="itemspermol" constant="false"/>
+      <parameter id="ttrate" value="0" units="itemspermol" constant="false"/>
+      <parameter id="lam" value="0" units="mol" constant="false"/>
+      <parameter id="nucat" value="0" units="mol" constant="false"/>
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="gamma">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <apply>
+              <times/>
+              <ci> gmax </ci>
+              <ci> a </ci>
+            </apply>
+            <apply>
+              <plus/>
+              <ci> Kgamma </ci>
+              <ci> a </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="ttrate">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <apply>
+              <plus/>
+              <ci> rmq </ci>
+              <ci> rmr </ci>
+              <ci> rmp </ci>
+              <ci> rmt </ci>
+              <ci> rmm </ci>
+            </apply>
+            <ci> gamma </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="lam">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <ci> ttrate </ci>
+            <ci> M </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="nucat">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <apply>
+              <times/>
+              <ci> pm </ci>
+              <ci> vm </ci>
+              <ci> si </ci>
+            </apply>
+            <apply>
+              <plus/>
+              <ci> Km </ci>
+              <ci> si </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <rateRule variable="rmt">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <times/>
+                  <ci> kb </ci>
+                  <ci> r </ci>
+                  <ci> mt </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> ku </ci>
+                  <ci> rmt </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <apply>
+                  <divide/>
+                  <ci> gamma </ci>
+                  <ci> nt </ci>
+                </apply>
+                <ci> rmt </ci>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> rmt </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="rmm">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <times/>
+                  <ci> kb </ci>
+                  <ci> r </ci>
+                  <ci> mm </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> ku </ci>
+                  <ci> rmm </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <apply>
+                  <divide/>
+                  <ci> gamma </ci>
+                  <ci> nm </ci>
+                </apply>
+                <ci> rmm </ci>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> rmm </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="rmq">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <times/>
+                  <ci> kb </ci>
+                  <ci> r </ci>
+                  <ci> mq </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> ku </ci>
+                  <ci> rmq </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <apply>
+                  <divide/>
+                  <ci> gamma </ci>
+                  <ci> nq </ci>
+                </apply>
+                <ci> rmq </ci>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> rmq </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="rmr">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <times/>
+                  <ci> kb </ci>
+                  <ci> r </ci>
+                  <ci> mr </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> ku </ci>
+                  <ci> rmr </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <apply>
+                  <divide/>
+                  <ci> gamma </ci>
+                  <ci> nr </ci>
+                </apply>
+                <ci> rmr </ci>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> rmr </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="rmp">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <times/>
+                  <ci> kb </ci>
+                  <ci> r </ci>
+                  <ci> mp </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> ku </ci>
+                  <ci> rmp </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <apply>
+                  <divide/>
+                  <ci> gamma </ci>
+                  <ci> np_ </ci>
+                </apply>
+                <ci> rmp </ci>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> rmp </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="pt">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <times/>
+              <apply>
+                <divide/>
+                <ci> gamma </ci>
+                <ci> nt </ci>
+              </apply>
+              <ci> rmt </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> pt </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="pm">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <times/>
+              <apply>
+                <divide/>
+                <ci> gamma </ci>
+                <ci> nm </ci>
+              </apply>
+              <ci> rmm </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> pm </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="mt">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <ci> wt </ci>
+                      <ci> a </ci>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <ci> thetat </ci>
+                      <ci> a </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> ku </ci>
+                    <ci> rmt </ci>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <divide/>
+                      <ci> gamma </ci>
+                      <ci> nt </ci>
+                    </apply>
+                    <ci> rmt </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> kb </ci>
+                  <ci> r </ci>
+                  <ci> mt </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <ci> dm </ci>
+                <ci> mt </ci>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> mt </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="mm">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <ci> wm </ci>
+                      <ci> a </ci>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <ci> thetam </ci>
+                      <ci> a </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> ku </ci>
+                    <ci> rmm </ci>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <divide/>
+                      <ci> gamma </ci>
+                      <ci> nm </ci>
+                    </apply>
+                    <ci> rmm </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> kb </ci>
+                  <ci> r </ci>
+                  <ci> mm </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <ci> dm </ci>
+                <ci> mm </ci>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> mm </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="mq">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> wq </ci>
+                        <ci> a </ci>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <ci> thetaq </ci>
+                        <ci> a </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> q </ci>
+                          <ci> Kq </ci>
+                        </apply>
+                        <ci> hq </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> ku </ci>
+                    <ci> rmq </ci>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <divide/>
+                      <ci> gamma </ci>
+                      <ci> nq </ci>
+                    </apply>
+                    <ci> rmq </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> kb </ci>
+                  <ci> r </ci>
+                  <ci> mq </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <ci> dm </ci>
+                <ci> mq </ci>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> mq </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="mr">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <ci> wr </ci>
+                      <ci> a </ci>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <ci> thetar </ci>
+                      <ci> a </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> ku </ci>
+                    <ci> rmr </ci>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <divide/>
+                      <ci> gamma </ci>
+                      <ci> nr </ci>
+                    </apply>
+                    <ci> rmr </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> kb </ci>
+                  <ci> r </ci>
+                  <ci> mr </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <ci> dm </ci>
+                <ci> mr </ci>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> mr </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="mp">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <ci> wp </ci>
+                      <ci> a </ci>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <ci> thetap </ci>
+                      <ci> a </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> ku </ci>
+                    <ci> rmp </ci>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <divide/>
+                      <ci> gamma </ci>
+                      <ci> np_ </ci>
+                    </apply>
+                    <ci> rmp </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> kb </ci>
+                  <ci> r </ci>
+                  <ci> mp </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <ci> dm </ci>
+                <ci> mp </ci>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> mp </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="si">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> pt </ci>
+                <ci> vt </ci>
+                <apply>
+                  <divide/>
+                  <ci> s0 </ci>
+                  <apply>
+                    <plus/>
+                    <ci> Kt </ci>
+                    <ci> s0 </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> nucat </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> si </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="a">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> ns </ci>
+                <ci> nucat </ci>
+              </apply>
+              <ci> ttrate </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> a </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="q">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <times/>
+              <apply>
+                <divide/>
+                <ci> gamma </ci>
+                <ci> nq </ci>
+              </apply>
+              <ci> rmq </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> q </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="r">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <minus/>
+                    <apply>
+                      <minus/>
+                      <apply>
+                        <plus/>
+                        <apply>
+                          <times/>
+                          <ci> ku </ci>
+                          <ci> rmr </ci>
+                        </apply>
+                        <apply>
+                          <times/>
+                          <ci> ku </ci>
+                          <ci> rmt </ci>
+                        </apply>
+                        <apply>
+                          <times/>
+                          <ci> ku </ci>
+                          <ci> rmm </ci>
+                        </apply>
+                        <apply>
+                          <times/>
+                          <ci> ku </ci>
+                          <ci> rmp </ci>
+                        </apply>
+                        <apply>
+                          <times/>
+                          <ci> ku </ci>
+                          <ci> rmq </ci>
+                        </apply>
+                        <apply>
+                          <times/>
+                          <apply>
+                            <divide/>
+                            <ci> gamma </ci>
+                            <ci> nr </ci>
+                          </apply>
+                          <ci> rmr </ci>
+                        </apply>
+                        <apply>
+                          <times/>
+                          <apply>
+                            <divide/>
+                            <ci> gamma </ci>
+                            <ci> nr </ci>
+                          </apply>
+                          <ci> rmr </ci>
+                        </apply>
+                        <apply>
+                          <times/>
+                          <apply>
+                            <divide/>
+                            <ci> gamma </ci>
+                            <ci> nt </ci>
+                          </apply>
+                          <ci> rmt </ci>
+                        </apply>
+                        <apply>
+                          <times/>
+                          <apply>
+                            <divide/>
+                            <ci> gamma </ci>
+                            <ci> nm </ci>
+                          </apply>
+                          <ci> rmm </ci>
+                        </apply>
+                        <apply>
+                          <times/>
+                          <apply>
+                            <divide/>
+                            <ci> gamma </ci>
+                            <ci> np_ </ci>
+                          </apply>
+                          <ci> rmp </ci>
+                        </apply>
+                        <apply>
+                          <times/>
+                          <apply>
+                            <divide/>
+                            <ci> gamma </ci>
+                            <ci> nq </ci>
+                          </apply>
+                          <ci> rmq </ci>
+                        </apply>
+                      </apply>
+                      <apply>
+                        <times/>
+                        <ci> kb </ci>
+                        <ci> r </ci>
+                        <ci> mr </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <times/>
+                      <ci> kb </ci>
+                      <ci> r </ci>
+                      <ci> mt </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> kb </ci>
+                    <ci> r </ci>
+                    <ci> mm </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> kb </ci>
+                  <ci> r </ci>
+                  <ci> mp </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <ci> kb </ci>
+                <ci> r </ci>
+                <ci> mq </ci>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> r </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="p">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <times/>
+              <apply>
+                <divide/>
+                <ci> gamma </ci>
+                <ci> np_ </ci>
+              </apply>
+              <ci> rmp </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> lam </ci>
+              <ci> p </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="N">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> RegN </ci>
+            <ci> lam </ci>
+            <ci> N </ci>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="s0">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> Regs0 </ci>
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> pt </ci>
+                <ci> vt </ci>
+                <apply>
+                  <divide/>
+                  <ci> s0 </ci>
+                  <apply>
+                    <plus/>
+                    <ci> Kt </ci>
+                    <ci> s0 </ci>
+                  </apply>
+                </apply>
+                <ci> N </ci>
+              </apply>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+    </listOfRules>
+  </model>
+</sbml>

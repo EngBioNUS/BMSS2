@@ -16,7 +16,6 @@ def model_TestModel_Logistic_Inducible(y, t, params):
 	Ind    = params[4]
 
 	mu = mu_max*(1 - x/x_max)
-	
 	dx = x*mu
 	dh = synh*Ind/(Ind+Kind) -h*mu
 

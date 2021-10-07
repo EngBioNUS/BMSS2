@@ -84,6 +84,7 @@ def make_settings(system_type,    settings_name,       units,
     '''
     
     system_type1 = system_type if type(system_type) == str else ', '.join(system_type)
+    
     if user_core_model:
         core_model   = user_core_model
         if core_model['system_type'] != system_type1:
@@ -199,6 +200,7 @@ def search_database(system_type='', settings_name='', database=None, skip_constr
         to rows where the value of active is True, defaults to True
     :type active_only: bool, optional
     '''
+    
     #Can only add a settings for active models
     core_model = mh.quick_search(system_type, active_only=True)
     result     = []

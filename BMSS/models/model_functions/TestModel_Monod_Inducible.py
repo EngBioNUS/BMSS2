@@ -18,7 +18,6 @@ def model_TestModel_Monod_Inducible(y, t, params):
 	Ind    = params[5]
 
 	mu = mu_max*s/(s+Ks)
-	
 	dx = x*mu
 	ds = -dx/Y
 	dh = synh*Ind/(Ind+Kind) -h*mu

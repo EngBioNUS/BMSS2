@@ -36,7 +36,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="BMSS.standardfiles_generators package" href="BMSS.standardfiles_generators.html" />
+    <link rel="next" title="BMSS.sbml package" href="BMSS.sbml.html" />
     <link rel="prev" title="BMSS package" href="BMSS.html" /> 
 </head>
 
@@ -86,12 +86,19 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">BMSS</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="BMSS.html">BMSS package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="BMSS.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">BMSS.models package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BMSS.standardfiles_generators.html">BMSS.standardfiles_generators package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">BMSS.models package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.models.ia_results">BMSS.models.ia_results module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.models.model_handler">BMSS.models.model_handler module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.models.settings_handler">BMSS.models.settings_handler module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.models.setup_cf">BMSS.models.setup_cf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.models.setup_sen">BMSS.models.setup_sen module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.models.setup_sg">BMSS.models.setup_sg module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.models.setup_sim">BMSS.models.setup_sim module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.models">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BMSS.sbml.html">BMSS.sbml package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.aicanalysis">BMSS.aicanalysis module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.curvefitting">BMSS.curvefitting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.sensitivityanalysis">BMSS.sensitivityanalysis module</a></li>
@@ -312,6 +319,11 @@ Can be restored using the restore function.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="BMSS.models.model_handler.get_model_function">
+<code class="sig-prename descclassname">BMSS.models.model_handler.</code><code class="sig-name descname">get_model_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system_type</span></em>, <em class="sig-param"><span class="n">local</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.model_handler.get_model_function" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt id="BMSS.models.model_handler.list_models">
 <code class="sig-prename descclassname">BMSS.models.model_handler.</code><code class="sig-name descname">list_models</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">database</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.model_handler.list_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of system_types</p>
@@ -432,6 +444,13 @@ to rows where the value of active is True, defaults to True</p></li>
 <dt id="BMSS.models.model_handler.setup">
 <code class="sig-prename descclassname">BMSS.models.model_handler.</code><code class="sig-name descname">setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.model_handler.setup" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.models.model_handler.split_at_top_level">
+<code class="sig-prename descclassname">BMSS.models.model_handler.</code><code class="sig-name descname">split_at_top_level</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span></em>, <em class="sig-param"><span class="n">delimiter</span><span class="o">=</span><span class="default_value">','</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.model_handler.split_at_top_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this for nested lists.
+This is also a helper function for string_to_dict.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt id="BMSS.models.model_handler.to_config">
@@ -729,6 +748,14 @@ core_models already in the database do not need to be specified here.</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt id="BMSS.models.setup_cf.get_sampler_args_op">
+<code class="sig-prename descclassname">BMSS.models.setup_cf.</code><code class="sig-name descname">get_sampler_args_op</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">user_core_models</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.setup_cf.get_sampler_args_op" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut for setting up differential evolution for one model</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="BMSS.models.setup_cf.get_sampler_args_sa">
 <code class="sig-prename descclassname">BMSS.models.setup_cf.</code><code class="sig-name descname">get_sampler_args_sa</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">user_core_models</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.models.setup_cf.get_sampler_args_sa" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shortcut for setting up simulated annealing for one model</p>
@@ -961,7 +988,7 @@ using quick_search</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="BMSS.standardfiles_generators.html" class="btn btn-neutral float-right" title="BMSS.standardfiles_generators package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="BMSS.sbml.html" class="btn btn-neutral float-right" title="BMSS.sbml package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="BMSS.html" class="btn btn-neutral float-left" title="BMSS package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

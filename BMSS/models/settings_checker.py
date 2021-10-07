@@ -131,8 +131,6 @@ def check_and_assign_init(states, init, init_orient='scenario'):
         if len(states) == len(row):
             return
         else:
-            print(states)
-            print(row)
             raise Exception('Error in init. Number of states does not match core model. Expected:\n' + str(states) + '\nDetected:\n' + str(row))
     
     def check_valid_states(states, columns):
@@ -141,6 +139,7 @@ def check_and_assign_init(states, init, init_orient='scenario'):
     
     if init is not None:
         if init_orient == 'scenario' and type(init) == dict:
+            
             for key in init:
                 check_valid_num_states(states, init[key])
                 check_valid_scenario_num(key)

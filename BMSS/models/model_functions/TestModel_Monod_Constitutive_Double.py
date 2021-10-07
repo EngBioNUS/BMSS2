@@ -19,7 +19,6 @@ def model_TestModel_Monod_Constitutive_Double(y, t, params):
 	synh   = params[5]
 
 	mu = mu_max*s/(s+Ks)
-	
 	dx = x*mu
 	ds = -dx/Y
 	dmh= synm    -mh*degm

@@ -36,8 +36,6 @@ if __name__ == '__main__':
     output_path     = Path.cwd()
     sbmlgen.database_to_sbml(model_name, settings_name, output_path)
     
-    
-    
     '''
     Use config_to_sbml to generate SBML files from a list of configuration files.
     Running only this function will generate SBML files from single/multiple .ini 
@@ -45,7 +43,7 @@ if __name__ == '__main__':
     '''
     
     files       = ['TestModel_LogicGate_ORgate_DelayActivation_DelayActivation.ini',
-                   'TestModel_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation.ini']
+                    'TestModel_CellModel_CellularResources_ProteomeAllocation_RibosomeLimitation.ini']
     output_path = Path.cwd()
     sbmlgen.config_to_sbml(files, output_path)
     

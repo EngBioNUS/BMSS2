@@ -1,0 +1,1516 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BMSS.sbml package &mdash; BMSS2 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="BMSS.models package" href="BMSS.models.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> BMSS2
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">BMSS</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="BMSS.html">BMSS package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html">BMSS.models package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">BMSS.sbml package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.sbml.OnlinetoConfig">BMSS.sbml.OnlinetoConfig module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.sbml.combinegen">BMSS.sbml.combinegen module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.sbml.sbmlgen">BMSS.sbml.sbmlgen module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.sbml.simplesbml">BMSS.sbml.simplesbml module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.sbml">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.aicanalysis">BMSS.aicanalysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.curvefitting">BMSS.curvefitting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.sensitivityanalysis">BMSS.sensitivityanalysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.simulation">BMSS.simulation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.strike_goldd_simplified">BMSS.strike_goldd_simplified module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.traceanalysis">BMSS.traceanalysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BMSS2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">BMSS</a> &raquo;</li>
+        
+          <li><a href="BMSS.html">BMSS package</a> &raquo;</li>
+        
+      <li>BMSS.sbml package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/BMSS.sbml.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="bmss-sbml-package">
+<h1>BMSS.sbml package<a class="headerlink" href="#bmss-sbml-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-BMSS.sbml.OnlinetoConfig">
+<span id="bmss-sbml-onlinetoconfig-module"></span><h2>BMSS.sbml.OnlinetoConfig module<a class="headerlink" href="#module-BMSS.sbml.OnlinetoConfig" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions to generate config file to be used within BMSS2.</p>
+<p>Features:
+-to generate SBML string from a online database
+-to generate Config File from SBML string
+-to generate Setting Template File from SBML string for BMSS simulation</p>
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.Convert">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">Convert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.Convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts string into list
+New row based on occurence of “n”</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.Convertplus">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">Convertplus</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.Convertplus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts string into list
+New row based on occurence of “+”</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.build_section">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">build_section</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">section</span></em>, <em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.build_section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds Section according to key</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>section</strong> – config file statement in string format</p></li>
+<li><p><strong>settings</strong> – settings in nested dictionary format</p></li>
+<li><p><strong>key</strong> – variable that determines which if statement to follow, string format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>updated section in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.build_section_top">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">build_section_top</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.build_section_top" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build section for top only of config file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> – settings in nested dictionary format</p></li>
+<li><p><strong>key</strong> – variable that determines which if statement to follow, string format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>top section in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.build_settings">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">build_settings</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idstore</span></em>, <em class="sig-param"><span class="n">valuestore</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.build_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combines the IDs with their respective values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idstore</strong> – all IDs in list format</p></li>
+<li><p><strong>valuestore</strong> – all values of IDS in list format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>matched ID to values in dictionary format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.clean_compartment">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">clean_compartment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">antimony_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.clean_compartment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the compartment to remove it from equations for simplicity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>antimony_str</strong> – antimony string in string format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>compartment name in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.clean_eqns">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">clean_eqns</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">store_species</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.clean_eqns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts Reaction statements in antimony str into format in config file. Returns a multiplier for reaction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>store_species</strong> – ID of species in reaction</p>
+</dd>
+<dt class="field-even">Returns store_species</dt>
+<dd class="field-even"><p>list format if reactions have more than 1 variable in reaction</p>
+</dd>
+<dt class="field-odd">Returns store_species</dt>
+<dd class="field-odd"><p>string format if reactions only have 1 variable in reaction</p>
+</dd>
+<dt class="field-even">Returns species_multiplier</dt>
+<dd class="field-even"><p>list format if reactions have more than 1 variable in reaction</p>
+</dd>
+<dt class="field-odd">Returns species_multiplier</dt>
+<dd class="field-odd"><p>string format if reactions only have 1 variable in reaction</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.clean_id">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">clean_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">store</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.clean_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the IDs within the parsed data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>store</strong> – stored Species/Parameters data in list format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>IDs for Species/Parameters in list format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.clean_reactions">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">clean_reactions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reaction</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.clean_reactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleans up reactions by combining equations pertaining to the same species</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>reaction</strong> – Raw equations before cleaning in list format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cleaned reactions in list format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.clean_units">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">clean_units</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">store</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.clean_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the Units for Parameters if declared
+Feels in default units if not delcared (per_sec)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>store</strong> – List containing parsed data from Species/Parameters</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>full units in list format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.clean_value">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">clean_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">store_clean</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.clean_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the values within parsed data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – Line from parsed data in string format</p></li>
+<li><p><strong>store_clean</strong> – Existing Values for Species/Parameters in list format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New added values for Species/Parameters in list format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.eqnreplace">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">eqnreplace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tempstore</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.eqnreplace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes unnecessary keys in reaction statement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tempstore</strong> – equation statement in strign format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>clean statement in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.gen_cleanvalue">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">gen_cleanvalue</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">store</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.gen_cleanvalue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fills in ‘0’ amount for Species and Parameters
+without initial values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>store</strong> – List containing parsed data from Species/Parameters</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Full Values for Species/Parameters in list format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.gen_config">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">gen_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">system_type</span></em>, <em class="sig-param"><span class="n">tspan</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.gen_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates config statment for config file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> – Nested Dictionary for all settings</p></li>
+<li><p><strong>system_type</strong> – System Type of Model defined in String Format</p></li>
+<li><p><strong>tspan</strong> – Tspan of Model defined in String Format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>full config statement in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.gen_description">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">gen_description</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">desc_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.gen_description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates Description section</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>desc_list</strong> – parsed description data from XML in list format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cleaned description in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.gen_dictionary">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">gen_dictionary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.gen_dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Passes XML data through beautifulsoup parser
+making data more easily readable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – SBML string in XML string format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>all required data in list format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.gen_eqns">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">gen_eqns</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">antimony_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.gen_eqns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates all equations from assignment rules, rate rules and reactions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>antimony_str</strong> – antimony string in string format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>all equations in list format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.gen_prior_bounds">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">gen_prior_bounds</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.gen_prior_bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates Priors and Bounds from settings</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>settings</strong> – settings in nested dictionary format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>priors and bounds in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.gen_reactions">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">gen_reactions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">antimony_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.gen_reactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the all rate rules equations from reactions from antimony string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>antimony_str</strong> – antimony string in string format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>all reactions in list format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.gen_reference">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">gen_reference</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Bs_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.gen_reference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates Reference section</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>string</strong> – parsed description data from XML</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cleaned reference in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.gen_settingstemplate">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">gen_settingstemplate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">system_type</span></em>, <em class="sig-param"><span class="n">tspan</span></em>, <em class="sig-param"><span class="n">Model_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.gen_settingstemplate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates settings template for Tutorial 2 Simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> – Nested Dictionary for all settings</p></li>
+<li><p><strong>system_type</strong> – System Type of Model defined in String Format</p></li>
+<li><p><strong>tspan</strong> – Tspan of Model defined in String Format</p></li>
+<li><p><strong>Model_name</strong> – Name of Model defined in String Format, Used to name files</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>full settings template in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.gen_species_parameter_descriptions">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">gen_species_parameter_descriptions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">antimony_str</span></em>, <em class="sig-param"><span class="n">species_dict</span></em>, <em class="sig-param"><span class="n">parameter_dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.gen_species_parameter_descriptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates Species and Parameter Descriptions if defined.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>antimony_str</strong> – SBML Model converted to Antimony format string</p></li>
+<li><p><strong>species_dict</strong> – dictionary containing all species in model</p></li>
+<li><p><strong>parameter_dict</strong> – dictionary containing all species in model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>species and parameter description in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.get_negreaction">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">get_negreaction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reaction_formula_store</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">reaction_reactant_start</span></em>, <em class="sig-param"><span class="n">reaction_reactant_end</span></em>, <em class="sig-param"><span class="n">reactioneqns</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.get_negreaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the reaction equation is the reactions shows a usage of a reactant</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reaction_formula_store</strong> – List containing all reactions</p></li>
+<li><p><strong>value</strong> – Line of equation in reaction in string format</p></li>
+<li><p><strong>reaction_reactant_start</strong> – Index number of the position of the start of the ID</p></li>
+<li><p><strong>reaction_reactant_end</strong> – Index number of the position of the end of the ID</p></li>
+<li><p><strong>reactioneqns</strong> – reaction equation in string format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>added “use reactant” reactions in list format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.get_online_biomodel">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">get_online_biomodel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Biomodels_ID</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.get_online_biomodel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.get_posreaction">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">get_posreaction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reaction_formula_store</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">reaction_reactant_end</span></em>, <em class="sig-param"><span class="n">reaction_product_end</span></em>, <em class="sig-param"><span class="n">reactioneqns</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.get_posreaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the reaction equation is the reactions creates only a product</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reaction_formula_store</strong> – List containing all reactions</p></li>
+<li><p><strong>value</strong> – Line of equation in reaction in string format</p></li>
+<li><p><strong>reaction_reactant_end</strong> – Index number of the position of the start of the ID</p></li>
+<li><p><strong>reaction_product_end</strong> – Index number of the position of the end of the ID</p></li>
+<li><p><strong>reactioneqns</strong> – reaction equation in string format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>added “create product” reactions in list format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.sbmltoconfig">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">sbmltoconfig</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sbmlstr</span></em>, <em class="sig-param"><span class="n">system_type</span></em>, <em class="sig-param"><span class="n">output_path</span></em>, <em class="sig-param"><span class="n">tspan</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.sbmltoconfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the config file statment and nested dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sbmlstr</strong> – SBML string in string format</p></li>
+<li><p><strong>system_type</strong> – System Type of Model defined in String Format</p></li>
+<li><p><strong>tspan</strong> – Tspan of Model defined in String Format</p></li>
+<li><p><strong>Model_name</strong> – Name of Model defined in String Format, Used to name files</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>config file in string format and nested dictionary for settings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.OnlinetoConfig.xmlclean">
+<code class="sig-prename descclassname">BMSS.sbml.OnlinetoConfig.</code><code class="sig-name descname">xmlclean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xmldata</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.OnlinetoConfig.xmlclean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleans away xml related characters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>xmldata</strong> – parsed data from XML</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cleaned text in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-BMSS.sbml.combinegen">
+<span id="bmss-sbml-combinegen-module"></span><h2>BMSS.sbml.combinegen module<a class="headerlink" href="#module-BMSS.sbml.combinegen" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions to generate COMBINE OMEX files.</p>
+<p>Features:
+-to generate COMBINE OMEX file from a BMSS database</p>
+<dl class="py function">
+<dt id="BMSS.sbml.combinegen.Combinecreator">
+<code class="sig-prename descclassname">BMSS.sbml.combinegen.</code><code class="sig-name descname">Combinecreator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">core_model</span></em>, <em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">Plot_Variable</span></em>, <em class="sig-param"><span class="n">outputpath</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">KISAO_algorithm</span><span class="o">=</span><span class="default_value">'0'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.combinegen.Combinecreator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates and outputs COMBINE OMEX file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>core_model</strong> – core model database of model</p></li>
+<li><p><strong>settings</strong> – settings database of model</p></li>
+<li><p><strong>Plot_Variable</strong> – Variables to be plotted in list format</p></li>
+<li><p><strong>outputpath</strong> – filepath to output OMEX file in OS path format</p></li>
+<li><p><strong>KISAO_algorithm</strong> – Kinetic Simulation Algorithm Ontology number in string format</p></li>
+</ul>
+</dd>
+</dl>
+<p>:return combine_filename : OMEX file name in string format
+:return total_scenarios : Total number of scenarios in string format</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.combinegen.KISAOchecker">
+<code class="sig-prename descclassname">BMSS.sbml.combinegen.</code><code class="sig-name descname">KISAOchecker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">KISAO_algorithm</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.combinegen.KISAOchecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if KISAO_algorithm is under tellurium’s accepted KISAO list’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>KISAO_algorithm</strong> – Kinetic Simulation Algorithm Ontology number in string format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if in tellurium list, false otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.combinegen.clean_groupvariables">
+<code class="sig-prename descclassname">BMSS.sbml.combinegen.</code><code class="sig-name descname">clean_groupvariables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Plot_Variable</span></em>, <em class="sig-param"><span class="n">tspan</span></em>, <em class="sig-param"><span class="n">task_total</span></em>, <em class="sig-param"><span class="n">variabletask_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.combinegen.clean_groupvariables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Groups variables pertaining to the same plot figure together</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Plot_Variable</strong> – Variables to be plotted in list format</p></li>
+<li><p><strong>tspan</strong> – tspan of model in list of arrays</p></li>
+<li><p><strong>task_total</strong> – total number of tasks in int format</p></li>
+<li><p><strong>variabletask_list</strong> – variables in list format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return variable_statement</dt>
+<dd class="field-even"><p>variables for each plot in list format</p>
+</dd>
+<dt class="field-odd">Return Total_Fig</dt>
+<dd class="field-odd"><p>total number of plots (number of sims * number of variables to plot) in int format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.combinegen.database_to_combine">
+<code class="sig-prename descclassname">BMSS.sbml.combinegen.</code><code class="sig-name descname">database_to_combine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system_type</span></em>, <em class="sig-param"><span class="n">settings_name</span></em>, <em class="sig-param"><span class="n">Plot_Variable</span></em>, <em class="sig-param"><span class="n">outputpath</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">KISAO_algorithm</span><span class="o">=</span><span class="default_value">'0'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.combinegen.database_to_combine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select model stored in database and generate the SBML file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system_type</strong> – system type of model in string format</p></li>
+<li><p><strong>settings_name</strong> – settings name of model in string format</p></li>
+<li><p><strong>Plot_Variable</strong> – Variables to be plotted in list format</p></li>
+<li><p><strong>outputpath</strong> – filepath to output OMEX file in OS path format</p></li>
+<li><p><strong>KISAO_algorithm</strong> – Kinetic Simulation Algorithm Ontology number in string format</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.combinegen.gen_figurestatment">
+<code class="sig-prename descclassname">BMSS.sbml.combinegen.</code><code class="sig-name descname">gen_figurestatment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Total_Fig</span></em>, <em class="sig-param"><span class="n">variable_statement</span></em>, <em class="sig-param"><span class="n">Plot_Variable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.combinegen.gen_figurestatment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the ‘plot figure’ statements based on tasks and sims</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_statement</strong> – variables for each plot in list format</p></li>
+<li><p><strong>Total_Fig</strong> – total number of plots in int format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return Plot_statement</dt>
+<dd class="field-even"><p>Plot figure statements in str format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.combinegen.gen_phrasedml">
+<code class="sig-prename descclassname">BMSS.sbml.combinegen.</code><code class="sig-name descname">gen_phrasedml</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">modelname_file</span></em>, <em class="sig-param"><span class="n">Plot_Variable</span></em>, <em class="sig-param"><span class="n">KISAO_algorithm</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.combinegen.gen_phrasedml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the phrasedml task statement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> – settings database of model</p></li>
+<li><p><strong>modelname_file</strong> – Scenario Model in list format</p></li>
+<li><p><strong>Plot_Variable</strong> – Variables to be plotted in list format</p></li>
+<li><p><strong>KISAO_algorithm</strong> – Kinetic Simulation Algorithm Ontology number in string format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>phrasedml in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.combinegen.gen_plotvariables">
+<code class="sig-prename descclassname">BMSS.sbml.combinegen.</code><code class="sig-name descname">gen_plotvariables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">modelname_file</span></em>, <em class="sig-param"><span class="n">tspan</span></em>, <em class="sig-param"><span class="n">Plot_Variable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.combinegen.gen_plotvariables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the plot variables for each figure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>modelname_file</strong> – the name of model as per scenario in list format</p></li>
+<li><p><strong>tspan</strong> – tspan of model in list of arrays</p></li>
+<li><p><strong>Plot_Variable</strong> – Variables to be plotted in list format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return variabletask_list</dt>
+<dd class="field-even"><p>variables in list format</p>
+</dd>
+<dt class="field-odd">Return task_total</dt>
+<dd class="field-odd"><p>total number of tasks (number of sims * number of scenario models) in int format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.combinegen.gen_simstatements">
+<code class="sig-prename descclassname">BMSS.sbml.combinegen.</code><code class="sig-name descname">gen_simstatements</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tspan</span></em>, <em class="sig-param"><span class="n">KISAO_algorithm</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.combinegen.gen_simstatements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates simulation statements with tspan (depended on number of tspans declared)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tspan</strong> – tspan of model in list of arrays</p></li>
+<li><p><strong>KISAO_algorithm</strong> – Kinetic Simulation Algorithm Ontology number in string format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>simulations statements with KISAO algorithm in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-BMSS.sbml.sbmlgen">
+<span id="bmss-sbml-sbmlgen-module"></span><h2>BMSS.sbml.sbmlgen module<a class="headerlink" href="#module-BMSS.sbml.sbmlgen" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions to generate SBML standard files.</p>
+<p>Features:
+-to generate SBML .xml files from a list of configuration files
+-to generate SBML files from model database
+-to autogenerate SBML .xml files for all configuration files contained inside a folder path</p>
+<dl class="py function">
+<dt id="BMSS.sbml.sbmlgen.autogenerate_sbml_from_folder">
+<code class="sig-prename descclassname">BMSS.sbml.sbmlgen.</code><code class="sig-name descname">autogenerate_sbml_from_folder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">folderpath</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.sbmlgen.autogenerate_sbml_from_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>To automatically generate the corresponding SBML files from the given
+folder containing all the configuration files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>folderpath</strong> (<em>str</em>) – the path to the folder containing all the configuration files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.sbmlgen.config_to_sbml">
+<code class="sig-prename descclassname">BMSS.sbml.sbmlgen.</code><code class="sig-name descname">config_to_sbml</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inifileslist</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.sbmlgen.config_to_sbml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read in list of configuration files and generate the corresponding SBML
+files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>inifileslist</strong> (<em>list</em>) – a list of input configuration files in strings.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.sbmlgen.database_to_sbml">
+<code class="sig-prename descclassname">BMSS.sbml.sbmlgen.</code><code class="sig-name descname">database_to_sbml</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system_type</span></em>, <em class="sig-param"><span class="n">settings_name</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.sbmlgen.database_to_sbml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select model stored in database and generate the SBML file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system_type</strong> – system_type of model to search in database in string format</p></li>
+<li><p><strong>settings_name</strong> – settings_name of model to search in database in string format</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-BMSS.sbml.simplesbml">
+<span id="bmss-sbml-simplesbml-module"></span><h2>BMSS.sbml.simplesbml module<a class="headerlink" href="#module-BMSS.sbml.simplesbml" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="BMSS.sbml.simplesbml.SbmlModel">
+<em class="property">class </em><code class="sig-prename descclassname">BMSS.sbml.simplesbml.</code><code class="sig-name descname">SbmlModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time_units</span><span class="o">=</span><span class="default_value">'second'</span></em>, <em class="sig-param"><span class="n">extent_units</span><span class="o">=</span><span class="default_value">'mole'</span></em>, <em class="sig-param"><span class="n">sub_units</span><span class="o">=</span><span class="default_value">'mole'</span></em>, <em class="sig-param"><span class="n">level</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">version</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">sbmlStr</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sbmlFile</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>SbmlModel is used to construct simple models using libSBML methods and
+print out the model in SBML format.  A user can add species, parameters,
+reactions, events, assignment rules, rate rules, and initial assignments
+to a model.  Then, the user can view the model in SBML format by printing
+the string representation of the class.</p>
+<p>SbmlModel contains two attributes: <em>document</em>, an
+<a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_s_b_m_l_document.html">SBMLDocument</a>
+object, an
+<em>model</em>, the
+<a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_model.html">Model</a>
+attribute of <em>document</em>.</p>
+<p>You can also pass a SBML string and use simlesbml to obtain information about the model
+using the get methods, e.g</p>
+<p>model = simplesbml.SbmlModel (sbmlStr=mySBMLString)</p>
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.addAssignmentRule">
+<code class="sig-name descname">addAssignmentRule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var</span></em>, <em class="sig-param"><span class="n">math</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.addAssignmentRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an <a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_assignment_rule.html">AssignmentRule</a>
+to the model.  An assignment rule is an equation
+where one side is equal to the value of a state variable and the other side
+is equal to some expression.  <em>var</em> is the id of the state variable and <em>math</em>
+is the string representation of the expression.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.addCompartment">
+<code class="sig-name descname">addCompartment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vol</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">comp_id</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.addCompartment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a <a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_compartment.html">Compartment</a>
+of volume <em>vol</em> litres to the model.  The default volume is 1 litre. If the user does
+not specify <em>comp_id</em>, the id is set to ‘c&lt;n&gt;’ where the new compartment
+is the nth compartment added to the model. All SbmlModel objects are
+initialized with a default compartment ‘c1’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.addEvent">
+<code class="sig-name descname">addEvent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trigger</span></em>, <em class="sig-param"><span class="n">assignments</span></em>, <em class="sig-param"><span class="n">persistent</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">initial_value</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">priority</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">delay</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">event_id</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.addEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an <a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_event.html">Event</a>
+to the model.</p>
+<p><em>trigger</em> is the string representation of a
+logical expression that defines when an event is ‘triggered’, meaning
+when the event is ready to be executed.</p>
+<p><em>delay</em> is a numerical value that defines the amount of time between when
+the event is triggered and when the event assignment is implemented, in
+previously defined model-wide time units.</p>
+<p><em>assignments</em> is a dictionary
+where the keys are variables to be changed and the values are the
+variables’ new values.</p>
+<p><em>persistent</em> is a boolean that defines whether the
+event will still be executed if the trigger switches from <code class="docutils literal notranslate"><span class="pre">True</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code>
+between the event’s trigger and its execution.</p>
+<p><em>initial_value</em> is the value of <em>trigger</em> when t &lt; 0.</p>
+<p><em>priority</em> is a numerical value that determines
+which event is executed if two events are executed at the same time.  The
+event with the larger <code class="docutils literal notranslate"><span class="pre">priority</span></code> is executed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An event is only triggered when the trigger switches from <code class="docutils literal notranslate"><span class="pre">False</span></code> to
+<code class="docutils literal notranslate"><span class="pre">True</span></code>.  If the trigger’s initial value is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the event will not be
+triggered until the value switches to <code class="docutils literal notranslate"><span class="pre">False</span></code> and then back to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.addInitialAssignment">
+<code class="sig-name descname">addInitialAssignment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbol</span></em>, <em class="sig-param"><span class="n">math</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.addInitialAssignment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an <a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_initial_assignment.html">InitialAssignment</a>
+to the model.  If the
+initial value of a variable depends on other variables or parameters, this
+method can be used to define an expression that describes the initial value
+of the variable in terms of other variables or parameters.  <em>symbol</em> is the
+id of the variable and <em>math</em> is the string representation of the expression.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.addParameter">
+<code class="sig-name descname">addParameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param_id</span></em>, <em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">units</span><span class="o">=</span><span class="default_value">'per_second'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.addParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a <a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_parameter.html">Parameter</a>
+to the model.  <em>val</em> is the value of the parameter, and
+<em>param_id</em> is the parameter id.  If units are not specified by the user,
+the default units are 1/sec.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.addRateRule">
+<code class="sig-name descname">addRateRule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var</span></em>, <em class="sig-param"><span class="n">math</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.addRateRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a <a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_rate_rule.html">RateRule</a>
+to the model.  A rate rule is similar to an assignment
+rule, but instead of describing a state variable’s value as an
+expression, it describes the derivative of the state variable’s value
+with respect to time as an expression.  <em>var</em> is the id of the state variable
+and <em>math</em> is the string representation of the expression.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.addReaction">
+<code class="sig-name descname">addReaction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reactants</span></em>, <em class="sig-param"><span class="n">products</span></em>, <em class="sig-param"><span class="n">expression</span></em>, <em class="sig-param"><span class="n">local_params</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">rxn_id</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.addReaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a <a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_reaction.html">Reaction</a>
+to the model.</p>
+<p><em>reactants</em> and <em>products</em> are lists of species
+ids that the user wishes to define as reactants and products, respectively.
+If one of these lists contains a string with a number followed by a species
+id (i.e. ‘2 G6P’) then the number is interpreted as the stoichiometry of
+the species.  Otherwise it is assumed to be 1.</p>
+<p><em>expression</em> is a string that represents the reaction rate expression.</p>
+<p><em>local_params</em> is a dictionary where the keys are local parameter ids and
+the values are the desired values of the respective parameters.</p>
+<p>If the
+user does not define a reaction id, it is set as ‘v&lt;n&gt;’ where the new
+reaction is the nth reaction added.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.addSpecies">
+<code class="sig-name descname">addSpecies</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">species_id</span></em>, <em class="sig-param"><span class="n">amt</span></em>, <em class="sig-param"><span class="n">comp</span><span class="o">=</span><span class="default_value">'c1'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.addSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a <a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_species.html">Species</a>
+to the model.  If <em>species_id</em> starts
+with the ‘$’ symbol, the species is set as a boundary condition.  If
+<em>species_id</em> is enclosed in brackets, the <em>amt</em> is the initial
+concentration of species within the specified compartment in mol/L.
+Otherwise, <em>amt</em> is the initial amount of species in moles.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getCompartmentId">
+<code class="sig-name descname">getCompartmentId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getCompartmentId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the indexth compartment from the list of compartments</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getCompartmentIdSpeciesIsIn">
+<code class="sig-name descname">getCompartmentIdSpeciesIsIn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">speciesId</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getCompartmentIdSpeciesIsIn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the compartment Id that the species givenin th argument is in.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getCompartmentVolume">
+<code class="sig-name descname">getCompartmentVolume</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getCompartmentVolume" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Parameters</strong></p>
+<blockquote>
+<div><p>Id: The Id of the compartment in question</p>
+</div></blockquote>
+<p><strong>Returns</strong></p>
+<blockquote>
+<div><p>The volume of the specified compartment</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getDocument">
+<code class="sig-name descname">getDocument</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getDocument" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the
+<a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_s_b_m_l_document.html">SBMLDocument</a>
+object of the sbmlModel.</p>
+<p>This is not something you need to care about unless you need direct access to libsbml</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getEventAssignment">
+<code class="sig-name descname">getEventAssignment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span></em>, <em class="sig-param"><span class="n">assignmentIndex</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getEventAssignment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retuns the assignmentIndexth assignment in the event event.</p>
+<p>The event argument can be an index to the indexth event or the Id of the event</p>
+<p>Example: mathStr = model.getEventAssignment (1, 0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getEventId">
+<code class="sig-name descname">getEventId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getEventId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Id for the indexth event</p>
+<p>Example: astr = model.getEventId (0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getEventString">
+<code class="sig-name descname">getEventString</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getEventString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the indexth event as a compelte string.</p>
+<p>The event argument can be an index to the indexth event or the Id of the event</p>
+<p>Example: print (model.getEventString (0))</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getEventTrigger">
+<code class="sig-name descname">getEventTrigger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getEventTrigger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the formula as a string for the event trigger of the event event.</p>
+<p>The event argument can be an index to the indexth event or the Id of the event</p>
+<p>Example : astr = model.getEventTrigger (0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getEventVariable">
+<code class="sig-name descname">getEventVariable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span></em>, <em class="sig-param"><span class="n">assignmentIndex</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getEventVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the event variables (i.e the left-hand side) for the assignmentIndexth assignment
+in the event, given by event,</p>
+<p>The event argument can be an index to the indexth event or the Id of the event</p>
+<p>Example: astr = model.getEventVariable (0, 0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getFunctionBody">
+<code class="sig-name descname">getFunctionBody</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getFunctionBody" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getFunctionId">
+<code class="sig-name descname">getFunctionId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getFunctionId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retuns the Id of the indexth user function definition</p>
+<p>Example: mathStr = model.getFunctionId (0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getListOfAllSpecies">
+<code class="sig-name descname">getListOfAllSpecies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getListOfAllSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of <strong>ALL</strong> species Ids in the model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getListOfArgumentsInUserFunction">
+<code class="sig-name descname">getListOfArgumentsInUserFunction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getListOfArgumentsInUserFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of arguments in the specified user function. The func argument can either be the name
+of a user function or its index in the list of user fucntions.</p>
+<p class="rubric">Example</p>
+<p>alist = model.getListOfArgumentsInUserFunction (‘Hill’)</p>
+<p>alist = model.getListOfArgumentsInUserFunction (0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getListOfBoundarySpecies">
+<code class="sig-name descname">getListOfBoundarySpecies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getListOfBoundarySpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of all boundary species Ids.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getListOfCompartmentIds">
+<code class="sig-name descname">getListOfCompartmentIds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getListOfCompartmentIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of compartment Ids</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getListOfFloatingSpecies">
+<code class="sig-name descname">getListOfFloatingSpecies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getListOfFloatingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of all floating species Ids.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getListOfFunctionIds">
+<code class="sig-name descname">getListOfFunctionIds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getListOfFunctionIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of function definition Ids</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getListOfModifiers">
+<code class="sig-name descname">getListOfModifiers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reactionId</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getListOfModifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of modifiers in a given reaction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getListOfParameterIds">
+<code class="sig-name descname">getListOfParameterIds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getListOfParameterIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of all global parameter Ids in the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getListOfReactionIds">
+<code class="sig-name descname">getListOfReactionIds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getListOfReactionIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of all reaction Ids.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getListOfRuleIds">
+<code class="sig-name descname">getListOfRuleIds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getListOfRuleIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of Ids for the rules</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getModel">
+<code class="sig-name descname">getModel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the
+<a class="reference external" href="http://sbml.org/Software/libSBML/docs/python-api/classlibsbml_1_1_model.html">Model</a>
+object of the sbmlModel.</p>
+<p>This is not something you need to care about unless you need direct access to libsbml</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getModelId">
+<code class="sig-name descname">getModelId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getModelId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the SBML Id given to the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNthBoundarySpeciesId">
+<code class="sig-name descname">getNthBoundarySpeciesId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNthBoundarySpeciesId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Id of the nth boundary species</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNthFloatingSpeciesId">
+<code class="sig-name descname">getNthFloatingSpeciesId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNthFloatingSpeciesId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Id of the nth floating species</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNthReactionId">
+<code class="sig-name descname">getNthReactionId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNthReactionId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Id of the nth reaction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumArgumentsInUserFunction">
+<code class="sig-name descname">getNumArgumentsInUserFunction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumArgumentsInUserFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of arguments in the given function. The func argument can either be the name
+of a user function or its index.</p>
+<p class="rubric">Example</p>
+<p>nargs = model.getNumArgumentsInUserFunction (‘Hill’)</p>
+<p>nargs = model.getNumArgumentsInUserFunction (0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumBoundarySpecies">
+<code class="sig-name descname">getNumBoundarySpecies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumBoundarySpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of boundary species.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumCompartments">
+<code class="sig-name descname">getNumCompartments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumCompartments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of compartments in the current model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumEventAssignments">
+<code class="sig-name descname">getNumEventAssignments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumEventAssignments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of assignments in the indexth rule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumEvents">
+<code class="sig-name descname">getNumEvents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumEvents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of events in the current model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumFloatingSpecies">
+<code class="sig-name descname">getNumFloatingSpecies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumFloatingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of floating species.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumFunctionDefinitions">
+<code class="sig-name descname">getNumFunctionDefinitions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumFunctionDefinitions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of user defined functions in the model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumInitialAssignments">
+<code class="sig-name descname">getNumInitialAssignments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumInitialAssignments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of initial assignments in the current model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumModifiers">
+<code class="sig-name descname">getNumModifiers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reactionId</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumModifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of modifiers in a given reaction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumParameters">
+<code class="sig-name descname">getNumParameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of global parameters in the current model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumProducts">
+<code class="sig-name descname">getNumProducts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumProducts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of products in the reaction given by the Id argument.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><p>Id (string): The Id of the reaction in question.</p>
+</div></blockquote>
+<p>Example: numProducts = model.getNumProducts (‘J1’)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumReactants">
+<code class="sig-name descname">getNumReactants</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumReactants" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Returns the number of reactants in the reaction given by the Id argument.</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><p>Id (string): The Id of the reaction in question.</p>
+</div></blockquote>
+<p>Example: numProducts = model.getNumReactants (‘J1’)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumReactions">
+<code class="sig-name descname">getNumReactions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumReactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of reactions in the current model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumRules">
+<code class="sig-name descname">getNumRules</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumRules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of rules in the current model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getNumSpecies">
+<code class="sig-name descname">getNumSpecies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getNumSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of all species in the current model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getParameterId">
+<code class="sig-name descname">getParameterId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getParameterId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the indexth parameter from the list of parameter</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getParameterValue">
+<code class="sig-name descname">getParameterValue</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getParameterValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value for a given model parameter.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><p>Id: the Id of the parameter in question</p>
+</div></blockquote>
+<p>Example: value = model.getParameterValue (‘k1’)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getProduct">
+<code class="sig-name descname">getProduct</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reactionId</span></em>, <em class="sig-param"><span class="n">productIndex</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getProduct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Id of the productIndexth product in the reaction given by the reactionId</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><p>Id (string): The Id of the reaction in question</p>
+<p>productIndex (int): The ith product in the reaction</p>
+</div></blockquote>
+<p>Example: astr = model.getProduct (‘J1’, 0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getProductStoichiometry">
+<code class="sig-name descname">getProductStoichiometry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reactionId</span></em>, <em class="sig-param"><span class="n">productIndex</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getProductStoichiometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the stoichiometry for a product in a reaction.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><p>reactionId (string): The Id of the reaction in question</p>
+<p>productIndex (int): The ith product in the reaction</p>
+</div></blockquote>
+<p><strong>Returns</strong></p>
+<blockquote>
+<div><p>The value of the product stoichiometry</p>
+</div></blockquote>
+<p>Example: stInt = model.getProductStoichiometry (‘J1’, 0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getRateLaw">
+<code class="sig-name descname">getRateLaw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getRateLaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the expression for the rate laws of the reaction given by the specified Id</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><p>Id (string): The Id of the reaction in question.</p>
+</div></blockquote>
+<p>Example: formulaStr = model.getRateLaw (‘J1’)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getReactant">
+<code class="sig-name descname">getReactant</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reactionId</span></em>, <em class="sig-param"><span class="n">reactantIndex</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getReactant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Id of the reactantIndexth reactant in the reaction given by the reactionId</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><p>Id (string): The Id of the reaction in question</p>
+<p>reactantIndex (int): The ith reactant in the reaction</p>
+</div></blockquote>
+<p>Example: astr = model.getReactant (‘J1’, 0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getReactantStoichiometry">
+<code class="sig-name descname">getReactantStoichiometry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reactionId</span></em>, <em class="sig-param"><span class="n">reactantIndex</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getReactantStoichiometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the stoichiometry for a reactant in a reaction.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><p>reactionId (string): The Id of the reaction in question</p>
+<p>reactantIndex (int): The ith reactant in the reaction</p>
+</div></blockquote>
+<p><strong>Returns</strong></p>
+<blockquote>
+<div><p>The value of the reactant stoichiometry</p>
+</div></blockquote>
+<p>Example: stInt = model.getReactantStoichiometry (‘J1’, 0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getRuleId">
+<code class="sig-name descname">getRuleId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getRuleId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the rule Id of the indexth rule</p>
+<p>Example: rule = model.getRuleId (2)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getRuleRightSide">
+<code class="sig-name descname">getRuleRightSide</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rule</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getRuleRightSide" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the formula on the right-hand side of the rule in question.</p>
+<p>The rule can be an index to the indexth rule or the Id of the rule. You can get the Ids by calling getListOfRules()</p>
+<p>Example: formula = model.getRuleRightSide (0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getRuleType">
+<code class="sig-name descname">getRuleType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rule</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getRuleType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string indicating the type of rule in question.</p>
+<p>The rule can be an index to the indexth rule or the Id of the rule. You can get the Ids by calling getListOfRules()</p>
+<p>Example: ruleStr = model.getRuleType (0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getSpeciesInitialAmount">
+<code class="sig-name descname">getSpeciesInitialAmount</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getSpeciesInitialAmount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the initial values for the amount of a species with given Id</p>
+<p>The species can be an index to the indexth species or the Id of the species. You can get the Ids by calling getListOfSpecies()</p>
+<p>Example: value = model.getSpeciesInitialAmount (‘Glucose’)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.getSpeciesInitialConcentration">
+<code class="sig-name descname">getSpeciesInitialConcentration</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.getSpeciesInitialConcentration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the initial values for the concentration of a species with given Id</p>
+<p>The species can be an index to the indexth species or the Id of the species. You can get the Ids by calling getListOfSpecies()</p>
+<p>Example: value = model.getSpeciesInitialConcentration (‘Glucose’)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.isAmount">
+<code class="sig-name descname">isAmount</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.isAmount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if species Id has assigned to it an amount rather then a concentration”</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.isBoundarySpecies">
+<code class="sig-name descname">isBoundarySpecies</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.isBoundarySpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if the Id is a boundary species</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.isConcentration">
+<code class="sig-name descname">isConcentration</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.isConcentration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if species Id has assigned to it a concentration rather then an amount”</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.isFloatingSpecies">
+<code class="sig-name descname">isFloatingSpecies</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.isFloatingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if the Id is a floating species</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.isParameterValueSet">
+<code class="sig-name descname">isParameterValueSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.isParameterValueSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if the parameter has been assigned a value</p>
+<p>Example: if model.isParameterValueSet (‘k1’):</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.isRuleType_Algebraic">
+<code class="sig-name descname">isRuleType_Algebraic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rule</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.isRuleType_Algebraic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true the rule is an algebraic rule type</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.isRuleType_Assignment">
+<code class="sig-name descname">isRuleType_Assignment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rule</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.isRuleType_Assignment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true the rule is an assignemnt type</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.isRuleType_Rate">
+<code class="sig-name descname">isRuleType_Rate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rule</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.isRuleType_Rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true the rule is an rate rule (ode) type</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.isSpeciesValueSet">
+<code class="sig-name descname">isSpeciesValueSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.isSpeciesValueSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if the species has been set a value (concentration or amount).</p>
+<p>Example: if model.isSpeciesValueSet (‘ATP’):</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.setLevelAndVersion">
+<code class="sig-name descname">setLevelAndVersion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">level</span></em>, <em class="sig-param"><span class="n">version</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.setLevelAndVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="BMSS.sbml.simplesbml.SbmlModel.toSBML">
+<code class="sig-name descname">toSBML</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.SbmlModel.toSBML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the model in SBML format as a string.  Also checks model consistency
+and prints all errors and warnings.</p>
+<p>Example: print (model.toSBML())</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.simplesbml.loadSBMLFile">
+<code class="sig-prename descclassname">BMSS.sbml.simplesbml.</code><code class="sig-name descname">loadSBMLFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sbmlFile</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.loadSBMLFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an SBML model from a file and return an instance to SBMLModel</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.simplesbml.loadSBMLStr">
+<code class="sig-prename descclassname">BMSS.sbml.simplesbml.</code><code class="sig-name descname">loadSBMLStr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sbmlStr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.loadSBMLStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an SBML model in the form of a string and return an instance to SBMLModel</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.simplesbml.writeCode">
+<code class="sig-prename descclassname">BMSS.sbml.simplesbml.</code><code class="sig-name descname">writeCode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">doc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.writeCode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string containing calls to SimpleSBML functions that reproduce
+the model contained in the SBMLDocument <em>doc</em> in an sbmlModel object.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.simplesbml.writeCodeFromFile">
+<code class="sig-prename descclassname">BMSS.sbml.simplesbml.</code><code class="sig-name descname">writeCodeFromFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.writeCodeFromFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the file saved under <em>filename</em> as an SBML format model and
+returns a string containing calls to SimpleSBML functions that reproduce
+the model in an sbmlModel object.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.simplesbml.writeCodeFromString">
+<code class="sig-prename descclassname">BMSS.sbml.simplesbml.</code><code class="sig-name descname">writeCodeFromString</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sbmlstring</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.simplesbml.writeCodeFromString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads <em>sbmlstring</em> as an SBML format model and
+returns a string containing calls to SimpleSBML functions that reproduce
+the model in an sbmlModel object.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-BMSS.sbml">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-BMSS.sbml" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="BMSS.sbml.config_to_sbml">
+<code class="sig-prename descclassname">BMSS.sbml.</code><code class="sig-name descname">config_to_sbml</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inifile</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.config_to_sbml" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="BMSS.sbml.sbml_to_config">
+<code class="sig-prename descclassname">BMSS.sbml.</code><code class="sig-name descname">sbml_to_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sbmlfile</span></em>, <em class="sig-param"><span class="n">system_type</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">tspan</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">is_path</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.sbml_to_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="BMSS.models.html" class="btn btn-neutral float-left" title="BMSS.models package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Russell Ngo Jie Kai
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

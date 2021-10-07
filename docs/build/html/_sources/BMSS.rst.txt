@@ -1,17 +1,11 @@
 BMSS package
 ============
 
-Subpackages
------------
-
 .. toctree::
    :maxdepth: 4
 
    BMSS.models
-   BMSS.standardfiles_generators
-
-Submodules
-----------
+   BMSS.sbml
 
 BMSS.aicanalysis module
 -----------------------

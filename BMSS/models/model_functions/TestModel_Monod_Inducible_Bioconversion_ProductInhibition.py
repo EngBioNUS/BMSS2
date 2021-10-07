@@ -26,11 +26,10 @@ def model_TestModel_Monod_Inducible_Bioconversion_ProductInhibition(y, t, params
 
 	mu   = mu_max*s/(s+Ks)*Kh/(h+Kh)
 	rxn1 = h*v1*c1/(c1+Kc1)
-	
-	dx = x*mu
-	ds = -dx/Y
-	dh = synh*Ind/(Ind+Kind) -h*mu
-	dc1= -rxn1 +rxn0 -k0*c1
-	dc2= rxn1 -mu*c2
+	dx   = x*mu
+	ds   = -dx/Y
+	dh   = synh*Ind/(Ind+Kind) -h*mu
+	dc1  = -rxn1 +rxn0 -k0*c1
+	dc2  = rxn1 -mu*c2
 
 	return np.array([dx, ds, dh, dc1, dc2])

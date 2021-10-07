@@ -20,35 +20,35 @@
     Pep2: 1
     mRNA3: 0
     Pep3: 1
-    syn_mRNA1: 0
-    syn_mRNA2: 0
-    syn_mRNA3: 0
+    syn_mRNA1: 1
+    syn_mRNA2: 1
+    syn_mRNA3: 1
     deg_mRNA: 1
-    syn_Pep: 0
-    deg_Pep: 0
-    Pepmax: 0
-    Km: 0
-    deg_Ind: 0
-    Ratio: 0
+    syn_Pep: 1
+    deg_Pep: 1
+    Pepmax: 1
+    Km: 1
+    deg_Ind: 1
+    Ratio: 1
     state1: 1
     state2: 1
   output:
     Inde: 0
     Indi: 1
-    Ind: 0
+    Ind: 1
     mRNA1: 1
     Pep1: 1
     mRNA2: 1
     Pep2: 1
     mRNA3: 1
     Pep3: 1
-    syn_mRNA1: 0
-    syn_mRNA2: 0
-    syn_mRNA3: 0
+    syn_mRNA1: 1
+    syn_mRNA2: 1
+    syn_mRNA3: 1
     deg_mRNA: 1
-    syn_Pep: 0
+    syn_Pep: 1
     deg_Pep: 1
-    Pepmax: 0
-    Km: 0
-    deg_Ind: 0
-    Ratio: 0
+    Pepmax: 1
+    Km: 1
+    deg_Ind: 1
+    Ratio: 1
