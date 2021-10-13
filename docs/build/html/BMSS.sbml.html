@@ -35,8 +35,7 @@
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="BMSS.models package" href="BMSS.models.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,30 +81,8 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">BMSS</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="BMSS.html">BMSS package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html">BMSS.models package</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">BMSS.sbml package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.sbml.OnlinetoConfig">BMSS.sbml.OnlinetoConfig module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.sbml.combinegen">BMSS.sbml.combinegen module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.sbml.sbmlgen">BMSS.sbml.sbmlgen module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.sbml.simplesbml">BMSS.sbml.simplesbml module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-BMSS.sbml">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.aicanalysis">BMSS.aicanalysis module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.curvefitting">BMSS.curvefitting module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.sensitivityanalysis">BMSS.sensitivityanalysis module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.simulation">BMSS.simulation module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.strike_goldd_simplified">BMSS.strike_goldd_simplified module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS.traceanalysis">BMSS.traceanalysis module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.html#module-BMSS">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">BMSS</a></li>
 </ul>
 
             
@@ -151,10 +128,6 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="modules.html">BMSS</a> &raquo;</li>
-        
-          <li><a href="BMSS.html">BMSS package</a> &raquo;</li>
         
       <li>BMSS.sbml package</li>
     
@@ -1449,12 +1422,39 @@ the model in an sbmlModel object.</p>
 <dl class="py function">
 <dt id="BMSS.sbml.config_to_sbml">
 <code class="sig-prename descclassname">BMSS.sbml.</code><code class="sig-name descname">config_to_sbml</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inifile</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.config_to_sbml" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Converts config file(s) to SBML.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inifile</strong> – Path-like or ini string.</p></li>
+<li><p><strong>output_paths</strong> – The location for creating the config files. No files will be created if the string is empty.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return result</dt>
+<dd class="field-even"><p>List of output files.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="BMSS.sbml.sbml_to_config">
 <code class="sig-prename descclassname">BMSS.sbml.</code><code class="sig-name descname">sbml_to_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sbmlfile</span></em>, <em class="sig-param"><span class="n">system_type</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">tspan</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">is_path</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.sbml_to_config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Converts SBML file to config file(s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sbmlfile</strong> – Path-like or SBML string.</p></li>
+<li><p><strong>system_type</strong> – The system_type for naming the model.</p></li>
+<li><p><strong>output_paths</strong> – The location for creating the config files. No files will be created if the string is empty.</p></li>
+<li><p><strong>tspan</strong> – A list/array of time points.</p></li>
+<li><p><strong>is_path</strong> – True if sbmlfile is a path, False if sbmlfile is an SBML string.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return result</dt>
+<dd class="field-even"><p>Config string.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 </div>
@@ -1464,13 +1464,6 @@ the model in an sbmlModel object.</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="BMSS.models.html" class="btn btn-neutral float-left" title="BMSS.models package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

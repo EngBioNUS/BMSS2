@@ -1,4 +1,4 @@
-BMSS.models package
+BMSS.models submodule
 ===================
 
 Submodules

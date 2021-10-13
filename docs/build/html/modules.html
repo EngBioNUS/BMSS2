@@ -36,7 +36,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="BMSS package" href="BMSS.html" />
+    <link rel="next" title="BMSS.aicanalysis" href="BMSS.html" />
     <link rel="prev" title="Welcome to BMSS2’s documentation!" href="index.html" /> 
 </head>
 
@@ -85,7 +85,15 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">BMSS</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.html">BMSS package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html">BMSS.models submodule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.html">BMSS.aicanalysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.curvefitting">BMSS.curvefitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.sbml">BMSS.sbml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.sensitivityanalysis">BMSS.sensitivityanalysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.simulation">BMSS.simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.strike_goldd_simplified">BMSS.strike_goldd_simplified</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.traceanalysis">BMSS.traceanalysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -157,37 +165,26 @@
 <h1>BMSS<a class="headerlink" href="#bmss" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="BMSS.html">BMSS package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html">BMSS.models package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.ia_results">BMSS.models.ia_results module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.model_handler">BMSS.models.model_handler module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.settings_handler">BMSS.models.settings_handler module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.setup_cf">BMSS.models.setup_cf module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.setup_sen">BMSS.models.setup_sen module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.setup_sg">BMSS.models.setup_sg module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.setup_sim">BMSS.models.setup_sim module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.models.html#module-BMSS.models">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BMSS.models.html">BMSS.models submodule</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.ia_results">BMSS.models.ia_results module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.model_handler">BMSS.models.model_handler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.settings_handler">BMSS.models.settings_handler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.setup_cf">BMSS.models.setup_cf module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.setup_sen">BMSS.models.setup_sen module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.setup_sg">BMSS.models.setup_sg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.setup_sim">BMSS.models.setup_sim module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.sbml.html">BMSS.sbml package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.sbml.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.sbml.html#module-BMSS.sbml.OnlinetoConfig">BMSS.sbml.OnlinetoConfig module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.sbml.html#module-BMSS.sbml.combinegen">BMSS.sbml.combinegen module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.sbml.html#module-BMSS.sbml.sbmlgen">BMSS.sbml.sbmlgen module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.sbml.html#module-BMSS.sbml.simplesbml">BMSS.sbml.simplesbml module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="BMSS.sbml.html#module-BMSS.sbml">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.aicanalysis">BMSS.aicanalysis module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.curvefitting">BMSS.curvefitting module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.sensitivityanalysis">BMSS.sensitivityanalysis module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.simulation">BMSS.simulation module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.strike_goldd_simplified">BMSS.strike_goldd_simplified module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS.traceanalysis">BMSS.traceanalysis module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.html#module-BMSS">Module contents</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="BMSS.html">BMSS.aicanalysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BMSS.html#module-BMSS.curvefitting">BMSS.curvefitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BMSS.html#module-BMSS.sbml">BMSS.sbml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BMSS.html#module-BMSS.sensitivityanalysis">BMSS.sensitivityanalysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BMSS.html#module-BMSS.simulation">BMSS.simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BMSS.html#module-BMSS.strike_goldd_simplified">BMSS.strike_goldd_simplified</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BMSS.html#module-BMSS.traceanalysis">BMSS.traceanalysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BMSS.html#module-BMSS">Module contents</a></li>
 </ul>
 </div>
 </div>
@@ -200,7 +197,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="BMSS.html" class="btn btn-neutral float-right" title="BMSS package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="BMSS.html" class="btn btn-neutral float-right" title="BMSS.aicanalysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to BMSS2’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

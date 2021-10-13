@@ -1,13 +1,9 @@
-BMSS package
-============
-
 .. toctree::
    :maxdepth: 4
 
    BMSS.models
-   BMSS.sbml
 
-BMSS.aicanalysis module
+BMSS.aicanalysis
 -----------------------
 
 .. automodule:: BMSS.aicanalysis
@@ -15,7 +11,7 @@ BMSS.aicanalysis module
    :undoc-members:
    :show-inheritance:
 
-BMSS.curvefitting module
+BMSS.curvefitting
 ------------------------
 
 .. automodule:: BMSS.curvefitting
@@ -23,7 +19,15 @@ BMSS.curvefitting module
    :undoc-members:
    :show-inheritance:
 
-BMSS.sensitivityanalysis module
+BMSS.sbml
+-------------------------------
+
+.. automodule:: BMSS.sbml
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   
+BMSS.sensitivityanalysis
 -------------------------------
 
 .. automodule:: BMSS.sensitivityanalysis
@@ -31,7 +35,7 @@ BMSS.sensitivityanalysis module
    :undoc-members:
    :show-inheritance:
 
-BMSS.simulation module
+BMSS.simulation
 ----------------------
 
 .. automodule:: BMSS.simulation
@@ -39,7 +43,7 @@ BMSS.simulation module
    :undoc-members:
    :show-inheritance:
 
-BMSS.strike\_goldd\_simplified module
+BMSS.strike\_goldd\_simplified
 -------------------------------------
 
 .. automodule:: BMSS.strike_goldd_simplified
@@ -47,7 +51,7 @@ BMSS.strike\_goldd\_simplified module
    :undoc-members:
    :show-inheritance:
 
-BMSS.traceanalysis module
+BMSS.traceanalysis
 -------------------------
 
 .. automodule:: BMSS.traceanalysis

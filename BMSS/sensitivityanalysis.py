@@ -43,7 +43,9 @@ def analyze(params, models, fixed_parameters, objective, parameter_bounds={}, mo
     return analysis_result, em, samples, problems
 
 def sample_and_integrate(models, params, fixed_parameters, parameter_bounds, objective, analysis_type='sobol', N=256):
-    
+    '''
+    :meta private:
+    '''
     samples, problems = make_samples(models, params, fixed_parameters, parameter_bounds, analysis_type=analysis_type, N=N)
     em                = integrate_samples(models, samples, objective)
     
@@ -53,6 +55,9 @@ def sample_and_integrate(models, params, fixed_parameters, parameter_bounds, obj
 #Output Evaluation and Sensitivity Analysis
 ###############################################################################
 def analyze_sensitivity(objective_function_values, samples, problems, analysis_type='sobol', **kwargs):
+    '''
+    :meta private:
+    '''
     s = {}
     e = objective_function_values
     

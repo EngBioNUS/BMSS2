@@ -55,8 +55,7 @@ def database_to_combine(system_type, settings_name, Plot_Variable, outputpath=''
     
 #--- COMBINE Generator and Exporter ---
 def Combinecreator(core_model, settings, Plot_Variable, outputpath='', KISAO_algorithm='0'):
-    '''
-    Generates and outputs COMBINE OMEX file.
+    '''Generates and outputs COMBINE OMEX file.
     
     :param core_model: core model database of model
     :param settings: settings database of model
@@ -65,6 +64,7 @@ def Combinecreator(core_model, settings, Plot_Variable, outputpath='', KISAO_alg
     :param KISAO_algorithm:  Kinetic Simulation Algorithm Ontology number in string format 
     :return combine_filename : OMEX file name in string format
     :return total_scenarios : Total number of scenarios in string format
+    
     '''
     
     #--- Extract data from settings and clean up units ---
@@ -176,6 +176,7 @@ def gen_simstatements(tspan, KISAO_algorithm):
     :param tspan: tspan of model in list of arrays
     :param KISAO_algorithm:  Kinetic Simulation Algorithm Ontology number in string format 
     :return: simulations statements with KISAO algorithm in string format
+    
     '''
     sim_statement = "" 
     for sim_count in range(len(tspan)): 
@@ -198,6 +199,7 @@ def gen_plotvariables(modelname_file, tspan, Plot_Variable):
     :param Plot_Variable:  Variables to be plotted in list format
     :return variabletask_list: variables in list format 
     :return task_total: total number of tasks (number of sims * number of scenario models) in int format
+    
     '''
     task_total = len(modelname_file) * len(tspan) 
     variabletask_list = []
@@ -220,6 +222,7 @@ def clean_groupvariables(Plot_Variable, tspan, task_total, variabletask_list):
     :param variabletask_list: variables in list format
     :return variable_statement: variables for each plot in list format 
     :return Total_Fig: total number of plots (number of sims * number of variables to plot) in int format
+    
     '''
     Total_Fig           = len(Plot_Variable) * len(tspan)
     variable_statement  = ['']*Total_Fig  
