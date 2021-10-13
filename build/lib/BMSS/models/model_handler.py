@@ -9,6 +9,9 @@ from   io         import StringIO
 from   pandas     import concat, DataFrame, Series, read_sql_query, read_csv
 from   sqlite3    import Error
 
+import numpy as np
+from numba import jit
+
 ###############################################################################
 #Non-Standard Imports
 ###############################################################################
@@ -42,6 +45,10 @@ CREATE TABLE IF NOT EXISTS "models" (
     UNIQUE(system_type)
 );
 '''
+
+all_model_funcs = {'np'  : np,      'log' : np.log10, 'ln' : np.log, 
+                   'exp' : np.exp,  'jit' : jit
+                   }
 
 ###############################################################################
 #Database and Table Construction
@@ -125,8 +132,9 @@ def make_core_model(system_type, states, parameters, inputs, equations, descript
     is_valid, text = check_model_terms(core_model)
     if not is_valid:
         warnings.warn('Error in ' + str(system_type1) + ' when checking terms: ' + text)
-        # raise Exception('Error in ' + str(system_type1) + ' when checking terms: ' + text)
     
+    model_to_code(core_model, local=False)
+    get_model_function(system_type, local=False)
     return core_model
 
 def copy_core_model(core_model):
@@ -163,27 +171,34 @@ def backend_add_to_database(core_model, database, dialog=False):
     global MBase
     global UBase
     global userid
-     
+    
     system_type    = core_model['system_type']
     make_new_id    = True
     existing_model = quick_search(system_type, error_if_no_result=False, active_only=False)
+    is_active      = existing_model['system_type'] in list_models(UBase) if existing_model else False 
     d              = 'Mbase' if database == MBase else 'UBase'
+    
     if existing_model:
-        if dialog:
+        existing_db = MBase if system_type in list_models(MBase) else UBase
+        if database != existing_db:
+            a = 'MBase' if database == MBase else 'UBase'
+            b = 'UBase' if database == UBase else 'MBase'
+            raise Exception(f'The model already exists in {a}. You cannot add it to {b}.')
+        
+        
+        if is_active and dialog:
+            #Break and continue if overwrite else return immediately
             while True:
                 x = input('Overwrite existing model? (y/n): ')
                 if x.lower() == 'y':
                     break
-                elif x.lower() == 'n':
-                    return existing_model['id']
-                else:
-                    continue
-                    
+                return existing_model['id']
+        
+        #Check existing model and edit if it matches
         if system_type == existing_model['system_type']:
             core_model['id'] = existing_model['id']
             make_new_id = False
-                
-
+    
     row    = string_dict_values(core_model)   
     row_id = add_row('models', row, database)
 
@@ -196,7 +211,7 @@ def backend_add_to_database(core_model, database, dialog=False):
     else:
         model_id = core_model['id']
     
-    o = 'Added model ' if make_new_id else 'Modified model '
+    o = 'Added model ' if make_new_id else 'Modified model ' if is_active else 'Added model '
     n =  model_id      if make_new_id else core_model['id']
     print(o + n + ' to '+ d)
     
@@ -331,18 +346,30 @@ def list_models(database=None):
         return list_models(MBase) + list_models(UBase)
 
 def get_model_function(system_type, local=False):
-    '''Supporting function for get_model_function. Do not run.
+    global all_model_funcs
     
-    :meta private:
-    '''
-    model_name     = system_type.replace(', ', '_')
+    model_name = system_type.replace(', ', '_')
+    func_name  = 'model_'+  model_name
+    
+    if func_name in all_model_funcs:
+        return all_model_funcs[func_name]
+    
     if local:
-        module = importlib.import_module(model_name)
+        filename = f'{model_name}.py'
     else:
-        module = importlib.import_module('.model_functions.' + model_name, 'BMSS.models')
-    model_function = getattr(module, 'model_'+  model_name )
+        filename = osp.join(osp.dirname(__file__), 'model_functions', f'{model_name}.py')
     
-    return model_function
+    if not osp.isfile(filename):
+        raise Exception(f'Could not find file for model function: {filename}')
+        
+    with open(filename, 'r') as file:
+        code = file.read()
+        
+        code = 'def' + code.split('def')[1]
+        
+        exec(code, all_model_funcs)
+    
+    return all_model_funcs[func_name]
 
 ###############################################################################
 #Interfacing with Pandas
@@ -401,7 +428,8 @@ def from_config(filename):
         if key == 'ia':
             line = config[key][key].strip()
         elif key == 'equations':
-            line = config[key][key].replace('\n', ',').split(',')
+            # line = config[key][key].replace('\n', ',').split(',')
+            line = split_at_top_level(config[key][key].replace('\n', ','))
             line = [s.strip() if s else '' for s in line]
             line = line if line[0] else line[1:]
         elif key == 'descriptions':
@@ -414,6 +442,37 @@ def from_config(filename):
         model[key] = line
     
     return make_core_model(**model)
+
+def split_at_top_level(string, delimiter=','):
+    '''
+    Use this for nested lists.
+    This is also a helper function for string_to_dict.
+    '''
+    nested = []
+    buffer = ''
+    result = []
+    matching_bracket = {'(':')', '[':']', '{':'}'}
+    
+    for char in string:
+        if char in ['[', '(', '{']:
+            nested.append(char)
+            buffer += char
+        
+        elif char in [']', ')', '}']:
+            if char == matching_bracket.get(nested[-1]):
+                nested = nested[:-1]
+                buffer += char
+            else:
+                raise Exception('Mismatched brackets.' )
+        elif char == delimiter and not nested:
+            if buffer:
+                result.append(buffer)
+                buffer = ''
+        else:
+            buffer += char
+    if buffer:
+        result.append(buffer)
+    return result
 
 def to_config(core_model, filename):
     '''Exports a core_model data structure to a config file.
@@ -636,6 +695,12 @@ def setup():
         if folder not in lst:
             os.mkdir(osp.join(_dir, folder))
     print('Connected to MBase_models, UBase_models')
+    
+    #Get functions
+    for system_type in list_models():
+        core_model = quick_search(system_type)
+        model_to_code(core_model)
+        get_model_function(system_type)
     
     return database
 

@@ -107,7 +107,7 @@ def get_sensitivity_args(filename, user_core_models={}):
                          'parameter_bounds' : bounds,
                          'fixed_parameters' : fixed_parameters,
                          'analysis_type'    : 'sobol',
-                         'N'                : 1000 
+                         'N'                : 256 
                          }
     
     return sensitivity_args, config_data

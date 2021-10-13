@@ -84,7 +84,6 @@ def make_settings(system_type,    settings_name,       units,
     '''
     
     system_type1 = system_type if type(system_type) == str else ', '.join(system_type)
-    
     if user_core_model:
         core_model   = user_core_model
         if core_model['system_type'] != system_type1:
@@ -157,7 +156,7 @@ def backend_add_to_database(settings, database, dialog=False):
     if database == mh.UBase and system_type_ensemble_name in list_settings(database=mh.MBase):    
         raise Exception(str(system_type_ensemble_name) + ' cannot be added to UBase as it is already in MBase.')
     
-    params_dict = settings['parameters'].astype(np.float64).to_dict('list')
+    params_dict = settings['parameters'].to_dict('list')
     params_dict = {key: params_dict[key] for key in settings['parameters'].to_dict('list')}
     
     row = {'system_type'   : settings['system_type'],
@@ -166,10 +165,8 @@ def backend_add_to_database(settings, database, dialog=False):
            'parameters'    : str(params_dict),
            }
     
-    for key1 in ['priors', 'parameter_bounds']:
+    for key1 in ['init', 'priors', 'parameter_bounds']:
         row[key1] = str({key2: list(settings[key1][key2]) for key2 in settings[key1]})
-    
-    row['init']             = str({index: r.values for index, r in settings['init'].astype(np.float64).iterrows()})
     
     row['tspan']            = str([list(span) for span in settings['tspan']])
     row['fixed_parameters'] = str(settings['fixed_parameters'])
@@ -200,7 +197,6 @@ def search_database(system_type='', settings_name='', database=None, skip_constr
         to rows where the value of active is True, defaults to True
     :type active_only: bool, optional
     '''
-    
     #Can only add a settings for active models
     core_model = mh.quick_search(system_type, active_only=True)
     result     = []
@@ -229,11 +225,6 @@ def search_database(system_type='', settings_name='', database=None, skip_constr
         columns = [column[1] for column in columns if column[1]!='active']
         all_settings  = [dict(zip(columns, s[:-1])) for s in all_settings]
         
-        def eval(string):
-            string_ = string.replace('array', 'np.array')
-            
-            return __builtins__['eval'](string_)
-            
         for s in all_settings:
             s['units']            = eval(s['units'])
             s['parameters']       = eval(s['parameters'])

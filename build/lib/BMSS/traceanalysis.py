@@ -22,6 +22,14 @@ all_colors    = sns.colors.xkcd_rgb
 #Import
 ###############################################################################
 def import_trace(files, keys=[], **pd_args):
+    '''Used for traces that have been saved to csv files.
+    
+    :param files: A list of file names.
+    :param keys: A list of keys to index the traces.
+    :param pd_args: Keyword arguments for pandas.read_csv.
+    :return traces: Returns a dict of traces.
+        
+    '''
     data   = {}
     for i in range(len(files)):
         key       = keys[i+1] if keys else i+1
@@ -32,12 +40,29 @@ def import_trace(files, keys=[], **pd_args):
 #Skewness and Kurtosis
 ###############################################################################
 def check_skewness(traces, output='df'):
+    '''Calculates skewness of distribution of sampled parameters
+    
+    :param traces: A dict of traces.
+    :param output: Causes the return value to be formatted as DataFrame.
+    :return result: A DataFrame if output is "df" and a dict otherwise.
+
+    '''
     return scipy_test(skewtest, traces, output='df')
 
 def check_kurtosis(traces, output='df'):
+    '''Calculates kurtosis of distribution of sampled parameters
+    
+    :param traces: A dict of traces.
+    :param output: Causes the return value to be formatted as DataFrame.
+    :return result: A DataFrame if output is "df" and a dict otherwise.
+
+    '''
     return scipy_test(kurtosistest, traces, output='df')
 
 def scipy_test(test_func, traces, output='df'):
+    '''
+    :meta private:
+    '''
     result    = {}
     for label in traces:
         trace       = traces[label]
@@ -56,12 +81,19 @@ def scipy_test(test_func, traces, output='df'):
 #Wrapper Functions for Bivariate Plots
 ###############################################################################
 def pairplot_steps(traces, pairs, figs=[], AX={}, gradient=5, palette={}, legend_args={}, plot_args={'marker': '+', 'linewidth':0}, palette_type='light'):
+    '''Generates a pair plot between two parameters.
+    '''
     return pairplot_wrapper('plot', traces=traces, pairs=pairs, figs=figs, AX=AX, palette=palette, gradient=gradient, palette_type=palette_type, legend_args=legend_args, plot_args=plot_args)
 
 def pairplot_kde(traces, pairs, figs=[], AX={}, palette={}, legend_args={}, plot_args={}):
+    '''Generates a pair plot between two parameters in kde form.
+    '''
     return pairplot_wrapper('kde', traces=traces, pairs=pairs, figs=figs, AX=AX, palette=palette, gradient=1, palette_type='light', legend_args=legend_args, plot_args=plot_args)
 
 def pairplot_wrapper(plot_func, traces, pairs, figs=[], AX={}, palette={}, gradient=1, palette_type='light', legend_args={}, plot_args={}):
+    '''
+    :meta private:
+    '''
     pairs1       = [tuple(pair) for pair in pairs]
     palette1     = make_palette(traces, pairs1, palette, gradient=gradient, palette_type=palette_type)
     figs1, AX1   = figs, AX
@@ -76,16 +108,61 @@ def pairplot_wrapper(plot_func, traces, pairs, figs=[], AX={}, palette={}, gradi
 ###############################################################################
 #Wrapper Functions for Univariate Plots
 ###############################################################################    
-def plot_steps(traces, skip=[], figs=[], AX={}, palette={}, legend_args={}, plot_args={'marker': '+', 'linewidth':0}):
+def plot_steps(traces, skip=[], figs=None, AX=None, palette=None, legend_args={}, plot_args={'marker': '+', 'linewidth':0}):
+    '''Generates trace plot for parameters.
+    
+    :param traces: A dict of traces.
+    :param skip: A list of parameters to not plot.
+    :param figs: A list of figures for containing the plots. Default is None.
+    :param AX: A dict of param - Axes object pairs. Default is None.
+    :param palette: A dict of colors. Default is None.
+    :param legend_args: A dict of arguments for the legend. Default is None.
+    :param plot_args: A dict of arguments for plotting such as marker.
+    :return result: Figure and Axes objects.
+    
+    '''
     return singleplot_wrapper('plot', traces, skip=skip, figs=figs, AX=AX, palette=palette, legend_args=legend_args, plot_args=plot_args)
     
 def plot_kde(traces, skip=[], figs=[], AX={}, palette={}, legend_args={}, plot_args={'linewidth': 3}):
+    '''Generates kde plot for parameters.
+    
+    :param traces: A dict of traces.
+    :param skip: A list of parameters to not plot.
+    :param figs: A list of figures for containing the plots. Default is None.
+    :param AX: A dict of param - Axes object pairs. Default is None.
+    :param palette: A dict of colors. Default is None.
+    :param legend_args: A dict of arguments for the legend. Default is None.
+    :param plot_args: A dict of arguments for plotting such as marker.
+    :return result: Figure and Axes objects.
+    
+    '''
     return singleplot_wrapper('kde', traces, skip=skip, figs=figs, AX=AX, palette=palette, legend_args=legend_args, plot_args=plot_args)
     
 def plot_hist(traces, skip=[], figs=[], AX={}, palette={}, legend_args={}, plot_args={}):
+    '''Generates histogram plot for parameters.
+    
+    :param traces: A dict of traces.
+    :param skip: A list of parameters to not plot.
+    :param figs: A list of figures for containing the plots. Default is None.
+    :param AX: A dict of param - Axes object pairs. Default is None.
+    :param palette: A dict of colors. Default is None.
+    :param legend_args: A dict of arguments for the legend. Default is None.
+    :param plot_args: A dict of arguments for plotting such as marker.
+    :return result: Figure and Axes objects.
+    
+    '''
     return singleplot_wrapper('hist', traces, skip=skip, figs=figs, AX=AX, palette=palette, legend_args=legend_args, plot_args=plot_args)
     
 def singleplot_wrapper(plot_func, traces, skip=[], figs=[], AX={}, palette={}, legend_args={}, plot_args={}):
+    '''
+    :meta private:
+    '''
+    figs        = [] if figs is None else figs
+    AX          = {} if AX   is None else AX
+    palette     = {} if palette is None else palette
+    legend_args = {} if legend_args is None else legend_args
+    plot_args   = {} if plot_args  is None else plot_args 
+    
     figs1, AX1, variables, first_label = setup_singleplot(traces, skip, figs, AX)
     palette1                           = make_palette(traces, variables, palette)
     legend_args1                       = legend_args if AX else {'labels': []}
@@ -103,6 +180,9 @@ def singleplot_wrapper(plot_func, traces, skip=[], figs=[], AX={}, palette={}, l
 #Supporting Functions for Wrapping
 ###############################################################################
 def setup_singleplot(traces, skip, figs, AX):
+    '''
+    :meta private:
+    '''
     first_label = next(iter(traces))
     variables   = [variable for variable in traces[first_label].columns.to_list() if variable not in skip]
     n           = len(variables)
@@ -116,6 +196,9 @@ def setup_singleplot(traces, skip, figs, AX):
     return figs1, AX1, variables, first_label
 
 def make_palette(traces, variables, palette, gradient=1, palette_type='light'):
+    '''
+    :meta private:
+    '''
     global palette_types
     if palette:
         if type(palette[next(iter(palette))]) == dict:
@@ -146,6 +229,9 @@ def make_palette(traces, variables, palette, gradient=1, palette_type='light'):
 #Main Plotting
 ###############################################################################
 def plot_helper(plot_func, label, trace, variables, figs=[], AX={}, palette={}, legend_args={}, plot_args={}):
+    '''
+    :meta private:
+    '''
     n     = len(variables)    
     figs1 = figs if AX else [plt.figure()                              for i in range(n)]
     AX1   = AX   if AX else {variables[i]: figs1[i].add_subplot(1,1,1) for i in range(n)}
@@ -181,6 +267,9 @@ def plot_helper(plot_func, label, trace, variables, figs=[], AX={}, palette={}, 
     return figs1, AX1
 
 def axis_plot(ax, func, x, y, *args, **kwargs):
+    '''
+    :meta private:
+    '''
     if func == 'plot':      
         if len(x):
             ax.plot(x, y, *args, **kwargs)
@@ -196,6 +285,9 @@ def axis_plot(ax, func, x, y, *args, **kwargs):
     return
 
 def fs(figure):
+    '''
+    :meta private:
+    '''
     try:
         plt.figure(figure.number)
         backend   = get_backend()

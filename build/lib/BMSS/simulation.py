@@ -6,7 +6,7 @@ import re
 import seaborn           as sns
 from matplotlib          import get_backend
 from numba               import jit
-from scipy.integrate     import odeint
+from scipy.integrate     import odeint, solve_ivp
 
 from numba import jit
 
@@ -26,6 +26,11 @@ all_colors    = sns.colors.xkcd_rgb
 ###############################################################################
 #Integration
 ###############################################################################
+def solver(f, y0, tspan,**kwargs):
+    f_ = lambda t, y, *args: f(y, t, *args)
+    r = solve_ivp(f_, [tspan[0], tspan[-1]], y0, t_eval=tspan, **kwargs)
+    return r.y.T
+
 def piecewise_integrate(function, init, tspan, params, model_num, scenario_num, modify_init=None, modify_params=None, solver_args={}, solver=odeint, overlap=True, args=()):
     '''Piecewise integration function with scipy.integrate.odeint as default. 
     Can be changed using the solver argument.
@@ -112,7 +117,7 @@ def modify_params(init_values, params, model_num, scenario_num, segment):
 ###############################################################################
 #Multi-Model Integration
 ###############################################################################
-def integrate_models(models, params, *extra_variables, args=(), mode='np', overlap=True):
+def integrate_models(models, params, *extra_variables, args=(), mode='np', overlap=True, multiply=True):
     '''Integrates models with params    
 
     Parameters
@@ -130,7 +135,9 @@ def integrate_models(models, params, *extra_variables, args=(), mode='np', overl
         arrays and 'pd' if functions are meant to work with DataFrames. The 
         default is 'np'.
     overlap : TYPE, optional
-        DESCRIPTION. The default is True.
+        Whether or not to include the overlapping points between time segments. The default is True.
+    multiply : bool, optional
+        Permutes parameters and scenarios if True and vice versa. The default is True.
 
     Returns
     -------
@@ -154,8 +161,7 @@ def integrate_models(models, params, *extra_variables, args=(), mode='np', overl
     
     if len(params.shape) == 1:
         return integrate_models(models, np.array([params]), *extra_variables, args=args, overlap=overlap)
-    
-    else:
+    elif multiply:
         for model_num in models:
             model               = models[model_num]
             param_names         = model['params']
@@ -169,6 +175,7 @@ def integrate_models(models, params, *extra_variables, args=(), mode='np', overl
                 y_models[model_num][scenario_num] = {}
                 
                 for name, row in params1.iterrows():
+                    
                     y_model, t_model = piecewise_integrate(params        = row.values,
                                                            function      = model['function'], 
                                                            init          = model['init'][scenario_num],
@@ -188,11 +195,46 @@ def integrate_models(models, params, *extra_variables, args=(), mode='np', overl
                         y_model_ = y_models[model_num][scenario_num][name] if mode == 'pd' else y_model
                         variable = func(y_model_, t_model, row.values)
                         e_models[func][model_num][scenario_num][name] = variable 
-                                       
+                
+                
             y_models[model_num][0] = t_model
-        
-        print('Simulation complete')
-        return y_models, e_models
+    else:
+        for model_num in models:
+            model               = models[model_num]
+            param_names         = model['params']
+            params1             = params[param_names]
+            y_models[model_num] = {}
+            
+            for scenario_num, (name, row) in zip(models[model_num]['init'], params1.iterrows()):
+                if type(scenario_num) == int:
+                    if scenario_num < 1:
+                        continue
+                y_models[model_num][scenario_num] = {}
+                
+                y_model, t_model = piecewise_integrate(params        = row.values,
+                                                       function      = model['function'], 
+                                                       init          = model['init'][scenario_num],
+                                                       tspan         = model['tspan'],
+                                                       modify_init   = model['int_args']['modify_init'],
+                                                       modify_params = model['int_args']['modify_params'],
+                                                       solver_args   = model['int_args']['solver_args'],
+                                                       model_num     = model_num, 
+                                                       scenario_num  = scenario_num, 
+                                                       overlap       = overlap,
+                                                       args          = args
+                                                       )
+                y_models[model_num][scenario_num][name] = pd.DataFrame(y_model, columns=models[model_num]['states'])
+                
+                
+                for func in extra_variables:
+                    y_model_ = y_models[model_num][scenario_num][name] if mode == 'pd' else y_model
+                    variable = func(y_model_, t_model, row.values)
+                    e_models[func][model_num][scenario_num][name] = variable 
+                               
+            y_models[model_num][0] = t_model
+    
+    print('Simulation complete')
+    return y_models, e_models
 
 ###############################################################################
 #Plot
@@ -267,7 +309,7 @@ def plot_model(plot_index, y, e={}, titles={}, labels={}, figs=(), AX={}, palett
                     
                     ax.plot(x_arr, y_arr, label=label, color=color, **line_args)
                     ax.ticklabel_format(style='sci', scilimits=(-2,3))
-                    
+                    ax.legend()
                     first = False
 
     [fs(fig) for fig in figs1]

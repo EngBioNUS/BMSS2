@@ -140,15 +140,8 @@ def make_compiled_models_template(core_models):
     models = {}
     
     for i in range(len(core_models)):
-        core_model  = core_models[i]
-        
-        try:
-            model_function = mh.get_model_function(core_model['system_type'])
-            print('Extracted function for ' + str(core_model['system_type']) + 'from database.')
-        except:
-            print('Writing function for ' + str(core_model['system_type']))
-            mh.model_to_code(core_model, local=True)
-            model_function = mh.get_model_function(core_model['system_type'], local=True)
+        core_model     = core_models[i]
+        model_function = mh.get_model_function(core_model['system_type'], local=False)
         
         temp = {'function' : model_function,
                 'init'     : {},

@@ -4,6 +4,7 @@ from pandas              import DataFrame, Series
 from scipy.optimize      import basinhopping           as sp_bh
 from scipy.optimize      import differential_evolution as sp_de
 from scipy.optimize      import dual_annealing         as sp_da
+from scipy.optimize      import minimize               as sp_min
 from scipy.stats         import norm
 
 ###############################################################################
@@ -98,6 +99,35 @@ def dual_annealing(guess,     priors={},  skip=[], bounds={},
     wrapped_callback    = wrap_record_trace_da(var_param_index, full_param_array, accepted, contexts)
 
     res = sp_da(wrapped_posterior, bounds=bounds_array, x0=var_param_array, callback=wrapped_callback, **scipy_args)
+    
+    accepted, full_trace = return_df(accepted, full_trace, columns=param_names)
+
+    return {'a': accepted, 'c': contexts, 'f': full_trace, 's': res}
+
+def optimize(guess,     priors={},  skip=[], bounds={},
+                   likelihood_function=None, 
+                   likelihood_args={}, 
+                   **scipy_args):
+    '''
+    Minimizes the negative of the posterior function with custom likelihood function.
+    '''
+    accepted   = []
+    contexts   = []
+    full_trace = []
+
+    temp               = convert_input(guess, priors=priors, skip=skip, bounds=bounds, bound_max=10) 
+    var_param_index    = temp['var_param_index']
+    var_param_array    = temp['var_param_array']
+    bounds_array       = temp['bounds_array']
+    prior_distribution = temp['prior_distribution'] 
+    prior_index        = temp['prior_index']        
+    full_param_array   = temp['param_array']
+    param_names        = list(guess)
+    
+    wrapped_posterior   = wrap_log_posterior(var_param_index, full_param_array, prior_index, prior_distribution, likelihood_function, likelihood_args, full_trace)
+    wrapped_callback    = wrap_record_trace_op(var_param_index, full_param_array, accepted)
+    
+    res = sp_min(wrapped_posterior, bounds=bounds_array, x0=var_param_array, callback=wrapped_callback, **scipy_args)
     
     accepted, full_trace = return_df(accepted, full_trace, columns=param_names)
 
@@ -315,6 +345,12 @@ def wrap_record_trace_da(var_param_index, params_array, accepted, contexts):
         
         record_trace(x, var_param_index, params_array, accepted)
         contexts.append(context)
+        return
+    return helper
+
+def wrap_record_trace_op(var_param_index, params_array, trace):
+    def helper(xk, *args):
+        record_trace(xk, var_param_index, params_array, trace)
         return
     return helper
 

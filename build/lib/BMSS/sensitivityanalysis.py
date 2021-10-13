@@ -17,7 +17,7 @@ except:
 ###############################################################################
 #High Level Wrappers
 ###############################################################################
-def analyze(params, models, fixed_parameters, objective, parameter_bounds={}, mode='np', analysis_type='sobol', N=100):
+def analyze(params, models, fixed_parameters, objective, parameter_bounds={}, mode='np', analysis_type='sobol', N=256):
     '''Main algorithm for sensitivity analysis. Wraps analyze_sensitivty and sample_and_integrate.
     '''
     
@@ -42,8 +42,10 @@ def analyze(params, models, fixed_parameters, objective, parameter_bounds={}, mo
     
     return analysis_result, em, samples, problems
 
-def sample_and_integrate(models, params, fixed_parameters, parameter_bounds, objective, analysis_type='sobol', N=1000):
-    
+def sample_and_integrate(models, params, fixed_parameters, parameter_bounds, objective, analysis_type='sobol', N=256):
+    '''
+    :meta private:
+    '''
     samples, problems = make_samples(models, params, fixed_parameters, parameter_bounds, analysis_type=analysis_type, N=N)
     em                = integrate_samples(models, samples, objective)
     
@@ -53,6 +55,9 @@ def sample_and_integrate(models, params, fixed_parameters, parameter_bounds, obj
 #Output Evaluation and Sensitivity Analysis
 ###############################################################################
 def analyze_sensitivity(objective_function_values, samples, problems, analysis_type='sobol', **kwargs):
+    '''
+    :meta private:
+    '''
     s = {}
     e = objective_function_values
     
@@ -167,7 +172,7 @@ def integrate_samples(models, samples, objective, args=()):
 ###############################################################################
 #Sample Generation
 ###############################################################################
-def make_samples(models, params, fixed_parameters, parameter_bounds, analysis_type='sobol', N=1000):
+def make_samples(models, params, fixed_parameters, parameter_bounds, analysis_type='sobol', N=256):
     '''Generates samples for each model.
     '''
     try:
@@ -195,7 +200,7 @@ def make_samples(models, params, fixed_parameters, parameter_bounds, analysis_ty
     
     return samples, problems
 
-def make_samples_for_row(row, model, fixed_parameters, parameter_bounds={}, analysis_type='sobol', N=1000, **kwargs):
+def make_samples_for_row(row, model, fixed_parameters, parameter_bounds={}, analysis_type='sobol', N=256, **kwargs):
     '''
     Supporting function for sample_and_integrate. Do not run.
     row must be a pandas Series

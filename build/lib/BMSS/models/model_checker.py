@@ -1,5 +1,6 @@
 import keyword
 import string
+import warnings
 from   pathlib import Path
 from   runpy   import run_path
 
@@ -11,14 +12,13 @@ try:
 except:
     from model_coder import equations_to_code, model_to_code
     
-punctuation = string.punctuation.replace('_', '')
+punctuation = string.punctuation.replace('_', '').replace('.', '')
 
 def check_model_terms(model):
     states    = model['states']
     params    = model['parameters']
     inputs    = model.get('inputs', [])
     equations = model['equations']
-    
     states_set = set(states)
     params_set = set(params)
     inputs_set = set(inputs)
@@ -39,8 +39,14 @@ def check_model_terms(model):
     check_illegal_terms(terms)
     
     defined = lhs.union(states_set, params_set, inputs_set)
+    defined.update(['ln', 'log', 'np', 'array', 't'])
     
-    undefined = [term for term in rhs if term not in defined]
+    def defined_test(term):
+        if term in defined or 'model_' in term or 'np.' in term[:3]:
+            return True
+        return False
+    
+    undefined = [term for term in rhs if not defined_test(term)] 
     
     if undefined:
         return False, 'Undefined terms ' + str(undefined)
@@ -56,11 +62,11 @@ def check_model_terms(model):
         conv    = ','.join(temp) + '= list(map(float, [' + ','.join(temp) + ']))'
         y_test  = 'y = [' + ','.join(states) + ']'
         t_test  = 't = 0\ndt = 1e-3'
-        p_test  = 'params = ' + ','.join(params+inputs)
+        p_test  = 'params = [' + ','.join(params+inputs) + ']'
         call    = 'y = y + dt*model_' + model['system_type'].replace(', ', '_') + '(y, t, params)'
         
         try:
-            eq     = model_to_code(model, use_numba=False, mode=None)
+            eq     = model_to_code(model, use_numba=False)
         except Exception as e:
             return False, str(e.args[0])
         
@@ -81,6 +87,13 @@ def check_model_terms(model):
                     return False, 'Division by zero detected.'
             except IndexError:
                 return False, 'Length of return value is not equal to length of states.'
+            except NameError as e:
+                name = e.args[0].split(' ')[1]
+                if 'model_' in name[:7]:
+                    system_type = model["system_type"]
+                    warnings.warn(f'{system_type} may require one or more submodels.')
+                else:
+                    return False, str(e.args[0])
             except Exception as e:
                 return False, str(e.args[0])
             else:

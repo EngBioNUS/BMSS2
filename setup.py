@@ -8,9 +8,9 @@ print(p)
 
 setuptools.setup(
     name                          = "BMSS", 
-    version                       = "2.0.10",
+    version                       = "2.0.11",
     author                        = "Russell Ngo",
-    author_email                  = "biernjk@gmail.com",
+    author_email                  = "biernjk@nus.edu.sg",
     description                   = "A package for dyanmic model analysis.",
     long_description              = long_description,
     long_description_content_type = "text/markdown",
