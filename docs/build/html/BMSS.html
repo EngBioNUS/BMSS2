@@ -360,11 +360,6 @@ default is The default is {‘linewidth’: 1.5}..</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.curvefitting.save_plots">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">save_plots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em>, <em class="sig-param"><span class="n">figures</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.save_plots" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt id="BMSS.curvefitting.scipy_basinhopping">
 <code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">scipy_basinhopping</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">step_size=0.1</em>, <em class="sig-param">bounds={}</em>, <em class="sig-param">step_size_is_ratio=True</em>, <em class="sig-param">fixed_parameters=[]</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">scipy_args={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.scipy_basinhopping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for scipy’s basin-hopping algorithm.</p>
@@ -762,104 +757,14 @@ default is {}.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt id="BMSS.simulation.solver">
-<code class="sig-prename descclassname">BMSS.simulation.</code><code class="sig-name descname">solver</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f</span></em>, <em class="sig-param"><span class="n">y0</span></em>, <em class="sig-param"><span class="n">tspan</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.solver" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </div>
 <div class="section" id="module-BMSS.strike_goldd_simplified">
 <span id="bmss-strike-goldd-simplified"></span><h1>BMSS.strike_goldd_simplified<a class="headerlink" href="#module-BMSS.strike_goldd_simplified" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.add_block">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">add_block</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.add_block" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt id="BMSS.strike_goldd_simplified.analyze_sg_args">
 <code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">analyze_sg_args</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sg_args</span></em>, <em class="sig-param"><span class="n">dst</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.analyze_sg_args" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.build_OI">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">build_OI</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.build_OI" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.build_input_der">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">build_input_der</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">nd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.build_input_der" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.check_rank">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">check_rank</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.check_rank" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.elim_recalc">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">elim_recalc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Mr</span></em>, <em class="sig-param"><span class="n">rank</span></em>, <em class="sig-param"><span class="n">x_aug</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">skip</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.elim_recalc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assumes initial conditions have been substituted already.</p>
+<dd><p>Accepts a dictionary of arguments and runs the STRIKE-GOLDD algorithm.</p>
 </dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.extend_Oi">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">extend_Oi</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Oi</span></em>, <em class="sig-param"><span class="n">input_der</span></em>, <em class="sig-param"><span class="n">nd</span></em>, <em class="sig-param"><span class="n">x_aug</span></em>, <em class="sig-param"><span class="n">f_aug</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">p</span></em>, <em class="sig-param"><span class="n">f</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">last_L</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.extend_Oi" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.format_to_matlab">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">format_to_matlab</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mat_row</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.format_to_matlab" title="Permalink to this definition">¶</a></dt>
-<dd><p>For backend testing only. Do not run.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.get_nd">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">get_nd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.get_nd" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.get_terms">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">get_terms</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.get_terms" title="Permalink to this definition">¶</a></dt>
-<dd><p>Supporting function for make_group. Extracts all terms in an expression.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.iterative_decomp">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">iterative_decomp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">p</span></em>, <em class="sig-param"><span class="n">f</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">ics</span></em>, <em class="sig-param"><span class="n">decomp</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.iterative_decomp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Iterates across groups and updates accordingly.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.make_group">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">make_group</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">p</span></em>, <em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">f</span></em>, <em class="sig-param"><span class="n">ics</span></em>, <em class="sig-param"><span class="n">group</span></em>, <em class="sig-param"><span class="n">found</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.make_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates submodels(groups).
-States and parameters in found will not be included in
-the unknowns for analysis.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.strike_goldd">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">strike_goldd</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.strike_goldd" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.strike_group">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">strike_group</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">p</span></em>, <em class="sig-param"><span class="n">f</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">ics</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.strike_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Core algorithm. Edit with extreme caution.
-Builds Oi and checks rank.
-Adds a Lie derivative if necessary and checks rank again.
-Note that the current implementation always uses decomp=False.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.t">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">t</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">funcs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.t" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.timethis">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">timethis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.timethis" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 <div class="section" id="module-BMSS.traceanalysis">

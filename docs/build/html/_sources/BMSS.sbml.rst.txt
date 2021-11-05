@@ -9,7 +9,6 @@ BMSS.sbml.OnlinetoConfig module
 
 .. automodule:: BMSS.sbml.OnlinetoConfig
    :members:
-   :undoc-members:
    :show-inheritance:
 
 BMSS.sbml.combinegen module
@@ -17,7 +16,6 @@ BMSS.sbml.combinegen module
 
 .. automodule:: BMSS.sbml.combinegen
    :members:
-   :undoc-members:
    :show-inheritance:
 
 BMSS.sbml.sbmlgen module
@@ -25,7 +23,6 @@ BMSS.sbml.sbmlgen module
 
 .. automodule:: BMSS.sbml.sbmlgen
    :members:
-   :undoc-members:
    :show-inheritance:
 
 BMSS.sbml.simplesbml module
@@ -33,7 +30,6 @@ BMSS.sbml.simplesbml module
 
 .. automodule:: BMSS.sbml.simplesbml
    :members:
-   :undoc-members:
    :show-inheritance:
 
 Module contents
