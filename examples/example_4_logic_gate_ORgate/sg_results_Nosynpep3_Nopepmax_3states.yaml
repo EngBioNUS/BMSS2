@@ -1,0 +1,38 @@
+1:
+  system_type: LogicGate, OR, Single, Delay, Degrade, ResCompete, NomRNA, Nosynpep3,
+    Nopepmax
+  init:
+    Inde: 1.0
+    Indi: 0.0
+    Ind: 1.0
+    Pep1: 0.0
+    Pep2: 0.0
+    Pep3: 0.0
+  input:
+    Inde: 0
+    Indi: 0
+    Ind: 0
+    Pep1: 1
+    Pep2: 1
+    Pep3: 1
+    syn_Pep1: 0
+    syn_Pep2: 0
+    deg_Pep: 0
+    Km: 0
+    deg_Ind: 0
+    Ratio: 0
+    state1: 1
+    state2: 1
+  output:
+    Inde: 0
+    Indi: 1
+    Ind: 0
+    Pep1: 1
+    Pep2: 1
+    Pep3: 1
+    syn_Pep1: 0
+    syn_Pep2: 0
+    deg_Pep: 1
+    Km: 0
+    deg_Ind: 1
+    Ratio: 1

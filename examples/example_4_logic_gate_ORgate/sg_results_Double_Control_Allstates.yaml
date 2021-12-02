@@ -1,0 +1,54 @@
+1:
+  system_type: LogicGate, OR, Double, Delay, Degrade, ResCompete
+  init:
+    Inde: 1.0
+    Indi: 0.0
+    Ind: 1.0
+    mRNA1: 0.0
+    Pep1: 0.0
+    mRNA2: 0.0
+    Pep2: 0.0
+    mRNA3: 0.0
+    Pep3: 0.0
+  input:
+    Inde: 1
+    Indi: 1
+    Ind: 1
+    mRNA1: 1
+    Pep1: 1
+    mRNA2: 1
+    Pep2: 1
+    mRNA3: 1
+    Pep3: 1
+    syn_mRNA1: 0
+    syn_mRNA2: 0
+    syn_mRNA3: 0
+    deg_mRNA: 0
+    syn_Pep: 0
+    deg_Pep: 0
+    Pepmax: 0
+    Km: 0
+    deg_Ind: 0
+    Ratio: 0
+    state1: 1
+    state2: 1
+  output:
+    Inde: 1
+    Indi: 1
+    Ind: 1
+    mRNA1: 1
+    Pep1: 1
+    mRNA2: 1
+    Pep2: 1
+    mRNA3: 1
+    Pep3: 1
+    syn_mRNA1: 0
+    syn_mRNA2: 1
+    syn_mRNA3: 0
+    deg_mRNA: 1
+    syn_Pep: 1
+    deg_Pep: 1
+    Pepmax: 0
+    Km: 1
+    deg_Ind: 0
+    Ratio: 0
