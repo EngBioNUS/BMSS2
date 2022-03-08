@@ -4,7 +4,6 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 p = setuptools.find_packages()
-print(p)
 
 setuptools.setup(
     name                          = "BMSS", 
@@ -22,6 +21,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent"
     ],
+    install_requires=['numpy', 'scipy', 'numba', 'matplotlib', 'pandas', 'PyYAML', 'SALib'],
     python_requires='>=3.7',
     include_package_data = True,
     package_dir          = {'BMSS': 'BMSS'},
