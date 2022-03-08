@@ -3,7 +3,7 @@
 
    BMSS.models
 
-BMSS.aicanalysis
+BMSS.icanalysis
 -----------------------
 
 .. automodule:: BMSS.aicanalysis

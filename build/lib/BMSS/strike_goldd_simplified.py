@@ -9,6 +9,9 @@ from time import time
 nt = 10
 
 def t(*funcs):
+    '''
+    :meta private:
+    '''
     global nt
     for func in funcs:
         start = time()
@@ -17,6 +20,10 @@ def t(*funcs):
         print(time()-start)
 
 def timethis(message):
+    '''
+    :meta private:
+    '''
+    
     def wrapper(func):
         def helper(*args, **kwargs):
             start  = time()
@@ -28,7 +35,9 @@ def timethis(message):
 
 def format_to_matlab(mat_row):
     '''
-    For backend testing only. Do not run.
+    For backend testing
+    
+    :meta private:
     '''
     s = str(mat_row)
     s = s[7:len(s)-1]
@@ -51,6 +60,8 @@ verbose = False
 def add_block(curr_block, block_num, input_der, f_aug, x_aug, last_L):
     '''
     Find the new Lie derivative and create a new block for Oi
+    
+    :meta private:
     '''
     global verbose
     dummy      = symbols(['dummy'])[0]
@@ -81,9 +92,15 @@ def add_block(curr_block, block_num, input_der, f_aug, x_aug, last_L):
     return new_block, last_L
 
 def get_nd(h, x, p):
+    '''
+    :meta private:
+    '''
     return ceil((len(x) +len(p) -len(h))/len(h))
 
 def build_input_der(u, nd):
+    '''
+    :meta private:
+    '''
     u_var = list(u.keys())
     u_nzd = list(u.values())
     
@@ -100,6 +117,10 @@ def build_input_der(u, nd):
 
 @timethis('Time for building Oi:')
 def build_OI(x, p, f, h, u, nd, ics={}):
+    '''
+    
+    :meta private:
+    '''
     x_aug = Matrix(list(x) + list(p)).T
     f_aug = Matrix(list(f) + [0]*len(p))
 
@@ -123,6 +144,9 @@ def build_OI(x, p, f, h, u, nd, ics={}):
     return Oi, input_der, x_aug, f_aug, last_L
 
 def extend_Oi(Oi, input_der, nd, x_aug, f_aug, x, p, f, h, u, last_L):
+    '''
+    :meta private:
+    '''
     print('Extending Oi')
     new_Oi = Matrix(Oi.tolist() + [[0]*len(x_aug)]*len(h))
     
@@ -140,6 +164,8 @@ def extend_Oi(Oi, input_der, nd, x_aug, f_aug, x, p, f, h, u, last_L):
 def elim_recalc(Mr, rank, x_aug, h, skip):
     '''
     Assumes initial conditions have been substituted already.
+    
+    :meta private:
     '''
     print('Elim-recalc for matrix with size', Mr.shape)
     found = []
@@ -161,6 +187,9 @@ def elim_recalc(Mr, rank, x_aug, h, skip):
 
 @timethis('Time for Row Reduction:')
 def check_rank(Oi, ics):
+    '''
+    :meta private:
+    '''
     print('Checking rank for matrix with size', Oi.shape)
     Mr       = Oi.subs(ics.items())
     if 'inf' in  Mr.__str__():
@@ -178,6 +207,8 @@ def strike_group(x, p, f, h, u, ics):
     Builds Oi and checks rank.
     Adds a Lie derivative if necessary and checks rank again.
     Note that the current implementation always uses decomp=False.
+    
+    :meta private:
     '''
     nd = get_nd(h, x, p)
     Oi, input_der, x_aug, f_aug, last_L = build_OI(x, p, f, h, u, nd, ics)
@@ -221,6 +252,8 @@ def make_group(h, x, p, u, f, ics, group, found):
     Creates submodels(groups).
     States and parameters in found will not be included in
     the unknowns for analysis.
+    
+    :meta private:
     '''
     
     xg    = Matrix([x[i] for i in range(len(x)) if x[i] in group])
@@ -238,6 +271,8 @@ def make_group(h, x, p, u, f, ics, group, found):
 def get_terms(f):
     '''
     Supporting function for make_group. Extracts all terms in an expression.
+    
+    :meta private:
     '''
     punctuation = string.punctuation.replace('_', '')
     fs = str([i for i in f])
@@ -254,6 +289,8 @@ def get_terms(f):
 def iterative_decomp(x, p, f, h, u, ics, decomp=[]):
     '''
     Iterates across groups and updates accordingly.
+    
+    :meta private:
     '''
     found = []
     
@@ -279,6 +316,8 @@ def strike_goldd(h, x, p, u, f, ics, decomp=[]):
     '''
     Wrap the algorithm and organize the results.
     Also checks input arguments for errors.
+    
+    :meta private:
     '''
     if len(f) != len(x):
         raise Exception('Number of equations not equal to number of states! '+
@@ -294,6 +333,9 @@ def strike_goldd(h, x, p, u, f, ics, decomp=[]):
     return x_aug_dict
 
 def analyze_sg_args(sg_args, dst={}):
+    '''
+    Accepts a dictionary of arguments and runs the STRIKE-GOLDD algorithm.
+    '''
     result = dst if dst else {}
     for key in sg_args:
         result[key] = strike_goldd(**sg_args[key])

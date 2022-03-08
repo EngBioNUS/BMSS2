@@ -1,9 +1,6 @@
 BMSS.sbml package
 =================
 
-Submodules
-----------
-
 BMSS.sbml.OnlinetoConfig module
 -------------------------------
 
