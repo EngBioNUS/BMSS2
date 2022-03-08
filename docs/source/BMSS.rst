@@ -6,7 +6,7 @@
 BMSS.icanalysis
 -----------------------
 
-.. automodule:: BMSS.aicanalysis
+.. automodule:: BMSS.icanalysis
    :members:
    :show-inheritance:
 
