@@ -16,6 +16,7 @@ BMSS/traceanalysis.py
 BMSS.egg-info/PKG-INFO
 BMSS.egg-info/SOURCES.txt
 BMSS.egg-info/dependency_links.txt
+BMSS.egg-info/requires.txt
 BMSS.egg-info/top_level.txt
 BMSS/models/__init__.py
 BMSS/models/_backend_reset.py
