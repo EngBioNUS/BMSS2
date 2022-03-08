@@ -1,7 +1,7 @@
 # BMSS2
 This package supports routine building and analysis of kinetic models for biological systems. This includes simulation, sensitivity analysis, model selection and identifiability analysis. The whole package is database-driven which allows one to interactively retrieve, store and update model information and implementation from/into SQL databases to ensure reproducibility and reusability, particularly for ease of model selection. 
 
-__*Note:*__ An extensible web app database listing some of the pre-established models can be found at https://engbio.syncti.org/BMSS2/index.html
+__*Note:*__ An extensible web app database listing some of the pre-established models can be found at https://sbr.syncti.org/bmss2
 
 ![alt text](https://github.com/EngBioNUS/BMSS2/blob/master/BMSSDiagram.png?raw=true)
 
