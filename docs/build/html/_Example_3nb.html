@@ -959,7 +959,7 @@ array([  0,  10,  20,  30,  40,  50,  60,  70,  80,  90, 100, 110, 120,
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████████████████████████████████████████████████████████████████████████| 3000/3000 [00:55&lt;00:00, 53.70it/s]
+100%|██████████████████████████████████████████████████████████████████████████████| 3000/3000 [00:32&lt;00:00, 91.51it/s]
 </pre></div></div>
 </div>
 <p>After fitting, we plot the results to check the fit.</p>
@@ -968,6 +968,9 @@ array([  0,  10,  20,  30,  40,  50,  60,  70,  80,  90, 100, 110, 120,
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.subplot.hspace&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.99</span>
+
 <span class="n">plot_index</span>  <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">],</span>
                <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">,</span> <span class="s1">&#39;m1&#39;</span><span class="p">,</span> <span class="s1">&#39;m2&#39;</span><span class="p">],</span>
                <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">,</span> <span class="s1">&#39;m1&#39;</span><span class="p">,</span> <span class="s1">&#39;m2&#39;</span><span class="p">,]</span>
@@ -1025,9 +1028,9 @@ array([  0,  10,  20,  30,  40,  50,  60,  70,  80,  90, 100, 110, 120,
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">accepted</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;fixed_parameters&#39;</span><span class="p">]]</span>
-<span class="n">n_figs</span>       <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trace_params</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">n_figs</span>       <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trace_params</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="n">trace_figs</span>   <span class="o">=</span> <span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_figs</span><span class="p">)]</span>
-<span class="n">trace_AX_</span>    <span class="o">=</span> <span class="p">[</span><span class="n">trace_figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trace_figs</span><span class="p">))</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<span class="n">trace_AX_</span>    <span class="o">=</span> <span class="p">[</span><span class="n">trace_figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trace_figs</span><span class="p">))</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
 <span class="n">trace_AX</span>     <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">trace_params</span><span class="p">,</span> <span class="n">trace_AX_</span><span class="p">))</span>
 
 <span class="n">trace_figs</span><span class="p">,</span> <span class="n">trace_AX</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">plot_steps</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span>
@@ -1083,11 +1086,11 @@ array([  0,  10,  20,  30,  40,  50,  60,  70,  80,  90, 100, 110, 120,
 <div class="output_area docutils container">
 <div class="highlight"><pre>
     row  model_num    ic value             Evidence  d(ic value)
-25  481          2  560.040989  Substantial support     0.000000
-28  482          2  560.040989  Substantial support     0.000000
-1   473          2  560.042461  Substantial support     0.001473
-4   474          2  560.042461  Substantial support     0.001473
-7   475          2  560.042461  Substantial support     0.001473
+10  459          2  560.227534  Substantial support     0.000000
+1   456          2  560.228143  Substantial support     0.000609
+4   457          2  560.228143  Substantial support     0.000609
+7   458          2  560.228143  Substantial support     0.000609
+13  460          2  560.230566  Substantial support     0.003031
 </pre></div></div>
 </div>
 </div>
