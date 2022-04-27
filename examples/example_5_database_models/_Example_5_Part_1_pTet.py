@@ -92,10 +92,10 @@ if __name__ == '__main__':
     parameters for evaluation. 
     '''
     table = ac.calculate_aic(data   = sampler_args['data'], 
-                              models = sampler_args['models'], 
-                              priors = sampler_args['priors'],
-                              params = posterior
-                              )
+                             models = sampler_args['models'], 
+                             priors = sampler_args['priors'],
+                             params = posterior
+                             )
     
     '''
     rank_aic accepts a DataFrame containing AIC values indexed under 

@@ -17,12 +17,6 @@ BMSS.curvefitting
    :members:
    :show-inheritance:
 
-BMSS.sbml
--------------------------------
-
-.. automodule:: BMSS.sbml
-   :members:
-   :show-inheritance:
    
 BMSS.sensitivityanalysis
 -------------------------------

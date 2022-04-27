@@ -2,39 +2,33 @@ import numpy as np
 from numpy import log   as ln
 from numpy import log10 as log
 from numpy import exp
-def model_Test_Model_Cell_Cycle(y, t, params):
-	EmptySet = y[0]
-	u        = y[1]
-	z        = y[2]
-	v        = y[3]
+def model_my_model(y, t, params):
+	m = y[0]
+	p = y[1]
 
-	kappa   = params[0]
-	k6      = params[1]
-	k4      = params[2]
-	k4prime = params[3]
-	alpha   = params[4]
+	k_ind = params[0]
+	synm  = params[1]
+	degm  = params[2]
+	synp  = params[3]
+	degp  = params[4]
+	ind   = params[5]
 
-	alpha= k4prime/k4
-	z = v - u
-	du= k4*(v - u)*(alpha + u**2) - k6*u
-	dv= kappa - k6*u
-	dEmptySet= +(k6*u) -(kappa)
-	du= +(k4*z*(k4prime/k4 + u**2)) -(k6*u)
-	dz= +(kappa) -(k4*z*(k4prime/k4 + u**2))
+	dm = synm*ind/(ind + k_ind) - degm*m
+	dp = synp*m - degp*p
 
-	return np.array([dEmptySet, du, dz, dv])
+	return np.array([dm, dp])
 
-EmptySet,u,z,v,kappa,k6,k4,k4prime,alpha= np.random.rand(9)*10
+m,p,k_ind,synm,degm,synp,degp,ind= np.random.rand(8)*10
 
-EmptySet,u,z,v,kappa,k6,k4,k4prime,alpha= list(map(float, [EmptySet,u,z,v,kappa,k6,k4,k4prime,alpha]))
+m,p,k_ind,synm,degm,synp,degp,ind= list(map(float, [m,p,k_ind,synm,degm,synp,degp,ind]))
 
-y = [EmptySet,u,z,v]
+y = [m,p]
 
 t = 0
 dt = 1e-3
 
-params = [kappa,k6,k4,k4prime,alpha]
+params = [k_ind,synm,degm,synp,degp,ind]
 
-y = y + dt*model_Test_Model_Cell_Cycle(y, t, params)
+y = y + dt*model_my_model(y, t, params)
 
-y = y + dt*model_Test_Model_Cell_Cycle(y, t, params)
+y = y + dt*model_my_model(y, t, params)

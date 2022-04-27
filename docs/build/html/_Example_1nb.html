@@ -1,0 +1,974 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1. Using the Database and Config Files &mdash; BMSS2 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Simulate New Model" href="_Example_2nb.html" />
+    <link rel="prev" title="Examples" href="examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> BMSS2
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">BMSS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#working-with-sbml">Working with SBML</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html#examples">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1. Using the Database and Config Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Config-Files">Config Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Working-with-the-Database">Working with the Database</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="_Example_2nb.html">2. Simulate New Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_Example_3nb.html">3. Making a Model Selection Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_Example_4nb.html">4. A Priori Identifiability Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BMSS2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">BMSS</a> &raquo;</li>
+        
+          <li><a href="examples.html">Examples</a> &raquo;</li>
+        
+      <li>1. Using the Database and Config Files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/_Example_1nb.nblink.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="1.-Using-the-Database-and-Config-Files">
+<h1>1. Using the Database and Config Files<a class="headerlink" href="#1.-Using-the-Database-and-Config-Files" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Config-Files">
+<h2>Config Files<a class="headerlink" href="#Config-Files" title="Permalink to this headline">¶</a></h2>
+<p>Coding your models from scratch is tedious and prone to error. BMSS2 uses config files to expedite the process using .ini files!</p>
+<p>There are 3 kinds of config files used in BMSS2.</p>
+<div class="section" id="Core-Models">
+<h3>Core Models<a class="headerlink" href="#Core-Models" title="Permalink to this headline">¶</a></h3>
+<p>Core models are descriptions of model topologies and can be stored in the database. They contain only information on the variables involved in the model but not their actual values. An example of a simple model involving mRNA transcription and translation is shown below.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[system_type]
+system_type = my_model
+
+[states]
+states = m, p
+
+[parameters]
+parameters = k_ind, synm, degm, synp, degp
+
+[inputs]
+inputs = ind
+
+[equations]
+equations =
+    dm = synm*ind/(ind + k_ind) - degm*m
+    dp = synp*m - degp*p
+</pre></div>
+</div>
+</div>
+<div class="section" id="Settings">
+<h3>Settings<a class="headerlink" href="#Settings" title="Permalink to this headline">¶</a></h3>
+<p>Settings are information for carrying out simulation and other kinds of analyses.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[my_model]
+init =
+    m = [0, 5e-5],
+    p = [0, 5e-6]
+
+parameter_values =
+    k_ind = [1e-2],
+    synm  = [1e-5],
+    degm  = [0.015],
+    synp  = [1e-2],
+    degp  = [0.012],
+    ind   = [0]
+
+priors =
+    degm  = [0.015, 0.05],
+    degp  = [0.012, 0.04]
+
+parameter_bounds =
+    k_ind = [1e-3, 1],
+    synm  = [1e-6, 1e-4],
+    degm  = [0.01, 0.5],
+    synp  = [1e-3, 1],
+    degp  = [1e-3, 0.3],
+    ind   = [0, 1]
+
+units =
+    k_ind = % Arabinose,
+    synm  = M/min,
+    degm  = 1/min,
+    synp  = M/min,
+    degp  = 1/min,
+    ind   = % Arabinose
+</pre></div>
+</div>
+<p>Each core model requires its own file. Settings are however flexible and you can arrange them accrding to your needs. If you are analyzing multiple models in one go, we recommend putting the settings for all the models into a single file.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[model1]
+some information...
+
+[model2]
+more information...
+
+
+etc.
+</pre></div>
+</div>
+</div>
+<div class="section" id="Settings-Templates">
+<h3>Settings Templates<a class="headerlink" href="#Settings-Templates" title="Permalink to this headline">¶</a></h3>
+<p>To speed up writing new settings, a settings templates can be used as a base for generating new settings with pre-filled values. Like core models, they can be stored in the database.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[my_settings]
+system_type = my_model
+
+init =
+    m = [0, 5e-5],
+    p = [0, 5e-6]
+
+parameter_values =
+    k_ind = [1e-2],
+    synm  = [1e-5],
+    degm  = [0.015],
+    synp  = [1e-2],
+    degp  = [0.012],
+    ind   = [0]
+
+priors =
+    degm  = [0.015, 0.05],
+    degp  = [0.012, 0.04]
+
+parameter_bounds =
+    k_ind = [1e-3, 1],
+    synm  = [1e-6, 1e-4],
+    degm  = [0.01, 0.5],
+    synp  = [1e-3, 1],
+    degp  = [1e-3, 0.3],
+    ind   = [0, 1]
+
+units =
+    k_ind = % Arabinose,
+    synm  = M/min,
+    degm  = 1/min,
+    synp  = M/min,
+    degp  = 1/min,
+    ind   = % Arabinose
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Working-with-the-Database">
+<h2>Working with the Database<a class="headerlink" href="#Working-with-the-Database" title="Permalink to this headline">¶</a></h2>
+<p>This section shows you how to use the config files for core models and settings templates in Python and how to add the information into the BMSS2 database.</p>
+<p>For now, the config data is stored in a file called <code class="docutils literal notranslate"><span class="pre">my_model.ini</span></code> and the .ini code is as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[system_type]
+system_type = my_model
+
+[states]
+states = m, p
+
+[parameters]
+parameters = k_ind, synm, degm, synp, degp
+
+[inputs]
+inputs = ind
+
+[equations]
+equations =
+    dm = synm*ind/(ind + k_ind) - degm*m
+    dp = synp*m - degp*p
+
+[my_settings]
+system_type = my_model
+
+init =
+    m = [0, 5e-5],
+    p = [0, 5e-6]
+
+parameter_values =
+    k_ind = [1e-2],
+    synm  = [1e-5],
+    degm  = [0.015],
+    synp  = [1e-2],
+    degp  = [0.012],
+    ind   = [0]
+
+priors =
+    degm  = [0.015, 0.05],
+    degp  = [0.012, 0.04]
+
+parameter_bounds =
+    k_ind = [1e-3, 1],
+    synm  = [1e-6, 1e-4],
+    degm  = [0.01, 0.5],
+    synp  = [1e-3, 1],
+    degp  = [1e-3, 0.3],
+    ind   = [0, 1]
+
+units =
+    k_ind = % Arabinose,
+    synm  = M/min,
+    degm  = 1/min,
+    synp  = M/min,
+    degp  = 1/min,
+    ind   = % Arabinose
+</pre></div>
+</div>
+<div class="section" id="Importing-Models-into-Python">
+<h3>Importing Models into Python<a class="headerlink" href="#Importing-Models-into-Python" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">BMSS.models.model_handler</span> <span class="k">as</span> <span class="nn">mh</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Connected to MBase_models, UBase_models
+</pre></div></div>
+</div>
+<p>Having imported the modules, we now read the .ini file to get a dictionary version of a core model.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span>     <span class="o">=</span> <span class="s1">&#39;my_model.ini&#39;</span>
+<span class="n">core_model_1</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">core_model_1</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+id
+
+
+system_type
+my_model
+
+states
+[&#39;m&#39;, &#39;p&#39;]
+
+parameters
+[&#39;k_ind&#39;, &#39;synm&#39;, &#39;degm&#39;, &#39;synp&#39;, &#39;degp&#39;]
+
+inputs
+[&#39;ind&#39;]
+
+equations
+[&#39;dm = synm*ind/(ind + k_ind) - degm*m&#39;, &#39;dp = synp*m - degp*p&#39;]
+
+ia
+
+
+descriptions
+{}
+
+</pre></div></div>
+</div>
+<p>Note that some additional fields are generated by BMSS2. Just leave them be.</p>
+<p>If you want to make your own core model, you can use the constructor in BMSS2 to ensure your data is formatted correctly.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">core_model_2</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">make_core_model</span><span class="p">(</span><span class="n">system_type</span> <span class="o">=</span> <span class="n">core_model_1</span><span class="p">[</span><span class="s1">&#39;system_type&#39;</span><span class="p">],</span>
+                                  <span class="n">states</span>      <span class="o">=</span> <span class="n">core_model_1</span><span class="p">[</span><span class="s1">&#39;states&#39;</span><span class="p">],</span>
+                                  <span class="n">parameters</span>  <span class="o">=</span> <span class="n">core_model_1</span><span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">],</span>
+                                  <span class="n">inputs</span>      <span class="o">=</span> <span class="n">core_model_1</span><span class="p">[</span><span class="s1">&#39;inputs&#39;</span><span class="p">],</span>
+                                  <span class="n">equations</span>   <span class="o">=</span> <span class="n">core_model_1</span><span class="p">[</span><span class="s1">&#39;equations&#39;</span><span class="p">],</span>
+                                  <span class="n">ia</span>          <span class="o">=</span> <span class="n">core_model_1</span><span class="p">[</span><span class="s1">&#39;ia&#39;</span><span class="p">]</span>
+                                  <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>As you work with more and more models, managing so many files can be a hassle. This is where the database comes in. Let’s see the first few models inside the database.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mh</span><span class="o">.</span><span class="n">list_models</span><span class="p">()[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;BMSS, ConstantInduction, Inducible&#39;,
+ &#39;BMSS, ConstantInduction, Inducible, MaturationTime&#39;,
+ &#39;BMSS, InducerDegradation, Inducible&#39;,
+ &#39;BMSS, InducerDegradation, Inducible, MaturationTime&#39;,
+ &#39;BMSS, DelayActivation, Inducible, ActiveTransport&#39;]
+</pre></div></div>
+</div>
+<p>To search for a model, use the <code class="docutils literal notranslate"><span class="pre">quick_search</span></code> function.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mh</span><span class="o">.</span><span class="n">quick_search</span><span class="p">(</span><span class="s1">&#39;BMSS, ConstantInduction, Inducible&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;id&#39;: &#39;bmss1&#39;,
+ &#39;system_type&#39;: &#39;BMSS, ConstantInduction, Inducible&#39;,
+ &#39;states&#39;: [&#39;m&#39;, &#39;p&#39;],
+ &#39;parameters&#39;: [&#39;n&#39;, &#39;k_ind&#39;, &#39;synm&#39;, &#39;degm&#39;, &#39;synp&#39;, &#39;degp&#39;],
+ &#39;inputs&#39;: [&#39;ind&#39;],
+ &#39;equations&#39;: [&#39;dm = synm*(ind**n)/(ind**n + k_ind**n) - degm*m&#39;,
+  &#39;dp = synp*m - degp*p&#39;],
+ &#39;ia&#39;: &#39;&#39;,
+ &#39;descriptions&#39;: {&#39;Description&#39;: &#39;This model describes a simple gene expression for mRNA and protein driven by an inducible promoter with constant induction.&#39;,
+  &#39;Definition of states&#39;: &#39;\nm: mRNA\np: protein&#39;,
+  &#39;Definition of parameters&#39;: &#39;\nk_ind: half-activation constant\nsynm: mRNA synthesis rate\ndegm: mRNA degradation rate\nsynp: protein synthesis rate\ndegp: protein degradation rate/dilution rate\nn: hil coefficient&#39;,
+  &#39;Definition of inputs&#39;: &#39;\nind: inducer level&#39;,
+  &#39;Reference&#39;: &#39;\ntitle: An Automated Biomodel Selection System (BMSS) for Gene Circuit Designs.\nauthors: Yeoh, Jing Wui, Kai Boon Ivan Ng, Ai Ying Teh, JingYun Zhang, Wai Kit David Chee, and Chueh Loo Poh.\njournal: ACS synthetic biology 8, no. 7 (2019): 1484-1497.\ndoi: https://doi.org/10.1021/acssynbio.8b00523&#39;}}
+</pre></div></div>
+</div>
+<p>If you are not sure what the exact system type is, use the <code class="docutils literal notranslate"><span class="pre">search_database</span></code> function.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">search_results</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">search_database</span><span class="p">(</span><span class="s1">&#39;Inducible&#39;</span><span class="p">)</span>
+<span class="n">search_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;id&#39;: &#39;bmss1&#39;,
+ &#39;system_type&#39;: &#39;BMSS, ConstantInduction, Inducible&#39;,
+ &#39;states&#39;: [&#39;m&#39;, &#39;p&#39;],
+ &#39;parameters&#39;: [&#39;n&#39;, &#39;k_ind&#39;, &#39;synm&#39;, &#39;degm&#39;, &#39;synp&#39;, &#39;degp&#39;],
+ &#39;inputs&#39;: [&#39;ind&#39;],
+ &#39;equations&#39;: [&#39;dm = synm*(ind**n)/(ind**n + k_ind**n) - degm*m&#39;,
+  &#39;dp = synp*m - degp*p&#39;],
+ &#39;ia&#39;: &#39;&#39;,
+ &#39;descriptions&#39;: {&#39;Description&#39;: &#39;This model describes a simple gene expression for mRNA and protein driven by an inducible promoter with constant induction.&#39;,
+  &#39;Definition of states&#39;: &#39;\nm: mRNA\np: protein&#39;,
+  &#39;Definition of parameters&#39;: &#39;\nk_ind: half-activation constant\nsynm: mRNA synthesis rate\ndegm: mRNA degradation rate\nsynp: protein synthesis rate\ndegp: protein degradation rate/dilution rate\nn: hil coefficient&#39;,
+  &#39;Definition of inputs&#39;: &#39;\nind: inducer level&#39;,
+  &#39;Reference&#39;: &#39;\ntitle: An Automated Biomodel Selection System (BMSS) for Gene Circuit Designs.\nauthors: Yeoh, Jing Wui, Kai Boon Ivan Ng, Ai Ying Teh, JingYun Zhang, Wai Kit David Chee, and Chueh Loo Poh.\njournal: ACS synthetic biology 8, no. 7 (2019): 1484-1497.\ndoi: https://doi.org/10.1021/acssynbio.8b00523&#39;}}
+</pre></div></div>
+</div>
+<p>To add a model to the database, use <code class="docutils literal notranslate"><span class="pre">config_to_database</span></code> or <code class="docutils literal notranslate"><span class="pre">add_to_database</span></code>. If the core model already exists in the database, a dialog will be created to ask if you want to overwrite the existing one. Set <code class="docutils literal notranslate"><span class="pre">dialog=False</span></code> to overwrite without being asked.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">system_type</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">config_to_database</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dialog</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Modified model usr47 to UBase
+</pre></div></div>
+</div>
+<p>Deactivate the model with the <code class="docutils literal notranslate"><span class="pre">delete</span></code> function.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#It won&#39;t be searchable after this.</span>
+<span class="n">mh</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">system_type</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>This can be undone using <code class="docutils literal notranslate"><span class="pre">restore</span></code></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mh</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">system_type</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The database can be exported as a pandas DataFrame by using <code class="docutils literal notranslate"><span class="pre">to_df</span></code>. This will include both active and inactive models.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">to_df</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Importing-Template-Settings-into-Python">
+<h3>Importing Template Settings into Python<a class="headerlink" href="#Importing-Template-Settings-into-Python" title="Permalink to this headline">¶</a></h3>
+<p>Working with template settings is similar to that with core models. However, we now use the settings_handler module instead.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">BMSS.models.settings_handler</span> <span class="k">as</span> <span class="nn">sh</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Connected to MBase_settings, UBase_settings
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;system_type&#39;: &#39;my_model&#39;,
+  &#39;settings_name&#39;: &#39;my_settings&#39;,
+  &#39;units&#39;: {&#39;k_ind&#39;: &#39;% Arabinose&#39;,
+   &#39;synm&#39;: &#39;M/min&#39;,
+   &#39;degm&#39;: &#39;1/min&#39;,
+   &#39;synp&#39;: &#39;M/min&#39;,
+   &#39;degp&#39;: &#39;1/min&#39;,
+   &#39;ind&#39;: &#39;% Arabinose&#39;},
+  &#39;parameters&#39;:    k_ind     synm   degm  synp   degp  ind
+  0   0.01  0.00001  0.015  0.01  0.012    0,
+  &#39;init&#39;:          0         1
+  1  0.00000  0.000000
+  2  0.00005  0.000005,
+  &#39;priors&#39;: {&#39;degm&#39;: array([0.015, 0.05 ]), &#39;degp&#39;: array([0.012, 0.04 ])},
+  &#39;parameter_bounds&#39;: {&#39;k_ind&#39;: [0.001, 1],
+   &#39;synm&#39;: [1e-06, 0.0001],
+   &#39;degm&#39;: [0.01, 0.5],
+   &#39;synp&#39;: [0.001, 1],
+   &#39;degp&#39;: [0.001, 0.3],
+   &#39;ind&#39;: [0, 1]},
+  &#39;tspan&#39;: [array([  0.,  20.,  40.,  60.,  80., 100., 120., 140., 160., 180., 200.,
+          220., 240., 260., 280., 300., 320., 340., 360., 380., 400., 420.,
+          440., 460., 480., 500., 520., 540., 560., 580., 600.])],
+  &#39;fixed_parameters&#39;: [],
+  &#39;solver_args&#39;: {&#39;rtol&#39;: 1.49012e-08,
+   &#39;atol&#39;: 1.49012e-08,
+   &#39;tcrit&#39;: [],
+   &#39;h0&#39;: 0.0,
+   &#39;hmax&#39;: 0.0,
+   &#39;hmin&#39;: 0.0,
+   &#39;mxstep&#39;: 0}}]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">system_types_settings_names</span> <span class="o">=</span> <span class="n">sh</span><span class="o">.</span><span class="n">config_to_database</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Added settings my_settings
+</pre></div></div>
+</div>
+<p>Note that you cannot add a settings template to the database if the associated core model has not been added yet.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="_Example_2nb.html" class="btn btn-neutral float-right" title="2. Simulate New Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Russell Ngo Jie Kai
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

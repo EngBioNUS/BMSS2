@@ -26,16 +26,10 @@ if __name__ == '__main__':
     
     sg_args, config_data, variables = ssg.get_strike_goldd_args(model_files, user_core_models=user_core_models)
     
-    '''
-    The optional argument dst allows you to supply your own dictionary to which the
-    results will be added after each iteration. This allows you to thread and/or
-    save the results before all the iterations have been completed. Just use an
-    empty dictionary for dst.
-    '''
+    
     #Run strike-goldd algorithm
     #Details in Tutorial 7 Part 2
-    dst        = {}
-    sg_results = sg.analyze_sg_args(sg_args, dst=dst)
+    sg_results = sg.analyze_sg_args(sg_args)
     outfile   = 'sg_results.yaml'
     yaml_dict = ir.export_sg_results(sg_results, variables, config_data, user_core_models=user_core_models, filename=outfile)
     

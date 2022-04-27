@@ -1,5 +1,5 @@
 BMSS.models submodule
-===================
+=====================
 
 Submodules
 ----------
@@ -53,9 +53,3 @@ BMSS.models.setup\_sim module
    :members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: BMSS.models
-   :members:
-   :show-inheritance:

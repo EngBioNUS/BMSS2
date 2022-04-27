@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -26,10 +28,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -83,6 +86,8 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">BMSS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#working-with-sbml">Working with SBML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#examples">Examples</a></li>
 </ul>
 
             
@@ -181,29 +186,11 @@
         <li><a href="BMSS.models.html#BMSS.models.settings_handler.add_to_database">(in module BMSS.models.settings_handler)</a>
 </li>
       </ul></li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.addAssignmentRule">addAssignmentRule() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.addCompartment">addCompartment() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.addEvent">addEvent() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.addInitialAssignment">addInitialAssignment() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.addParameter">addParameter() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.addRateRule">addRateRule() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.addReaction">addReaction() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.addSpecies">addSpecies() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
       <li><a href="BMSS.html#BMSS.sensitivityanalysis.analyze">analyze() (in module BMSS.sensitivityanalysis)</a>
 </li>
       <li><a href="BMSS.html#BMSS.strike_goldd_simplified.analyze_sg_args">analyze_sg_args() (in module BMSS.strike_goldd_simplified)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.sbmlgen.autogenerate_sbml_from_folder">autogenerate_sbml_from_folder() (in module BMSS.sbml.sbmlgen)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -230,13 +217,6 @@
 
       <ul>
         <li><a href="BMSS.html#module-BMSS.icanalysis">module</a>
-</li>
-      </ul></li>
-      <li>
-    BMSS.models
-
-      <ul>
-        <li><a href="BMSS.models.html#module-BMSS.models">module</a>
 </li>
       </ul></li>
       <li>
@@ -281,6 +261,8 @@
         <li><a href="BMSS.models.html#module-BMSS.models.setup_sg">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     BMSS.models.setup_sim
 
@@ -288,41 +270,25 @@
         <li><a href="BMSS.models.html#module-BMSS.models.setup_sim">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    BMSS.sbml
-
-      <ul>
-        <li><a href="BMSS.html#module-BMSS.sbml">module</a>, <a href="BMSS.sbml.html#module-BMSS.sbml">[1]</a>
-</li>
-      </ul></li>
       <li>
     BMSS.sbml.combinegen
 
       <ul>
-        <li><a href="BMSS.sbml.html#module-BMSS.sbml.combinegen">module</a>
+        <li><a href="SBML.html#module-BMSS.sbml.combinegen">module</a>
 </li>
       </ul></li>
       <li>
     BMSS.sbml.OnlinetoConfig
 
       <ul>
-        <li><a href="BMSS.sbml.html#module-BMSS.sbml.OnlinetoConfig">module</a>
+        <li><a href="SBML.html#module-BMSS.sbml.OnlinetoConfig">module</a>
 </li>
       </ul></li>
       <li>
-    BMSS.sbml.sbmlgen
+    BMSS.sbml.sbml_converter
 
       <ul>
-        <li><a href="BMSS.sbml.html#module-BMSS.sbml.sbmlgen">module</a>
-</li>
-      </ul></li>
-      <li>
-    BMSS.sbml.simplesbml
-
-      <ul>
-        <li><a href="BMSS.sbml.html#module-BMSS.sbml.simplesbml">module</a>
+        <li><a href="SBML.html#module-BMSS.sbml.sbml_converter">module</a>
 </li>
       </ul></li>
       <li>
@@ -353,11 +319,11 @@
         <li><a href="BMSS.html#module-BMSS.traceanalysis">module</a>
 </li>
       </ul></li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.build_section">build_section() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.build_section">build_section() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.build_section_top">build_section_top() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.build_section_top">build_section_top() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.build_settings">build_settings() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.build_settings">build_settings() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -371,23 +337,23 @@
 </li>
       <li><a href="BMSS.html#BMSS.traceanalysis.check_skewness">check_skewness() (in module BMSS.traceanalysis)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.clean_compartment">clean_compartment() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.clean_compartment">clean_compartment() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.clean_eqns">clean_eqns() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.clean_eqns">clean_eqns() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.combinegen.clean_groupvariables">clean_groupvariables() (in module BMSS.sbml.combinegen)</a>
+      <li><a href="SBML.html#BMSS.sbml.combinegen.clean_groupvariables">clean_groupvariables() (in module BMSS.sbml.combinegen)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.clean_id">clean_id() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.clean_id">clean_id() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.clean_reactions">clean_reactions() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.clean_reactions">clean_reactions() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.clean_units">clean_units() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.clean_units">clean_units() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.clean_value">clean_value() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.clean_value">clean_value() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.combinegen.Combinecreator">Combinecreator() (in module BMSS.sbml.combinegen)</a>
+      <li><a href="SBML.html#BMSS.sbml.combinegen.Combinecreator">Combinecreator() (in module BMSS.sbml.combinegen)</a>
 </li>
       <li><a href="BMSS.models.html#BMSS.models.model_handler.config_to_database">config_to_database() (in module BMSS.models.model_handler)</a>
 
@@ -395,15 +361,11 @@
         <li><a href="BMSS.models.html#BMSS.models.settings_handler.config_to_database">(in module BMSS.models.settings_handler)</a>
 </li>
       </ul></li>
-      <li><a href="BMSS.html#BMSS.sbml.config_to_sbml">config_to_sbml() (in module BMSS.sbml)</a>, <a href="BMSS.sbml.html#BMSS.sbml.config_to_sbml">[1]</a>
-
-      <ul>
-        <li><a href="BMSS.sbml.html#BMSS.sbml.sbmlgen.config_to_sbml">(in module BMSS.sbml.sbmlgen)</a>
+      <li><a href="SBML.html#BMSS.sbml.sbml_converter.config_to_sbml">config_to_sbml() (in module BMSS.sbml.sbml_converter)</a>
 </li>
-      </ul></li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.Convert">Convert() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.Convert">Convert() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.Convertplus">Convertplus() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.Convertplus">Convertplus() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
       <li><a href="BMSS.models.html#BMSS.models.model_handler.create_connection">create_connection() (in module BMSS.models.model_handler)</a>
 </li>
@@ -415,18 +377,16 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.combinegen.database_to_combine">database_to_combine() (in module BMSS.sbml.combinegen)</a>
+      <li><a href="SBML.html#BMSS.sbml.combinegen.database_to_combine">database_to_combine() (in module BMSS.sbml.combinegen)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.sbmlgen.database_to_sbml">database_to_sbml() (in module BMSS.sbml.sbmlgen)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="BMSS.models.html#BMSS.models.model_handler.delete">delete() (in module BMSS.models.model_handler)</a>
 
       <ul>
         <li><a href="BMSS.models.html#BMSS.models.settings_handler.delete">(in module BMSS.models.settings_handler)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="BMSS.models.html#BMSS.models.ia_results.dump_sg_results">dump_sg_results() (in module BMSS.models.ia_results)</a>
 </li>
   </ul></td>
@@ -435,7 +395,7 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.eqnreplace">eqnreplace() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.eqnreplace">eqnreplace() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -469,41 +429,43 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.gen_cleanvalue">gen_cleanvalue() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.gen_cleanvalue">gen_cleanvalue() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.gen_config">gen_config() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.gen_config">gen_config() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.gen_description">gen_description() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.gen_description">gen_description() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.gen_dictionary">gen_dictionary() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.gen_dictionary">gen_dictionary() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.gen_eqns">gen_eqns() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.gen_eqns">gen_eqns() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.combinegen.gen_figurestatment">gen_figurestatment() (in module BMSS.sbml.combinegen)</a>
+      <li><a href="SBML.html#BMSS.sbml.combinegen.gen_figurestatment">gen_figurestatment() (in module BMSS.sbml.combinegen)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.combinegen.gen_phrasedml">gen_phrasedml() (in module BMSS.sbml.combinegen)</a>
+      <li><a href="SBML.html#BMSS.sbml.combinegen.gen_phrasedml">gen_phrasedml() (in module BMSS.sbml.combinegen)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.combinegen.gen_plotvariables">gen_plotvariables() (in module BMSS.sbml.combinegen)</a>
+      <li><a href="SBML.html#BMSS.sbml.combinegen.gen_plotvariables">gen_plotvariables() (in module BMSS.sbml.combinegen)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.gen_prior_bounds">gen_prior_bounds() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.gen_prior_bounds">gen_prior_bounds() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.gen_reactions">gen_reactions() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.gen_reactions">gen_reactions() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.gen_reference">gen_reference() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.gen_reference">gen_reference() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.gen_settingstemplate">gen_settingstemplate() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.gen_settingstemplate">gen_settingstemplate() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.combinegen.gen_simstatements">gen_simstatements() (in module BMSS.sbml.combinegen)</a>
+      <li><a href="SBML.html#BMSS.sbml.combinegen.gen_simstatements">gen_simstatements() (in module BMSS.sbml.combinegen)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.gen_species_parameter_descriptions">gen_species_parameter_descriptions() (in module BMSS.sbml.OnlinetoConfig)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.gen_species_parameter_descriptions">gen_species_parameter_descriptions() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
       <li><a href="BMSS.models.html#BMSS.models.setup_sim.get_models_and_params">get_models_and_params() (in module BMSS.models.setup_sim)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.get_negreaction">get_negreaction() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.get_negreaction">get_negreaction() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
       <li><a href="BMSS.html#BMSS.curvefitting.get_params_for_model">get_params_for_model() (in module BMSS.curvefitting)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.get_posreaction">get_posreaction() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.get_posreaction">get_posreaction() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
       <li><a href="BMSS.models.html#BMSS.models.setup_cf.get_sampler_args">get_sampler_args() (in module BMSS.models.setup_cf)</a>
 </li>
@@ -523,114 +485,6 @@
 </li>
       <li><a href="BMSS.models.html#BMSS.models.setup_sg.get_strike_goldd_args">get_strike_goldd_args() (in module BMSS.models.setup_sg)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getCompartmentId">getCompartmentId() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getCompartmentIdSpeciesIsIn">getCompartmentIdSpeciesIsIn() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getCompartmentVolume">getCompartmentVolume() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getDocument">getDocument() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getEventAssignment">getEventAssignment() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getEventId">getEventId() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getEventString">getEventString() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getEventTrigger">getEventTrigger() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getEventVariable">getEventVariable() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getFunctionBody">getFunctionBody() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getFunctionId">getFunctionId() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getListOfAllSpecies">getListOfAllSpecies() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getListOfArgumentsInUserFunction">getListOfArgumentsInUserFunction() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getListOfBoundarySpecies">getListOfBoundarySpecies() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getListOfCompartmentIds">getListOfCompartmentIds() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getListOfFloatingSpecies">getListOfFloatingSpecies() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getListOfFunctionIds">getListOfFunctionIds() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getListOfModifiers">getListOfModifiers() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getListOfParameterIds">getListOfParameterIds() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getListOfReactionIds">getListOfReactionIds() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getListOfRuleIds">getListOfRuleIds() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getModel">getModel() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getModelId">getModelId() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNthBoundarySpeciesId">getNthBoundarySpeciesId() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNthFloatingSpeciesId">getNthFloatingSpeciesId() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNthReactionId">getNthReactionId() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumArgumentsInUserFunction">getNumArgumentsInUserFunction() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumBoundarySpecies">getNumBoundarySpecies() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumCompartments">getNumCompartments() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumEventAssignments">getNumEventAssignments() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumEvents">getNumEvents() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumFloatingSpecies">getNumFloatingSpecies() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumFunctionDefinitions">getNumFunctionDefinitions() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumInitialAssignments">getNumInitialAssignments() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumModifiers">getNumModifiers() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumParameters">getNumParameters() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumProducts">getNumProducts() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumReactants">getNumReactants() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumReactions">getNumReactions() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumRules">getNumRules() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getNumSpecies">getNumSpecies() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getParameterId">getParameterId() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getParameterValue">getParameterValue() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getProduct">getProduct() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getProductStoichiometry">getProductStoichiometry() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getRateLaw">getRateLaw() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getReactant">getReactant() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getReactantStoichiometry">getReactantStoichiometry() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getRuleId">getRuleId() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getRuleRightSide">getRuleRightSide() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getRuleType">getRuleType() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getSpeciesInitialAmount">getSpeciesInitialAmount() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.getSpeciesInitialConcentration">getSpeciesInitialConcentration() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -639,29 +493,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="BMSS.html#BMSS.traceanalysis.import_trace">import_trace() (in module BMSS.traceanalysis)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="BMSS.html#BMSS.simulation.integrate_models">integrate_models() (in module BMSS.simulation)</a>
 </li>
       <li><a href="BMSS.html#BMSS.sensitivityanalysis.integrate_samples">integrate_samples() (in module BMSS.sensitivityanalysis)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.isAmount">isAmount() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.isBoundarySpecies">isBoundarySpecies() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.isConcentration">isConcentration() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.isFloatingSpecies">isFloatingSpecies() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.isParameterValueSet">isParameterValueSet() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.isRuleType_Algebraic">isRuleType_Algebraic() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.isRuleType_Assignment">isRuleType_Assignment() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.isRuleType_Rate">isRuleType_Rate() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.isSpeciesValueSet">isSpeciesValueSet() (BMSS.sbml.simplesbml.SbmlModel method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -669,7 +505,7 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.combinegen.KISAOchecker">KISAOchecker() (in module BMSS.sbml.combinegen)</a>
+      <li><a href="SBML.html#BMSS.sbml.combinegen.KISAOchecker">KISAOchecker() (in module BMSS.sbml.combinegen)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -679,13 +515,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="BMSS.models.html#BMSS.models.model_handler.list_models">list_models() (in module BMSS.models.model_handler)</a>
 </li>
-      <li><a href="BMSS.models.html#BMSS.models.settings_handler.list_settings">list_settings() (in module BMSS.models.settings_handler)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.loadSBMLFile">loadSBMLFile() (in module BMSS.sbml.simplesbml)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.loadSBMLStr">loadSBMLStr() (in module BMSS.sbml.simplesbml)</a>
+      <li><a href="BMSS.models.html#BMSS.models.settings_handler.list_settings">list_settings() (in module BMSS.models.settings_handler)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -735,8 +567,6 @@
 </li>
         <li><a href="BMSS.html#module-BMSS.icanalysis">BMSS.icanalysis</a>
 </li>
-        <li><a href="BMSS.models.html#module-BMSS.models">BMSS.models</a>
-</li>
         <li><a href="BMSS.models.html#module-BMSS.models.ia_results">BMSS.models.ia_results</a>
 </li>
         <li><a href="BMSS.models.html#module-BMSS.models.model_handler">BMSS.models.model_handler</a>
@@ -751,15 +581,11 @@
 </li>
         <li><a href="BMSS.models.html#module-BMSS.models.setup_sim">BMSS.models.setup_sim</a>
 </li>
-        <li><a href="BMSS.html#module-BMSS.sbml">BMSS.sbml</a>, <a href="BMSS.sbml.html#module-BMSS.sbml">[1]</a>
+        <li><a href="SBML.html#module-BMSS.sbml.combinegen">BMSS.sbml.combinegen</a>
 </li>
-        <li><a href="BMSS.sbml.html#module-BMSS.sbml.combinegen">BMSS.sbml.combinegen</a>
+        <li><a href="SBML.html#module-BMSS.sbml.OnlinetoConfig">BMSS.sbml.OnlinetoConfig</a>
 </li>
-        <li><a href="BMSS.sbml.html#module-BMSS.sbml.OnlinetoConfig">BMSS.sbml.OnlinetoConfig</a>
-</li>
-        <li><a href="BMSS.sbml.html#module-BMSS.sbml.sbmlgen">BMSS.sbml.sbmlgen</a>
-</li>
-        <li><a href="BMSS.sbml.html#module-BMSS.sbml.simplesbml">BMSS.sbml.simplesbml</a>
+        <li><a href="SBML.html#module-BMSS.sbml.sbml_converter">BMSS.sbml.sbml_converter</a>
 </li>
         <li><a href="BMSS.html#module-BMSS.sensitivityanalysis">BMSS.sensitivityanalysis</a>
 </li>
@@ -848,11 +674,9 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.html#BMSS.sbml.sbml_to_config">sbml_to_config() (in module BMSS.sbml)</a>, <a href="BMSS.sbml.html#BMSS.sbml.sbml_to_config">[1]</a>
+      <li><a href="SBML.html#BMSS.sbml.sbml_converter.sbml_to_config">sbml_to_config() (in module BMSS.sbml.sbml_converter)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel">SbmlModel (class in BMSS.sbml.simplesbml)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.sbmltoconfig">sbmltoconfig() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.sbmltoconfig">sbmltoconfig() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
       <li><a href="BMSS.html#BMSS.curvefitting.scipy_basinhopping">scipy_basinhopping() (in module BMSS.curvefitting)</a>
 </li>
@@ -884,16 +708,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="BMSS.models.html#BMSS.models.model_handler.to_config">to_config() (in module BMSS.models.model_handler)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="BMSS.models.html#BMSS.models.model_handler.to_df">to_df() (in module BMSS.models.model_handler)</a>
 
       <ul>
         <li><a href="BMSS.models.html#BMSS.models.settings_handler.to_df">(in module BMSS.models.settings_handler)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.SbmlModel.toSBML">toSBML() (BMSS.sbml.simplesbml.SbmlModel method)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -916,21 +738,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="BMSS.models.html#BMSS.models.ia_results.write_new_row_to_file">write_new_row_to_file() (in module BMSS.models.ia_results)</a>
 </li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.writeCode">writeCode() (in module BMSS.sbml.simplesbml)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.writeCodeFromFile">writeCodeFromFile() (in module BMSS.sbml.simplesbml)</a>
-</li>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.simplesbml.writeCodeFromString">writeCodeFromString() (in module BMSS.sbml.simplesbml)</a>
-</li>
   </ul></td>
 </tr></table>
 
 <h2 id="X">X</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="BMSS.sbml.html#BMSS.sbml.OnlinetoConfig.xmlclean">xmlclean() (in module BMSS.sbml.OnlinetoConfig)</a>
+      <li><a href="SBML.html#BMSS.sbml.OnlinetoConfig.xmlclean">xmlclean() (in module BMSS.sbml.OnlinetoConfig)</a>
 </li>
   </ul></td>
 </tr></table>

@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -26,10 +28,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -88,7 +91,6 @@
 <li class="toctree-l2"><a class="reference internal" href="BMSS.models.html">BMSS.models submodule</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">BMSS.icanalysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-BMSS.curvefitting">BMSS.curvefitting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-BMSS.sbml">BMSS.sbml</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-BMSS.sensitivityanalysis">BMSS.sensitivityanalysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-BMSS.simulation">BMSS.simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-BMSS.strike_goldd_simplified">BMSS.strike_goldd_simplified</a></li>
@@ -96,6 +98,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-BMSS">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#working-with-sbml">Working with SBML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#examples">Examples</a></li>
 </ul>
 
             
@@ -163,7 +167,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="toctree-wrapper compound">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="BMSS.models.html">BMSS.models submodule</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#submodules">Submodules</a></li>
@@ -174,7 +202,6 @@
 <li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.setup_sen">BMSS.models.setup_sen module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.setup_sg">BMSS.models.setup_sg module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models.setup_sim">BMSS.models.setup_sim module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BMSS.models.html#module-BMSS.models">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -182,8 +209,8 @@
 <div class="section" id="module-BMSS.icanalysis">
 <span id="bmss-icanalysis"></span><h1>BMSS.icanalysis<a class="headerlink" href="#module-BMSS.icanalysis" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="BMSS.icanalysis.calculate_ic">
-<code class="sig-prename descclassname">BMSS.icanalysis.</code><code class="sig-name descname">calculate_ic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">priors</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">ictype</span><span class="o">=</span><span class="default_value">'AIC'</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.icanalysis.calculate_ic" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.icanalysis.calculate_ic">
+<span class="sig-prename descclassname"><span class="pre">BMSS.icanalysis.</span></span><span class="sig-name descname"><span class="pre">calculate_ic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ictype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AIC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.icanalysis.calculate_ic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates ic of model calculating posterior and than applying ic
 formula. Returns a DataFrame of the ic Values.</p>
 <dl class="field-list simple">
@@ -208,15 +235,15 @@ formula. Returns a DataFrame of the ic Values.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.icanalysis.normalize_ic">
-<code class="sig-prename descclassname">BMSS.icanalysis.</code><code class="sig-name descname">normalize_ic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ic_values</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.icanalysis.normalize_ic" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.icanalysis.normalize_ic">
+<span class="sig-prename descclassname"><span class="pre">BMSS.icanalysis.</span></span><span class="sig-name descname"><span class="pre">normalize_ic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ic_values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.icanalysis.normalize_ic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accepts a list-like array of ic values and returns a normalized array
 where the lowest value is zero.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.icanalysis.rank_ic">
-<code class="sig-prename descclassname">BMSS.icanalysis.</code><code class="sig-name descname">rank_ic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ic_dataframe</span></em>, <em class="sig-param"><span class="n">ic_column_name</span><span class="o">=</span><span class="default_value">'ic value'</span></em>, <em class="sig-param"><span class="n">inplace</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.icanalysis.rank_ic" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.icanalysis.rank_ic">
+<span class="sig-prename descclassname"><span class="pre">BMSS.icanalysis.</span></span><span class="sig-name descname"><span class="pre">rank_ic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ic_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ic_column_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ic</span> <span class="pre">value'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.icanalysis.rank_ic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accepts a dataframe where each row corresponds to one model
 ic_dataframe cannot have any columns named ‘Evidence’.</p>
 </dd></dl>
@@ -225,8 +252,8 @@ ic_dataframe cannot have any columns named ‘Evidence’.</p>
 <div class="section" id="module-BMSS.curvefitting">
 <span id="bmss-curvefitting"></span><h1>BMSS.curvefitting<a class="headerlink" href="#module-BMSS.curvefitting" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="BMSS.curvefitting.get_SSE_data">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">get_SSE_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">t_indices</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">params_array</span><span class="o">=</span><span class="default_value">numpy.array</span></em>, <em class="sig-param"><span class="n">params_index</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.get_SSE_data" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.curvefitting.get_SSE_data">
+<span class="sig-prename descclassname"><span class="pre">BMSS.curvefitting.</span></span><span class="sig-name descname"><span class="pre">get_SSE_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_array</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.get_SSE_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates SSE for data against models and returns the negative of the SSE.</p>
 <dl class="simple">
 <dt>For testing/single calls:</dt><dd><ol class="arabic simple">
@@ -261,8 +288,8 @@ ic_dataframe cannot have any columns named ‘Evidence’.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.curvefitting.get_params_for_model">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">get_params_for_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">trace</span></em>, <em class="sig-param"><span class="n">model_num</span></em>, <em class="sig-param"><span class="n">row_index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.get_params_for_model" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.curvefitting.get_params_for_model">
+<span class="sig-prename descclassname"><span class="pre">BMSS.curvefitting.</span></span><span class="sig-name descname"><span class="pre">get_params_for_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.get_params_for_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extracts the parameters for a particular model using the .loc method for
 pandas.DataFrame.</p>
 <dl class="field-list simple">
@@ -284,20 +311,20 @@ pandas.DataFrame.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.curvefitting.make_AX">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">make_AX</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot_index</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.make_AX" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.curvefitting.make_AX">
+<span class="sig-prename descclassname"><span class="pre">BMSS.curvefitting.</span></span><span class="sig-name descname"><span class="pre">make_AX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.make_AX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a dictionary of axes objects using either plot_index OR data.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.curvefitting.plot">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">posterior</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">guess</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">models</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">data_sd</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">plot_index</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">labels</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">'color'</span></em>, <em class="sig-param"><span class="n">line_args</span><span class="o">=</span><span class="default_value">{'linewidth': 1.5}</span></em>, <em class="sig-param"><span class="n">guess_palette</span><span class="o">=</span><span class="default_value">'white'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.plot" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.curvefitting.plot">
+<span class="sig-prename descclassname"><span class="pre">BMSS.curvefitting.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">models</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_sd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'color'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'linewidth':</span> <span class="pre">1.5}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guess_palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'white'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for plotting function for data, guess and posterior in one function call.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.curvefitting.plot_data">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">plot_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">data_sd</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">plot_index</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">labels</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">'color'</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">marker</span><span class="o">=</span><span class="default_value">'+'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.plot_data" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.curvefitting.plot_data">
+<span class="sig-prename descclassname"><span class="pre">BMSS.curvefitting.</span></span><span class="sig-name descname"><span class="pre">plot_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_sd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'color'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'+'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.plot_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots the experimental data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -330,8 +357,8 @@ default is The default is {‘linewidth’: 1.5}.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.curvefitting.plot_model">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">plot_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">plot_index</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">labels</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">'color'</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">line_args</span><span class="o">=</span><span class="default_value">{'linewidth': 1.5}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.plot_model" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.curvefitting.plot_model">
+<span class="sig-prename descclassname"><span class="pre">BMSS.curvefitting.</span></span><span class="sig-name descname"><span class="pre">plot_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'color'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'linewidth':</span> <span class="pre">1.5}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.plot_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots the models.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -363,8 +390,8 @@ default is The default is {‘linewidth’: 1.5}..</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.curvefitting.scipy_basinhopping">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">scipy_basinhopping</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">step_size=0.1</em>, <em class="sig-param">bounds={}</em>, <em class="sig-param">step_size_is_ratio=True</em>, <em class="sig-param">fixed_parameters=[]</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">scipy_args={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.scipy_basinhopping" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.curvefitting.scipy_basinhopping">
+<span class="sig-prename descclassname"><span class="pre">BMSS.curvefitting.</span></span><span class="sig-name descname"><span class="pre">scipy_basinhopping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">models</span></em>, <em class="sig-param"><span class="pre">guess</span></em>, <em class="sig-param"><span class="pre">priors</span></em>, <em class="sig-param"><span class="pre">step_size=0.1</span></em>, <em class="sig-param"><span class="pre">bounds={}</span></em>, <em class="sig-param"><span class="pre">step_size_is_ratio=True</span></em>, <em class="sig-param"><span class="pre">fixed_parameters=[]</span></em>, <em class="sig-param"><span class="pre">likelihood_function=&lt;function</span> <span class="pre">get_SSE_data&gt;</span></em>, <em class="sig-param"><span class="pre">scipy_args={}</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.scipy_basinhopping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for scipy’s basin-hopping algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -399,8 +426,8 @@ what you are doing.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.curvefitting.scipy_differential_evolution">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">scipy_differential_evolution</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">fixed_parameters</em>, <em class="sig-param">bounds</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">scipy_args={}</em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.scipy_differential_evolution" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.curvefitting.scipy_differential_evolution">
+<span class="sig-prename descclassname"><span class="pre">BMSS.curvefitting.</span></span><span class="sig-name descname"><span class="pre">scipy_differential_evolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">models</span></em>, <em class="sig-param"><span class="pre">guess</span></em>, <em class="sig-param"><span class="pre">priors</span></em>, <em class="sig-param"><span class="pre">fixed_parameters</span></em>, <em class="sig-param"><span class="pre">bounds</span></em>, <em class="sig-param"><span class="pre">likelihood_function=&lt;function</span> <span class="pre">get_SSE_data&gt;</span></em>, <em class="sig-param"><span class="pre">scipy_args={}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.scipy_differential_evolution" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for scipy’s differential evolution algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -431,8 +458,8 @@ what you are doing.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.curvefitting.scipy_dual_annealing">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">scipy_dual_annealing</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">bounds={}</em>, <em class="sig-param">fixed_parameters=[]</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">scipy_args={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.scipy_dual_annealing" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.curvefitting.scipy_dual_annealing">
+<span class="sig-prename descclassname"><span class="pre">BMSS.curvefitting.</span></span><span class="sig-name descname"><span class="pre">scipy_dual_annealing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">models</span></em>, <em class="sig-param"><span class="pre">guess</span></em>, <em class="sig-param"><span class="pre">priors</span></em>, <em class="sig-param"><span class="pre">bounds={}</span></em>, <em class="sig-param"><span class="pre">fixed_parameters=[]</span></em>, <em class="sig-param"><span class="pre">likelihood_function=&lt;function</span> <span class="pre">get_SSE_data&gt;</span></em>, <em class="sig-param"><span class="pre">scipy_args={}</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.scipy_dual_annealing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for scipy’s dual annealing algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -464,8 +491,8 @@ what you are doing.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.curvefitting.scipy_optimize">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">scipy_optimize</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">bounds={}</em>, <em class="sig-param">fixed_parameters=[]</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">scipy_args={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.scipy_optimize" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.curvefitting.scipy_optimize">
+<span class="sig-prename descclassname"><span class="pre">BMSS.curvefitting.</span></span><span class="sig-name descname"><span class="pre">scipy_optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">models</span></em>, <em class="sig-param"><span class="pre">guess</span></em>, <em class="sig-param"><span class="pre">priors</span></em>, <em class="sig-param"><span class="pre">bounds={}</span></em>, <em class="sig-param"><span class="pre">fixed_parameters=[]</span></em>, <em class="sig-param"><span class="pre">likelihood_function=&lt;function</span> <span class="pre">get_SSE_data&gt;</span></em>, <em class="sig-param"><span class="pre">scipy_args={}</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.scipy_optimize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for scipy’s dual annealing algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -497,8 +524,8 @@ what you are doing.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.curvefitting.simulated_annealing">
-<code class="sig-prename descclassname">BMSS.curvefitting.</code><code class="sig-name descname">simulated_annealing</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">models</em>, <em class="sig-param">guess</em>, <em class="sig-param">priors</em>, <em class="sig-param">step_size</em>, <em class="sig-param">trials=10000</em>, <em class="sig-param">bounds={}</em>, <em class="sig-param">blocks=[]</em>, <em class="sig-param">SA=True</em>, <em class="sig-param">fixed_parameters=[]</em>, <em class="sig-param">likelihood_function=&lt;function get_SSE_data&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.simulated_annealing" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.curvefitting.simulated_annealing">
+<span class="sig-prename descclassname"><span class="pre">BMSS.curvefitting.</span></span><span class="sig-name descname"><span class="pre">simulated_annealing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">models</span></em>, <em class="sig-param"><span class="pre">guess</span></em>, <em class="sig-param"><span class="pre">priors</span></em>, <em class="sig-param"><span class="pre">step_size</span></em>, <em class="sig-param"><span class="pre">trials=10000</span></em>, <em class="sig-param"><span class="pre">bounds={}</span></em>, <em class="sig-param"><span class="pre">blocks=[]</span></em>, <em class="sig-param"><span class="pre">SA=True</span></em>, <em class="sig-param"><span class="pre">fixed_parameters=[]</span></em>, <em class="sig-param"><span class="pre">likelihood_function=&lt;function</span> <span class="pre">get_SSE_data&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.curvefitting.simulated_annealing" title="Permalink to this definition">¶</a></dt>
 <dd><p>BMSS2’s primary curve-fitting algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -537,57 +564,17 @@ what you are doing.</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="module-BMSS.sbml">
-<span id="bmss-sbml"></span><h1>BMSS.sbml<a class="headerlink" href="#module-BMSS.sbml" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt id="BMSS.sbml.config_to_sbml">
-<code class="sig-prename descclassname">BMSS.sbml.</code><code class="sig-name descname">config_to_sbml</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inifile</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.config_to_sbml" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts config file(s) to SBML.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>inifile</strong> – Path-like or ini string.</p></li>
-<li><p><strong>output_paths</strong> – The location for creating the config files. No files will be created if the string is empty.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return result</dt>
-<dd class="field-even"><p>List of output files.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="BMSS.sbml.sbml_to_config">
-<code class="sig-prename descclassname">BMSS.sbml.</code><code class="sig-name descname">sbml_to_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sbmlfile</span></em>, <em class="sig-param"><span class="n">system_type</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">tspan</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">is_path</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sbml.sbml_to_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts SBML file to config file(s).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sbmlfile</strong> – Path-like or SBML string.</p></li>
-<li><p><strong>system_type</strong> – The system_type for naming the model.</p></li>
-<li><p><strong>output_paths</strong> – The location for creating the config files. No files will be created if the string is empty.</p></li>
-<li><p><strong>tspan</strong> – A list/array of time points.</p></li>
-<li><p><strong>is_path</strong> – True if sbmlfile is a path, False if sbmlfile is an SBML string.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return result</dt>
-<dd class="field-even"><p>Config string.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
 <div class="section" id="module-BMSS.sensitivityanalysis">
 <span id="bmss-sensitivityanalysis"></span><h1>BMSS.sensitivityanalysis<a class="headerlink" href="#module-BMSS.sensitivityanalysis" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="BMSS.sensitivityanalysis.analyze">
-<code class="sig-prename descclassname">BMSS.sensitivityanalysis.</code><code class="sig-name descname">analyze</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">objective</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'np'</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">256</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.analyze" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.sensitivityanalysis.analyze">
+<span class="sig-prename descclassname"><span class="pre">BMSS.sensitivityanalysis.</span></span><span class="sig-name descname"><span class="pre">analyze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_bounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'np'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobol'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.analyze" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main algorithm for sensitivity analysis. Wraps analyze_sensitivty and sample_and_integrate.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.sensitivityanalysis.integrate_samples">
-<code class="sig-prename descclassname">BMSS.sensitivityanalysis.</code><code class="sig-name descname">integrate_samples</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">samples</span></em>, <em class="sig-param"><span class="n">objective</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.integrate_samples" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.sensitivityanalysis.integrate_samples">
+<span class="sig-prename descclassname"><span class="pre">BMSS.sensitivityanalysis.</span></span><span class="sig-name descname"><span class="pre">integrate_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.integrate_samples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Integrates the samples and evaluates the objective function for each.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -608,21 +595,21 @@ what you are doing.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.sensitivityanalysis.make_samples">
-<code class="sig-prename descclassname">BMSS.sensitivityanalysis.</code><code class="sig-name descname">make_samples</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">fixed_parameters</span></em>, <em class="sig-param"><span class="n">parameter_bounds</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">256</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.make_samples" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.sensitivityanalysis.make_samples">
+<span class="sig-prename descclassname"><span class="pre">BMSS.sensitivityanalysis.</span></span><span class="sig-name descname"><span class="pre">make_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobol'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.make_samples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates samples for each model.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.sensitivityanalysis.plot_first_order">
-<code class="sig-prename descclassname">BMSS.sensitivityanalysis.</code><code class="sig-name descname">plot_first_order</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">analysis_result</span></em>, <em class="sig-param"><span class="n">problems</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">analysis_keys</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">heatmap_args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.plot_first_order" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.sensitivityanalysis.plot_first_order">
+<span class="sig-prename descclassname"><span class="pre">BMSS.sensitivityanalysis.</span></span><span class="sig-name descname"><span class="pre">plot_first_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">problems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobol'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">heatmap_args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.plot_first_order" title="Permalink to this definition">¶</a></dt>
 <dd><p>If analysis_type is neither sobol, fast nor delta, use analysis_keys to specify which
 keys/columns to use.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.sensitivityanalysis.plot_second_order">
-<code class="sig-prename descclassname">BMSS.sensitivityanalysis.</code><code class="sig-name descname">plot_second_order</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">analysis_result</span></em>, <em class="sig-param"><span class="n">problems</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">analysis_type</span><span class="o">=</span><span class="default_value">'sobol'</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">analysis_keys</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">heatmap_args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.plot_second_order" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.sensitivityanalysis.plot_second_order">
+<span class="sig-prename descclassname"><span class="pre">BMSS.sensitivityanalysis.</span></span><span class="sig-name descname"><span class="pre">plot_second_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">problems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobol'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">heatmap_args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.plot_second_order" title="Permalink to this definition">¶</a></dt>
 <dd><p>If analysis_type is not sobol, use analysis_keys to specify which keys/columns to use.</p>
 </dd></dl>
 
@@ -630,8 +617,8 @@ keys/columns to use.</p>
 <div class="section" id="module-BMSS.simulation">
 <span id="bmss-simulation"></span><h1>BMSS.simulation<a class="headerlink" href="#module-BMSS.simulation" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="BMSS.simulation.export_simulation_results">
-<code class="sig-prename descclassname">BMSS.simulation.</code><code class="sig-name descname">export_simulation_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">e</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">directory</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.export_simulation_results" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.simulation.export_simulation_results">
+<span class="sig-prename descclassname"><span class="pre">BMSS.simulation.</span></span><span class="sig-name descname"><span class="pre">export_simulation_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.export_simulation_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the simulation results in csv format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -652,8 +639,8 @@ keys/columns to use.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.simulation.integrate_models">
-<code class="sig-prename descclassname">BMSS.simulation.</code><code class="sig-name descname">integrate_models</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">models</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">extra_variables</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'np'</span></em>, <em class="sig-param"><span class="n">overlap</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">multiply</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.integrate_models" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.simulation.integrate_models">
+<span class="sig-prename descclassname"><span class="pre">BMSS.simulation.</span></span><span class="sig-name descname"><span class="pre">integrate_models</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">extra_variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'np'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiply</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.integrate_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>Integrates models with params</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -680,16 +667,16 @@ default is ‘np’.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.simulation.make_AX">
-<code class="sig-prename descclassname">BMSS.simulation.</code><code class="sig-name descname">make_AX</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot_index</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.make_AX" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.simulation.make_AX">
+<span class="sig-prename descclassname"><span class="pre">BMSS.simulation.</span></span><span class="sig-name descname"><span class="pre">make_AX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.make_AX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a dictionary of axes objects using either plot_index OR data.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.simulation.piecewise_integrate">
-<code class="sig-prename descclassname">BMSS.simulation.</code><code class="sig-name descname">piecewise_integrate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">init</span></em>, <em class="sig-param"><span class="n">tspan</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">model_num</span></em>, <em class="sig-param"><span class="n">scenario_num</span></em>, <em class="sig-param"><span class="n">modify_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">modify_params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">solver_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">solver</span><span class="o">=</span><span class="default_value">scipy.integrate.odeint</span></em>, <em class="sig-param"><span class="n">overlap</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.piecewise_integrate" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.simulation.piecewise_integrate">
+<span class="sig-prename descclassname"><span class="pre">BMSS.simulation.</span></span><span class="sig-name descname"><span class="pre">piecewise_integrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tspan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modify_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modify_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">scipy.integrate.odeint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.piecewise_integrate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Piecewise integration function with scipy.integrate.odeint as default.
 Can be changed using the solver argument.</p>
 <dl class="field-list simple">
@@ -727,8 +714,8 @@ only for plotting. The default is True.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.simulation.plot_model">
-<code class="sig-prename descclassname">BMSS.simulation.</code><code class="sig-name descname">plot_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot_index</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">e</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">labels</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">line_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.plot_model" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.simulation.plot_model">
+<span class="sig-prename descclassname"><span class="pre">BMSS.simulation.</span></span><span class="sig-name descname"><span class="pre">plot_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.simulation.plot_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots the integrated results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -764,8 +751,8 @@ default is {}.</p></li>
 <div class="section" id="module-BMSS.strike_goldd_simplified">
 <span id="bmss-strike-goldd-simplified"></span><h1>BMSS.strike_goldd_simplified<a class="headerlink" href="#module-BMSS.strike_goldd_simplified" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="BMSS.strike_goldd_simplified.analyze_sg_args">
-<code class="sig-prename descclassname">BMSS.strike_goldd_simplified.</code><code class="sig-name descname">analyze_sg_args</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sg_args</span></em>, <em class="sig-param"><span class="n">dst</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.analyze_sg_args" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.strike_goldd_simplified.analyze_sg_args">
+<span class="sig-prename descclassname"><span class="pre">BMSS.strike_goldd_simplified.</span></span><span class="sig-name descname"><span class="pre">analyze_sg_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sg_args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.strike_goldd_simplified.analyze_sg_args" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accepts a dictionary of arguments and runs the STRIKE-GOLDD algorithm.</p>
 </dd></dl>
 
@@ -773,8 +760,8 @@ default is {}.</p></li>
 <div class="section" id="module-BMSS.traceanalysis">
 <span id="bmss-traceanalysis"></span><h1>BMSS.traceanalysis<a class="headerlink" href="#module-BMSS.traceanalysis" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="BMSS.traceanalysis.check_kurtosis">
-<code class="sig-prename descclassname">BMSS.traceanalysis.</code><code class="sig-name descname">check_kurtosis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">traces</span></em>, <em class="sig-param"><span class="n">output</span><span class="o">=</span><span class="default_value">'df'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.check_kurtosis" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.traceanalysis.check_kurtosis">
+<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">check_kurtosis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'df'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.check_kurtosis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates kurtosis of distribution of sampled parameters</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -790,8 +777,8 @@ default is {}.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.traceanalysis.check_skewness">
-<code class="sig-prename descclassname">BMSS.traceanalysis.</code><code class="sig-name descname">check_skewness</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">traces</span></em>, <em class="sig-param"><span class="n">output</span><span class="o">=</span><span class="default_value">'df'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.check_skewness" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.traceanalysis.check_skewness">
+<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">check_skewness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'df'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.check_skewness" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates skewness of distribution of sampled parameters</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -807,8 +794,8 @@ default is {}.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.traceanalysis.import_trace">
-<code class="sig-prename descclassname">BMSS.traceanalysis.</code><code class="sig-name descname">import_trace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">files</span></em>, <em class="sig-param"><span class="n">keys</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">pd_args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.import_trace" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.traceanalysis.import_trace">
+<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">import_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">pd_args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.import_trace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Used for traces that have been saved to csv files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -825,20 +812,20 @@ default is {}.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.traceanalysis.pairplot_kde">
-<code class="sig-prename descclassname">BMSS.traceanalysis.</code><code class="sig-name descname">pairplot_kde</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">traces</span></em>, <em class="sig-param"><span class="n">pairs</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">plot_args</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.pairplot_kde" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.traceanalysis.pairplot_kde">
+<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">pairplot_kde</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pairs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.pairplot_kde" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a pair plot between two parameters in kde form.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.traceanalysis.pairplot_steps">
-<code class="sig-prename descclassname">BMSS.traceanalysis.</code><code class="sig-name descname">pairplot_steps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">traces</span></em>, <em class="sig-param"><span class="n">pairs</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">gradient</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">plot_args</span><span class="o">=</span><span class="default_value">{'linewidth': 0, 'marker': '+'}</span></em>, <em class="sig-param"><span class="n">palette_type</span><span class="o">=</span><span class="default_value">'light'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.pairplot_steps" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.traceanalysis.pairplot_steps">
+<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">pairplot_steps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pairs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gradient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'linewidth':</span> <span class="pre">0,</span> <span class="pre">'marker':</span> <span class="pre">'+'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'light'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.pairplot_steps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a pair plot between two parameters.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.traceanalysis.plot_hist">
-<code class="sig-prename descclassname">BMSS.traceanalysis.</code><code class="sig-name descname">plot_hist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">traces</span></em>, <em class="sig-param"><span class="n">skip</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">plot_args</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.plot_hist" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.traceanalysis.plot_hist">
+<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">plot_hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.plot_hist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates histogram plot for parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -859,8 +846,8 @@ default is {}.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.traceanalysis.plot_kde">
-<code class="sig-prename descclassname">BMSS.traceanalysis.</code><code class="sig-name descname">plot_kde</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">traces</span></em>, <em class="sig-param"><span class="n">skip</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">plot_args</span><span class="o">=</span><span class="default_value">{'linewidth': 3}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.plot_kde" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.traceanalysis.plot_kde">
+<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">plot_kde</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'linewidth':</span> <span class="pre">3}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.plot_kde" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates kde plot for parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -881,8 +868,8 @@ default is {}.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="BMSS.traceanalysis.plot_steps">
-<code class="sig-prename descclassname">BMSS.traceanalysis.</code><code class="sig-name descname">plot_steps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">traces</span></em>, <em class="sig-param"><span class="n">skip</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">figs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">AX</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">legend_args</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">plot_args</span><span class="o">=</span><span class="default_value">{'linewidth': 0, 'marker': '+'}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.plot_steps" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="BMSS.traceanalysis.plot_steps">
+<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">plot_steps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'linewidth':</span> <span class="pre">0,</span> <span class="pre">'marker':</span> <span class="pre">'+'}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.plot_steps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates trace plot for parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

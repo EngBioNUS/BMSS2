@@ -1,0 +1,22 @@
+1:
+  system_type: LogicGate, Not, Single
+  init:
+    p1: 0.0
+    p2: 0.0
+  input:
+    p1: 1
+    p2: 1
+    kp1: 0
+    synp1: 0
+    synp2: 0
+    rep: 0
+    degp: 0
+    u1: 3
+  output:
+    p1: 1
+    p2: 1
+    kp1: 0
+    synp1: 1
+    synp2: 1
+    rep: 0
+    degp: 1
