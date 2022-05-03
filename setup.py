@@ -7,7 +7,7 @@ p = setuptools.find_packages()
 
 setuptools.setup(
     name                          = "BMSS", 
-    version                       = "2.0.13",
+    version                       = "2.0.14",
     author                        = "Russell Ngo",
     author_email                  = "biernjk@nus.edu.sg",
     description                   = "A package for dyanmic model analysis.",
@@ -21,7 +21,9 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent"
     ],
-    install_requires=['numpy', 'scipy', 'numba', 'matplotlib', 'pandas', 'PyYAML', 'SALib'],
+    install_requires=['numpy', 'scipy', 'numba', 'matplotlib', 'pandas',
+                      'PyYAML', 'SALib', 'arviz', 'xarray'
+                      ],
     python_requires='>=3.7',
     include_package_data = True,
     package_dir          = {'BMSS': 'BMSS'},

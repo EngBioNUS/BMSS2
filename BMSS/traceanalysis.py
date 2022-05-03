@@ -1,7 +1,9 @@
+import arviz             as az
 import matplotlib.pyplot as plt
 import numpy             as np
 import pandas            as pd
 import seaborn           as sns
+import xarray            as xr
 from matplotlib          import get_backend
 from scipy.stats         import skewtest, kurtosistest
 
@@ -35,6 +37,27 @@ def import_trace(files, keys=[], **pd_args):
         key       = keys[i+1] if keys else i+1
         data[key] = pd.read_csv(files[i],  **pd_args)
     return data    
+
+###############################################################################
+#R-Hat
+###############################################################################
+def calculate_rhat(traces, skip=None):
+    '''Calculates R-hat which the ratio between the variance within a chain 
+    against the variance between chains.
+    
+    :param traces: A dict of traces.
+    :param skip: A list of parameters to not calculate R-hat for.
+    :return rhat: A Series of R-hat values.
+    '''
+    #Convert to xarray.Dataset
+    multiidx = pd.concat(traces, names=['chain', 'draw'])
+    ds       = xr.Dataset.from_dataframe(multiidx)
+    if skip:
+        ds = ds.drop(skip)
+    #Calculate r-hat and return as pandas
+    rhat = az.rhat(ds).to_pandas()
+    
+    return rhat
 
 ###############################################################################
 #Skewness and Kurtosis

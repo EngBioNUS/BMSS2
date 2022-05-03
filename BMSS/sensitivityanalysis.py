@@ -98,7 +98,7 @@ def salib_wrapper(problem, y_val, x, analysis_type='sobol', **kwargs):
 ###############################################################################
 #Sampling and Integration 
 ###############################################################################
-def integrate_samples(models, samples, objective, args=()):
+def integrate_samples(models, samples, objective, args=(), multiply=False):
     '''
     Integrates the samples and evaluates the objective function for each.
 
@@ -131,43 +131,94 @@ def integrate_samples(models, samples, objective, args=()):
             else:
                 samples1[model_num][row_name] = samples[model_num][row_name]
                 
+    # for model_num in models:
+    #     model               = models[model_num]
+    #     e_models[model_num] = {}
+    #     for scenario_num in models[model_num]['init']:
+    #         if type(scenario_num) == int:
+    #             if scenario_num < 1:
+    #                 continue
+    #         e_models[model_num][scenario_num] = {}
+    #         for row_name in samples[model_num]:
+    #             params1 = samples[model_num][row_name]
+    #             temp    = {func: [] for func in objective.get(model_num)}
+                
+    #             e_models[model_num][scenario_num][row_name] = {}      
+    #             for _, row in params1.iterrows():
+    #                 y_model, t_model = sim.piecewise_integrate(params        = row.values,
+    #                                                            function      = model['function'], 
+    #                                                            init          = model['init'][scenario_num],
+    #                                                            tspan         = model['tspan'],
+    #                                                            modify_init   = model['int_args']['modify_init'],
+    #                                                            modify_params = model['int_args']['modify_params'],
+    #                                                            solver_args   = model['int_args']['solver_args'],
+    #                                                            model_num     = model_num, 
+    #                                                            scenario_num  = scenario_num, 
+    #                                                            overlap       = True,
+    #                                                            *args
+    #                                                            )
+                   
+                
+    #                 for func in objective.get(model_num):
+    #                     y_model_ = pd.DataFrame(y_model) if 'mode=pd' in str(func.__doc__) else y_model
+    #                     variable = func(y_model_, t_model, row.values)
+    #                     temp[func].append(variable)
+                
+    #             for func in objective.get(model_num):
+    #                 e_models[model_num][scenario_num][row_name][func] = np.array(temp[func])
     for model_num in models:
         model               = models[model_num]
         e_models[model_num] = {}
-        for scenario_num in models[model_num]['init']:
-            if type(scenario_num) == int:
-                if scenario_num < 1:
-                    continue
-            e_models[model_num][scenario_num] = {}
-            for row_name in samples[model_num]:
+        
+        if multiply:
+            for scenario_num in models[model_num]['init']:
+                if type(scenario_num) == int:
+                    if scenario_num < 1:
+                        continue
+                e_models[model_num][scenario_num] = {}
+                for row_name in samples[model_num]:
+                    params1 = samples[model_num][row_name]
+                    
+                    _integrate_helper(e_models, model_num, scenario_num, row_name, objective, model, params1, args)
+        else:
+            for scenario_num, row_name in zip(models[model_num]['init'], samples[model_num]):
+                if type(scenario_num) == int:
+                    if scenario_num < 1:
+                        continue
+                e_models[model_num][scenario_num] = {}
                 params1 = samples[model_num][row_name]
-                temp    = {func: [] for func in objective.get(model_num)}
-                
-                e_models[model_num][scenario_num][row_name] = {}      
-                for _, row in params1.iterrows():
-                    y_model, t_model = sim.piecewise_integrate(params        = row.values,
-                                                               function      = model['function'], 
-                                                               init          = model['init'][scenario_num],
-                                                               tspan         = model['tspan'],
-                                                               modify_init   = model['int_args']['modify_init'],
-                                                               modify_params = model['int_args']['modify_params'],
-                                                               solver_args   = model['int_args']['solver_args'],
-                                                               model_num     = model_num, 
-                                                               scenario_num  = scenario_num, 
-                                                               overlap       = True,
-                                                               *args
-                                                               )
-                   
-                
-                    for func in objective.get(model_num):
-                        y_model_ = pd.DataFrame(y_model) if 'mode=pd' in str(func.__doc__) else y_model
-                        variable = func(y_model_, t_model, row.values)
-                        temp[func].append(variable)
-                
-                for func in objective.get(model_num):
-                    e_models[model_num][scenario_num][row_name][func] = np.array(temp[func])
+                    
+                _integrate_helper(e_models, model_num, scenario_num, row_name, objective, model, params1, args)
+        
+            
+    return e_models
+
+def _integrate_helper(e_models, model_num, scenario_num, row_name, objective, model, params1, args=()):
+    temp    = {func: [] for func in objective.get(model_num)}
+    e_models[model_num][scenario_num][row_name] = {}      
+    for _, row in params1.iterrows():
+        y_model, t_model = sim.piecewise_integrate(params        = row.values,
+                                                   function      = model['function'], 
+                                                   init          = model['init'][scenario_num],
+                                                   tspan         = model['tspan'],
+                                                   modify_init   = model['int_args']['modify_init'],
+                                                   modify_params = model['int_args']['modify_params'],
+                                                   solver_args   = model['int_args']['solver_args'],
+                                                   model_num     = model_num, 
+                                                   scenario_num  = scenario_num, 
+                                                   overlap       = True,
+                                                   *args
+                                                   )
+       
     
-        return e_models
+        for func in objective.get(model_num):
+            y_model_ = pd.DataFrame(y_model) if 'mode=pd' in str(func.__doc__) else y_model
+            variable = func(y_model_, t_model, row.values)
+            temp[func].append(variable)
+    
+    for func in objective.get(model_num):
+        e_models[model_num][scenario_num][row_name][func] = np.array(temp[func])
+
     
 ###############################################################################
 #Sample Generation
@@ -392,7 +443,7 @@ def make_default_title(model_num, scenario_num, row_name, func_name):
     '''
     :meta private:
     '''
-    return 'Model {model_num}, Scenario {scenario_num}, Row {row_name}, {func}'.format(model_num    = model_num, 
+    return 'Model {model_num}, Scenario {scenario_num} {row_name}, {func}'.format(model_num    = model_num, 
                                                                                   scenario_num = scenario_num,
                                                                                   row_name     = row_name,
                                                                                   func         = func_name

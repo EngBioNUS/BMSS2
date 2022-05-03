@@ -17,8 +17,9 @@ def sampler(guess,     priors,    step_size,
             likelihood_function=None, 
             likelihood_args={}):
     
-    accepted = []
-    rejected = []
+    accepted   = []
+    rejected   = []
+    full_trace = []
     
     temp               = convert_input(guess, priors, step_size, skip=skip, bounds=bounds, blocks=blocks) 
     blocks_dict        = temp['blocks_dict']
@@ -59,7 +60,8 @@ def sampler(guess,     priors,    step_size,
         if skip:
             skip = False
             step = theta_new
-            rejected.append(step)
+            rejected.append(theta_new)
+            full_trace.append(theta_new)
             continue
         
         #Calculate posterior
@@ -84,13 +86,16 @@ def sampler(guess,     priors,    step_size,
             log_prior_curr      = log_prior_new
             p_curr              = p_new
             accepted.append(theta_new)
+            full_trace.append(theta_new)
  
         else:
             rejected.append(theta_new)
+            full_trace.append(theta_new)
     
-    accepted = DataFrame(np.array(accepted), columns=param_names) if accepted else DataFrame(columns=param_names)
-    rejected = DataFrame(np.array(rejected), columns=param_names) if rejected else DataFrame(columns=param_names)
-    return {'a': accepted, 'r': rejected}
+    accepted   = DataFrame(np.array(accepted),   columns=param_names) if accepted   else DataFrame(columns=param_names)
+    rejected   = DataFrame(np.array(rejected),   columns=param_names) if rejected   else DataFrame(columns=param_names)
+    full_trace = DataFrame(np.array(full_trace), columns=param_names) if full_trace else DataFrame(columns=param_names) 
+    return {'a': accepted, 'r': rejected, 'all': full_trace}
 
 @jit(nopython=True)
 def get_exp_substract(a, b):

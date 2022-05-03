@@ -2,43 +2,35 @@ import numpy as np
 from numpy import log   as ln
 from numpy import log10 as log
 from numpy import exp
-def model_LogicGate_Not_Double_MaturationSecond(y, t, params):
-	m1  = y[0]
-	m2  = y[1]
-	p1  = y[2]
-	p2n = y[3]
-	p2  = y[4]
+def model_TestModel_Monod_Constitutive_Single_ProductInhibition(y, t, params):
+	x = y[0]
+	s = y[1]
+	h = y[2]
 
-	synm1 = params[0]
-	synm2 = params[1]
-	degm  = params[2]
-	kp1   = params[3]
-	rep   = params[4]
-	synp1 = params[5]
-	synp2 = params[6]
-	matp2 = params[7]
-	degp  = params[8]
-	u1    = params[9]
+	mu_max = params[0]
+	Ks     = params[1]
+	Kh     = params[2]
+	Y      = params[3]
+	synh   = params[4]
 
-	dm1  = synm1*u1                    -degm *m1
-	dm2  = synm2*(kp1+rep*p1)/(kp1+p1) -degm *m2
-	dp1  = synp1 *m1                   -degp *p1
-	dp2n = synp2 *m2                   -matp2*p2n
-	dp2  = matp2*p2n                   -degp *p2
+	mu = mu_max*s/(s+Ks)*Kh/(h+Kh)
+	dx = x*mu
+	ds = -dx/Y
+	dh = synh -h*mu
 
-	return np.array([dm1, dm2, dp1, dp2n, dp2])
+	return np.array([dx, ds, dh])
 
-m1,m2,p1,p2n,p2,synm1,synm2,degm,kp1,rep,synp1,synp2,matp2,degp,u1= np.random.rand(15)*10
+x,s,h,mu_max,Ks,Kh,Y,synh= np.random.rand(8)*10
 
-m1,m2,p1,p2n,p2,synm1,synm2,degm,kp1,rep,synp1,synp2,matp2,degp,u1= list(map(float, [m1,m2,p1,p2n,p2,synm1,synm2,degm,kp1,rep,synp1,synp2,matp2,degp,u1]))
+x,s,h,mu_max,Ks,Kh,Y,synh= list(map(float, [x,s,h,mu_max,Ks,Kh,Y,synh]))
 
-y = [m1,m2,p1,p2n,p2]
+y = [x,s,h]
 
 t = 0
 dt = 1e-3
 
-params = [synm1,synm2,degm,kp1,rep,synp1,synp2,matp2,degp,u1]
+params = [mu_max,Ks,Kh,Y,synh]
 
-y = y + dt*model_LogicGate_Not_Double_MaturationSecond(y, t, params)
+y = y + dt*model_TestModel_Monod_Constitutive_Single_ProductInhibition(y, t, params)
 
-y = y + dt*model_LogicGate_Not_Double_MaturationSecond(y, t, params)
+y = y + dt*model_TestModel_Monod_Constitutive_Single_ProductInhibition(y, t, params)

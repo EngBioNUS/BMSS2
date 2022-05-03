@@ -60,7 +60,7 @@ if __name__ == '__main__':
     
     '''
     The difference in maximum growth rates for the fast (Strain 1) and slow-growing (Strain 2)
-    strains are given by the different values of mu_max_1 in params. Let's relabel params
+    strains are given by the different values of mu_max_1 in params. Let's relabel the params
     to reflect this.
     '''
     print('Parameters')
@@ -68,9 +68,6 @@ if __name__ == '__main__':
     
     #This isn't very readable so let's change the index
     sensitivity_args['params'].index = ['Strain 1', 'Strain 2']
-    
-    #For speed, reduce the number of samples.
-    sensitivity_args['N'] = 500
     
     '''
     Next, we prepare the samples and problems as defined in the SALib documentation.
@@ -115,19 +112,12 @@ if __name__ == '__main__':
     
     sensitivity_args, config_data = ss.get_sensitivity_args(filename)
     sensitivity_args['params'].index = ['Strain 1', 'Strain 2']
-    sensitivity_args['N'] = 500
     
     sensitivity_args['objective'] = {1: [h_yield]}
     analysis_result, em, samples, problems = sn.analyze(**sensitivity_args)
     '''
     
     #Plot settings
-    titles = {1: {1: {0: {h_yield: 'h Yield'
-                         }
-                      }
-                  }
-              }
-    #Shorthand version. Comment it out later to see the difference.
     titles = {1: {h_yield: 'h Yield'}
               }
     sn.plot_first_order(analysis_result, problems=problems, titles=titles, analysis_type=sensitivity_args['analysis_type'], figs=None, AX=None)

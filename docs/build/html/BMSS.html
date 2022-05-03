@@ -94,7 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-BMSS.sensitivityanalysis">BMSS.sensitivityanalysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-BMSS.simulation">BMSS.simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-BMSS.strike_goldd_simplified">BMSS.strike_goldd_simplified</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-BMSS.traceanalysis">BMSS.traceanalysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bmss-traceanalysis">BMSS.traceanalysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-BMSS">Module contents</a></li>
 </ul>
 </li>
@@ -574,7 +574,7 @@ what you are doing.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="BMSS.sensitivityanalysis.integrate_samples">
-<span class="sig-prename descclassname"><span class="pre">BMSS.sensitivityanalysis.</span></span><span class="sig-name descname"><span class="pre">integrate_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.integrate_samples" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">BMSS.sensitivityanalysis.</span></span><span class="sig-name descname"><span class="pre">integrate_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiply</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.sensitivityanalysis.integrate_samples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Integrates the samples and evaluates the objective function for each.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -757,138 +757,8 @@ default is {}.</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="module-BMSS.traceanalysis">
-<span id="bmss-traceanalysis"></span><h1>BMSS.traceanalysis<a class="headerlink" href="#module-BMSS.traceanalysis" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="BMSS.traceanalysis.check_kurtosis">
-<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">check_kurtosis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'df'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.check_kurtosis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates kurtosis of distribution of sampled parameters</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>traces</strong> – A dict of traces.</p></li>
-<li><p><strong>output</strong> – Causes the return value to be formatted as DataFrame.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return result</dt>
-<dd class="field-even"><p>A DataFrame if output is “df” and a dict otherwise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="BMSS.traceanalysis.check_skewness">
-<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">check_skewness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'df'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.check_skewness" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates skewness of distribution of sampled parameters</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>traces</strong> – A dict of traces.</p></li>
-<li><p><strong>output</strong> – Causes the return value to be formatted as DataFrame.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return result</dt>
-<dd class="field-even"><p>A DataFrame if output is “df” and a dict otherwise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="BMSS.traceanalysis.import_trace">
-<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">import_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">pd_args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.import_trace" title="Permalink to this definition">¶</a></dt>
-<dd><p>Used for traces that have been saved to csv files.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>files</strong> – A list of file names.</p></li>
-<li><p><strong>keys</strong> – A list of keys to index the traces.</p></li>
-<li><p><strong>pd_args</strong> – Keyword arguments for pandas.read_csv.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return traces</dt>
-<dd class="field-even"><p>Returns a dict of traces.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="BMSS.traceanalysis.pairplot_kde">
-<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">pairplot_kde</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pairs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.pairplot_kde" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates a pair plot between two parameters in kde form.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="BMSS.traceanalysis.pairplot_steps">
-<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">pairplot_steps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pairs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gradient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'linewidth':</span> <span class="pre">0,</span> <span class="pre">'marker':</span> <span class="pre">'+'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'light'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.pairplot_steps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates a pair plot between two parameters.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="BMSS.traceanalysis.plot_hist">
-<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">plot_hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.plot_hist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates histogram plot for parameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>traces</strong> – A dict of traces.</p></li>
-<li><p><strong>skip</strong> – A list of parameters to not plot.</p></li>
-<li><p><strong>figs</strong> – A list of figures for containing the plots. Default is None.</p></li>
-<li><p><strong>AX</strong> – A dict of param - Axes object pairs. Default is None.</p></li>
-<li><p><strong>palette</strong> – A dict of colors. Default is None.</p></li>
-<li><p><strong>legend_args</strong> – A dict of arguments for the legend. Default is None.</p></li>
-<li><p><strong>plot_args</strong> – A dict of arguments for plotting such as marker.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return result</dt>
-<dd class="field-even"><p>Figure and Axes objects.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="BMSS.traceanalysis.plot_kde">
-<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">plot_kde</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'linewidth':</span> <span class="pre">3}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.plot_kde" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates kde plot for parameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>traces</strong> – A dict of traces.</p></li>
-<li><p><strong>skip</strong> – A list of parameters to not plot.</p></li>
-<li><p><strong>figs</strong> – A list of figures for containing the plots. Default is None.</p></li>
-<li><p><strong>AX</strong> – A dict of param - Axes object pairs. Default is None.</p></li>
-<li><p><strong>palette</strong> – A dict of colors. Default is None.</p></li>
-<li><p><strong>legend_args</strong> – A dict of arguments for the legend. Default is None.</p></li>
-<li><p><strong>plot_args</strong> – A dict of arguments for plotting such as marker.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return result</dt>
-<dd class="field-even"><p>Figure and Axes objects.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="BMSS.traceanalysis.plot_steps">
-<span class="sig-prename descclassname"><span class="pre">BMSS.traceanalysis.</span></span><span class="sig-name descname"><span class="pre">plot_steps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'linewidth':</span> <span class="pre">0,</span> <span class="pre">'marker':</span> <span class="pre">'+'}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BMSS.traceanalysis.plot_steps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates trace plot for parameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>traces</strong> – A dict of traces.</p></li>
-<li><p><strong>skip</strong> – A list of parameters to not plot.</p></li>
-<li><p><strong>figs</strong> – A list of figures for containing the plots. Default is None.</p></li>
-<li><p><strong>AX</strong> – A dict of param - Axes object pairs. Default is None.</p></li>
-<li><p><strong>palette</strong> – A dict of colors. Default is None.</p></li>
-<li><p><strong>legend_args</strong> – A dict of arguments for the legend. Default is None.</p></li>
-<li><p><strong>plot_args</strong> – A dict of arguments for plotting such as marker.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return result</dt>
-<dd class="field-even"><p>Figure and Axes objects.</p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="bmss-traceanalysis">
+<h1>BMSS.traceanalysis<a class="headerlink" href="#bmss-traceanalysis" title="Permalink to this headline">¶</a></h1>
 </div>
 <div class="section" id="module-BMSS">
 <span id="module-contents"></span><h1>Module contents<a class="headerlink" href="#module-BMSS" title="Permalink to this headline">¶</a></h1>

@@ -1,0 +1,1227 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5. A Posteriori Identifiability Analysis &mdash; BMSS2 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="6. Sensitivity Analysis" href="_Example_6nb.html" />
+    <link rel="prev" title="4. A Priori Identifiability Analysis" href="_Example_4nb.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> BMSS2
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">BMSS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#working-with-sbml">Working with SBML</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html#examples">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="_Example_1nb.html">1. Using the Database and Config Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_Example_2nb.html">2. Simulate New Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_Example_3nb.html">3. Making a Model Selection Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_Example_4nb.html">4. A Priori Identifiability Analysis</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5. A Posteriori Identifiability Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#A-Posteriori-Identifiability-Analysis">A Posteriori Identifiability Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="_Example_6nb.html">6. Sensitivity Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BMSS2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">BMSS</a> &raquo;</li>
+        
+          <li><a href="examples.html">Examples</a> &raquo;</li>
+        
+      <li>5. A Posteriori Identifiability Analysis</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/_Example_5nb.nblink.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="5.-A-Posteriori-Identifiability-Analysis">
+<h1>5. A Posteriori Identifiability Analysis<a class="headerlink" href="#5.-A-Posteriori-Identifiability-Analysis" title="Permalink to this headline">¶</a></h1>
+<p>Biological models are often highly complex which results in some parameters being unindentifiable. Identifiability analysis can be performed a posteriori to check if the parameters are well constrained. This example is similar to Example 3 but we now run the sampler multiple times to see if the parameters converge to the same region.</p>
+<p>First, we import the required modules.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span>             <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span>            <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="kn">import</span> <span class="nn">BMSS.models.model_handler</span> <span class="k">as</span> <span class="nn">mh</span>
+<span class="kn">import</span> <span class="nn">BMSS.models.setup_cf</span>      <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">BMSS.icanalysis</span>           <span class="k">as</span> <span class="nn">ac</span>
+<span class="kn">import</span> <span class="nn">BMSS.curvefitting</span>         <span class="k">as</span> <span class="nn">cf</span>
+<span class="kn">import</span> <span class="nn">BMSS.traceanalysis</span>        <span class="k">as</span> <span class="nn">ta</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Connected to MBase_models, UBase_models
+Connected to MBase_settings, UBase_settings
+</pre></div></div>
+</div>
+<p>Next we import the models. In this case, we have three models that we want to fit:</p>
+<p>A model for protein expression that lumps translation and trscription together i.e. no mRNA</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[system_type]
+system_type = LogicGate, Not, Single
+
+[states]
+states = p1, p2
+
+[parameters]
+parameters = kp1, synp1, synp2, rep, degp
+
+[inputs]
+inputs = u1
+
+[equations]
+equations =
+    dp1 = synp1 *u1                    -degp*p1
+    dp2 = synp2 *(kp1+rep*p1)/(kp1+p1) -degp*p2
+
+
+
+[LogicGate, Not, Single]
+
+init =
+    p1 = [0],
+    p2 = [0]
+
+guess =
+    kp1   = [5e-5],
+    synp1 = [1e-5],
+    synp2 = [1e-5],
+    rep   = [0.8],
+    degp  = [0.012],
+    u1    = [0]
+
+priors =
+    degp = [0.012, 0.04]
+
+parameter_bounds =
+    kp1    = [1e-7, 1e-4],
+    synp1  = [1e-7, 1e-4],
+    synp2  = [1e-7, 1e-4],
+    rep    = [0, 1],
+    degp   = [0.001, 0.05],
+    u1     = [0, 1]
+
+input_conditions =
+    u1 = 3
+
+fixed_parameters =
+    [degp, u1]
+
+measured_states =
+    [p1, p2]
+
+decomposition =
+    [[p1, p2]]
+
+units =
+    kp1   = M,
+    synp1 = M/min,
+    synp2 = M/min,
+    rep   = NONE,
+    degp  = 1/min,
+    u1    = NONE
+</pre></div>
+</div>
+<p>A model that includes mRNA transcription.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[system_type]
+system_type = LogicGate, Not, Double
+
+[states]
+states = m1, m2, p1, p2
+
+[parameters]
+parameters = synm1, synm2, degm, kp1, rep, synp1, synp2, degp
+
+[inputs]
+inputs = u1
+
+[equations]
+equations =
+    dm1 = synm1*u1                    -degm*m1
+    dm2 = synm2*(kp1+rep*p1)/(kp1+p1) -degm*m2
+    dp1 = synp1 *m1                   -degp*p1
+    dp2 = synp2 *m2                   -degp*p2
+
+[LogicGate, Not, Double]
+
+init =
+    m1 = [0],
+    m2 = [0],
+    p1 = [0],
+    p2 = [0]
+
+guess =
+    synm1  = [1e-5],
+    synm2  = [1e-5],
+    degm   = [0.15],
+    kp1    = [5e-5],
+    rep    = [0.8],
+    synp1  = [1e-2],
+    synp2  = [1e-2],
+    degp   = [0.012],
+    u1     = [0]
+
+priors =
+    degm = [0.15, 0.05],
+    degp = [0.012, 0.04]
+
+parameter_bounds =
+    synm1  = [1e-7, 1e-4],
+    synm2  = [1e-7, 1e-4],
+    degm   = [0.01, 0.3],
+    kp1    = [1e-7, 1e-4],
+    rep    = [0, 1],
+    synp1  = [1e-3, 1e-1],
+    synp2  = [1e-3, 1e-1],
+    degp   = [0.001, 0.05],
+    u1     = [0, 1]
+
+input_conditions =
+    u1 = 3
+
+fixed_parameters =
+    [degm, degp, u1]
+
+measured_states =
+    [p1, p2]
+
+decomposition =
+    [[m1, p1], [m2, p2]]
+
+units =
+    synm1  = M/min,
+    synm2  = M/min,
+    degm   = 1/min,
+    kp1    = M,
+    rep    = NONE,
+    synp1  = 1/min,
+    synp2  = 1/min,
+    degp   = 1/min,
+    u1     = NONE
+</pre></div>
+</div>
+<p>A model that includes mRNA transcription and protein maturation.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[system_type]
+system_type = LogicGate, Not, Double, MaturationSecond
+
+[states]
+states = m1, m2, p1, p2n, p2
+
+[parameters]
+parameters = synm1, synm2, degm, kp1, rep, synp1, synp2, matp2, degp
+
+[inputs]
+inputs = u1
+
+[equations]
+equations =
+    dm1  = synm1*u1                    -degm *m1
+    dm2  = synm2*(kp1+rep*p1)/(kp1+p1) -degm *m2
+    dp1  = synp1 *m1                   -degp *p1
+    dp2n = synp2 *m2                   -matp2*p2n
+    dp2  = matp2*p2n                   -degp *p2
+
+[LogicGate, Not, Double, MaturationSecond]
+
+init =
+    m1  = [0],
+    m2  = [0],
+    p1  = [0],
+    p2n = [0],
+    p2  = [0]
+
+guess =
+    synm1 = [1e-5],
+    synm2 = [1e-5],
+    degm  = [0.15],
+    kp1   = [5e-5],
+    rep   = [0.8],
+    synp1 = [1e-2],
+    synp2 = [1e-2],
+    matp2 = [0.03],
+    degp  = [0.012],
+    u1    = [0]
+
+priors =
+    degm = [0.15, 0.05],
+    degp = [0.012, 0.04]
+
+parameter_bounds =
+    synm1  = [1e-7, 1e-4],
+    synm2  = [1e-7, 1e-4],
+    degm   = [0.01, 0.3],
+    kp1    = [1e-7, 1e-4],
+    rep    = [0, 1],
+    synp1  = [1e-3, 1e-1],
+    synp2  = [1e-3, 1e-1],
+    matp2  = [1e-3, 1e-1],
+    degp   = [0.001, 0.05],
+    u1     = [0, 1]
+
+input_conditions =
+    u1 = 3
+
+fixed_parameters =
+    [degm, matp2, degp, u1]
+
+measured_states =
+    [p1, p2]
+
+decomposition =
+    [[m1, p1], [m2, p2n, p2]]
+
+units =
+    synm1 = M/min,
+    synm2 = M/min,
+    degm  = 1/min,
+    kp1   = M,
+    rep   = NONE,
+    synp1 = 1/min,
+    synp2 = 1/min,
+    matp2 = 1/min,
+    degp  = 1/min,
+    u1    = NONE
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Set up core models and sampler arguments</span>
+<span class="c1">#Details in Tutorial 5 Parts 1 and 2</span>
+<span class="n">model_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;LogicGate_Not_Single.ini&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;LogicGate_Not_Double.ini&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;LogicGate_Not_Double_MaturationSecond.ini&#39;</span><span class="p">,</span>
+               <span class="p">]</span>
+
+<span class="n">user_core_models</span> <span class="o">=</span> <span class="p">[</span><span class="n">mh</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">model_files</span><span class="p">]</span>
+<span class="n">user_core_models</span> <span class="o">=</span> <span class="p">{</span><span class="n">core_model</span><span class="p">[</span><span class="s1">&#39;system_type&#39;</span><span class="p">]:</span> <span class="n">core_model</span> <span class="k">for</span> <span class="n">core_model</span> <span class="ow">in</span> <span class="n">user_core_models</span><span class="p">}</span>
+
+<span class="n">sampler_args</span><span class="p">,</span> <span class="n">config_data</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">get_sampler_args</span><span class="p">(</span><span class="n">model_files</span><span class="p">,</span> <span class="n">user_core_models</span><span class="o">=</span><span class="n">user_core_models</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>To characterize a NOT gate, we need to simulate the on and off states (i.e. two scenarios). Since we the parameter u0 will change depending on the scenario, we define a modify_params function that changes u0 based on the scenario. In addition, the initial values of the proteins in the models that include mRNA depend on the intial mRNA concentrations (assuming steady-state). We therefore also define a modify_init function that adjusts the initial values of the proteins based on the calculated
+steady-state values from the parameters.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">modify_params</span><span class="p">(</span><span class="n">init_values</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">model_num</span><span class="p">,</span> <span class="n">scenario_num</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+    <span class="c1">#Always use a copy and not the original</span>
+    <span class="n">new_params</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1">#Change value of inducer based on scenario_num</span>
+    <span class="k">if</span> <span class="n">scenario_num</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">new_params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">new_params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">new_params</span>
+
+<span class="k">def</span> <span class="nf">modify_init</span><span class="p">(</span><span class="n">init_values</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">model_num</span><span class="p">,</span> <span class="n">scenario_num</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+    <span class="c1">#Always use a copy and not the original</span>
+    <span class="n">new_init</span> <span class="o">=</span> <span class="n">init_values</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">model_num</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">elif</span> <span class="n">model_num</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+       <span class="n">synm1</span><span class="p">,</span> <span class="n">synm2</span><span class="p">,</span> <span class="n">degm</span><span class="p">,</span> <span class="n">kp1</span><span class="p">,</span> <span class="n">rep</span><span class="p">,</span> <span class="n">synp1</span><span class="p">,</span> <span class="n">synp2</span><span class="p">,</span> <span class="n">degp</span><span class="p">,</span> <span class="n">u1</span> <span class="o">=</span> <span class="n">params</span>
+
+       <span class="n">new_init</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">synm2</span><span class="o">/</span><span class="n">degm</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">synm1</span><span class="p">,</span> <span class="n">synm2</span><span class="p">,</span> <span class="n">degm</span><span class="p">,</span> <span class="n">kp1</span><span class="p">,</span> <span class="n">rep</span><span class="p">,</span> <span class="n">synp1</span><span class="p">,</span> <span class="n">synp2</span><span class="p">,</span> <span class="n">matp2</span><span class="p">,</span> <span class="n">degp</span><span class="p">,</span> <span class="n">u1</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2n</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">init_values</span>
+
+        <span class="n">new_init</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">synm2</span><span class="o">/</span><span class="n">degm</span>
+        <span class="n">new_init</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">synp2</span><span class="o">*</span><span class="n">m2</span><span class="o">/</span><span class="n">matp2</span>
+
+    <span class="k">return</span> <span class="n">new_init</span>
+<br/></pre></div>
+</div>
+</div>
+<p>Next we read the data. BMSS2 does not have a standardized file format for experimental data format. You have to write your own function to generate the appropriate data structures from your files.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#This is just an example. Write your own based on your data file formats!</span>
+<span class="kn">from</span>   <span class="nn">read_data</span>                 <span class="kn">import</span> <span class="n">read_data</span>
+
+<span class="n">data_files</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Fluor/OD&#39;</span> <span class="p">:</span> <span class="s1">&#39;data/not_gate.csv&#39;</span><span class="p">,</span>
+              <span class="p">}</span>
+<span class="n">data_mu</span><span class="p">,</span> <span class="n">data_sd</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="n">state_sd</span><span class="p">,</span> <span class="n">tspan</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">data_files</span><span class="p">,</span> <span class="n">n_models</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">config_data</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>Firstly, you will need data_mu, a dictionary containing the experimental means nested according to model_num-&gt;state-&gt;scenario_num.</p>
+<p>Note: Scenario numbers in BMSS are always positive integers.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_mu</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.00016846, 0.00016709, 0.00016505, 0.00016492, 0.00016622,
+       0.00016536, 0.0001663 , 0.00016791, 0.00016922, 0.00017165,
+       0.0001749 , 0.0001772 , 0.00018073, 0.00018408, 0.00018661,
+       0.00019042, 0.00019291, 0.00019494, 0.00019687, 0.0001982 ,
+       0.00019873, 0.00020043, 0.00020122, 0.00020297, 0.00020254,
+       0.00020265, 0.00020256, 0.0002019 , 0.00020067, 0.00019887,
+       0.00019843, 0.0001972 , 0.00019612, 0.00019529, 0.00019439,
+       0.00019349, 0.00019359, 0.00019448, 0.00019419, 0.00019417,
+       0.00019455, 0.00019394, 0.00019388, 0.00019477, 0.00019417,
+       0.00019461, 0.00019436, 0.00019537, 0.0001953 , 0.00019483,
+       0.00019447, 0.00019562, 0.00019583, 0.00019644, 0.00019749,
+       0.00019768, 0.00019793, 0.00019992, 0.00020136, 0.00020248,
+       0.00020349, 0.00020434, 0.00020496, 0.00020666, 0.00020748,
+       0.00020831, 0.00020953, 0.00021106, 0.00021324, 0.00021478,
+       0.00021544, 0.00021685, 0.0002173 ])
+</pre></div></div>
+</div>
+<p>For curve-fitting, 0 and -1 are are reserved for the time points and optional metadata respectively.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_mu</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([  0,  10,  20,  30,  40,  50,  60,  70,  80,  90, 100, 110, 120,
+       130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250,
+       260, 270, 280, 290, 300, 310, 320, 330, 340, 350, 360, 370, 380,
+       390, 400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510,
+       520, 530, 540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640,
+       650, 660, 670, 680, 690, 700, 710, 720], dtype=int64)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_mu</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;Time(min)&#39;, &#39;Input0&#39;, &#39;Input1&#39;]
+</pre></div></div>
+</div>
+<p>Next we have data_sd, which represents the standard deviation for the data points. This is required for plotting. Like data_mu, it is a nested dictionary too.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_sd</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([2.42656e-06, 9.37248e-07, 9.19792e-07, 2.76109e-06, 3.24705e-06,
+       4.98056e-07, 1.28286e-06, 3.47485e-07, 1.39350e-06, 1.39600e-06,
+       2.72240e-06, 1.70335e-06, 2.02147e-06, 2.49997e-06, 1.24595e-06,
+       2.04816e-06, 1.06684e-06, 2.64642e-06, 1.85434e-06, 2.66398e-06,
+       3.28476e-06, 3.31294e-06, 3.41525e-06, 3.99973e-06, 4.00629e-06,
+       4.72510e-06, 4.48240e-06, 4.34397e-06, 3.83979e-06, 3.96017e-06,
+       3.44663e-06, 3.69322e-06, 3.21070e-06, 3.94781e-06, 4.10837e-06,
+       3.72995e-06, 3.81588e-06, 3.91394e-06, 3.95898e-06, 3.69636e-06,
+       2.62381e-06, 2.85074e-06, 3.24365e-06, 2.78016e-06, 3.04043e-06,
+       3.42828e-06, 3.40368e-06, 3.31324e-06, 3.52927e-06, 3.18079e-06,
+       3.70341e-06, 3.77066e-06, 3.90530e-06, 3.98203e-06, 4.34979e-06,
+       2.97448e-06, 3.39774e-06, 3.83076e-06, 4.06592e-06, 3.39255e-06,
+       3.40962e-06, 2.72869e-06, 3.80955e-06, 2.94705e-06, 3.21857e-06,
+       3.25478e-06, 3.17322e-06, 2.91145e-06, 3.01634e-06, 3.46067e-06,
+       3.16760e-06, 2.67769e-06, 3.34911e-06])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_sd</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([  0,  10,  20,  30,  40,  50,  60,  70,  80,  90, 100, 110, 120,
+       130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250,
+       260, 270, 280, 290, 300, 310, 320, 330, 340, 350, 360, 370, 380,
+       390, 400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510,
+       520, 530, 540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640,
+       650, 660, 670, 680, 690, 700, 710, 720], dtype=int64)
+</pre></div></div>
+</div>
+<p>For curve-fitting, a standard deviation is required to normalize the SSE for each state.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">state_sd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;Fluor/OD&#39;: 2.1642987945205473e-06}
+</pre></div></div>
+</div>
+<p>In the event the tspan and initial values in the settings file are not the same as the experimental data, you will have to reassign them in your script.</p>
+<p>Now we update the sampler arguments with the information from the experimental data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Update sampler_args with the information from the data</span>
+<span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;states&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;p1&#39;</span><span class="p">,</span> <span class="s1">&#39;Fluor/OD&#39;</span><span class="p">]</span>
+<span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="s1">&#39;states&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">,</span> <span class="s1">&#39;m2&#39;</span><span class="p">,</span> <span class="s1">&#39;p1&#39;</span><span class="p">,</span> <span class="s1">&#39;Fluor/OD&#39;</span><span class="p">]</span>
+<span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;states&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">,</span> <span class="s1">&#39;m2&#39;</span><span class="p">,</span> <span class="s1">&#39;p1&#39;</span><span class="p">,</span> <span class="s1">&#39;p2n&#39;</span><span class="p">,</span> <span class="s1">&#39;Fluor/OD&#39;</span><span class="p">]</span>
+<span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>                <span class="o">=</span> <span class="n">data_mu</span>
+
+<span class="k">for</span> <span class="n">model_num</span> <span class="ow">in</span> <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">]:</span>
+    <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">][</span><span class="n">model_num</span><span class="p">][</span><span class="s1">&#39;tspan&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">tspan</span><span class="p">]</span>
+    <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">][</span><span class="n">model_num</span><span class="p">][</span><span class="s1">&#39;sd&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">state_sd</span>
+
+    <span class="n">model_init</span> <span class="o">=</span> <span class="p">{</span><span class="n">scenario</span><span class="p">:</span> <span class="p">[</span><span class="n">init</span><span class="p">[</span><span class="n">model_num</span><span class="p">][</span><span class="n">scenario</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">][</span><span class="n">model_num</span><span class="p">][</span><span class="s1">&#39;states&#39;</span><span class="p">]]</span> <span class="k">for</span> <span class="n">scenario</span> <span class="ow">in</span> <span class="n">init</span><span class="p">[</span><span class="n">model_num</span><span class="p">]}</span>
+    <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">][</span><span class="n">model_num</span><span class="p">][</span><span class="s1">&#39;init&#39;</span><span class="p">]</span>                      <span class="o">=</span> <span class="n">model_init</span>
+    <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">][</span><span class="n">model_num</span><span class="p">][</span><span class="s1">&#39;int_args&#39;</span><span class="p">][</span><span class="s1">&#39;modify_params&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">modify_params</span>
+    <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">][</span><span class="n">model_num</span><span class="p">][</span><span class="s1">&#39;int_args&#39;</span><span class="p">][</span><span class="s1">&#39;modify_init&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">modify_init</span>
+</pre></div>
+</div>
+</div>
+<p>Time to run the sampler! In this case, we’ll add a seeding function to make the sample start from a diffirent initial guess each time.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">seed</span><span class="p">(</span><span class="n">guess</span><span class="p">,</span> <span class="n">fixed_parameters</span><span class="p">,</span> <span class="n">parameter_bounds</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">vary</span><span class="p">(</span><span class="n">key</span><span class="p">):</span><span class="c1">#Generate new value for parameter</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">guess</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span>
+
+        <span class="n">new_value</span>            <span class="o">=</span> <span class="n">value</span><span class="o">*</span><span class="mi">16</span><span class="o">**</span><span class="n">delta</span><span class="c1">#4 fold variation</span>
+        <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span> <span class="o">=</span> <span class="n">parameter_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">min_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="c1">#Make sure new value does not exceed bounds</span>
+            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">max_value</span><span class="p">,</span> <span class="n">new_value</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">new_value</span>
+
+    <span class="k">def</span> <span class="nf">helper</span><span class="p">(</span><span class="n">return_original</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">return_original</span><span class="p">:</span><span class="c1">#Have a way to retrieve original guess</span>
+            <span class="k">return</span> <span class="n">guess</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">guess</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">fixed_parameters</span> <span class="k">else</span> <span class="n">vary</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">guess</span> <span class="p">}</span>
+    <span class="k">return</span> <span class="n">helper</span>
+
+<span class="n">seeder</span> <span class="o">=</span> <span class="n">seed</span><span class="p">(</span><span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;guess&#39;</span><span class="p">],</span> <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;fixed_parameters&#39;</span><span class="p">],</span> <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;bounds&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Run sampler</span>
+<span class="n">traces</span>    <span class="o">=</span> <span class="p">{}</span><span class="c1">#To collect the trace</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;guess&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seeder</span><span class="p">()</span>
+    <span class="n">result</span>    <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">simulated_annealing</span><span class="p">(</span><span class="o">**</span><span class="n">sampler_args</span><span class="p">)</span>
+    <span class="n">steps</span>     <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">]</span>
+    <span class="n">traces</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">steps</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████████████████████████████████████████████████████████████████████████| 3000/3000 [00:32&lt;00:00, 91.58it/s]
+100%|██████████████████████████████████████████████████████████████████████████████| 3000/3000 [00:36&lt;00:00, 83.13it/s]
+100%|█████████████████████████████████████████████████████████████████████████████| 3000/3000 [00:27&lt;00:00, 107.35it/s]
+100%|█████████████████████████████████████████████████████████████████████████████| 3000/3000 [00:22&lt;00:00, 135.94it/s]
+100%|█████████████████████████████████████████████████████████████████████████████| 3000/3000 [00:22&lt;00:00, 136.33it/s]
+</pre></div></div>
+</div>
+<p>After fitting, we plot the results to check the fit.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.subplot.hspace&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.99</span>
+
+<span class="n">plot_index</span>  <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">],</span>
+               <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">,</span> <span class="s1">&#39;m1&#39;</span><span class="p">,</span> <span class="s1">&#39;m2&#39;</span><span class="p">],</span>
+               <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">,</span> <span class="s1">&#39;m1&#39;</span><span class="p">,</span> <span class="s1">&#39;m2&#39;</span><span class="p">,]</span>
+               <span class="p">}</span>
+<span class="n">titles</span>      <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">:</span> <span class="s1">&#39;Pep Model 1&#39;</span><span class="p">},</span>
+               <span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">:</span> <span class="s1">&#39;Pep Model 2&#39;</span><span class="p">,</span> <span class="s1">&#39;m1&#39;</span><span class="p">:</span> <span class="s1">&#39;mRNA 1 Model 2&#39;</span><span class="p">,</span> <span class="s1">&#39;m2&#39;</span><span class="p">:</span> <span class="s1">&#39;mRNA 2 Model 2&#39;</span><span class="p">},</span>
+               <span class="mi">3</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Fluor/OD&#39;</span><span class="p">:</span> <span class="s1">&#39;Pep Model 3&#39;</span><span class="p">,</span> <span class="s1">&#39;m1&#39;</span><span class="p">:</span> <span class="s1">&#39;mRNA 1 Model 3&#39;</span><span class="p">,</span> <span class="s1">&#39;m2&#39;</span><span class="p">:</span> <span class="s1">&#39;mRNA 2 Model 3&#39;</span><span class="p">}</span>
+               <span class="p">}</span>
+<span class="n">labels</span>      <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Input=0&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Input=1&#39;</span><span class="p">},</span>
+               <span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Input=0&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Input=1&#39;</span><span class="p">},</span>
+               <span class="mi">3</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Input=0&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Input=1&#39;</span><span class="p">}</span>
+               <span class="p">}</span>
+<span class="n">legend_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="s1">&#39;upper left&#39;</span><span class="p">}</span>
+
+<span class="n">accepted</span>  <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
+<span class="n">figs</span><span class="p">,</span> <span class="n">AX</span>  <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">posterior</span>   <span class="o">=</span> <span class="n">accepted</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">40</span><span class="p">::</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">models</span>      <span class="o">=</span> <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">],</span>
+                    <span class="n">data</span>        <span class="o">=</span> <span class="n">data_mu</span><span class="p">,</span>
+                    <span class="n">data_sd</span>     <span class="o">=</span> <span class="n">data_sd</span><span class="p">,</span>
+                    <span class="n">plot_index</span>  <span class="o">=</span> <span class="n">plot_index</span><span class="p">,</span>
+                    <span class="n">labels</span>      <span class="o">=</span> <span class="n">labels</span><span class="p">,</span>
+                    <span class="n">titles</span>      <span class="o">=</span> <span class="n">titles</span><span class="p">,</span>
+                    <span class="n">legend_args</span> <span class="o">=</span> <span class="n">legend_args</span><span class="p">,</span>
+                    <span class="n">figs</span>        <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">AX</span>          <span class="o">=</span> <span class="kc">None</span>
+                    <span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/_Example_5nb_26_0.png" src="_images/_Example_5nb_26_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/_Example_5nb_26_1.png" src="_images/_Example_5nb_26_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/_Example_5nb_26_2.png" src="_images/_Example_5nb_26_2.png" />
+</div>
+</div>
+<div class="section" id="A-Posteriori-Identifiability-Analysis">
+<h2>A Posteriori Identifiability Analysis<a class="headerlink" href="#A-Posteriori-Identifiability-Analysis" title="Permalink to this headline">¶</a></h2>
+<p>We can check the trace plots to determine if the parameters have been identified. If a parameter that has been successfully identified, its trace will show that the sampler converges to the same region for each run. For a quantitative approach, we can use R-hat to determine the ratio of variance within chains and between chains.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">trace_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">accepted</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;fixed_parameters&#39;</span><span class="p">]]</span>
+<span class="n">n_figs</span>       <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trace_params</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">trace_figs</span>   <span class="o">=</span> <span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_figs</span><span class="p">)]</span>
+<span class="n">trace_AX_</span>    <span class="o">=</span> <span class="p">[</span><span class="n">trace_figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trace_figs</span><span class="p">))</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+<span class="n">trace_AX</span>     <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">trace_params</span><span class="p">,</span> <span class="n">trace_AX_</span><span class="p">))</span>
+
+<span class="n">trace_figs</span><span class="p">,</span> <span class="n">trace_AX</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">plot_steps</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span>
+                                     <span class="n">skip</span>        <span class="o">=</span> <span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;fixed_parameters&#39;</span><span class="p">],</span>
+                                     <span class="n">legend_args</span> <span class="o">=</span> <span class="n">legend_args</span><span class="p">,</span>
+                                     <span class="n">figs</span>        <span class="o">=</span> <span class="n">trace_figs</span><span class="p">,</span>
+                                     <span class="n">AX</span>          <span class="o">=</span> <span class="n">trace_AX</span>
+                                     <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/_Example_5nb_28_0.png" src="_images/_Example_5nb_28_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/_Example_5nb_28_1.png" src="_images/_Example_5nb_28_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rhat</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">calculate_rhat</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;fixed_parameters&#39;</span><span class="p">])</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rhat</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kp1_1      2.120985
+synp1_1    2.393335
+synp2_1    1.341627
+rep_1      1.921702
+synm1_2    2.027821
+synm2_2    2.270518
+kp1_2      2.042286
+rep_2      1.993550
+synp1_2    2.068563
+synp2_2    2.276792
+synm1_3    2.607740
+synm2_3    2.252711
+kp1_3      1.643786
+rep_3      1.821316
+synp1_3    2.760944
+synp2_3    2.817088
+dtype: float64
+</pre></div></div>
+</div>
+<p>We can also check the distribution of the parameters for each run by calling the <code class="docutils literal notranslate"><span class="pre">plot_hist</span></code> or <code class="docutils literal notranslate"><span class="pre">plot_kde</span></code> functions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hist_figs</span>   <span class="o">=</span> <span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_figs</span><span class="p">)]</span>
+<span class="n">hist_AX_</span>    <span class="o">=</span> <span class="p">[</span><span class="n">hist_figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hist_figs</span><span class="p">))</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+<span class="n">hist_AX</span>     <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">trace_params</span><span class="p">,</span> <span class="n">hist_AX_</span><span class="p">))</span>
+
+<span class="n">hist_figs</span><span class="p">,</span> <span class="n">hist_AX</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">plot_hist</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="n">sampler_args</span><span class="p">[</span><span class="s1">&#39;fixed_parameters&#39;</span><span class="p">],</span> <span class="n">figs</span><span class="o">=</span><span class="n">hist_figs</span><span class="p">,</span> <span class="n">AX</span><span class="o">=</span><span class="n">hist_AX</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/_Example_5nb_32_0.png" src="_images/_Example_5nb_32_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/_Example_5nb_32_1.png" src="_images/_Example_5nb_32_1.png" />
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="_Example_6nb.html" class="btn btn-neutral float-right" title="6. Sensitivity Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="_Example_4nb.html" class="btn btn-neutral float-left" title="4. A Priori Identifiability Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Russell Ngo Jie Kai
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
