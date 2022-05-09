@@ -6,7 +6,7 @@ __*Note:*__ An extensible web app database listing some of the pre-established m
 ![alt text](https://github.com/EngBioNUS/BMSS2/blob/master/BMSSDiagram.png?raw=true)
 
 ## Documentation
-The documentation can be found at https://bmss2.readthedocs.io/en/latest/BMSS.html
+The documentation can be found at https://engbionus-bmss.readthedocs.io/en/latest/BMSS.html
 
 ## Features
 * Database-driven model manipulation and storage 
