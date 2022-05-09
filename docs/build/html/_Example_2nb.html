@@ -519,18 +519,16 @@ parameter_values =
     degp  = [0.012]*2,
     ind   = [8e-2]*2
 
-units =
-    k_ind = % Arabinose,
-    synm  = M/min,
-    degm  = 1/min,
-    synp  = M/min,
-    degp  = 1/min,
-    ind   = % Arabinose
-
 tspan =
     [0, 600, 61]
+
+#Optional
+solver_args =
+    rtol   = 1.49012e-08,
+    atol   = 1.49012e-08
 </pre></div>
 </div>
+<p>Note: BMSS2 uses numpy’s <code class="docutils literal notranslate"><span class="pre">odeint</span></code> for integration. To tweak settings such as step size or tolerance, add an optional <code class="docutils literal notranslate"><span class="pre">solver_args</span></code> section in the settings file to specify the optional parameters of <code class="docutils literal notranslate"><span class="pre">odeint</span></code>. These include, rtol, atol, tcrit, h0, hmax, hmin, mxstep.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -599,14 +597,14 @@ Keys in ym[1][1] dict_keys([0])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/_Example_2nb_11_0.png" src="_images/_Example_2nb_11_0.png" />
+<img alt="_images/_Example_2nb_12_0.png" src="_images/_Example_2nb_12_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/_Example_2nb_11_1.png" src="_images/_Example_2nb_11_1.png" />
+<img alt="_images/_Example_2nb_12_1.png" src="_images/_Example_2nb_12_1.png" />
 </div>
 </div>
 </div>
@@ -672,14 +670,14 @@ Simulation complete
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/_Example_2nb_16_0.png" src="_images/_Example_2nb_16_0.png" />
+<img alt="_images/_Example_2nb_17_0.png" src="_images/_Example_2nb_17_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/_Example_2nb_16_1.png" src="_images/_Example_2nb_16_1.png" />
+<img alt="_images/_Example_2nb_17_1.png" src="_images/_Example_2nb_17_1.png" />
 </div>
 </div>
 <p>Finally, we can export the data for our external analysis in csv format.</p>
@@ -935,14 +933,14 @@ Simulation complete
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/_Example_2nb_24_1.png" src="_images/_Example_2nb_24_1.png" />
+<img alt="_images/_Example_2nb_25_1.png" src="_images/_Example_2nb_25_1.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/_Example_2nb_24_2.png" src="_images/_Example_2nb_24_2.png" />
+<img alt="_images/_Example_2nb_25_2.png" src="_images/_Example_2nb_25_2.png" />
 </div>
 </div>
 <p>Note that the initial values can also be modified in a similar manner. Write your own function and place it under models[model_num][‘int_args’][‘modify_init’] instead.</p>

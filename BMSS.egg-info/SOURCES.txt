@@ -99,6 +99,7 @@ BMSS/models/BMSS_markup/bmss50.ini
 BMSS/sbml/OnlinetoConfig.py
 BMSS/sbml/__init__.py
 BMSS/sbml/combinegen.py
+BMSS/sbml/sbml_converter.py
 BMSS/sbml/sbmlgen.py
 BMSS/sbml/simplesbml.py
 BMSS/stylelib/bmss_notebook_style.mplstyle

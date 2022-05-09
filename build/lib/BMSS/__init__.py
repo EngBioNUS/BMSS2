@@ -2,7 +2,7 @@ from os       import getcwd, listdir
 from os.path  import abspath, dirname, join
 
 __all__ = ['models',
-           'aicanalysis',
+           'icanalysis',
            'curvefitting',
            'sensitivityanalysis',
            'simulation',

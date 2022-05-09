@@ -513,14 +513,6 @@ guess =
 priors =
     degp = [0.012, 0.04]
 
-parameter_bounds =
-    kp1    = [1e-7, 1e-4],
-    synp1  = [1e-7, 1e-4],
-    synp2  = [1e-7, 1e-4],
-    rep    = [0, 1],
-    degp   = [0.001, 0.05],
-    u1     = [0, 1]
-
 input_conditions =
     u1 = 3
 
@@ -532,16 +524,16 @@ measured_states =
 
 decomposition =
     [[p1, p2]]
-
-units =
-    kp1   = M,
-    synp1 = M/min,
-    synp2 = M/min,
-    rep   = NONE,
-    degp  = 1/min,
-    u1    = NONE
 </pre></div>
 </div>
+<div class="section" id="Decomposition">
+<h3>Decomposition<a class="headerlink" href="#Decomposition" title="Permalink to this headline">¶</a></h3>
+<p>The symbolic algebraic operations used in STRIKE-GOLDD are complex and large models cannot be analyzed at once. Instead, they need to be decomposed into smaller ones first. The <code class="docutils literal notranslate"><span class="pre">decomposition</span></code> section contains a list of list of state variables where each inner list is a group of state variables that will be analyzed by the algorithm. Each group must contain at least one measured state variable. The state variables do not need to be split into mutually exclusive groups but can be reused
+e.g. [[p1], [p1, p2]]. However, to ensure comprehensive coverage, check that each state variable appears at least once in your decomposition.</p>
+</div>
+<div class="section" id="Input-Conditions">
+<h3>Input Conditions<a class="headerlink" href="#Input-Conditions" title="Permalink to this headline">¶</a></h3>
+<p>The input conditions are the number of different value of inputs. For example, <code class="docutils literal notranslate"><span class="pre">u1</span></code> in this</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -635,6 +627,7 @@ Total Time: 14.348460912704468
   &#39;rep&#39;: 0,
   &#39;degp&#39;: 1}}
 </pre></div></div>
+</div>
 </div>
 </div>
 </div>

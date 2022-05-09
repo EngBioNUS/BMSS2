@@ -117,7 +117,7 @@ def modify_params(init_values, params, model_num, scenario_num, segment):
 ###############################################################################
 #Multi-Model Integration
 ###############################################################################
-def integrate_models(models, params, *extra_variables, args=(), mode='np', overlap=True, multiply=True):
+def integrate_models(models, params, *extra_variables, args=(), mode='np', overlap=True, multiply=False):
     '''Integrates models with params    
 
     Parameters

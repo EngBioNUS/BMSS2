@@ -11,7 +11,6 @@ Ind = Symbol('Ind')
 
 
 mu   = mu_max*(1 - x/x_max)
-
 dx  =  x*mu
 dh  =  synh*Ind/(Ind+Kind) -h*mu
 

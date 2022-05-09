@@ -26,6 +26,7 @@ def database_to_combine(system_type, settings_name, Plot_Variable, outputpath=''
     :param Plot_Variable: Variables to be plotted in list format
     :param outputpath:  filepath to output OMEX file in OS path format
     :param KISAO_algorithm:  Kinetic Simulation Algorithm Ontology number in string format   
+    
     '''
     
     combinefilelist=[]
@@ -62,6 +63,7 @@ def Combinecreator(core_model, settings, Plot_Variable, outputpath='', KISAO_alg
     :param Plot_Variable: Variables to be plotted in list format
     :param outputpath:  filepath to output OMEX file in OS path format
     :param KISAO_algorithm:  Kinetic Simulation Algorithm Ontology number in string format 
+    
     :return combine_filename : OMEX file name in string format
     :return total_scenarios : Total number of scenarios in string format
     
