@@ -23,7 +23,7 @@ For more information, refer to the BMSS2 documentation. If you wish to know more
 ## Recommended IDE
 Spyder IDE from Anaconda Distribution [Anaconda Installation]
 
-Recommended: Python 3.7, Other Python versions will be tested soon. 
+Recommended: Python 3.7 and above. 
 
 ## Dependencies: 
 Install the dependent packages using pip as shown below.
