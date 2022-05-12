@@ -7,7 +7,7 @@ p = setuptools.find_packages()
 
 setuptools.setup(
     name                          = "BMSS", 
-    version                       = "2.0.15",
+    version                       = "2.0.16",
     author                        = "Russell Ngo",
     author_email                  = "biernjk@nus.edu.sg",
     description                   = "A package for dyanmic model analysis.",

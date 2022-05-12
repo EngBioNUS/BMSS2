@@ -116,6 +116,8 @@ def integrate_samples(models, samples, objective, args=(), multiply=False):
         A dictionary of objective functions to evaluate indexed by model_num.
     args : tuple, optional
         Additional arguments for integration. The default is ().
+    multiply : bool, False
+        Set this to True if you want multiplicative simulations. The default is False.
 
     Returns
     -------
