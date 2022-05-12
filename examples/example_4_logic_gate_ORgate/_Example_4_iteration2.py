@@ -526,6 +526,7 @@ if __name__ == '__main__':
     sensitivity_args['models'][1]['int_args']['modify_params'] = modify_params_sa
     sensitivity_args['N'] = 500
     sensitivity_args['objective'] = {1: [Pep3_yield]}
+    sensitivity_args['multiply'] = True
     
     #To debug, there will be an error regarding the len of params, so have to turn this off first   
     sensitivity_args['parameter_bounds'] = {}

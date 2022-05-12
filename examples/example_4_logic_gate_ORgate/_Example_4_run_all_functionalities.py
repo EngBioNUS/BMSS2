@@ -504,6 +504,7 @@ if __name__ == '__main__':
     sensitivity_args['models'][1]['int_args']['modify_params'] = modify_params_sa
     sensitivity_args['N'] = 500
     sensitivity_args['objective'] = {1: [Pep3_yield]}
+    sensitivity_args['multiply'] = True
     
 #    for key in sensitivity_args['fixed_parameters']:
 #        sensitivity_args['parameter_bounds'].pop(key, None)
