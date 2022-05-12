@@ -17,7 +17,7 @@ except:
 ###############################################################################
 #High Level Wrappers
 ###############################################################################
-def analyze(params, models, fixed_parameters, objective, parameter_bounds={}, mode='np', analysis_type='sobol', N=256):
+def analyze(params, models, fixed_parameters, objective, parameter_bounds={}, mode='np', analysis_type='sobol', N=256, multiply=False):
     '''Main algorithm for sensitivity analysis. Wraps analyze_sensitivty and sample_and_integrate.
     '''
     
@@ -35,19 +35,23 @@ def analyze(params, models, fixed_parameters, objective, parameter_bounds={}, mo
         raise Exception('analysis_type must be sobol, fast or delta.')
         
     #Generate samples and integrate
-    em, samples, problems = sample_and_integrate(models, params, fixed_parameters, parameter_bounds, objective, analysis_type=analysis_type, N=N)
+    em, samples, problems = sample_and_integrate(models, params, fixed_parameters, 
+                                                 parameter_bounds, objective, 
+                                                 analysis_type=analysis_type, 
+                                                 N=N, multiply=multiply
+                                                 )
     
     #Analyze results
     analysis_result  = analyze_sensitivity(em, samples, problems, analysis_type=analysis_type)
     
     return analysis_result, em, samples, problems
 
-def sample_and_integrate(models, params, fixed_parameters, parameter_bounds, objective, analysis_type='sobol', N=256):
+def sample_and_integrate(models, params, fixed_parameters, parameter_bounds, objective, analysis_type='sobol', N=256, multiply=False):
     '''
     :meta private:
     '''
     samples, problems = make_samples(models, params, fixed_parameters, parameter_bounds, analysis_type=analysis_type, N=N)
-    em                = integrate_samples(models, samples, objective)
+    em                = integrate_samples(models, samples, objective, multiply=multiply)
     
     return em, samples, problems
 

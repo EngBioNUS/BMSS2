@@ -3,7 +3,9 @@
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
-autodoc_mock_imports = ['libsbml', 'matplotlib', 'numba', 'numpy', 'pandas', 'SALib', 'scipy', 'sympy', 'seaborn', 'yaml', 'tellurium', 'simplesbml', 'synbiopython']
+autodoc_mock_imports = ['libsbml', 'matplotlib', 'numba', 'numpy', 'pandas', 'SALib', 'scipy', 'sympy', 
+	'seaborn', 'yaml', 'tellurium', 'simplesbml', 'synbiopython', 'arviz', 'xarray',
+	]
 
 # -- Path setup --------------------------------------------------------------
 
