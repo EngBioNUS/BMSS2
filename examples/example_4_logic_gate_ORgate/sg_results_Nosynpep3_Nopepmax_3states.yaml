@@ -24,15 +24,15 @@
     state1: 1
     state2: 1
   output:
-    Inde: 0
+    Inde: 1
     Indi: 1
     Ind: 0
     Pep1: 1
     Pep2: 1
     Pep3: 1
-    syn_Pep1: 0
+    syn_Pep1: 1
     syn_Pep2: 0
     deg_Pep: 1
-    Km: 0
+    Km: 1
     deg_Ind: 1
     Ratio: 1

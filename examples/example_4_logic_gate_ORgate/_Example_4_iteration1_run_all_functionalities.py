@@ -21,14 +21,12 @@ import BMSS.models.ia_results       as ir
 import BMSS.strike_goldd_simplified as sg
 
 '''
-Example 4: This is the 2nd iteration of Example 4 to test on four new models
-together with the best chosen model from 1st iteration.
+Example 4: Combining all functionalities into one script
 '''
 
 #Reset Plots
 plt.close('all')
 
-#Settings to reproduce the figures in manuscript
 plt.rcdefaults()
 plt.rcParams['font.family'] = 'Calibri' 
 plt.rcParams['font.weight'] = 'normal' 
@@ -41,6 +39,7 @@ plt.rcParams["legend.handletextpad"] = 0.3
 plt.rcParams["legend.columnspacing"] = 0.5
 plt.rcParams["legend.borderaxespad"] = 0
 plt.rcParams.update({'axes.spines.top': False, 'axes.spines.right': False}) 
+
 
 output_folder = (Path.cwd() / 'Output_files')
 output_folder.mkdir(exist_ok=True)
@@ -71,7 +70,7 @@ def read_data(filename):
     print(len(scenarios))
           
     #Set up data_mu, data_sd, init, tspan
-    for model_num in range(1, 6):
+    for model_num in range(1, 12):
         data_mu[model_num] = {state:{}}
         data_sd[model_num] = {state:{}}
         init[model_num]    = {}
@@ -107,9 +106,11 @@ def modify_init(init_values, params, model_num, scenario_num, segment):
     #Always use a copy and not the original
     new_init = init_values.copy()
     
-    if model_num in [1,2,3,4,5]:
+    if model_num in [1,2,3,4,5,6]:
         new_init[0] = 1
         new_init[2] = 1
+    elif model_num in [7,8,9,10]:
+        new_init[0] = 1
     else:
         pass
         
@@ -198,11 +199,17 @@ if __name__ == '__main__':
     
     #Set up core models and sampler arguments
     model_files = ['LogicGate_OR_Double_Delay_Degrade_ResCompete.ini',
-                   'LogicGate_OR_Single_Delay_Degrade_ResCompete_NomRNA.ini',
-                   'LogicGate_OR_Single_Delay_Degrade_ResCompete_NomRNA_Nosynpep3.ini',
-                   'LogicGate_OR_Single_Delay_Degrade_ResCompete_NomRNA_Nosynpep3_Nopepmax.ini',
-                   'LogicGate_OR_Single_Delay_Degrade_ResCompete_NomRNA_Only1Pep.ini']
-    
+                   'LogicGate_OR_Double_Delay_Delay_ResCompete.ini',
+                   'LogicGate_OR_Double_Degrade_Delay_ResCompete.ini',
+                   'LogicGate_OR_Double_Delay_Degrade.ini',
+                   'LogicGate_OR_Double_Delay_Delay.ini',
+                   'LogicGate_OR_Double_Degrade_Delay.ini',
+                   'LogicGate_OR_Double_Delay.ini',
+                   'LogicGate_OR_Double_DelayInput2.ini',
+                   'LogicGate_OR_Double_Degrade.ini',
+                   'LogicGate_OR_Double_DegradeInput2.ini',
+                   'LogicGate_OR_Double.ini',
+                   ]
     
     #List of model dicts
     core_models_list = [mh.from_config(filename) for filename in model_files]
@@ -213,8 +220,7 @@ if __name__ == '__main__':
     print('\n\n', user_core_models)
     
     
-    '''Run simulation using the same configuration file (can be used to test
-    any model with their initial guesses before performing model selection).
+    '''Run simulation using the same configuration file (run only the first model).
     The steps are as follows:
         1. prepare configuration .ini file (aside from core model information)
             - init, parameter_values, tspan 
@@ -226,7 +232,7 @@ if __name__ == '__main__':
     '''
     
     #Get arguments for simulation
-    models, params, config_data = sm.get_models_and_params(model_files[3], user_core_models=user_core_models)
+    models, params, config_data = sm.get_models_and_params(model_files[0], user_core_models=user_core_models)
     
     models[1]['int_args']['modify_params'] = modify_params
     models[1]['int_args']['modify_init'] = modify_init
@@ -238,11 +244,11 @@ if __name__ == '__main__':
     
     #Define plot settings
     plot_index  = {1: ['Pep3'],
-                    }
+                   }
     titles      = {1: {'Pep3': 'Model 1 Protein'},
-                    }
+                   }
     labels      = {1: {1: 'Input=00', 2: 'Input=01', 3: 'Input=10', 4: 'Input=11'}
-                    }
+                   }
     
     figs, AX = sim.plot_model(plot_index, ym, titles=titles, labels=labels)
     
@@ -305,21 +311,26 @@ if __name__ == '__main__':
     
     #Plot the results into two figures for better visualization
     fig1 = plt.figure()
-    AX1 = [fig1.add_subplot(2, 3, i+1) for i in range(5)]
+    fig2 = plt.figure()
+    AX1 = [fig1.add_subplot(2, 4, i+1) for i in range(8)]
+    AX2 = [fig2.add_subplot(1, 3, i+1) for i in range(3)]
     AX = {}
-    for i in range(5):
+    for i in range(8):
         AX[i+1] = {'Fluor/OD': AX1[i]}
+        
+    for i in range(3):
+        AX[i+9] = {'Fluor/OD': AX2[i]}
     
     figs, AX  = cf.plot(posterior   = accepted.iloc[-40::2], 
                         models      = sampler_args['models'], 
-                        guess       = {}, #sampler_args['guess'],
+                        guess       = sampler_args['guess'],
                         data        = data_mu,
                         data_sd     = data_sd,
                         plot_index  = plot_index,
                         labels      = labels,
                         titles      = titles,
                         legend_args = legend_args,
-                        figs        = [fig1],
+                        figs        = [fig1, fig2],
                         AX          = AX
                         )
     
@@ -342,11 +353,11 @@ if __name__ == '__main__':
     traces[1].to_csv(output_folder / 'Traces_dataframe.csv')
     
     trace_figs, trace_AX = ta.plot_steps(traces, 
-                                          skip        = sampler_args['fixed_parameters'], 
-                                          legend_args = legend_args,
-                                          figs        = trace_figs,
-                                          AX          = trace_AX
-                                          )
+                                         skip        = sampler_args['fixed_parameters'], 
+                                         legend_args = legend_args,
+                                         figs        = trace_figs,
+                                         AX          = trace_AX
+                                         )
     print('\ntrace_AX\n', trace_AX)
     #modify the figure setting else all the labels overlapped.
     for tax in trace_AX.values():
@@ -360,10 +371,10 @@ if __name__ == '__main__':
     
     #Rank models
     table = ac.calculate_ic(data   = sampler_args['data'], 
-                              models = sampler_args['models'], 
-                              priors = sampler_args['priors'],
-                              params = accepted.iloc[-10:]
-                              )
+                             models = sampler_args['models'], 
+                             priors = sampler_args['priors'],
+                             params = accepted.iloc[-10:]
+                             )
     
     ranked_table  = ac.rank_ic(table, inplace=False)
     print('\nRanked AIC table:\n', ranked_table.head())
@@ -397,7 +408,7 @@ if __name__ == '__main__':
     #Run sampler multiple times
     seeder = seed(sampler_args['guess'], sampler_args['fixed_parameters'], sampler_args['bounds'])
     traces = {}    
-    for i in range(3):
+    for i in range(2):
         print('Run ' + str(i+1))
         sampler_args['guess'] = seeder()
         result                = cf.simulated_annealing(**sampler_args)
@@ -414,21 +425,21 @@ if __name__ == '__main__':
     
     #Check if chains converge to same region
     trace_figs, trace_AX = ta.plot_steps(traces, 
-                                          skip        = sampler_args['fixed_parameters'], 
-                                          figs        = trace_figs,
-                                          AX          = trace_AX
-                                          )
-    '''Run pairplot (examples)'''
-    pairs = [['deg_Pep_4', 'deg_Ind_4'],
-              ['Km_4', 'deg_Pep_4']
-              ]
+                                         skip        = sampler_args['fixed_parameters'], 
+                                         figs        = trace_figs,
+                                         AX          = trace_AX
+                                         )
+    
+    pairs = [['syn_mRNA1_1', 'syn_mRNA2_1'],
+             ['syn_mRNA2_1', 'syn_mRNA3_1']
+             ]
     
     pairplot_figs, pairplot_AX = ta.pairplot_steps(traces, pairs)
     
     
     '''Run a priori identifiability analysis (Strike-Goldd).
     The steps are as follows:
-        1. prepare separate configuration file for settings:
+        1. prepare configuration file (aside from core model):
             init, input_conditions, fixed_parameters, measured_states,
             parameter_values, decomposition
         2. read core model
@@ -437,68 +448,32 @@ if __name__ == '__main__':
         5. export results into yaml format
     '''
     
-    '''For the control model 1, when 3 states are assumed to be measured.'''
+    #List of model dicts
+    core_models_list = [mh.from_config(filename) for filename in model_files]
+    print(core_models_list)
     
-    core_model = mh.from_config(model_files[0])
+    #to ensure that user_core_models is the default one without any modification
+    user_core_models = {core_model['system_type']: core_model for core_model in core_models_list}
+    print('\n\n', user_core_models)
     
-    new_user_core_models = {core_model['system_type']: core_model}
+    config_data = {}
+    config_data_ = mh.from_config(model_files[0])
+    config_data[1] = config_data_
+    print('\nconfig_data:\n', config_data)
     
-    sgfilename11  = 'settings_sg_Double_Control_3states.ini' 
+    print('\nuser_core_models:\n', user_core_models)
+    new_user_core_models = {config_data[model_num]['system_type']: user_core_models[config_data[model_num]['system_type']] for model_num in config_data}
+    print('\nnew_user_core_models:\n', new_user_core_models)
     
-    config_data = ssg.from_config(sgfilename11)
+    sg_args, config_data, variables = ssg.get_strike_goldd_args(model_files[0], user_core_models=new_user_core_models)
+    print('\nsg_args:\n', sg_args)
+    print('\nvariables:\n', variables)
     
-    sg_args, config_data, variables = ssg.get_strike_goldd_args(sgfilename11, 
-                                                        user_core_models = new_user_core_models,
-                                                        write_file       = False)
     
     dst        = {}
     sg_results = sg.analyze_sg_args(sg_args, dst=dst)
-    outfile   = 'sg_results_Double_Control_3states.yaml'
+    outfile   = 'sg_results.yaml'
     yaml_dict = ir.export_sg_results(sg_results, variables, config_data, user_core_models=new_user_core_models, filename=outfile)
-    
-    '''For the control model 1, when all states are assumed to be measured.'''
-    
-    sgfilename22  = 'settings_sg_Double_Control_Allstates.ini'
-    config_data = ssg.from_config(sgfilename22)
-    sg_args, config_data, variables = ssg.get_strike_goldd_args(sgfilename22, 
-                                                        user_core_models = new_user_core_models,
-                                                        write_file       = False)
-    sg_results = sg.analyze_sg_args(sg_args, dst=dst)
-    outfile   = 'sg_results_Double_Control_Allstates.yaml'
-    yaml_dict = ir.export_sg_results(sg_results, variables, config_data, user_core_models=new_user_core_models, filename=outfile)
-    
-    
-    '''For the chosen model 4, when 3 states are assumed to be measured.'''
-    
-    core_model = mh.from_config(model_files[3])
-    
-    new_user_core_models = {core_model['system_type']: core_model}
-    
-    sgfilename21  = 'settings_sg_Single_Nosynpep3_Nopepmax_3states.ini' 
-    
-    config_data = ssg.from_config(sgfilename21)
-    
-    sg_args, config_data, variables = ssg.get_strike_goldd_args(sgfilename21, 
-                                                        user_core_models = new_user_core_models,
-                                                        write_file       = False)
-    
-    dst        = {}
-    sg_results = sg.analyze_sg_args(sg_args, dst=dst)
-    outfile   = 'sg_results_Nosynpep3_Nopepmax_3states.yaml'
-    yaml_dict = ir.export_sg_results(sg_results, variables, config_data, user_core_models=new_user_core_models, filename=outfile)
-    
-    
-    '''For the chosen model 4, when 5 states are assumed to be measured.'''
-    
-    sgfilename22  = 'settings_sg_Single_Nosynpep3_Nopepmax_5states.ini'
-    config_data = ssg.from_config(sgfilename22)
-    sg_args, config_data, variables = ssg.get_strike_goldd_args(sgfilename22, 
-                                                        user_core_models = new_user_core_models,
-                                                        write_file       = False)
-    sg_results = sg.analyze_sg_args(sg_args, dst=dst)
-    outfile   = 'sg_results_Nosynpep3_Nopepmax_5states.yaml'
-    yaml_dict = ir.export_sg_results(sg_results, variables, config_data, user_core_models=new_user_core_models, filename=outfile)
-    
     
     
     '''Run sensitivity analysis (SA) on the selected model (best model).
@@ -516,7 +491,7 @@ if __name__ == '__main__':
         
     '''
     
-    config_data = ss.from_config(model_files[3])
+    config_data = ss.from_config(model_files[0])
     print('\nconfig_data:\n', config_data)
     
     new_user_core_models = {config_data[model_num]['system_type']: user_core_models[config_data[model_num]['system_type']] for model_num in config_data}
@@ -537,6 +512,9 @@ if __name__ == '__main__':
     sensitivity_args['objective'] = {1: [Pep3_yield]}
     sensitivity_args['multiply'] = True
     
+#    for key in sensitivity_args['fixed_parameters']:
+#        sensitivity_args['parameter_bounds'].pop(key, None)
+    
     #To debug, there will be an error regarding the len of params, so have to turn this off first   
     sensitivity_args['parameter_bounds'] = {}
         
@@ -556,8 +534,8 @@ if __name__ == '__main__':
                         figs=None, AX=None, cmap = new_cmap)
 
     sn.plot_second_order(analysis_result, problems=problems, titles=titles,\
-                          analysis_type=sensitivity_args['analysis_type'],\
-                          figs=None, AX=None)
+                         analysis_type=sensitivity_args['analysis_type'],\
+                         figs=None, AX=None)
     
     
     
